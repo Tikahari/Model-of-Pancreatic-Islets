@@ -2,9 +2,10 @@ import sqlite3
 
 class Database:
     def __init__(self, file):
-        self._conn = sqlite3.connect('file')
+        self.conn = sqlite3.connect('file')
+	self.curs = self.conn.cursor()
     def close(self):
-        self._conn.close()
+        self.conn.close()
     def getlength(self, type):
         return 1
     def getLength(self, type):
