@@ -10,7 +10,7 @@ NEURON{
     RANGE tdCaT, tfKCaB, tfKhe, tfNa, VBKo, VdCaL, VdCaP, VdCaT, Vdhe, Vdkr
     RANGE VdNa, VfCaL, VfCaP, VfCaT, Vfhe, VfKCaB, VfNa, Vi, Vp, Vpi
     RANGE tdKr, tdNa, tf1CaL, tfCaP, tfCaT, tf2CaL
-    RANGE test
+    RANGE tdCaL, test, Vp
 }
 
 PARAMETER{
@@ -155,9 +155,8 @@ STATE{
 
 INITIAL{
     test = -1 
-
     Cm = 9990
-	ADPf = 15.0
+    ADPf = 15.0
     ATP = 3600
     Cac = 0.25
     dCaL = 0.001
@@ -168,12 +167,12 @@ INITIAL{
     dKhe = 0.1
     dKr = 0.0029
     dNa = 0.1
-    ECa = 100 (mV)
-    EK = -75 (mV)
-    ENa = 70 (mV)
+    ECa = 100
+    EK = -75
+    ENa = 70
     F = 96480
     f1CaL = 0.1
-    f2CaL = 0.1
+    f2CaL = 0.7
     fCaP = 0.1
     fCaT = 0.1
     fi = 0.005
@@ -184,14 +183,14 @@ INITIAL{
     gmCaL = 2700
     gmCaP = 1200
     gmCaT = 250
-    gmKATP = 45000
+    gmKATP = 65000
     gmKCa = 150
     gmKCaB = 25000
     gmKDr = 18000
     gmKhe = 200
     gmNa = 10000
     hdk = 2
-    In = 1
+    In = 1.0
     IntCa = 0
     kCaBK = 1.5
     kCap = 0.3
@@ -206,7 +205,7 @@ INITIAL{
     kdNa = 10
     kfCaL = 8
     kfCaP = 8
-    kfCaT = 9
+    kfCaT = 8
     kfhe = 17.5
     kfKCaB = 9.2
     kfNa = 6
@@ -226,11 +225,11 @@ INITIAL{
     RTdF = 26.73
     tdCaP = 0.41
     tdCaT = 0.41
-    tfKCaB = 1.9
-    tfKhe = 100
+    tdKCaB = 1.9
+    tdKhe = 100
     tdKr = 20
     tdNa = 0.1
-    tf1CaL = 0.1
+    tf1CaL = 6.8
     tf2CaL = 65
     tfCaP = 65
     tfCaT = 6.8
@@ -253,13 +252,11 @@ INITIAL{
     Vi = 0.764
     Vp = -62
     Vpi = 45000
-    tdKCaB = 1.9
-    tdKhe = 100
+    tdCaL = 0.41
 }
 
 BREAKPOINT{
     test = test + 3
-    
     dCaLi = (1.0 / (1.0 + exp(((VdCaL - Vp) / kdCaL))))
     dCaPi = (1.0 / (1.0 + exp(((VdCaP - Vp) / kdCaP))))
     dCaTi = (1.0 / (1.0 + exp(((VdCaT - Vp) / kdCaT))))
@@ -290,8 +287,9 @@ BREAKPOINT{
     IS =  (kpi * ksi * In)
     MgADP =  (0.55 * ADPf)
     OKATP =  (((0.08 * (1.0 + (2.0 * MgADP / kdd))) + (0.89 * MgADP * MgADP / kdd / kdd)) / ((1.0 + (MgADP / kdd)) * (1.0 + (MgADP / kdd)) * (1.0 + (0.45 * MgADP / ktd) + (ATP / ktt))))
-    tdCaL =  (2.2 - (1.79 * exp( - (2.0292043084065876E-4 * ( - 9.7 + Vp) * ( - 9.7 + Vp)))))
-    VdKCaB =   (VBKo - (kshift * log((Cac / kCaBK))))  
+    tdCaL =  (2.2 - (1.79 * exp( - (.00020292043084065876 * ( - 9.7 + Vp) * ( - 9.7 + Vp)))))
+    VdKCaB =   (VBKo - (kshift * log((Cac / kCaBK))))
+    SOLVE states METHOD cnexp  
 }
 
 DERIVATIVE states{

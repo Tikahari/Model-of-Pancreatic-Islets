@@ -122,54 +122,54 @@ extern double hoc_Exp(double);
 #define tf2CaL _p[75]
 #define test _p[76]
 #define dKCa _p[77]
-#define Cac _p[78]
-#define IntCa _p[79]
-#define dKr _p[80]
-#define Vp _p[81]
-#define dCaL _p[82]
-#define dCaP _p[83]
-#define fCaP _p[84]
-#define f1CaL _p[85]
-#define f2CaL _p[86]
-#define dNa _p[87]
-#define fNa _p[88]
-#define dCaT _p[89]
-#define fCaT _p[90]
-#define dKCaB _p[91]
-#define fKCaB _p[92]
-#define dKhe _p[93]
-#define fKhe _p[94]
-#define In _p[95]
-#define dCaLi _p[96]
-#define dCaPi _p[97]
-#define dCaTi _p[98]
-#define dKCaBi _p[99]
-#define dKhei _p[100]
-#define dKri _p[101]
-#define dNai _p[102]
-#define fCaLi _p[103]
-#define fCaPi _p[104]
-#define fCaTi _p[105]
-#define fiCa _p[106]
-#define fKCaBi _p[107]
-#define fKhei _p[108]
-#define fNai _p[109]
-#define fsi _p[110]
-#define ICaL _p[111]
-#define ICaP _p[112]
-#define ICaT _p[113]
-#define IKATP _p[114]
-#define IKCa _p[115]
-#define IKCaB _p[116]
-#define IKDr _p[117]
-#define IKher _p[118]
-#define INa _p[119]
-#define INab _p[120]
-#define IPCa _p[121]
-#define IS _p[122]
-#define MgADP _p[123]
-#define OKATP _p[124]
-#define tdCaL _p[125]
+#define tdCaL _p[78]
+#define Cac _p[79]
+#define IntCa _p[80]
+#define dKr _p[81]
+#define Vp _p[82]
+#define dCaL _p[83]
+#define dCaP _p[84]
+#define fCaP _p[85]
+#define f1CaL _p[86]
+#define f2CaL _p[87]
+#define dNa _p[88]
+#define fNa _p[89]
+#define dCaT _p[90]
+#define fCaT _p[91]
+#define dKCaB _p[92]
+#define fKCaB _p[93]
+#define dKhe _p[94]
+#define fKhe _p[95]
+#define In _p[96]
+#define dCaLi _p[97]
+#define dCaPi _p[98]
+#define dCaTi _p[99]
+#define dKCaBi _p[100]
+#define dKhei _p[101]
+#define dKri _p[102]
+#define dNai _p[103]
+#define fCaLi _p[104]
+#define fCaPi _p[105]
+#define fCaTi _p[106]
+#define fiCa _p[107]
+#define fKCaBi _p[108]
+#define fKhei _p[109]
+#define fNai _p[110]
+#define fsi _p[111]
+#define ICaL _p[112]
+#define ICaP _p[113]
+#define ICaT _p[114]
+#define IKATP _p[115]
+#define IKCa _p[116]
+#define IKCaB _p[117]
+#define IKDr _p[118]
+#define IKher _p[119]
+#define INa _p[120]
+#define INab _p[121]
+#define IPCa _p[122]
+#define IS _p[123]
+#define MgADP _p[124]
+#define OKATP _p[125]
 #define VdKCaB _p[126]
 #define DCac _p[127]
 #define DIntCa _p[128]
@@ -259,6 +259,7 @@ static double _thread1data[2];
  static double In0 = 0;
  static double IntCa0 = 0;
  static double Vp0 = 0;
+ static double delta_t = 0.01;
  static double dKhe0 = 0;
  static double dKCaB0 = 0;
  static double dCaT0 = 0;
@@ -288,6 +289,14 @@ static void  nrn_init(_NrnThread*, _Memb_list*, int);
 static void nrn_state(_NrnThread*, _Memb_list*, int);
  static void nrn_cur(_NrnThread*, _Memb_list*, int);
 static void  nrn_jacob(_NrnThread*, _Memb_list*, int);
+ 
+static int _ode_count(int);
+static void _ode_map(int, double**, double**, double*, Datum*, double*, int);
+static void _ode_spec(_NrnThread*, _Memb_list*, int);
+static void _ode_matsol(_NrnThread*, _Memb_list*, int);
+ 
+#define _cvode_ieq _ppvar[0]._i
+ static void _ode_matsol_instance1(_threadargsproto_);
  /* connect range variables in _p that hoc is supposed to know about */
  static const char *_mechanism[] = {
  "7.7.0",
@@ -371,6 +380,7 @@ static void  nrn_jacob(_NrnThread*, _Memb_list*, int);
  "test_frid",
  0,
  "dKCa_frid",
+ "tdCaL_frid",
  0,
  "Cac_frid",
  "IntCa_frid",
@@ -479,9 +489,17 @@ static void nrn_alloc(Prop* _prop) {
  	test = 0;
  	_prop->param = _p;
  	_prop->param_size = 147;
+ 	_ppvar = nrn_prop_datum_alloc(_mechtype, 1, _prop);
+ 	_prop->dparam = _ppvar;
+ 	/*connect ionic variables to this model*/
  
 }
  static void _initlists();
+  /* some states have an absolute tolerance */
+ static Symbol** _atollist;
+ static HocStateTolerance _hoc_state_tol[] = {
+ 0,0
+};
  static void _thread_mem_init(Datum*);
  static void _thread_cleanup(Datum*);
  extern Symbol* hoc_lookup(const char*);
@@ -505,9 +523,12 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
   hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
 #endif
-  hoc_register_prop_size(_mechtype, 147, 0);
+  hoc_register_prop_size(_mechtype, 147, 1);
+  hoc_register_dparam_semantics(_mechtype, 0, "cvodeieq");
+ 	hoc_register_cvode(_mechtype, _ode_count, _ode_map, _ode_spec, _ode_matsol);
+ 	hoc_register_tolerance(_mechtype, _hoc_state_tol, &_atollist);
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
- 	ivoc_help("help ?1 frid /ufrc/lamb/tikaharikhanal/Neuron_Test/Build/Fridlyand2012/x86_64/frid.mod\n");
+ 	ivoc_help("help ?1 frid /ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Fridlyand2012/x86_64/frid.mod\n");
  hoc_register_limits(_mechtype, _hoc_parm_limits);
  hoc_register_units(_mechtype, _hoc_parm_units);
  }
@@ -518,7 +539,9 @@ static int error;
 static int _ninits = 0;
 static int _match_recurse=1;
 static void _modl_cleanup(){ _match_recurse=1;}
- static double *_temp1;
+ 
+static int _ode_spec1(_threadargsproto_);
+/*static int _ode_matsol1(_threadargsproto_);*/
  static int _slist1[18], _dlist1[18];
  static int states(_threadargsproto_);
  
@@ -567,29 +590,68 @@ static void _modl_cleanup(){ _match_recurse=1;}
   return 0;
 }
  /*END CVODE*/
- 
-static int states (double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {int _reset=0; int error = 0;
- {
-   DCac = ( ( fi * ( - ICaL - ICaP - ICaT - ( 2.0 * IPCa ) ) / ( 2.0 * F * Vi ) ) - ( ksg * Cac ) ) ;
-   DIntCa = ( 0.001 * Cac ) ;
-   DdKr = ( ( dKri - dKr ) / tdKr ) ;
-   DVp = - ( ( ICaL + ICaP + ICaT + IKDr + IPCa + IKCa + IKCaB + IKATP + IKher + INab + INa ) / Cm ) ;
-   DdCaL = ( ( dCaLi - dCaL ) / tdCaL ) ;
-   DdCaP = ( ( dCaPi - dCaP ) / tdCaP ) ;
-   DfCaP = ( ( fCaPi - fCaP ) / tfCaP ) ;
-   Df1CaL = ( ( fCaLi - f1CaL ) / tf1CaL ) ;
-   Df2CaL = ( ( fCaLi - f2CaL ) / tf2CaL ) ;
-   DdNa = ( ( dNai - dNa ) / tdNa ) ;
-   DfNa = ( ( fNai - fNa ) / tfNa ) ;
-   DdCaT = ( ( dCaTi - dCaT ) / tdCaT ) ;
-   DfCaT = ( ( fCaTi - fCaT ) / tfCaT ) ;
-   DdKCaB = ( ( dKCaBi - dKCaB ) / tdKCaB ) ;
-   DfKCaB = ( ( fKCaBi - fKCaB ) / tfKCaB ) ;
-   DdKhe = ( ( dKhei - dKhe ) / tdKhe ) ;
-   DfKhe = ( ( fKhei - fKhe ) / tfKhe ) ;
-   DIn = ( ( fsi * Ni / Vpi ) - ( kpi * In ) ) ;
+ static int states (double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) { {
+    Cac = Cac + (1. - exp(dt*(( ( - ( ( ksg )*( 1.0 ) ) ) ))))*(- ( ( ( ( ( fi )*( ( - ICaL - ICaP - ICaT - ( ( 2.0 )*( IPCa ) ) ) ) ) / ( 2.0 * F * Vi ) ) ) ) / ( ( ( - ( ( ksg )*( 1.0 ) ) ) ) ) - Cac) ;
+    IntCa = IntCa - dt*(- ( ( ( 0.001 )*( Cac ) ) ) ) ;
+    dKr = dKr + (1. - exp(dt*(( ( ( ( - 1.0 ) ) ) / tdKr ))))*(- ( ( ( ( dKri ) ) / tdKr ) ) / ( ( ( ( ( - 1.0 ) ) ) / tdKr ) ) - dKr) ;
+    Vp = Vp - dt*(- ( - ( ( ( ICaL + ICaP + ICaT + IKDr + IPCa + IKCa + IKCaB + IKATP + IKher + INab + INa ) ) / Cm ) ) ) ;
+    dCaL = dCaL + (1. - exp(dt*(( ( ( ( - 1.0 ) ) ) / tdCaL ))))*(- ( ( ( ( dCaLi ) ) / tdCaL ) ) / ( ( ( ( ( - 1.0 ) ) ) / tdCaL ) ) - dCaL) ;
+    dCaP = dCaP + (1. - exp(dt*(( ( ( ( - 1.0 ) ) ) / tdCaP ))))*(- ( ( ( ( dCaPi ) ) / tdCaP ) ) / ( ( ( ( ( - 1.0 ) ) ) / tdCaP ) ) - dCaP) ;
+    fCaP = fCaP + (1. - exp(dt*(( ( ( ( - 1.0 ) ) ) / tfCaP ))))*(- ( ( ( ( fCaPi ) ) / tfCaP ) ) / ( ( ( ( ( - 1.0 ) ) ) / tfCaP ) ) - fCaP) ;
+    f1CaL = f1CaL + (1. - exp(dt*(( ( ( ( - 1.0 ) ) ) / tf1CaL ))))*(- ( ( ( ( fCaLi ) ) / tf1CaL ) ) / ( ( ( ( ( - 1.0 ) ) ) / tf1CaL ) ) - f1CaL) ;
+    f2CaL = f2CaL + (1. - exp(dt*(( ( ( ( - 1.0 ) ) ) / tf2CaL ))))*(- ( ( ( ( fCaLi ) ) / tf2CaL ) ) / ( ( ( ( ( - 1.0 ) ) ) / tf2CaL ) ) - f2CaL) ;
+    dNa = dNa + (1. - exp(dt*(( ( ( ( - 1.0 ) ) ) / tdNa ))))*(- ( ( ( ( dNai ) ) / tdNa ) ) / ( ( ( ( ( - 1.0 ) ) ) / tdNa ) ) - dNa) ;
+    fNa = fNa + (1. - exp(dt*(( ( ( ( - 1.0 ) ) ) / tfNa ))))*(- ( ( ( ( fNai ) ) / tfNa ) ) / ( ( ( ( ( - 1.0 ) ) ) / tfNa ) ) - fNa) ;
+    dCaT = dCaT + (1. - exp(dt*(( ( ( ( - 1.0 ) ) ) / tdCaT ))))*(- ( ( ( ( dCaTi ) ) / tdCaT ) ) / ( ( ( ( ( - 1.0 ) ) ) / tdCaT ) ) - dCaT) ;
+    fCaT = fCaT + (1. - exp(dt*(( ( ( ( - 1.0 ) ) ) / tfCaT ))))*(- ( ( ( ( fCaTi ) ) / tfCaT ) ) / ( ( ( ( ( - 1.0 ) ) ) / tfCaT ) ) - fCaT) ;
+    dKCaB = dKCaB + (1. - exp(dt*(( ( ( ( - 1.0 ) ) ) / tdKCaB ))))*(- ( ( ( ( dKCaBi ) ) / tdKCaB ) ) / ( ( ( ( ( - 1.0 ) ) ) / tdKCaB ) ) - dKCaB) ;
+    fKCaB = fKCaB + (1. - exp(dt*(( ( ( ( - 1.0 ) ) ) / tfKCaB ))))*(- ( ( ( ( fKCaBi ) ) / tfKCaB ) ) / ( ( ( ( ( - 1.0 ) ) ) / tfKCaB ) ) - fKCaB) ;
+    dKhe = dKhe + (1. - exp(dt*(( ( ( ( - 1.0 ) ) ) / tdKhe ))))*(- ( ( ( ( dKhei ) ) / tdKhe ) ) / ( ( ( ( ( - 1.0 ) ) ) / tdKhe ) ) - dKhe) ;
+    fKhe = fKhe + (1. - exp(dt*(( ( ( ( - 1.0 ) ) ) / tfKhe ))))*(- ( ( ( ( fKhei ) ) / tfKhe ) ) / ( ( ( ( ( - 1.0 ) ) ) / tfKhe ) ) - fKhe) ;
+    In = In + (1. - exp(dt*(( ( - ( ( kpi )*( 1.0 ) ) ) ))))*(- ( ( ( ( ( fsi )*( Ni ) ) / Vpi ) ) ) / ( ( ( - ( ( kpi )*( 1.0 ) ) ) ) ) - In) ;
    }
- return _reset;}
+  return 0;
+}
+ 
+static int _ode_count(int _type){ return 18;}
+ 
+static void _ode_spec(_NrnThread* _nt, _Memb_list* _ml, int _type) {
+   double* _p; Datum* _ppvar; Datum* _thread;
+   Node* _nd; double _v; int _iml, _cntml;
+  _cntml = _ml->_nodecount;
+  _thread = _ml->_thread;
+  for (_iml = 0; _iml < _cntml; ++_iml) {
+    _p = _ml->_data[_iml]; _ppvar = _ml->_pdata[_iml];
+    _nd = _ml->_nodelist[_iml];
+    v = NODEV(_nd);
+     _ode_spec1 (_p, _ppvar, _thread, _nt);
+ }}
+ 
+static void _ode_map(int _ieq, double** _pv, double** _pvdot, double* _pp, Datum* _ppd, double* _atol, int _type) { 
+	double* _p; Datum* _ppvar;
+ 	int _i; _p = _pp; _ppvar = _ppd;
+	_cvode_ieq = _ieq;
+	for (_i=0; _i < 18; ++_i) {
+		_pv[_i] = _pp + _slist1[_i];  _pvdot[_i] = _pp + _dlist1[_i];
+		_cvode_abstol(_atollist, _atol, _i);
+	}
+ }
+ 
+static void _ode_matsol_instance1(_threadargsproto_) {
+ _ode_matsol1 (_p, _ppvar, _thread, _nt);
+ }
+ 
+static void _ode_matsol(_NrnThread* _nt, _Memb_list* _ml, int _type) {
+   double* _p; Datum* _ppvar; Datum* _thread;
+   Node* _nd; double _v; int _iml, _cntml;
+  _cntml = _ml->_nodecount;
+  _thread = _ml->_thread;
+  for (_iml = 0; _iml < _cntml; ++_iml) {
+    _p = _ml->_data[_iml]; _ppvar = _ml->_pdata[_iml];
+    _nd = _ml->_nodelist[_iml];
+    v = NODEV(_nd);
+ _ode_matsol_instance1(_threadargs_);
+ }}
  
 static void _thread_mem_init(Datum* _thread) {
   if (_thread1data_inuse) {_thread[_gth]._pval = (double*)ecalloc(2, sizeof(double));
@@ -645,7 +707,7 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
    ENa = 70.0 ;
    F = 96480.0 ;
    f1CaL = 0.1 ;
-   f2CaL = 0.1 ;
+   f2CaL = 0.7 ;
    fCaP = 0.1 ;
    fCaT = 0.1 ;
    fi = 0.005 ;
@@ -656,7 +718,7 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
    gmCaL = 2700.0 ;
    gmCaP = 1200.0 ;
    gmCaT = 250.0 ;
-   gmKATP = 45000.0 ;
+   gmKATP = 65000.0 ;
    gmKCa = 150.0 ;
    gmKCaB = 25000.0 ;
    gmKDr = 18000.0 ;
@@ -678,7 +740,7 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
    kdNa = 10.0 ;
    kfCaL = 8.0 ;
    kfCaP = 8.0 ;
-   kfCaT = 9.0 ;
+   kfCaT = 8.0 ;
    kfhe = 17.5 ;
    kfKCaB = 9.2 ;
    kfNa = 6.0 ;
@@ -698,11 +760,11 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
    RTdF = 26.73 ;
    tdCaP = 0.41 ;
    tdCaT = 0.41 ;
-   tfKCaB = 1.9 ;
-   tfKhe = 100.0 ;
+   tdKCaB = 1.9 ;
+   tdKhe = 100.0 ;
    tdKr = 20.0 ;
    tdNa = 0.1 ;
-   tf1CaL = 0.1 ;
+   tf1CaL = 6.8 ;
    tf2CaL = 65.0 ;
    tfCaP = 65.0 ;
    tfCaT = 6.8 ;
@@ -725,10 +787,9 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
    Vi = 0.764 ;
    Vp = - 62.0 ;
    Vpi = 45000.0 ;
-   tdKCaB = 1.9 ;
-   tdKhe = 100.0 ;
+   tdCaL = 0.41 ;
    }
-
+ 
 }
 }
 
@@ -830,7 +891,8 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
   }
  v=_v;
 {
- {
+ {   states(_p, _ppvar, _thread, _nt);
+  } {
    test = test + 3.0 ;
    dCaLi = ( 1.0 / ( 1.0 + exp ( ( ( VdCaL - Vp ) / kdCaL ) ) ) ) ;
    dCaPi = ( 1.0 / ( 1.0 + exp ( ( ( VdCaP - Vp ) / kdCaP ) ) ) ) ;
@@ -862,7 +924,7 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
    IS = ( kpi * ksi * In ) ;
    MgADP = ( 0.55 * ADPf ) ;
    OKATP = ( ( ( 0.08 * ( 1.0 + ( 2.0 * MgADP / kdd ) ) ) + ( 0.89 * MgADP * MgADP / kdd / kdd ) ) / ( ( 1.0 + ( MgADP / kdd ) ) * ( 1.0 + ( MgADP / kdd ) ) * ( 1.0 + ( 0.45 * MgADP / ktd ) + ( ATP / ktt ) ) ) ) ;
-   tdCaL = ( 2.2 - ( 1.79 * exp ( - ( 2.0292043084065876E-4 * ( - 9.7 + Vp ) * ( - 9.7 + Vp ) ) ) ) ) ;
+   tdCaL = ( 2.2 - ( 1.79 * exp ( - ( .00020292043084065876 * ( - 9.7 + Vp ) * ( - 9.7 + Vp ) ) ) ) ) ;
    VdKCaB = ( VBKo - ( kshift * log ( ( Cac / kCaBK ) ) ) ) ;
    }
 }}
@@ -901,7 +963,7 @@ _first = 0;
 #endif
 
 #if NMODL_TEXT
-static const char* nmodl_filename = "/ufrc/lamb/tikaharikhanal/Neuron_Test/Build/Fridlyand2012/frid.mod";
+static const char* nmodl_filename = "/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Fridlyand2012/frid.mod";
 static const char* nmodl_file_text = 
   "NEURON{\n"
   "	SUFFIX frid\n"
@@ -915,7 +977,7 @@ static const char* nmodl_file_text =
   "    RANGE tdCaT, tfKCaB, tfKhe, tfNa, VBKo, VdCaL, VdCaP, VdCaT, Vdhe, Vdkr\n"
   "    RANGE VdNa, VfCaL, VfCaP, VfCaT, Vfhe, VfKCaB, VfNa, Vi, Vp, Vpi\n"
   "    RANGE tdKr, tdNa, tf1CaL, tfCaP, tfCaT, tf2CaL\n"
-  "    RANGE test\n"
+  "    RANGE tdCaL, test, Vp\n"
   "}\n"
   "\n"
   "PARAMETER{\n"
@@ -1060,9 +1122,8 @@ static const char* nmodl_file_text =
   "\n"
   "INITIAL{\n"
   "    test = -1 \n"
-  "\n"
   "    Cm = 9990\n"
-  "	ADPf = 15.0\n"
+  "    ADPf = 15.0\n"
   "    ATP = 3600\n"
   "    Cac = 0.25\n"
   "    dCaL = 0.001\n"
@@ -1073,12 +1134,12 @@ static const char* nmodl_file_text =
   "    dKhe = 0.1\n"
   "    dKr = 0.0029\n"
   "    dNa = 0.1\n"
-  "    ECa = 100 (mV)\n"
-  "    EK = -75 (mV)\n"
-  "    ENa = 70 (mV)\n"
+  "    ECa = 100\n"
+  "    EK = -75\n"
+  "    ENa = 70\n"
   "    F = 96480\n"
   "    f1CaL = 0.1\n"
-  "    f2CaL = 0.1\n"
+  "    f2CaL = 0.7\n"
   "    fCaP = 0.1\n"
   "    fCaT = 0.1\n"
   "    fi = 0.005\n"
@@ -1089,14 +1150,14 @@ static const char* nmodl_file_text =
   "    gmCaL = 2700\n"
   "    gmCaP = 1200\n"
   "    gmCaT = 250\n"
-  "    gmKATP = 45000\n"
+  "    gmKATP = 65000\n"
   "    gmKCa = 150\n"
   "    gmKCaB = 25000\n"
   "    gmKDr = 18000\n"
   "    gmKhe = 200\n"
   "    gmNa = 10000\n"
   "    hdk = 2\n"
-  "    In = 1\n"
+  "    In = 1.0\n"
   "    IntCa = 0\n"
   "    kCaBK = 1.5\n"
   "    kCap = 0.3\n"
@@ -1111,7 +1172,7 @@ static const char* nmodl_file_text =
   "    kdNa = 10\n"
   "    kfCaL = 8\n"
   "    kfCaP = 8\n"
-  "    kfCaT = 9\n"
+  "    kfCaT = 8\n"
   "    kfhe = 17.5\n"
   "    kfKCaB = 9.2\n"
   "    kfNa = 6\n"
@@ -1131,11 +1192,11 @@ static const char* nmodl_file_text =
   "    RTdF = 26.73\n"
   "    tdCaP = 0.41\n"
   "    tdCaT = 0.41\n"
-  "    tfKCaB = 1.9\n"
-  "    tfKhe = 100\n"
+  "    tdKCaB = 1.9\n"
+  "    tdKhe = 100\n"
   "    tdKr = 20\n"
   "    tdNa = 0.1\n"
-  "    tf1CaL = 0.1\n"
+  "    tf1CaL = 6.8\n"
   "    tf2CaL = 65\n"
   "    tfCaP = 65\n"
   "    tfCaT = 6.8\n"
@@ -1158,13 +1219,11 @@ static const char* nmodl_file_text =
   "    Vi = 0.764\n"
   "    Vp = -62\n"
   "    Vpi = 45000\n"
-  "    tdKCaB = 1.9\n"
-  "    tdKhe = 100\n"
+  "    tdCaL = 0.41\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"
   "    test = test + 3\n"
-  "    \n"
   "    dCaLi = (1.0 / (1.0 + exp(((VdCaL - Vp) / kdCaL))))\n"
   "    dCaPi = (1.0 / (1.0 + exp(((VdCaP - Vp) / kdCaP))))\n"
   "    dCaTi = (1.0 / (1.0 + exp(((VdCaT - Vp) / kdCaT))))\n"
@@ -1195,8 +1254,9 @@ static const char* nmodl_file_text =
   "    IS =  (kpi * ksi * In)\n"
   "    MgADP =  (0.55 * ADPf)\n"
   "    OKATP =  (((0.08 * (1.0 + (2.0 * MgADP / kdd))) + (0.89 * MgADP * MgADP / kdd / kdd)) / ((1.0 + (MgADP / kdd)) * (1.0 + (MgADP / kdd)) * (1.0 + (0.45 * MgADP / ktd) + (ATP / ktt))))\n"
-  "    tdCaL =  (2.2 - (1.79 * exp( - (2.0292043084065876E-4 * ( - 9.7 + Vp) * ( - 9.7 + Vp)))))\n"
-  "    VdKCaB =   (VBKo - (kshift * log((Cac / kCaBK))))  \n"
+  "    tdCaL =  (2.2 - (1.79 * exp( - (.00020292043084065876 * ( - 9.7 + Vp) * ( - 9.7 + Vp)))))\n"
+  "    VdKCaB =   (VBKo - (kshift * log((Cac / kCaBK))))\n"
+  "    SOLVE states METHOD cnexp  \n"
   "}\n"
   "\n"
   "DERIVATIVE states{\n"

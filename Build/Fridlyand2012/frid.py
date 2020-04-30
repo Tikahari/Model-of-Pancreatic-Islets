@@ -16,16 +16,22 @@ def test():
     for i in fridsec.psection()['density_mechs'][mech]:
         header.append(i)
         rec[i] = []
-        # set values from 'x.ini' and record every segment
+        # record every segment
         for j in fridsec:
             setattr(j, i+'_'+mech, float(config['Beta'][i]))
             mechRecord = getattr(j, '_ref_'+i+'_'+mech)
             rec[i].append(h.Vector().record(mechRecord))
     t = h.Vector().record(h._ref_t)
     h.finitialize(-65)
-    h.continuerun(500)
+    
+    # set mechanism's values from '.ini' file
+    for i in fridsec.psection()['density_mechs'][mech]:
+        for j in fridsec:
+            setattr(j, i+'_'+mech, float(config['Beta'][i]))
+
+    h.continuerun(1000)
     # write to csv
-    with open('data/frid_sim1.csv','a') as file:
+    with open('data/fridsim_fig5.csv','w') as file:
         writer = csv.writer(file,quoting = csv.QUOTE_NONE,escapechar=' ')
         writer.writerow(header)
         for i in range(len(t)):

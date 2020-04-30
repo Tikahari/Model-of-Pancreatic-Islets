@@ -10,4 +10,4 @@ if test "" = "yes" ; then
 else
 	NRNIV="${NRNBIN}nrniv"
 fi
-"${NRNIV}" -dll "/ufrc/lamb/tikaharikhanal/Neuron_Test/Build/Fridlyand2012/x86_64/.libs/libnrnmech.so" "$@"
+"${NRNIV}" -dll "/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Fridlyand2012/x86_64/.libs/libnrnmech.so" "$@"
