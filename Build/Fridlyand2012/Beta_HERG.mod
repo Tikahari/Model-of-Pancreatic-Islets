@@ -1,7 +1,9 @@
 NEURON{
-SUFFIX HERG
+SUFFIX B_HERG
 USEION HERG WRITE iHERG VALENCE 1
-RANGE gmKhe, kdhe, kfhe, tdKhe, tfKhe, Vdhe, Vfhe, EK
+USEION K READ eK
+USEION Vm READ Vmi
+RANGE gmKhe, kdhe, kfhe, tdKhe, tfKhe, Vdhe, Vfhe, eK
 RANGE dKhei, fKhei, iHERG
 }
 
@@ -13,11 +15,10 @@ tdKhe
 tfKhe
 Vdhe
 Vfhe
-EK
+eK
 v
-}
+Vmi
 
-ASSIGNED{
 dKhei  
 fKhei  
 iHERG
@@ -38,13 +39,12 @@ tdKhe = 100
 tfKhe = 50
 Vdhe = -30
 Vfhe = -42
-EK = -75
 }
 
 BREAKPOINT{
-dKhei =  (1.0 / (1.0 + exp(((Vdhe - v) / kdhe))))                
-fKhei = (1.0 / (1.0 + exp(((v - Vfhe) / kfhe))))                
-iHERG =  (gmKhe * dKhe * fKhe * (v - EK))                
+dKhei =  (1.0 / (1.0 + exp(((Vdhe - Vmi) / kdhe))))                
+fKhei = (1.0 / (1.0 + exp(((Vmi - Vfhe) / kfhe))))                
+iHERG =  (gmKhe * dKhe * fKhe * (Vmi - eK))                
 SOLVE states METHOD cnexp
 }
 

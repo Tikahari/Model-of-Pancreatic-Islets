@@ -1,12 +1,17 @@
 NEURON{
-SUFFIX BK
+SUFFIX B_BK
 USEION BK WRITE iBK VALENCE 1
-USEION Cac READ iCac
-RANGE hdk, gmKCaB, kCaBK, kdKCaB, kfKCaB, fKCaB, tdKCaB, tfKCaB, VfKCaB,VBKo
+USEION K WRITE eK VALENCE 1
+USEION Cac READ Caci, eCac
+USEION Vm READ Vmi
+
+RANGE hdk, gmKCaB, kCaBK, kdKCaB, kfKCaB, tdKCaB, tfKCaB, VfKCaB, VBKo, eK, kshift
+RANGE dKCaBi, fKCaBi, VdKCaB, iBK
 }
 
 PARAMETER{
 v
+Vmi
 hdk
 gmKCaB
 kCaBK    
@@ -16,12 +21,11 @@ tdKCaB
 tfKCaB 
 VfKCaB 
 VBKo 
-EK
+eK
 kshift
-iCac
-}
+Caci
+eCac
 
-ASSIGNED{
 dKCaBi
 fKCaBi 
 VdKCaB 
@@ -46,15 +50,15 @@ tdKCaB = 1.9
 tfKCaB = 22.6
 VfKCaB = 30
 VBKo = 0.1
-EK = -75
+eK = -75
 kshift = 18
 }
 
 BREAKPOINT{
-fKCaBi = (1.0 / (1.0 + exp( - ((VfKCaB - v) / kfKCaB))))                
-dKCaBi = (1.0 / (1.0 + exp(((VdKCaB - v) / kdKCaB)))) 
-iBK =  (gmKCaB * pow(dKCaB,hdk) * fKCaB * (v - EK))                
-VdKCaB =   (VBKo - (kshift * log((iCac / kCaBK))))                
+fKCaBi = (1.0 / (1.0 + exp( - ((VfKCaB - Vmi) / kfKCaB))))                
+dKCaBi = (1.0 / (1.0 + exp(((VdKCaB - Vmi) / kdKCaB)))) 
+iBK =  (gmKCaB * pow(dKCaB,hdk) * fKCaB * (Vmi - eK))                
+VdKCaB =   (VBKo - (kshift * log((Caci / kCaBK))))                
 SOLVE states METHOD cnexp
 }
 

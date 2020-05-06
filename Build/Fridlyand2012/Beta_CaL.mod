@@ -1,8 +1,11 @@
 NEURON{
-SUFFIX CaL
+SUFFIX B_CaL
 USEION CaL WRITE iCaL VALENCE 2
-RANGE dCaL, f1CaL, f2CaL , gmCaL, kdCaL , kfCaL , tf1CaL, tf2CaL, VdCaL, VfCaL, tdCaL , ECa 
+USEION Ca READ eCa
+USEION Vm READ Vmi
+RANGE dCaL, f1CaL, f2CaL , gmCaL, kdCaL , kfCaL , tf1CaL, tf2CaL, VdCaL, VfCaL, eCa
 RANGE dCaLi, fCaLi, iCaL, tdCaL
+RANGE CaLCurr, vCaL
 }
 
 PARAMETER{ 
@@ -13,15 +16,18 @@ tf1CaL
 tf2CaL
 VdCaL
 VfCaL 
-ECa 
+eCa
 v
+Vmi
 }
 
 ASSIGNED{
 dCaLi 
 fCaLi 
 iCaL    
-tdCaL           
+tdCaL 
+CaLCurr
+vCaL
 }
 
 STATE{
@@ -42,14 +48,16 @@ tf2CaL = 65
 VdCaL = -15
 VfCaL = -25
 tdCaL = 0.41
-ECa = 100
+iCaL = 0
 }
 
 BREAKPOINT{
-fCaLi = (1.0 / (1.0 + exp(((v - VfCaL) / kfCaL))))                
-dCaLi = (1.0 / (1.0 + exp(((VdCaL - v) / kdCaL))))                
-iCaL = (gmCaL * dCaL * f1CaL * f2CaL * (v - ECa))                
-tdCaL =  (2.2 - (1.79 * exp( - (.00020292043084065876 * ( - 9.7 + v) * ( - 9.7 + v)))))                
+tdCaL =  (2.2 - (1.79 * exp( - (.00020292043084065876 * ( - 9.7 + Vmi) * ( - 9.7 + Vmi)))))                
+fCaLi = (1.0 / (1.0 + exp(((Vmi - VfCaL) / kfCaL))))                
+dCaLi = (1.0 / (1.0 + exp(((VdCaL - Vmi) / kdCaL))))                
+iCaL = (gmCaL * dCaL * f1CaL * f2CaL * (Vmi - eCa))    
+CaLCurr =  (gmCaL * dCaL * f1CaL * f2CaL * (Vmi - eCa)) 
+vCaL = Vmi
 SOLVE states METHOD cnexp
 }
 

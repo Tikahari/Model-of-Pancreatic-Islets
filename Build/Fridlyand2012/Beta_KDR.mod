@@ -1,7 +1,9 @@
 NEURON{
-SUFFIX KDR
+SUFFIX B_KDR
 USEION KDR WRITE iKDR VALENCE 1
-RANGE gmKDr, tdKr, Vdkr, kdkr, EK
+USEION K READ eK
+USEION Vm READ Vmi
+RANGE gmKDr, tdKr, Vdkr, kdkr, eK
 RANGE iKDR, dKri
 }
 
@@ -10,11 +12,10 @@ gmKDr
 tdKr
 Vdkr
 kdkr
-EK
+eK
 v
-}
+Vmi
 
-ASSIGNED{
 iKDR
 dKri
 }
@@ -29,12 +30,11 @@ tdKr = 20
 dKr = 0.0029
 Vdkr = -9
 kdkr = 8
-EK = -75
 }
 
 BREAKPOINT{
-dKri = (1.0 / (1.0 + exp(((Vdkr - v) / kdkr))))                
-iKDR =  (gmKDr * dKr * dKr * (v - EK))                
+dKri = (1.0 / (1.0 + exp(((Vdkr - Vmi) / kdkr))))                
+iKDR =  (gmKDr * dKr * dKr * (Vmi - eK))                
 SOLVE states METHOD cnexp
 }
 

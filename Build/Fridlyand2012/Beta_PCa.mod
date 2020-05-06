@@ -1,5 +1,5 @@
 NEURON{
-SUFFIX PCa
+SUFFIX B_PCa
 USEION Cac READ Caci
 USEION PCa WRITE iPCa VALENCE 2
 RANGE PmCaP, kCap
@@ -11,9 +11,7 @@ PmCaP
 kCap
 Caci
 v
-}
 
-ASSIGNED{
 iPCa
 }
 

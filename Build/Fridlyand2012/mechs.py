@@ -1,34 +1,39 @@
 from neuron import h, gui
 import configparser
 import csv
+import mod
+
+# read configuration
+config = configparser.ConfigParser(allow_no_value= True)
+config.optionxform = str
+config.read('mech.ini')
+# set up mechanisms (mod files)
+for i in config['Beta']:
+    mechs.append(i)
+
+
 
 t = []
 v = []
 mechs = []
 rec = {}
 header = []
-# read configuration
-config = configparser.ConfigParser(allow_no_value= True)
-config.optionxform = str
-config.read('mech.ini')
-# get all mechanisms
-for i in config['Beta']:
-    mechs.append(i)
+
+
 a = h.Section()
+a.cm = 9990
 # add all mechanisms
 for i in mechs:
-    a.insert(i)
+    a.insert('B_'+i)
 # a.nseg = 5
 # record mechanisms
 for i in a.psection()['density_mechs']:
     for j in a.psection()['density_mechs'][i]:
-        header.append(j)
+        header.append(i+'_'+j)
         rec[j] = []
         # record variables of every mechanism in every segment
         for k in a:
-            rec['v'] = []
-            v = h.Vector().record(k._ref_v)
-            rec['v'].append(v)
+            v.append(h.Vector().record(k._ref_v))
             mechRecord = getattr(k, '_ref_'+j+'_'+i)
             rec[j].append(h.Vector().record(mechRecord))
 
@@ -45,10 +50,9 @@ for i in a:
 head.extend(header)
 
 t = h.Vector().record(h._ref_t)
-h.finitialize(-60)
-h.continuerun(20)
+h.finitialize(-62)
+h.continuerun(200)
 
-print('write to file')
 with open('data/mechSim.csv','w') as file:
     writer = csv.writer(file,quoting = csv.QUOTE_NONE,escapechar=' ')
     writer.writerow(head)
@@ -57,4 +61,4 @@ with open('data/mechSim.csv','w') as file:
         for j in rec:
             rec_csv += str(rec[j][0][i]) +','
         rec_csv = rec_csv[:len(rec_csv)-1] + ' '
-        writer.writerow([t[i], v[i], rec_csv])
+        writer.writerow([t[i], v[0][i], rec_csv])

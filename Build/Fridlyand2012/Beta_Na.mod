@@ -1,8 +1,9 @@
 NEURON{
-SUFFIX Na 
-USEION Na WRITE iNa VALENCE 1
-RANGE gmNa, VdNa, kdNa, tdNa, fNa, kNar, eNa
-RANGE dNai, iNa
+SUFFIX B_Na 
+USEION Na WRITE iNa, eNa VALENCE 1
+USEION Vm READ Vmi
+RANGE gmNa, VdNa, kdNa, tdNa, fNa, kNar, eNa, VfNa, kfNa
+RANGE dNai, iNa, fNai, tfNa
 }
 
 PARAMETER{
@@ -10,19 +11,22 @@ gmNa
 VdNa
 kdNa
 tdNa
-fNa
+tfNa
 kNar
-ENa
+VfNa
+kfNa
+eNa
 v
-}
+Vmi
 
-ASSIGNED{
+fNai
 dNai
 iNa
 }
 
 STATE{
 dNa
+fNa
 }
 
 INITIAL{
@@ -31,17 +35,22 @@ dNa = 0.1
 VdNa = -30
 kdNa = 10
 tdNa = 0.1
+tfNa = 0.5
 fNa = 0.1
 kNar = 0
-ENa = 70
+eNa = 70
+VfNa = -42
+kfNa = 6
 }
 
 BREAKPOINT{
-dNai = (1.0 / (1.0 + exp(((VdNa - v) / kdNa))))                
-iNa = (gmNa * ((pow(dNa,3.0) * fNa) + kNar) * (v - ENa))                
+fNai = (1.0 / (1.0 + exp( - ((VfNa - Vmi) / kfNa))))
+dNai = (1.0 / (1.0 + exp(((VdNa - Vmi) / kdNa))))                
+iNa = (gmNa * ((pow(dNa,3.0) * fNa) + kNar) * (Vmi - eNa))                
 SOLVE states METHOD cnexp
 }
 
 DERIVATIVE states{
-dNa' = ((dNai - dNa) / tdNa)                
+dNa' = ((dNai - dNa) / tdNa) 
+fNa' = ((fNai - fNa) / tfNa)               
 }
