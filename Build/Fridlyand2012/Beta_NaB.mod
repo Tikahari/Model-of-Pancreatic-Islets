@@ -1,0 +1,25 @@
+NEURON{
+SUFFIX NaB 
+USEION NaB WRITE iNaB VALENCE 1
+RANGE gBNa, ENa
+RANGE iNaB
+}
+
+PARAMETER{
+gBNa
+ENa
+v
+}
+
+ASSIGNED{
+iNaB
+}
+
+INITIAL{
+gBNa = 10.0
+ENa = 70
+}
+
+BREAKPOINT{
+iNaB =  (gBNa * (v - ENa))                
+}

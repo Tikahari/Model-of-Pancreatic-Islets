@@ -2,9 +2,19 @@ from neuron import h, gui
 from matplotlib import pyplot as plt
 import csv
 import configparser
+import mod
+import os
 
 mech = 'frid'
+def setMod():
+    # write mod
+    m = mod.Mod(mech+'.mod', mech+'.ini')
+    m.writeMod()
+    # compile mod
+    os.system('nrnivmodl *mod')
+
 def test():
+    setMod()
     rec = {}
     header = ['Time']
     config = configparser.ConfigParser()
@@ -18,20 +28,14 @@ def test():
         rec[i] = []
         # record every segment
         for j in fridsec:
-            setattr(j, i+'_'+mech, float(config['Beta'][i]))
+            # setattr(j, i+'_'+mech, float(config['Beta'][i]))
             mechRecord = getattr(j, '_ref_'+i+'_'+mech)
             rec[i].append(h.Vector().record(mechRecord))
     t = h.Vector().record(h._ref_t)
-    h.finitialize(-65)
-    
-    # set mechanism's values from '.ini' file
-    for i in fridsec.psection()['density_mechs'][mech]:
-        for j in fridsec:
-            setattr(j, i+'_'+mech, float(config['Beta'][i]))
-
-    h.continuerun(1000)
+    h.finitialize()
+    h.continuerun(5000)
     # write to csv
-    with open('data/fridsim_fig5.csv','w') as file:
+    with open('data/fridsim_fig5_t5000.csv','w') as file:
         writer = csv.writer(file,quoting = csv.QUOTE_NONE,escapechar=' ')
         writer.writerow(header)
         for i in range(len(t)):
