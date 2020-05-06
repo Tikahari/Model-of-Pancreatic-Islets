@@ -48,7 +48,6 @@ tf2CaL = 65
 VdCaL = -15
 VfCaL = -25
 tdCaL = 0.41
-iCaL = 0
 }
 
 BREAKPOINT{

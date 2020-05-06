@@ -1,30 +1,32 @@
-from neuron import h, gui
 import configparser
 import csv
 import mod
-
-# read configuration
+import os
+# read mechanism configuration (mech.ini)
 config = configparser.ConfigParser(allow_no_value= True)
 config.optionxform = str
 config.read('mech.ini')
-# set up mechanisms (mod files)
+# set up mechanisms according to parameters for cell type (Beta.ini)
+mechs = []
 for i in config['Beta']:
     mechs.append(i)
-
-
-
+    mod.writeMod('Beta.ini', 'Beta_'+i+'.mod', 'Beta_'+i+'.mod')
+# compile mod files
+os.system('nrnivmodl *mod > compile 2>&1')
+# variables to store data
 t = []
 v = []
-mechs = []
 rec = {}
 header = []
 
-
+# create section and add all mechanisms
+from neuron import h, gui
 a = h.Section()
-a.cm = 9990
-# add all mechanisms
 for i in mechs:
     a.insert('B_'+i)
+# simulation parameter
+a.cm = 9990
+
 # a.nseg = 5
 # record mechanisms
 for i in a.psection()['density_mechs']:

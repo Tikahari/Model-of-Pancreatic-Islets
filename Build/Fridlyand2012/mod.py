@@ -29,7 +29,6 @@ def writeMod(init, rmod, wmod):
     stop = {'ASSIGNED', 'BREAKPOINT', 'STATE', 'PARAMETER', 'DERIVATIVE', '}'}
     init = False
     for line in lines:
-        print(new)
         for k in stop:
             if k in line:
                 init = False
@@ -45,7 +44,6 @@ def writeMod(init, rmod, wmod):
         if 'INITIAL' in line:
             init = True
         new += line
-    # print(new)
     filer.close()
     filew = open(wmod, 'w')
     filew.write(new)

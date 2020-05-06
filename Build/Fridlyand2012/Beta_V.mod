@@ -36,7 +36,7 @@ Vmi
 }
 
 INITIAL{
-Vmi = -61.5
+Vmi = -62
 Cm = 9990
 }
 
