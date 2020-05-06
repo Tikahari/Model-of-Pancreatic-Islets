@@ -5,7 +5,7 @@ USEION Ca READ eCa
 USEION Vm READ Vmi
 RANGE dCaL, f1CaL, f2CaL , gmCaL, kdCaL , kfCaL , tf1CaL, tf2CaL, VdCaL, VfCaL, eCa
 RANGE dCaLi, fCaLi, iCaL, tdCaL
-RANGE CaLCurr, vCaL
+RANGE CaLCurr, vCaL, test
 }
 
 PARAMETER{ 
@@ -19,6 +19,7 @@ VfCaL
 eCa
 v
 Vmi
+test
 }
 
 ASSIGNED{
@@ -48,6 +49,7 @@ tf2CaL = 65
 VdCaL = -15
 VfCaL = -25
 tdCaL = 0.41
+test = 0.41
 }
 
 BREAKPOINT{

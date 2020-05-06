@@ -1,3 +1,4 @@
+"""This script reads mechanisms to be added from 'mechs.ini', initial values from 'Beta.ini' and records simulation data in a csv"""
 import configparser
 import csv
 import mod

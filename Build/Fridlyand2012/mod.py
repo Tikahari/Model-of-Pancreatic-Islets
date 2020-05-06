@@ -1,4 +1,4 @@
-# write outline of mod file from configuration file from configuration.py
+"""This script writes a mod file according to the values in 'Beta.ini'"""
 import configparser
 import sys
 
@@ -17,11 +17,11 @@ def getTokens(line):
             key = key[:-1]
     return {key: val}
         
-def writeMod(init, rmod, wmod):
+def writeMod(init, mod):
     config = configparser.ConfigParser()
     config.optionxform = str
     config.read(init)
-    filer = open(rmod, 'r')
+    filer = open(mod, 'r')
     lines = filer.readlines()
     st = ''
     new = ''
@@ -45,7 +45,7 @@ def writeMod(init, rmod, wmod):
             init = True
         new += line
     filer.close()
-    filew = open(wmod, 'w')
+    filew = open(mod, 'w')
     filew.write(new)
     filew.close()
 
