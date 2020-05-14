@@ -8,6 +8,7 @@ RANGE eNa, gNa
 PARAMETER{
 eNa
 gNa
+v
 }
 
 ASSIGNED{
@@ -28,14 +29,13 @@ eNa = 70
 gNa = 11
 }
 
-
 BREAKPOINT{
-mNa_inf = 1/(1 + exp((-(v + 30))/4)
+mNa_inf = 1/(1 + exp((-(v + 30))/4))
 hNa_inf = 1/(1 + exp((-(v + 52))/(-8)))
 tau_mNa = (6/(exp((-(v + 50))/10) + exp((v + 50)/10))) + 0.05
 tau_hNa = (120/(exp((-(v + 50))/8) + exp((v + 50)/8))) + 0.5
 SOLVE states METHOD cnexp
-iNa = gNa * pow(mNa,3) * hNa(v - VNa)
+iNa = gNa * pow(mNa,3) * hNa*(v - eNa)
 }
 
 DERIVATIVE states{

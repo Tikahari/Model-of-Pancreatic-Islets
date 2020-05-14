@@ -7,6 +7,7 @@ PARAMETER{
 Jgs
 vol
 f
+v
 }
 
 STATE{
@@ -22,5 +23,5 @@ SOLVE states METHOD cnexp
 }
 
 DERIVATIVE states{
-G' = Jgs / vol - f*G
+G' = (Jgs / vol) - f * G
 }

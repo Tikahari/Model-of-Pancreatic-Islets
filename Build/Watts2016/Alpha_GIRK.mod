@@ -7,19 +7,19 @@ POINTER S
 
 PARAMETER{
 eGIRK
-Si
 gbarGIRK
 S
+v
+eK
 }
 
 ASSIGNED{
 iGIRK
 EFFS
-
 }
 
 INITIAL{
-
+gbarGIRK = 10
 }
 
 BREAKPOINT{

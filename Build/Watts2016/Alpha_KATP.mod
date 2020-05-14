@@ -9,6 +9,9 @@ RANGE iKATP, gKATP, EffI
 PARAMETER{
 gbarKATP
 ka
+I
+eK
+v
 }
 
 ASSIGNED{
@@ -24,5 +27,5 @@ gbarKATP = 3  : 3 nS for G1; 0.6 nS for G7; 0.15 nS for G11
 BREAKPOINT{
 EffI = 0.015/(1 + exp(-(I - 1500)/200)) + ka
 gKATP = gbarKATP * EffI
-iKATP = gKATP(v - eK)
+iKATP = gKATP*(v - eK)
 }

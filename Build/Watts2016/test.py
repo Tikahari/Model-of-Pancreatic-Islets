@@ -1,4 +1,5 @@
-"""This script reads mechanisms to be added from 'mechs.ini', initial values from 'Beta.ini' and records simulation data in a csv"""
+"""This script reads mechanisms to be added from 'mechs.ini' and 
+initial values from 'Alpha.ini' and records simulation data in a csv"""
 import configparser
 import csv
 import mod
@@ -56,7 +57,7 @@ t = h.Vector().record(h._ref_t)
 h.finitialize(-62)
 h.continuerun(200)
 
-with open('data/mechSim.csv','w') as file:
+with open('data/watts.csv','w') as file:
     writer = csv.writer(file,quoting = csv.QUOTE_NONE,escapechar=' ')
     writer.writerow(head)
     for i in range(len(t)):
