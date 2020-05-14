@@ -1,0 +1,96 @@
+commit 1b9f2e4d115fffe4d02527887f0ce28ea7d81773
+Author: Tikahari Khanal <tikaharikhanal@login3.ufhpc>
+Date:   Thu May 14 02:03:40 2020 -0400
+
+    mod compiles
+
+commit ddc24af317e12bc12a292a75ca9daed71c5a2540
+Author: Tikahari Khanal <tikaharikhanal@login3.ufhpc>
+Date:   Thu May 14 01:11:39 2020 -0400
+
+commit 9f59b41c28a2809c6acc4cdd20076a6457c8b907
+Author: Tikahari Khanal <tikaharikhanal@login1.ufhpc>
+Date:   Thu May 14 00:22:36 2020 -0400
+
+    electrophysiology watts alpha
+
+commit a4808494287638657c891c5502d46167e5a94aa9
+Author: Tikahari Khanal <tikaharikhanal@login4.ufhpc>
+Date:   Wed May 6 14:22:38 2020 -0400
+
+    spatial organization
+
+commit f75cd4388708ba4185757f14008dacc5e6952dc1
+Author: Tikahari Khanal <tikaharikhanal@login4.ufhpc>
+Date:   Wed May 6 13:48:21 2020 -0400
+
+commit 301038b26c9a9bf3a0b92fcaa9125a28c895945b
+Author: Tikahari Khanal <tikaharikhanal@login4.ufhpc>
+Date:   Wed May 6 13:47:24 2020 -0400
+
+    read initial values from ini file
+
+commit 8957afc2ecfd3ad5880f37b59c2b505874d8f569
+Author: Tikahari Khanal <tikaharikhanal@login4.ufhpc>
+Date:   Wed May 6 13:03:50 2020 -0400
+
+    tuning mechanims parameters
+
+commit 94b9541ee8aa4b3a4a101fb4ce6b587b75cbfc6a
+Author: Tikahari Khanal <tikaharikhanal@login2.ufhpc>
+Date:   Tue May 5 21:43:34 2020 -0400
+
+    created separate mechanisms
+
+commit 0f168fe2f8742cf0e09d34a72bf3f0c4cbb6cfa5
+Author: Tikahari Khanal <tikaharikhanal@i21a-s2.ufhpc>
+Date:   Thu Apr 30 12:03:11 2020 -0400
+
+    fridlyand2012 figure 5
+
+commit e82926968abbdf054d12dfabad8d5b333cbd859d
+Author: Tikahari Khanal <tikaharikhanal@login3.ufhpc>
+Date:   Thu Apr 30 01:34:06 2020 -0400
+
+    Fridlyand2012 build
+
+commit 0e5097b72e727c18d4bc42ddaa4693ca3f72cece
+Author: Tikahari <tikaharik@gmail.com>
+Date:   Mon Apr 6 18:31:40 2020 -0400
+
+commit f51da533990e47ded95f2fa7fcd0addec2b68d96
+Author: Tikahari <tikaharik@gmail.com>
+Date:   Sun Mar 8 20:23:11 2020 -0400
+
+commit 33837681627d3337f353dafbf33d9535a2e8dd5a
+Merge: 7560cbf 4f3317d
+Author: Tikahari <tikaharik@gmail.com>
+Date:   Sun Mar 8 19:49:33 2020 -0400
+
+    Merge branch 'master' of https://github.com/Tikahari/Model-of-Pancreatic-Islets
+    
+    merge hpg
+
+commit 4f3317d50c2276730c42921d1e9d405e7f88121d
+Author: Tikahari Khanal <tikaharikhanal@login1.ufhpc>
+Date:   Sun Mar 8 19:49:02 2020 -0400
+
+    merge hpg
+
+commit 7560cbf2e428eca10aee4cc2b12d9d55fc66169f
+Author: Tikahari <tikaharik@gmail.com>
+Date:   Sun Mar 8 19:48:05 2020 -0400
+
+    merge hpg
+
+commit f50bc4e9c6a3dfb4475af2680a634dce131fad4e
+Author: Tikahari <tikaharik@gmail.com>
+Date:   Sat Mar 7 17:57:31 2020 -0500
+
+    structure
+
+commit 729b801c7b6d44d60c89c0ef7fe80eae8815d00d
+Author: Tikahari Khanal <tikaharikhanal@login2.ufhpc>
+Date:   Mon Feb 17 06:57:37 2020 -0500
+
+    File structure
