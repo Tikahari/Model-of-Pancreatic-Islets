@@ -21,6 +21,6 @@ gL = 0.2
 
 
 BREAKPOINT{
-iL = gL(v - VL)
+iL = gL*(v - VL)
 }
 

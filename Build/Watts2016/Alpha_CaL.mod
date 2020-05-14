@@ -24,19 +24,18 @@ mCaL
 hCaL
 }
 
-
 INITIAL{
 eCa = 65
 gCaL = 0.7
 }
 
 BREAKPOINT{
-iCaL = gCaL * pow(mCaL,2) * hCaL(v - eCa)
 mCaL_inf = 1/(1 + exp((-(v + 30))/10)
 hCaL_inf = 1/(1 + exp((-(v + 33))/(-5)))
 tau_mCaL = (1/(exp((-(v + 23))/20) + exp((v + 23)/20))) + 0.05
 tau_hCaL = (60/(exp(-v/20) + exp(v/20))) + 51
 SOLVE states METHOD cnexp
+iCaL = gCaL * pow(mCaL,2) * hCaL(v - eCa)
 }
 
 DERIVATIVE states{

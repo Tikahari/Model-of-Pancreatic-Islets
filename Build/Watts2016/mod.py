@@ -1,4 +1,4 @@
-"""This script writes a mod file according to the values in 'Beta.ini'"""
+"""This script writes a mod file according to the values in 'Alpha.ini'"""
 import configparser
 import sys
 

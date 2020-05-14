@@ -5,9 +5,10 @@ RANGE iSOC, cer_inf, gSOC
 }
 
 PARAMETER{
-
-
-
+Cer
+cbarer
+gbarSOC
+eSOC
 }
 
 ASSIGNED{
@@ -16,16 +17,7 @@ cer_inf
 gSOC
 }
 
-STATE{
-
-
-
-}
-
 INITIAL{
-
-
-
 
 }
 
@@ -36,7 +28,3 @@ iSOC = gSOC * cer_inf(v - eSOC)
 SOLVE states METHOD cnexp
 }
 
-DERIVATIVE states{
-
-
-}

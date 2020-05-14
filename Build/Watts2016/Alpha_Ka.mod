@@ -28,11 +28,11 @@ gKa = 1
 }
 
 BREAKPOINT{
-iKa = gKa * mKa * hKa(v - eK)
 mKa_inf = 1/(1 + exp((-(v + 45))/10)
 hKa_inf = 1/(1 + exp((-(v + 68))/10))
 tau_hKa = (60/(exp((-(v - 5))/20) + exp((v - 5)/20))) + 5
 SOLVE states METHOD cnexp
+iKa = gKa * mKa * hKa(v - eK)
 }
 
 DERIVATIVE states{

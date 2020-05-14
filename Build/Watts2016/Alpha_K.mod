@@ -26,10 +26,10 @@ eK = -75
 
 
 BREAKPOINT{
-iK = gK * pow(mK,4)(v - eK)
 mK_inf = 1/(1 + exp((-(v + 25))/23)
 tau_mK = (1.5/(exp((-(v + 10))/25) + exp((v + 10)/25))) + 15
 SOLVE states METHOD cnexp
+iK = gK * pow(mK,4)(v - eK)
 }
 
 DERIVATIVE states{

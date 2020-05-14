@@ -1,42 +1,29 @@
 NEURON{
-
-
-
+SUFFIX A_GIRK
+USEION GIRK WRITE iGIRK, eGIRK VALENCE 1
+USEION K READ eK
+POINTER S
 }
 
 PARAMETER{
-
-
-
+eGIRK
+Si
+gbarGIRK
+S
 }
 
 ASSIGNED{
-VK = -75 : mV
-
-
-
-}
-
-STATE{
-
-
+iGIRK
+EFFS
 
 }
 
 INITIAL{
 
-
-
-
 }
 
 BREAKPOINT{
-
-
-
+EFFS = 1/(1+exp(-(S-35)/10))
+iGIRK = gbarGIRK * EFFS * (v - eGIRK)
 }
 
-DERIVATIVE states{
-
-
-}

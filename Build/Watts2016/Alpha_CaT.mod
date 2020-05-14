@@ -28,14 +28,13 @@ INITIAL{
 gCaT = 0.4
 }
 
-
 BREAKPOINT{
-iCaT = gCaT * pow(mCaT,3) * hCaT(v - eCa)
 mCaT_inf = 1/(1 + exp((-(v + 49))/4)
 hCaT_inf = 1/(1 + exp((-(v + 52))/(-5)))
 tau_mCaT = (15/(exp((-(v + 50))/12) + exp((v + 50)/12))) 
 tau_hCaT = (20/(exp((-(v + 50))/15) + exp((v + 50)/15))) + 5
 SOLVE states METHOD cnexp
+iCaT = gCaT * pow(mCaT,3) * hCaT(v - eCa)
 }
 
 DERIVATIVE states{
