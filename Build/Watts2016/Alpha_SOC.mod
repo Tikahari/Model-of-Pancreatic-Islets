@@ -18,9 +18,13 @@ cer_inf
 gSOC
 }
 
+INITIAL{
+gbarSOC = 10 : CHANGE
+}
+
 BREAKPOINT{
 cer_inf = 1/(1 + exp(Cer - cbarer)/20)
 gSOC = gbarSOC * cer_inf
-iSOC = gSOC * cer_inf(v - eSOC)
+iSOC = gSOC * cer_inf*(v - eSOC)
 }
 

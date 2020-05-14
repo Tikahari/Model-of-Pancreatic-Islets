@@ -30,6 +30,12 @@ for i in mechs:
 a.cm = 9990
 
 # a.nseg = 5
+
+# set pointers for appropriate mechanisms
+# for k in a:
+#     h.setpointer(k._ref_S_A_GIRK, 'S', k._ref_v)
+#     h.setpointer(k._ref_I_A_KATP, 'I', k._ref_v)
+
 # record mechanisms
 for i in a.psection()['density_mechs']:
     for j in a.psection()['density_mechs'][i]:
