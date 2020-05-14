@@ -37,11 +37,10 @@ def writeMod(init, mod):
             vars = getTokens(line)
             # check if variable to be initialized is set in the ini file
             for i in vars:
-                print(i)
                 count += 1
                 # if so, set line appropriately
-                if(i.strip() in config['Beta']):
-                    new += i.strip() + ' = ' + str(config['Beta'][i.strip()]) + '\n'
+                if(i.strip() in config['Alpha']):
+                    new += i.strip() + ' = ' + str(config['Alpha'][i.strip()]) + '\n'
             continue
         # begin when 'INITIAL' keyword is reached
         if 'INITIAL' in line:
