@@ -1,0 +1,26 @@
+NEURON{
+SUFFIX A_L
+USEION L WRITE iL, eL VALENCE 1
+RANGE iL
+RANGE eL, gL
+}
+
+PARAMETER{
+eL
+gL
+}
+
+ASSIGNED{
+iL
+}
+
+INITIAL{
+eL = -20
+gL = 0.2
+}
+
+
+BREAKPOINT{
+iL = gL(v - VL)
+}
+

@@ -9,9 +9,9 @@ config.optionxform = str
 config.read('mech.ini')
 # set up mechanisms according to parameters for cell type (Beta.ini)
 mechs = []
-for i in config['Beta']:
+for i in config['Alpha']:
     mechs.append(i)
-    mod.writeMod('Beta.ini', 'Beta_'+i+'.mod')
+    mod.writeMod('Alpha.ini', 'Alpha_'+i+'.mod')
 # compile mod files
 os.system('nrnivmodl *mod > compile 2>&1')
 # variables to store data
@@ -24,7 +24,7 @@ header = []
 from neuron import h, gui
 a = h.Section()
 for i in mechs:
-    a.insert('B_'+i)
+    a.insert('A_'+i)
 # simulation parameter
 a.cm = 9990
 
