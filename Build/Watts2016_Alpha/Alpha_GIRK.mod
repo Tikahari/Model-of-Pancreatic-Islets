@@ -1,0 +1,31 @@
+NEURON{
+SUFFIX A_GIRK
+USEION GIRK WRITE iGIRK, eGIRK VALENCE 1
+USEION K READ eK
+:POINTER S
+RANGE eGIRK, gbarGIRK, S
+}
+
+PARAMETER{
+eGIRK
+gbarGIRK
+S
+v
+eK
+}
+
+ASSIGNED{
+iGIRK
+EffS
+}
+
+INITIAL{
+gbarGIRK = 10
+}
+
+BREAKPOINT{
+gGIRKbar = (1-knockoutda)*0.025+knockoutda*gGIRKko
+EffS = 1/(1+exp(-(S-35)/10))
+iGIRK = gbarGIRK * EFFS * (v - eGIRK)
+}
+

@@ -1,1 +1,58 @@
-sh: 1: nrnivmodl: not found
+Creating x86_64 directory for .o files.
+
+/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Fridlyand2012
+Beta_BK.mod Beta_Cac.mod Beta_CaL.mod Beta_CaP.mod Beta_CaT.mod Beta_HERG.mod Beta_Ins.mod Beta_KATP.mod Beta_KCa.mod Beta_KDR.mod Beta_NaB.mod Beta_Na.mod Beta_PCa.mod Beta_V.mod
+Beta_BK.mod Beta_Cac.mod Beta_CaL.mod Beta_CaP.mod Beta_CaT.mod Beta_HERG.mod Beta_Ins.mod Beta_KATP.mod Beta_KCa.mod Beta_KDR.mod Beta_NaB.mod Beta_Na.mod Beta_PCa.mod Beta_V.mod
+"/apps/neuron/7.7.2/bin/nocmodl" Beta_BK
+"/apps/neuron/7.7.2/bin/nocmodl" Beta_Cac
+"/apps/neuron/7.7.2/bin/nocmodl" Beta_CaL
+"/apps/neuron/7.7.2/bin/nocmodl" Beta_CaP
+Translating Beta_Cac.mod into Beta_Cac.c
+Translating Beta_CaL.mod into Beta_CaL.c
+Translating Beta_BK.mod into Beta_BK.c
+Translating Beta_CaP.mod into Beta_CaP.c
+Thread Safe
+Thread Safe
+"/apps/neuron/7.7.2/share/nrn/libtool" --tag=CC --mode=compile mpicc -DHAVE_CONFIG_H  -I. -I.. -I"/apps/neuron/7.7.2/include/nrn" -I"/apps/neuron/7.7.2/lib"      -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c -o Beta_Cac.lo Beta_Cac.c
+Thread Safe
+"/apps/neuron/7.7.2/share/nrn/libtool" --tag=CC --mode=compile mpicc -DHAVE_CONFIG_H  -I. -I.. -I"/apps/neuron/7.7.2/include/nrn" -I"/apps/neuron/7.7.2/lib"      -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c -o Beta_CaL.lo Beta_CaL.c
+"/apps/neuron/7.7.2/share/nrn/libtool" --tag=CC --mode=compile mpicc -DHAVE_CONFIG_H  -I. -I.. -I"/apps/neuron/7.7.2/include/nrn" -I"/apps/neuron/7.7.2/lib"      -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c -o Beta_BK.lo Beta_BK.c
+Thread Safe
+"/apps/neuron/7.7.2/share/nrn/libtool" --tag=CC --mode=compile mpicc -DHAVE_CONFIG_H  -I. -I.. -I"/apps/neuron/7.7.2/include/nrn" -I"/apps/neuron/7.7.2/lib"      -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c -o Beta_CaP.lo Beta_CaP.c
+libtool: compile:  mpicc -DHAVE_CONFIG_H -I. -I.. -I/apps/neuron/7.7.2/include/nrn -I/apps/neuron/7.7.2/lib -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c Beta_Cac.c  -fPIC -DPIC -o .libs/Beta_Cac.o
+libtool: compile:  mpicc -DHAVE_CONFIG_H -I. -I.. -I/apps/neuron/7.7.2/include/nrn -I/apps/neuron/7.7.2/lib -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c Beta_CaL.c  -fPIC -DPIC -o .libs/Beta_CaL.o
+libtool: compile:  mpicc -DHAVE_CONFIG_H -I. -I.. -I/apps/neuron/7.7.2/include/nrn -I/apps/neuron/7.7.2/lib -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c Beta_BK.c  -fPIC -DPIC -o .libs/Beta_BK.o
+libtool: compile:  mpicc -DHAVE_CONFIG_H -I. -I.. -I/apps/neuron/7.7.2/include/nrn -I/apps/neuron/7.7.2/lib -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c Beta_CaP.c  -fPIC -DPIC -o .libs/Beta_CaP.o
+--------------------------------------------------------------------------
+The Open MPI wrapper compiler was unable to find the specified compiler
+x86_64-conda_cos6-linux-gnu-cc in your PATH.
+
+Note that this compiler was either specified at configure time or in
+one of several possible environment variables.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+The Open MPI wrapper compiler was unable to find the specified compiler
+x86_64-conda_cos6-linux-gnu-cc in your PATH.
+
+Note that this compiler was either specified at configure time or in
+one of several possible environment variables.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+The Open MPI wrapper compiler was unable to find the specified compiler
+x86_64-conda_cos6-linux-gnu-cc in your PATH.
+
+Note that this compiler was either specified at configure time or in
+one of several possible environment variables.
+--------------------------------------------------------------------------
+make: *** [Beta_BK.lo] Error 1
+make: *** Waiting for unfinished jobs....
+make: *** [Beta_Cac.lo] Error 1
+make: *** [Beta_CaL.lo] Error 1
+--------------------------------------------------------------------------
+The Open MPI wrapper compiler was unable to find the specified compiler
+x86_64-conda_cos6-linux-gnu-cc in your PATH.
+
+Note that this compiler was either specified at configure time or in
+one of several possible environment variables.
+--------------------------------------------------------------------------
+make: *** [Beta_CaP.lo] Error 1

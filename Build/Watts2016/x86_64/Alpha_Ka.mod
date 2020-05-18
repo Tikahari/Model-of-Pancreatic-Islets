@@ -1,1 +1,0 @@
-../Alpha_Ka.mod
