@@ -43,13 +43,16 @@ extern double hoc_Exp(double);
  
 #define t _nt->_t
 #define dt _nt->_dt
-#define I _p[0]
-#define iKATP _p[1]
-#define gKATP _p[2]
-#define EffI _p[3]
-#define eK _p[4]
-#define v _p[5]
-#define _g _p[6]
+#define knockoutb _p[0]
+#define ka1 _p[1]
+#define gKATPbar _p[2]
+#define I _p[3]
+#define EffI _p[4]
+#define gKATP _p[5]
+#define iKATP _p[6]
+#define eK _p[7]
+#define v _p[8]
+#define _g _p[9]
 #define _ion_iKATP	*_ppvar[0]._pval
 #define _ion_diKATPdv	*_ppvar[1]._pval
 #define _ion_eK	*_ppvar[2]._pval
@@ -103,13 +106,6 @@ extern void hoc_reg_nmodl_filename(int, const char*);
  0, 0
 };
  /* declare global and static user variables */
- static int _thread1data_inuse = 0;
-static double _thread1data[1];
-#define _gth 0
-#define gbarKATP_A_KATP _thread1data[0]
-#define gbarKATP _thread[_gth]._pval[0]
-#define ka ka_A_KATP
- double ka = 0;
  /* some parameters have upper and lower limits */
  static HocParmLimits _hoc_parm_limits[] = {
  0,0,0
@@ -119,8 +115,6 @@ static double _thread1data[1];
 };
  /* connect global user variables to hoc */
  static DoubScal hoc_scdoub[] = {
- "gbarKATP_A_KATP", &gbarKATP_A_KATP,
- "ka_A_KATP", &ka_A_KATP,
  0,0
 };
  static DoubVec hoc_vdoub[] = {
@@ -136,11 +130,14 @@ static void  nrn_jacob(_NrnThread*, _Memb_list*, int);
  static const char *_mechanism[] = {
  "7.7.0",
 "A_KATP",
+ "knockoutb_A_KATP",
+ "ka1_A_KATP",
+ "gKATPbar_A_KATP",
  "I_A_KATP",
  0,
- "iKATP_A_KATP",
- "gKATP_A_KATP",
  "EffI_A_KATP",
+ "gKATP_A_KATP",
+ "iKATP_A_KATP",
  0,
  0,
  0};
@@ -152,11 +149,14 @@ extern Prop* need_memb(Symbol*);
 static void nrn_alloc(Prop* _prop) {
 	Prop *prop_ion;
 	double *_p; Datum *_ppvar;
- 	_p = nrn_prop_data_alloc(_mechtype, 7, _prop);
+ 	_p = nrn_prop_data_alloc(_mechtype, 10, _prop);
  	/*initialize range parameters*/
+ 	knockoutb = 0;
+ 	ka1 = 0;
+ 	gKATPbar = 0;
  	I = 0;
  	_prop->param = _p;
- 	_prop->param_size = 7;
+ 	_prop->param_size = 10;
  	_ppvar = nrn_prop_datum_alloc(_mechtype, 3, _prop);
  	_prop->dparam = _ppvar;
  	/*connect ionic variables to this model*/
@@ -169,8 +169,6 @@ static void nrn_alloc(Prop* _prop) {
  
 }
  static void _initlists();
- static void _thread_mem_init(Datum*);
- static void _thread_cleanup(Datum*);
  static void _update_ion_pointer(Datum*);
  extern Symbol* hoc_lookup(const char*);
 extern void _nrn_thread_reg(int, int, void(*)(Datum*));
@@ -185,20 +183,15 @@ extern void _cvode_abstol( Symbol**, double*, int);
  	ion_reg("K", -10000.);
  	_KATP_sym = hoc_lookup("KATP_ion");
  	_K_sym = hoc_lookup("K_ion");
- 	register_mech(_mechanism, nrn_alloc,nrn_cur, nrn_jacob, nrn_state, nrn_init, hoc_nrnpointerindex, 2);
-  _extcall_thread = (Datum*)ecalloc(1, sizeof(Datum));
-  _thread_mem_init(_extcall_thread);
-  _thread1data_inuse = 0;
+ 	register_mech(_mechanism, nrn_alloc,nrn_cur, nrn_jacob, nrn_state, nrn_init, hoc_nrnpointerindex, 1);
  _mechtype = nrn_get_mechtype(_mechanism[1]);
      _nrn_setdata_reg(_mechtype, _setdata);
-     _nrn_thread_reg(_mechtype, 1, _thread_mem_init);
-     _nrn_thread_reg(_mechtype, 0, _thread_cleanup);
      _nrn_thread_reg(_mechtype, 2, _update_ion_pointer);
  #if NMODL_TEXT
   hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
   hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
 #endif
-  hoc_register_prop_size(_mechtype, 7, 3);
+  hoc_register_prop_size(_mechtype, 10, 3);
   hoc_register_dparam_semantics(_mechtype, 0, "KATP_ion");
   hoc_register_dparam_semantics(_mechtype, 1, "KATP_ion");
   hoc_register_dparam_semantics(_mechtype, 2, "K_ion");
@@ -214,21 +207,6 @@ static int error;
 static int _ninits = 0;
 static int _match_recurse=1;
 static void _modl_cleanup(){ _match_recurse=1;}
- 
-static void _thread_mem_init(Datum* _thread) {
-  if (_thread1data_inuse) {_thread[_gth]._pval = (double*)ecalloc(1, sizeof(double));
- }else{
- _thread[_gth]._pval = _thread1data; _thread1data_inuse = 1;
- }
- }
- 
-static void _thread_cleanup(Datum* _thread) {
-  if (_thread[_gth]._pval == _thread1data) {
-   _thread1data_inuse = 0;
-  }else{
-   free((void*)_thread[_gth]._pval);
-  }
- }
  extern void nrn_update_ion_pointer(Symbol*, Datum*, int, int);
  static void _update_ion_pointer(Datum* _ppvar) {
    nrn_update_ion_pointer(_KATP_sym, _ppvar, 0, 3);
@@ -239,7 +217,10 @@ static void _thread_cleanup(Datum* _thread) {
 static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {
   int _i; double _save;{
  {
-   gbarKATP = 3.0 ;
+   knockoutb = 0.0 ;
+   gKATPbar = 3.0 ;
+   ka1 = 0.1 ;
+   eK = - 75.0 ;
    }
 
 }
@@ -272,7 +253,7 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
 
 static double _nrn_current(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt, double _v){double _current=0.;v=_v;{ {
    EffI = ( 1.0 - knockoutb ) * ( ( 0.015 / ( 1.0 + exp ( ( - I + 1500.0 ) / 200.0 ) ) ) + ka1 ) + knockoutb * ka1 ;
-   gKATP = gbarKATP * EffI ;
+   gKATP = gKATPbar * EffI ;
    iKATP = gKATP * ( v - eK ) ;
    }
  _current += iKATP;
@@ -370,31 +351,35 @@ static const char* nmodl_file_text =
   "USEION KATP WRITE iKATP VALENCE 1\n"
   "USEION K READ eK\n"
   ":POINTER I\n"
-  "RANGE iKATP, gKATP, EffI, I\n"
+  "RANGE knockoutb, ka1, gKATPbar, I\n"
+  "RANGE EffI, gKATP, iKATP\n"
   "}\n"
   "\n"
   "PARAMETER{\n"
-  "gbarKATP\n"
-  "ka\n"
+  "knockoutb\n"
+  "ka1\n"
+  "gKATPbar\n"
   "I\n"
   "eK\n"
   "v\n"
   "}\n"
   "\n"
   "ASSIGNED{\n"
-  "iKATP\n"
-  "gKATP\n"
   "EffI\n"
+  "gKATP\n"
+  "iKATP\n"
   "}\n"
   "\n"
   "INITIAL{\n"
-  "gbarKATP = 3  : 3 nS for G1; 0.6 nS for G7; 0.15 nS for G11\n"
+  "knockoutb = 0\n"
+  "gKATPbar = 3  : 3 nS for G1; 0.6 nS for G7; 0.15 nS for G11\n"
+  "ka1 = 0.1\n"
+  "eK = -75\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"
-  "\n"
-  "EffI =(1-knockoutb)*((0.015/(1+exp((-I+1500)/200)))+ka1)+knockoutb*ka1\n"
-  "gKATP = gbarKATP * EffI\n"
+  "EffI =(1 - knockoutb) * ((0.015/(1 + exp((-I + 1500)/200))) + ka1) + knockoutb * ka1\n"
+  "gKATP = gKATPbar * EffI\n"
   "iKATP = gKATP*(v - eK)\n"
   "}\n"
   ;
