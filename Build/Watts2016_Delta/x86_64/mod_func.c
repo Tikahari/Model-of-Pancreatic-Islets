@@ -10,6 +10,7 @@ extern void _Delta_KATP_reg(void);
 extern void _Delta_Kdr_reg(void);
 extern void _Delta_L_reg(void);
 extern void _Delta_Na_reg(void);
+extern void _Delta_Somatostatin_reg(void);
 
 void modl_reg(){
   if (!nrn_nobanner_) if (nrnmpi_myid < 1) {
@@ -22,6 +23,7 @@ void modl_reg(){
     fprintf(stderr," Delta_Kdr.mod");
     fprintf(stderr," Delta_L.mod");
     fprintf(stderr," Delta_Na.mod");
+    fprintf(stderr," Delta_Somatostatin.mod");
     fprintf(stderr, "\n");
   }
   _Delta_CaL_reg();
@@ -31,4 +33,5 @@ void modl_reg(){
   _Delta_Kdr_reg();
   _Delta_L_reg();
   _Delta_Na_reg();
+  _Delta_Somatostatin_reg();
 }
