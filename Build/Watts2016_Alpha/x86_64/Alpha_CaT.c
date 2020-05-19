@@ -217,7 +217,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
  	hoc_register_cvode(_mechtype, _ode_count, _ode_map, _ode_spec, _ode_matsol);
  	hoc_register_tolerance(_mechtype, _hoc_state_tol, &_atollist);
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
- 	ivoc_help("help ?1 A_CaT /ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Watts2016/x86_64/Alpha_CaT.mod\n");
+ 	ivoc_help("help ?1 A_CaT /ufrc/lamb/robert727/Model-of-Pancreatic-Islets/Build/Watts2016_Alpha/x86_64/Alpha_CaT.mod\n");
  hoc_register_limits(_mechtype, _hoc_parm_limits);
  hoc_register_units(_mechtype, _hoc_parm_units);
  }
@@ -308,6 +308,8 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
   mCaT = mCaT0;
  {
    gCaT = 0.4 ;
+   mCaT = 0.4633857551023612 ;
+   hCaT = 0.3735421388722815 ;
    }
  
 }
@@ -459,7 +461,7 @@ _first = 0;
 #endif
 
 #if NMODL_TEXT
-static const char* nmodl_filename = "/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Watts2016/Alpha_CaT.mod";
+static const char* nmodl_filename = "/ufrc/lamb/robert727/Model-of-Pancreatic-Islets/Build/Watts2016_Alpha/Alpha_CaT.mod";
 static const char* nmodl_file_text = 
   "NEURON{\n"
   "SUFFIX A_CaT\n"
@@ -490,6 +492,8 @@ static const char* nmodl_file_text =
   "\n"
   "INITIAL{\n"
   "gCaT = 0.4\n"
+  "mCaT = 0.4633857551023612 \n"
+  "hCaT = 0.3735421388722815\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"

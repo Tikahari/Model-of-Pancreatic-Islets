@@ -22,14 +22,14 @@ extern int _method3;
 extern double hoc_Exp(double);
 #endif
  
-#define nrn_init _nrn_init__A_Ka
-#define _nrn_initial _nrn_initial__A_Ka
-#define nrn_cur _nrn_cur__A_Ka
-#define _nrn_current _nrn_current__A_Ka
-#define nrn_jacob _nrn_jacob__A_Ka
-#define nrn_state _nrn_state__A_Ka
-#define _net_receive _net_receive__A_Ka 
-#define states states__A_Ka 
+#define nrn_init _nrn_init__A_CaPQ
+#define _nrn_initial _nrn_initial__A_CaPQ
+#define nrn_cur _nrn_cur__A_CaPQ
+#define _nrn_current _nrn_current__A_CaPQ
+#define nrn_jacob _nrn_jacob__A_CaPQ
+#define nrn_state _nrn_state__A_CaPQ
+#define _net_receive _net_receive__A_CaPQ 
+#define states states__A_CaPQ 
  
 #define _threadargscomma_ _p, _ppvar, _thread, _nt,
 #define _threadargsprotocomma_ double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt,
@@ -44,22 +44,28 @@ extern double hoc_Exp(double);
  
 #define t _nt->_t
 #define dt _nt->_dt
-#define gKa _p[0]
-#define tau_mKa _p[1]
-#define iKa _p[2]
-#define mKa_inf _p[3]
-#define hKa_inf _p[4]
-#define tau_hKa _p[5]
-#define mKa _p[6]
-#define hKa _p[7]
-#define eK _p[8]
-#define DmKa _p[9]
-#define DhKa _p[10]
-#define v _p[11]
-#define _g _p[12]
-#define _ion_iKa	*_ppvar[0]._pval
-#define _ion_diKadv	*_ppvar[1]._pval
-#define _ion_eK	*_ppvar[2]._pval
+#define gcapq _p[0]
+#define vcapqm _p[1]
+#define scapqm _p[2]
+#define vcapqh _p[3]
+#define scapqh _p[4]
+#define tcapqh1 _p[5]
+#define tcapqh2 _p[6]
+#define iCaPQ _p[7]
+#define mcapqinf _p[8]
+#define hcapqinf _p[9]
+#define taucapqm _p[10]
+#define taucapqh _p[11]
+#define mcapq _p[12]
+#define hcapq _p[13]
+#define eCa _p[14]
+#define Dmcapq _p[15]
+#define Dhcapq _p[16]
+#define v _p[17]
+#define _g _p[18]
+#define _ion_iCaPQ	*_ppvar[0]._pval
+#define _ion_diCaPQdv	*_ppvar[1]._pval
+#define _ion_eCa	*_ppvar[2]._pval
  
 #if MAC
 #if !defined(v)
@@ -106,7 +112,7 @@ extern void hoc_reg_nmodl_filename(int, const char*);
 }
  /* connect user functions to hoc names */
  static VoidFunc hoc_intfunc[] = {
- "setdata_A_Ka", _hoc_setdata,
+ "setdata_A_CaPQ", _hoc_setdata,
  0, 0
 };
  /* declare global and static user variables */
@@ -118,8 +124,8 @@ extern void hoc_reg_nmodl_filename(int, const char*);
  0,0
 };
  static double delta_t = 0.01;
- static double hKa0 = 0;
- static double mKa0 = 0;
+ static double hcapq0 = 0;
+ static double mcapq0 = 0;
  /* connect global user variables to hoc */
  static DoubScal hoc_scdoub[] = {
  0,0
@@ -144,42 +150,53 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  /* connect range variables in _p that hoc is supposed to know about */
  static const char *_mechanism[] = {
  "7.7.0",
-"A_Ka",
- "gKa_A_Ka",
- "tau_mKa_A_Ka",
+"A_CaPQ",
+ "gcapq_A_CaPQ",
+ "vcapqm_A_CaPQ",
+ "scapqm_A_CaPQ",
+ "vcapqh_A_CaPQ",
+ "scapqh_A_CaPQ",
+ "tcapqh1_A_CaPQ",
+ "tcapqh2_A_CaPQ",
  0,
- "iKa_A_Ka",
- "mKa_inf_A_Ka",
- "hKa_inf_A_Ka",
- "tau_hKa_A_Ka",
+ "iCaPQ_A_CaPQ",
+ "mcapqinf_A_CaPQ",
+ "hcapqinf_A_CaPQ",
+ "taucapqm_A_CaPQ",
+ "taucapqh_A_CaPQ",
  0,
- "mKa_A_Ka",
- "hKa_A_Ka",
+ "mcapq_A_CaPQ",
+ "hcapq_A_CaPQ",
  0,
  0};
- static Symbol* _Ka_sym;
- static Symbol* _K_sym;
+ static Symbol* _CaPQ_sym;
+ static Symbol* _Ca_sym;
  
 extern Prop* need_memb(Symbol*);
 
 static void nrn_alloc(Prop* _prop) {
 	Prop *prop_ion;
 	double *_p; Datum *_ppvar;
- 	_p = nrn_prop_data_alloc(_mechtype, 13, _prop);
+ 	_p = nrn_prop_data_alloc(_mechtype, 19, _prop);
  	/*initialize range parameters*/
- 	gKa = 0;
- 	tau_mKa = 0;
+ 	gcapq = 0;
+ 	vcapqm = 0;
+ 	scapqm = 0;
+ 	vcapqh = 0;
+ 	scapqh = 0;
+ 	tcapqh1 = 0;
+ 	tcapqh2 = 0;
  	_prop->param = _p;
- 	_prop->param_size = 13;
+ 	_prop->param_size = 19;
  	_ppvar = nrn_prop_datum_alloc(_mechtype, 4, _prop);
  	_prop->dparam = _ppvar;
  	/*connect ionic variables to this model*/
- prop_ion = need_memb(_Ka_sym);
- 	_ppvar[0]._pval = &prop_ion->param[3]; /* iKa */
- 	_ppvar[1]._pval = &prop_ion->param[4]; /* _ion_diKadv */
- prop_ion = need_memb(_K_sym);
+ prop_ion = need_memb(_CaPQ_sym);
+ 	_ppvar[0]._pval = &prop_ion->param[3]; /* iCaPQ */
+ 	_ppvar[1]._pval = &prop_ion->param[4]; /* _ion_diCaPQdv */
+ prop_ion = need_memb(_Ca_sym);
  nrn_promote(prop_ion, 0, 1);
- 	_ppvar[2]._pval = &prop_ion->param[0]; /* eK */
+ 	_ppvar[2]._pval = &prop_ion->param[0]; /* eCa */
  
 }
  static void _initlists();
@@ -195,13 +212,13 @@ extern void _nrn_thread_table_reg(int, void(*)(double*, Datum*, Datum*, _NrnThre
 extern void hoc_register_tolerance(int, HocStateTolerance*, Symbol***);
 extern void _cvode_abstol( Symbol**, double*, int);
 
- void _Alpha_Ka_reg() {
+ void _Alpha_CaPQ_reg() {
 	int _vectorized = 1;
   _initlists();
- 	ion_reg("Ka", 1.0);
- 	ion_reg("K", -10000.);
- 	_Ka_sym = hoc_lookup("Ka_ion");
- 	_K_sym = hoc_lookup("K_ion");
+ 	ion_reg("CaPQ", 2.0);
+ 	ion_reg("Ca", 2.0);
+ 	_CaPQ_sym = hoc_lookup("CaPQ_ion");
+ 	_Ca_sym = hoc_lookup("Ca_ion");
  	register_mech(_mechanism, nrn_alloc,nrn_cur, nrn_jacob, nrn_state, nrn_init, hoc_nrnpointerindex, 1);
  _mechtype = nrn_get_mechtype(_mechanism[1]);
      _nrn_setdata_reg(_mechtype, _setdata);
@@ -210,15 +227,15 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
   hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
 #endif
-  hoc_register_prop_size(_mechtype, 13, 4);
-  hoc_register_dparam_semantics(_mechtype, 0, "Ka_ion");
-  hoc_register_dparam_semantics(_mechtype, 1, "Ka_ion");
-  hoc_register_dparam_semantics(_mechtype, 2, "K_ion");
+  hoc_register_prop_size(_mechtype, 19, 4);
+  hoc_register_dparam_semantics(_mechtype, 0, "CaPQ_ion");
+  hoc_register_dparam_semantics(_mechtype, 1, "CaPQ_ion");
+  hoc_register_dparam_semantics(_mechtype, 2, "Ca_ion");
   hoc_register_dparam_semantics(_mechtype, 3, "cvodeieq");
  	hoc_register_cvode(_mechtype, _ode_count, _ode_map, _ode_spec, _ode_matsol);
  	hoc_register_tolerance(_mechtype, _hoc_state_tol, &_atollist);
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
- 	ivoc_help("help ?1 A_Ka /ufrc/lamb/robert727/Model-of-Pancreatic-Islets/Build/Watts2016_Alpha/x86_64/Alpha_Ka.mod\n");
+ 	ivoc_help("help ?1 A_CaPQ /ufrc/lamb/robert727/Model-of-Pancreatic-Islets/Build/Watts2016_Alpha/x86_64/Alpha_CaPQ.mod\n");
  hoc_register_limits(_mechtype, _hoc_parm_limits);
  hoc_register_units(_mechtype, _hoc_parm_units);
  }
@@ -237,20 +254,20 @@ static int _ode_spec1(_threadargsproto_);
  
 /*CVODE*/
  static int _ode_spec1 (double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {int _reset = 0; {
-   DmKa = ( mKa_inf - mKa ) / tau_mKa ;
-   DhKa = ( hKa_inf - hKa ) / tau_hKa ;
+   Dmcapq = ( mcapqinf - mcapq ) / taucapqm ;
+   Dhcapq = ( hcapqinf - hcapq ) / taucapqh ;
    }
  return _reset;
 }
  static int _ode_matsol1 (double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {
- DmKa = DmKa  / (1. - dt*( ( ( ( - 1.0 ) ) ) / tau_mKa )) ;
- DhKa = DhKa  / (1. - dt*( ( ( ( - 1.0 ) ) ) / tau_hKa )) ;
+ Dmcapq = Dmcapq  / (1. - dt*( ( ( ( - 1.0 ) ) ) / taucapqm )) ;
+ Dhcapq = Dhcapq  / (1. - dt*( ( ( ( - 1.0 ) ) ) / taucapqh )) ;
   return 0;
 }
  /*END CVODE*/
  static int states (double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) { {
-    mKa = mKa + (1. - exp(dt*(( ( ( - 1.0 ) ) ) / tau_mKa)))*(- ( ( ( mKa_inf ) ) / tau_mKa ) / ( ( ( ( - 1.0 ) ) ) / tau_mKa ) - mKa) ;
-    hKa = hKa + (1. - exp(dt*(( ( ( - 1.0 ) ) ) / tau_hKa)))*(- ( ( ( hKa_inf ) ) / tau_hKa ) / ( ( ( ( - 1.0 ) ) ) / tau_hKa ) - hKa) ;
+    mcapq = mcapq + (1. - exp(dt*(( ( ( - 1.0 ) ) ) / taucapqm)))*(- ( ( ( mcapqinf ) ) / taucapqm ) / ( ( ( ( - 1.0 ) ) ) / taucapqm ) - mcapq) ;
+    hcapq = hcapq + (1. - exp(dt*(( ( ( - 1.0 ) ) ) / taucapqh)))*(- ( ( ( hcapqinf ) ) / taucapqh ) / ( ( ( ( - 1.0 ) ) ) / taucapqh ) - hcapq) ;
    }
   return 0;
 }
@@ -266,7 +283,7 @@ static void _ode_spec(_NrnThread* _nt, _Memb_list* _ml, int _type) {
     _p = _ml->_data[_iml]; _ppvar = _ml->_pdata[_iml];
     _nd = _ml->_nodelist[_iml];
     v = NODEV(_nd);
-  eK = _ion_eK;
+  eCa = _ion_eCa;
      _ode_spec1 (_p, _ppvar, _thread, _nt);
   }}
  
@@ -293,25 +310,31 @@ static void _ode_matsol(_NrnThread* _nt, _Memb_list* _ml, int _type) {
     _p = _ml->_data[_iml]; _ppvar = _ml->_pdata[_iml];
     _nd = _ml->_nodelist[_iml];
     v = NODEV(_nd);
-  eK = _ion_eK;
+  eCa = _ion_eCa;
  _ode_matsol_instance1(_threadargs_);
  }}
  extern void nrn_update_ion_pointer(Symbol*, Datum*, int, int);
  static void _update_ion_pointer(Datum* _ppvar) {
-   nrn_update_ion_pointer(_Ka_sym, _ppvar, 0, 3);
-   nrn_update_ion_pointer(_Ka_sym, _ppvar, 1, 4);
-   nrn_update_ion_pointer(_K_sym, _ppvar, 2, 0);
+   nrn_update_ion_pointer(_CaPQ_sym, _ppvar, 0, 3);
+   nrn_update_ion_pointer(_CaPQ_sym, _ppvar, 1, 4);
+   nrn_update_ion_pointer(_Ca_sym, _ppvar, 2, 0);
  }
 
 static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {
   int _i; double _save;{
-  hKa = hKa0;
-  mKa = mKa0;
+  hcapq = hcapq0;
+  mcapq = mcapq0;
  {
-   gKa = 1.0 ;
-   mKa = 0.4001652246173745 ;
-   hKa = 0.1373195977592295 ;
-   tau_mKa = 0.1 ;
+   gcapq = 0.6 ;
+   mcapq = 0.0120465460803863 ;
+   hcapq = 0.8127842536675057 ;
+   vcapqm = - 5.0 ;
+   scapqm = 10.0 ;
+   vcapqh = - 33.0 ;
+   scapqh = - 5.0 ;
+   tcapqh1 = 60.0 ;
+   tcapqh2 = 51.0 ;
+   eCa = 65.0 ;
    }
  
 }
@@ -337,18 +360,19 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
     _v = NODEV(_nd);
   }
  v = _v;
-  eK = _ion_eK;
+  eCa = _ion_eCa;
  initmodel(_p, _ppvar, _thread, _nt);
  }
 }
 
 static double _nrn_current(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt, double _v){double _current=0.;v=_v;{ {
-   mKa_inf = 1.0 / ( 1.0 + exp ( ( - ( v + 45.0 ) ) / 10.0 ) ) ;
-   hKa_inf = 1.0 / ( 1.0 + exp ( ( - ( v + 68.0 ) ) / 10.0 ) ) ;
-   tau_hKa = ( 60.0 / ( exp ( ( - ( v - 5.0 ) ) / 20.0 ) + exp ( ( v - 5.0 ) / 20.0 ) ) ) + 5.0 ;
-   iKa = gKa * mKa * hKa * ( v - eK ) ;
+   mcapqinf = 1.0 / ( 1.0 + exp ( - ( v - vcapqm ) / scapqm ) ) ;
+   hcapqinf = 1.0 / ( 1.0 + exp ( - ( v - vcapqh ) / scapqh ) ) ;
+   taucapqm = ( 1.0 / ( exp ( - ( v + 23.0 ) / 20.0 ) + exp ( ( v + 23.0 ) / 20.0 ) ) ) + 0.05 ;
+   taucapqh = ( tcapqh1 / ( exp ( - ( v + 0.0 ) / 20.0 ) + exp ( ( v + 0.0 ) / 20.0 ) ) ) + tcapqh2 ;
+   iCaPQ = gcapq * mcapq * hcapq * ( v - eCa ) ;
    }
- _current += iKa;
+ _current += iCaPQ;
 
 } return _current;
 }
@@ -372,15 +396,15 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
     _nd = _ml->_nodelist[_iml];
     _v = NODEV(_nd);
   }
-  eK = _ion_eK;
+  eCa = _ion_eCa;
  _g = _nrn_current(_p, _ppvar, _thread, _nt, _v + .001);
- 	{ double _diKa;
-  _diKa = iKa;
+ 	{ double _diCaPQ;
+  _diCaPQ = iCaPQ;
  _rhs = _nrn_current(_p, _ppvar, _thread, _nt, _v);
-  _ion_diKadv += (_diKa - iKa)/.001 ;
+  _ion_diCaPQdv += (_diCaPQ - iCaPQ)/.001 ;
  	}
  _g = (_g - _rhs)/.001;
-  _ion_iKa += iKa ;
+  _ion_iCaPQ += iCaPQ ;
 #if CACHEVEC
   if (use_cachevec) {
 	VEC_RHS(_ni[_iml]) -= _rhs;
@@ -440,7 +464,7 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
   }
  v=_v;
 {
-  eK = _ion_eK;
+  eCa = _ion_eCa;
  {   states(_p, _ppvar, _thread, _nt);
   } }}
 
@@ -452,8 +476,8 @@ static void _initlists(){
  double _x; double* _p = &_x;
  int _i; static int _first = 1;
   if (!_first) return;
- _slist1[0] = &(mKa) - _p;  _dlist1[0] = &(DmKa) - _p;
- _slist1[1] = &(hKa) - _p;  _dlist1[1] = &(DhKa) - _p;
+ _slist1[0] = &(mcapq) - _p;  _dlist1[0] = &(Dmcapq) - _p;
+ _slist1[1] = &(hcapq) - _p;  _dlist1[1] = &(Dhcapq) - _p;
 _first = 0;
 }
 
@@ -462,53 +486,66 @@ _first = 0;
 #endif
 
 #if NMODL_TEXT
-static const char* nmodl_filename = "/ufrc/lamb/robert727/Model-of-Pancreatic-Islets/Build/Watts2016_Alpha/Alpha_Ka.mod";
+static const char* nmodl_filename = "/ufrc/lamb/robert727/Model-of-Pancreatic-Islets/Build/Watts2016_Alpha/Alpha_CaPQ.mod";
 static const char* nmodl_file_text = 
   "NEURON{\n"
-  "SUFFIX A_Ka\n"
-  "USEION Ka WRITE iKa VALENCE 1\n"
-  "USEION K READ eK\n"
-  "RANGE iKa, mKa_inf, hKa_inf, tau_hKa\n"
-  "RANGE eK, gKa, tau_mKa\n"
+  "SUFFIX A_CaPQ\n"
+  "USEION CaPQ WRITE iCaPQ VALENCE 2\n"
+  "USEION Ca READ eCa VALENCE 2\n"
+  "RANGE gcapq, vcapqm, scapqm, vcapqh, scapqh, tcapqh1, tcapqh2, eCa\n"
+  "RANGE iCaPQ, mcapqinf, hcapqinf, taucapqm, taucapqh\n"
   "}\n"
   "\n"
   "PARAMETER{\n"
-  "eK\n"
-  "gKa\n"
-  "tau_mKa\n"
+  "gcapq\n"
+  "vcapqm\n"
+  "scapqm\n"
+  "vcapqh\n"
+  "scapqh\n"
+  "tcapqh1\n"
+  "tcapqh2\n"
+  "eCa\n"
   "v\n"
   "}\n"
   "\n"
   "ASSIGNED{\n"
-  "iKa\n"
-  "mKa_inf\n"
-  "hKa_inf\n"
-  "tau_hKa\n"
+  "iCaPQ\n"
+  "mcapqinf\n"
+  "hcapqinf\n"
+  "taucapqm\n"
+  "taucapqh\n"
   "}\n"
   "\n"
   "STATE{\n"
-  "mKa\n"
-  "hKa\n"
+  "mcapq \n"
+  "hcapq\n"
   "}\n"
   "\n"
   "INITIAL{\n"
-  "gKa = 1\n"
-  "mKa = 0.4001652246173745\n"
-  "hKa = 0.1373195977592295 \n"
-  "tau_mKa = 0.1\n"
+  "gcapq = 0.6\n"
+  "mcapq = 0.0120465460803863  \n"
+  "hcapq = 0.8127842536675057\n"
+  "vcapqm = -5\n"
+  "scapqm = 10\n"
+  "vcapqh = -33 \n"
+  "scapqh = -5\n"
+  "tcapqh1 = 60\n"
+  "tcapqh2 = 51\n"
+  "eCa = 65\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"
-  "mKa_inf = 1/(1 + exp((-(v + 45))/10))\n"
-  "hKa_inf = 1/(1 + exp((-(v + 68))/10))\n"
-  "tau_hKa = (60/(exp((-(v - 5))/20) + exp((v - 5)/20))) + 5\n"
+  "mcapqinf = 1/(1+exp(-(v-vcapqm)/scapqm))\n"
+  "hcapqinf = 1/(1+exp(-(v-vcapqh)/scapqh))\n"
+  "taucapqm = (1/(exp(-(v+23)/20)+exp((v+23)/20)))+0.05\n"
+  "taucapqh = (tcapqh1/(exp(-(v+0)/20)+exp((v+0)/20)))+tcapqh2\n"
   "SOLVE states METHOD cnexp\n"
-  "iKa = gKa * mKa * hKa*(v - eK)\n"
+  "iCaPQ = gcapq *mcapq *hcapq *(v-eCa)\n"
   "}\n"
   "\n"
   "DERIVATIVE states{\n"
-  "mKa' = (mKa_inf - mKa)/tau_mKa\n"
-  "hKa' = (hKa_inf - hKa)/tau_hKa\n"
+  "mcapq' = (mcapqinf - mcapq)/taucapqm\n"
+  "hcapq' = (hcapqinf - hcapq)/taucapqh\n"
   "}\n"
   ;
 #endif

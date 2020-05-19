@@ -203,7 +203,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_register_dparam_semantics(_mechtype, 1, "KATP_ion");
   hoc_register_dparam_semantics(_mechtype, 2, "K_ion");
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
- 	ivoc_help("help ?1 A_KATP /ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Watts2016/x86_64/Alpha_KATP.mod\n");
+ 	ivoc_help("help ?1 A_KATP /ufrc/lamb/robert727/Model-of-Pancreatic-Islets/Build/Watts2016_Alpha/x86_64/Alpha_KATP.mod\n");
  hoc_register_limits(_mechtype, _hoc_parm_limits);
  hoc_register_units(_mechtype, _hoc_parm_units);
  }
@@ -271,7 +271,7 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
 }
 
 static double _nrn_current(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt, double _v){double _current=0.;v=_v;{ {
-   EffI = 0.015 / ( 1.0 + exp ( - ( I - 1500.0 ) / 200.0 ) ) + ka ;
+   EffI = ( 1.0 - knockoutb ) * ( ( 0.015 / ( 1.0 + exp ( ( - I + 1500.0 ) / 200.0 ) ) ) + ka1 ) + knockoutb * ka1 ;
    gKATP = gbarKATP * EffI ;
    iKATP = gKATP * ( v - eK ) ;
    }
@@ -363,7 +363,7 @@ _first = 0;
 #endif
 
 #if NMODL_TEXT
-static const char* nmodl_filename = "/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Watts2016/Alpha_KATP.mod";
+static const char* nmodl_filename = "/ufrc/lamb/robert727/Model-of-Pancreatic-Islets/Build/Watts2016_Alpha/Alpha_KATP.mod";
 static const char* nmodl_file_text = 
   "NEURON{\n"
   "SUFFIX A_KATP\n"
@@ -392,7 +392,8 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "BREAKPOINT{\n"
-  "EffI = 0.015/(1 + exp(-(I - 1500)/200)) + ka\n"
+  "\n"
+  "EffI =(1-knockoutb)*((0.015/(1+exp((-I+1500)/200)))+ka1)+knockoutb*ka1\n"
   "gKATP = gbarKATP * EffI\n"
   "iKATP = gKATP*(v - eK)\n"
   "}\n"
