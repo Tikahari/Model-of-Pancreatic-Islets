@@ -1,4 +1,4 @@
-/* Created by Language version: 6.2.0 */
+/* Created by Language version: 7.7.0 */
 /* VECTORIZED */
 #define NRN_VECTORIZED 1
 #include <stdio.h>
@@ -97,6 +97,15 @@ extern void hoc_register_limits(int, HocParmLimits*);
 extern void hoc_register_units(int, HocParmUnits*);
 extern void nrn_promote(Prop*, int, int);
 extern Memb_func* memb_func;
+ 
+#define NMODL_TEXT 1
+#if NMODL_TEXT
+static const char* nmodl_file_text;
+static const char* nmodl_filename;
+extern void hoc_reg_nmodl_text(int, const char*);
+extern void hoc_reg_nmodl_filename(int, const char*);
+#endif
+
  extern void _nrn_setdata_reg(int, void(*)(Prop*));
  static void _setdata(Prop* _prop) {
  _extcall_prop = _prop;
@@ -147,7 +156,7 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  static void _ode_matsol_instance1(_threadargsproto_);
  /* connect range variables in _p that hoc is supposed to know about */
  static const char *_mechanism[] = {
- "6.2.0",
+ "7.7.0",
 "B_CaL",
  "gmCaL_B_CaL",
  "kdCaL_B_CaL",
@@ -231,6 +240,10 @@ extern void _cvode_abstol( Symbol**, double*, int);
  _mechtype = nrn_get_mechtype(_mechanism[1]);
      _nrn_setdata_reg(_mechtype, _setdata);
      _nrn_thread_reg(_mechtype, 2, _update_ion_pointer);
+ #if NMODL_TEXT
+  hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
+  hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
+#endif
   hoc_register_prop_size(_mechtype, 24, 5);
   hoc_register_dparam_semantics(_mechtype, 0, "CaL_ion");
   hoc_register_dparam_semantics(_mechtype, 1, "CaL_ion");
@@ -240,7 +253,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
  	hoc_register_cvode(_mechtype, _ode_count, _ode_map, _ode_spec, _ode_matsol);
  	hoc_register_tolerance(_mechtype, _hoc_state_tol, &_atollist);
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
- 	ivoc_help("help ?1 B_CaL /home/tk/Hipergator/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Fridlyand2012/x86_64/Beta_CaL.mod\n");
+ 	ivoc_help("help ?1 B_CaL /ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Fridlyand2012/x86_64/Beta_CaL.mod\n");
  hoc_register_limits(_mechtype, _hoc_parm_limits);
  hoc_register_units(_mechtype, _hoc_parm_units);
  }
@@ -269,7 +282,7 @@ static int _ode_spec1(_threadargsproto_);
  Df1CaL = Df1CaL  / (1. - dt*( ( ( ( ( - 1.0 ) ) ) / tf1CaL ) )) ;
  Df2CaL = Df2CaL  / (1. - dt*( ( ( ( ( - 1.0 ) ) ) / tf2CaL ) )) ;
  DdCaL = DdCaL  / (1. - dt*( ( ( ( ( - 1.0 ) ) ) / tdCaL ) )) ;
- return 0;
+  return 0;
 }
  /*END CVODE*/
  static int states (double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) { {
@@ -502,4 +515,79 @@ _first = 0;
 
 #if defined(__cplusplus)
 } /* extern "C" */
+#endif
+
+#if NMODL_TEXT
+static const char* nmodl_filename = "/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Fridlyand2012/Beta_CaL.mod";
+static const char* nmodl_file_text = 
+  "NEURON{\n"
+  "SUFFIX B_CaL\n"
+  "USEION CaL WRITE iCaL VALENCE 2\n"
+  "USEION Ca READ eCa\n"
+  "USEION Vm READ Vmi\n"
+  "RANGE dCaL, f1CaL, f2CaL , gmCaL, kdCaL , kfCaL , tf1CaL, tf2CaL, VdCaL, VfCaL, eCa\n"
+  "RANGE dCaLi, fCaLi, iCaL, tdCaL\n"
+  "RANGE CaLCurr, vCaL, test\n"
+  "}\n"
+  "\n"
+  "PARAMETER{ \n"
+  "gmCaL\n"
+  "kdCaL \n"
+  "kfCaL \n"
+  "tf1CaL\n"
+  "tf2CaL\n"
+  "VdCaL\n"
+  "VfCaL \n"
+  "eCa\n"
+  "v\n"
+  "Vmi\n"
+  "test\n"
+  "}\n"
+  "\n"
+  "ASSIGNED{\n"
+  "dCaLi \n"
+  "fCaLi \n"
+  "iCaL    \n"
+  "tdCaL \n"
+  "CaLCurr\n"
+  "vCaL\n"
+  "}\n"
+  "\n"
+  "STATE{\n"
+  "f1CaL\n"
+  "f2CaL\n"
+  "dCaL\n"
+  "}\n"
+  "\n"
+  "INITIAL{\n"
+  "dCaL = 0.001\n"
+  "f1CaL = 0.1\n"
+  "f2CaL = 0.7\n"
+  "gmCaL = 2700\n"
+  "kdCaL = 8\n"
+  "kfCaL = 8\n"
+  "tf1CaL = 6.8\n"
+  "tf2CaL = 65\n"
+  "VdCaL = -15\n"
+  "VfCaL = -25\n"
+  "tdCaL = 0.41\n"
+  "test = 0.41\n"
+  "}\n"
+  "\n"
+  "BREAKPOINT{\n"
+  "tdCaL =  (2.2 - (1.79 * exp( - (.00020292043084065876 * ( - 9.7 + Vmi) * ( - 9.7 + Vmi)))))                \n"
+  "fCaLi = (1.0 / (1.0 + exp(((Vmi - VfCaL) / kfCaL))))                \n"
+  "dCaLi = (1.0 / (1.0 + exp(((VdCaL - Vmi) / kdCaL))))                \n"
+  "iCaL = (gmCaL * dCaL * f1CaL * f2CaL * (Vmi - eCa))    \n"
+  "CaLCurr =  (gmCaL * dCaL * f1CaL * f2CaL * (Vmi - eCa)) \n"
+  "vCaL = Vmi\n"
+  "SOLVE states METHOD cnexp\n"
+  "}\n"
+  "\n"
+  "DERIVATIVE states{\n"
+  "f1CaL' = ((fCaLi - f1CaL) / tf1CaL)                \n"
+  "f2CaL' = ((fCaLi - f2CaL) / tf2CaL) \n"
+  "dCaL' = ((dCaLi - dCaL) / tdCaL)    \n"
+  "}\n"
+  ;
 #endif

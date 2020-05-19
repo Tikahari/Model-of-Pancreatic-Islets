@@ -1,4 +1,4 @@
-/* Created by Language version: 6.2.0 */
+/* Created by Language version: 7.7.0 */
 /* VECTORIZED */
 #define NRN_VECTORIZED 1
 #include <stdio.h>
@@ -82,6 +82,15 @@ extern void hoc_register_limits(int, HocParmLimits*);
 extern void hoc_register_units(int, HocParmUnits*);
 extern void nrn_promote(Prop*, int, int);
 extern Memb_func* memb_func;
+ 
+#define NMODL_TEXT 1
+#if NMODL_TEXT
+static const char* nmodl_file_text;
+static const char* nmodl_filename;
+extern void hoc_reg_nmodl_text(int, const char*);
+extern void hoc_reg_nmodl_filename(int, const char*);
+#endif
+
  extern void _nrn_setdata_reg(int, void(*)(Prop*));
  static void _setdata(Prop* _prop) {
  _extcall_prop = _prop;
@@ -120,7 +129,7 @@ static void nrn_state(_NrnThread*, _Memb_list*, int);
 static void  nrn_jacob(_NrnThread*, _Memb_list*, int);
  /* connect range variables in _p that hoc is supposed to know about */
  static const char *_mechanism[] = {
- "6.2.0",
+ "7.7.0",
 "B_KCa",
  "gmKCa_B_KCa",
  "KKCa_B_KCa",
@@ -188,6 +197,10 @@ extern void _cvode_abstol( Symbol**, double*, int);
  _mechtype = nrn_get_mechtype(_mechanism[1]);
      _nrn_setdata_reg(_mechtype, _setdata);
      _nrn_thread_reg(_mechtype, 2, _update_ion_pointer);
+ #if NMODL_TEXT
+  hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
+  hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
+#endif
   hoc_register_prop_size(_mechtype, 9, 5);
   hoc_register_dparam_semantics(_mechtype, 0, "KCa_ion");
   hoc_register_dparam_semantics(_mechtype, 1, "KCa_ion");
@@ -195,7 +208,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_register_dparam_semantics(_mechtype, 3, "K_ion");
   hoc_register_dparam_semantics(_mechtype, 4, "Vm_ion");
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
- 	ivoc_help("help ?1 B_KCa /home/tk/Hipergator/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Fridlyand2012/x86_64/Beta_KCa.mod\n");
+ 	ivoc_help("help ?1 B_KCa /ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Fridlyand2012/x86_64/Beta_KCa.mod\n");
  hoc_register_limits(_mechtype, _hoc_parm_limits);
  hoc_register_units(_mechtype, _hoc_parm_units);
  }
@@ -344,4 +357,42 @@ _first = 0;
 
 #if defined(__cplusplus)
 } /* extern "C" */
+#endif
+
+#if NMODL_TEXT
+static const char* nmodl_filename = "/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Fridlyand2012/Beta_KCa.mod";
+static const char* nmodl_file_text = 
+  "NEURON{\n"
+  "SUFFIX B_KCa\n"
+  "USEION KCa WRITE iKCa VALENCE 1\n"
+  "USEION Cac READ Caci\n"
+  "USEION K READ eK\n"
+  "USEION Vm READ Vmi\n"
+  "RANGE gmKCa, KKCa, eK\n"
+  "RANGE dKCa, iKCa\n"
+  "}\n"
+  "\n"
+  "PARAMETER{\n"
+  "gmKCa\n"
+  "KKCa\n"
+  "eK\n"
+  "Caci\n"
+  "v\n"
+  "Vmi\n"
+  "\n"
+  "dKCa\n"
+  "iKCa\n"
+  "}\n"
+  "\n"
+  "INITIAL{\n"
+  "gmKCa = 150\n"
+  "KKCa = 0.2\n"
+  "dKCa = 0.1\n"
+  "}\n"
+  "\n"
+  "BREAKPOINT{\n"
+  "dKCa = (pow(Caci,4.0) / (pow(KKCa,4.0) + pow(Caci,4.0)))                \n"
+  "iKCa =  (gmKCa * dKCa * (Vmi - eK))                \n"
+  "}\n"
+  ;
 #endif

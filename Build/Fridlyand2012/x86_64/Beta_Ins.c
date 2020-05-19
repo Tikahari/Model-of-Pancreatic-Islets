@@ -1,4 +1,4 @@
-/* Created by Language version: 6.2.0 */
+/* Created by Language version: 7.7.0 */
 /* VECTORIZED */
 #define NRN_VECTORIZED 1
 #include <stdio.h>
@@ -87,6 +87,15 @@ extern void hoc_register_limits(int, HocParmLimits*);
 extern void hoc_register_units(int, HocParmUnits*);
 extern void nrn_promote(Prop*, int, int);
 extern Memb_func* memb_func;
+ 
+#define NMODL_TEXT 1
+#if NMODL_TEXT
+static const char* nmodl_file_text;
+static const char* nmodl_filename;
+extern void hoc_reg_nmodl_text(int, const char*);
+extern void hoc_reg_nmodl_filename(int, const char*);
+#endif
+
  extern void _nrn_setdata_reg(int, void(*)(Prop*));
  static void _setdata(Prop* _prop) {
  _extcall_prop = _prop;
@@ -141,7 +150,7 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  static void _ode_matsol_instance1(_threadargsproto_);
  /* connect range variables in _p that hoc is supposed to know about */
  static const char *_mechanism[] = {
- "6.2.0",
+ "7.7.0",
 "B_Ins",
  "Vpi_B_Ins",
  "kpi_B_Ins",
@@ -221,6 +230,10 @@ extern void _cvode_abstol( Symbol**, double*, int);
      _nrn_thread_reg(_mechtype, 1, _thread_mem_init);
      _nrn_thread_reg(_mechtype, 0, _thread_cleanup);
      _nrn_thread_reg(_mechtype, 2, _update_ion_pointer);
+ #if NMODL_TEXT
+  hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
+  hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
+#endif
   hoc_register_prop_size(_mechtype, 16, 3);
   hoc_register_dparam_semantics(_mechtype, 0, "Cac_ion");
   hoc_register_dparam_semantics(_mechtype, 1, "CaP_ion");
@@ -228,7 +241,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
  	hoc_register_cvode(_mechtype, _ode_count, _ode_map, _ode_spec, _ode_matsol);
  	hoc_register_tolerance(_mechtype, _hoc_state_tol, &_atollist);
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
- 	ivoc_help("help ?1 B_Ins /home/tk/Hipergator/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Fridlyand2012/x86_64/Beta_Ins.mod\n");
+ 	ivoc_help("help ?1 B_Ins /ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Fridlyand2012/x86_64/Beta_Ins.mod\n");
  hoc_register_limits(_mechtype, _hoc_parm_limits);
  hoc_register_units(_mechtype, _hoc_parm_units);
  }
@@ -253,7 +266,7 @@ static int _ode_spec1(_threadargsproto_);
 }
  static int _ode_matsol1 (double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {
  DIn = DIn  / (1. - dt*( ( ( - ( ( kpi )*( 1.0 ) ) ) ) )) ;
- return 0;
+  return 0;
 }
  /*END CVODE*/
  static int states (double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) { {
@@ -468,4 +481,61 @@ _first = 0;
 
 #if defined(__cplusplus)
 } /* extern "C" */
+#endif
+
+#if NMODL_TEXT
+static const char* nmodl_filename = "/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Fridlyand2012/Beta_Ins.mod";
+static const char* nmodl_file_text = 
+  "NEURON{\n"
+  "SUFFIX B_Ins\n"
+  "USEION Cac READ Caci\n"
+  "USEION CaP READ iCaP\n"
+  "RANGE Vpi, kpi, Ni, In, kci, KiCa, kre, ksi\n"
+  "RANGE fsi, IS, fiCa\n"
+  "}\n"
+  "\n"
+  "PARAMETER{\n"
+  "Vpi\n"
+  "kpi\n"
+  "Ni\n"
+  "F_ins\n"
+  "kci\n"
+  "KiCa\n"
+  "kre\n"
+  "ksi\n"
+  "iCaP\n"
+  "Caci\n"
+  "\n"
+  "fsi\n"
+  "IS\n"
+  "fiCa\n"
+  "}\n"
+  "\n"
+  "STATE{\n"
+  "In\n"
+  "}\n"
+  "\n"
+  "INITIAL{\n"
+  "Vpi = 45000\n"
+  "kpi = 0.0001\n"
+  "Ni = 600\n"
+  "In = 1.0\n"
+  "kci = 2\n"
+  "KiCa = 0.2\n"
+  "kre = 0.00073\n"
+  "ksi = 10000\n"
+  "F_ins = 96480\n"
+  "}\n"
+  "\n"
+  "BREAKPOINT{\n"
+  "fiCa =  (Caci * Caci / ((KiCa * KiCa) + (Caci * Caci)))                \n"
+  "fsi = ( - (kci * fiCa * iCaP / F_ins) + kre)                \n"
+  "IS =  (kpi * ksi * In) \n"
+  "SOLVE states METHOD cnexp\n"
+  "}\n"
+  "\n"
+  "DERIVATIVE states{\n"
+  "In' = ((fsi * Ni / Vpi) - (kpi * In)) \n"
+  "}\n"
+  ;
 #endif
