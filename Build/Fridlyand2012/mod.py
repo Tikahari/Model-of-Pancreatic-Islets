@@ -37,7 +37,7 @@ def writeMod(init, mod):
             vars = getTokens(line)
             # check if variable to be initialized is set in the ini file
             for i in vars:
-                print(i)
+                # print(i)
                 count += 1
                 # if so, set line appropriately
                 if(i.strip() in config['Beta']):

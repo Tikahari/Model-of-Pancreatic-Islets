@@ -49,14 +49,12 @@ extern double hoc_Exp(double);
 #define iKCa _p[3]
 #define eK _p[4]
 #define Caci _p[5]
-#define Vmi _p[6]
-#define v _p[7]
-#define _g _p[8]
+#define v _p[6]
+#define _g _p[7]
 #define _ion_iKCa	*_ppvar[0]._pval
 #define _ion_diKCadv	*_ppvar[1]._pval
 #define _ion_Caci	*_ppvar[2]._pval
 #define _ion_eK	*_ppvar[3]._pval
-#define _ion_Vmi	*_ppvar[4]._pval
  
 #if MAC
 #if !defined(v)
@@ -142,22 +140,21 @@ static void  nrn_jacob(_NrnThread*, _Memb_list*, int);
  static Symbol* _KCa_sym;
  static Symbol* _Cac_sym;
  static Symbol* _K_sym;
- static Symbol* _Vm_sym;
  
 extern Prop* need_memb(Symbol*);
 
 static void nrn_alloc(Prop* _prop) {
 	Prop *prop_ion;
 	double *_p; Datum *_ppvar;
- 	_p = nrn_prop_data_alloc(_mechtype, 9, _prop);
+ 	_p = nrn_prop_data_alloc(_mechtype, 8, _prop);
  	/*initialize range parameters*/
  	gmKCa = 0;
  	KKCa = 0;
  	dKCa = 0;
  	iKCa = 0;
  	_prop->param = _p;
- 	_prop->param_size = 9;
- 	_ppvar = nrn_prop_datum_alloc(_mechtype, 5, _prop);
+ 	_prop->param_size = 8;
+ 	_ppvar = nrn_prop_datum_alloc(_mechtype, 4, _prop);
  	_prop->dparam = _ppvar;
  	/*connect ionic variables to this model*/
  prop_ion = need_memb(_KCa_sym);
@@ -169,9 +166,6 @@ static void nrn_alloc(Prop* _prop) {
  prop_ion = need_memb(_K_sym);
  nrn_promote(prop_ion, 0, 1);
  	_ppvar[3]._pval = &prop_ion->param[0]; /* eK */
- prop_ion = need_memb(_Vm_sym);
- nrn_promote(prop_ion, 1, 0);
- 	_ppvar[4]._pval = &prop_ion->param[1]; /* Vmi */
  
 }
  static void _initlists();
@@ -188,11 +182,9 @@ extern void _cvode_abstol( Symbol**, double*, int);
  	ion_reg("KCa", 1.0);
  	ion_reg("Cac", -10000.);
  	ion_reg("K", -10000.);
- 	ion_reg("Vm", -10000.);
  	_KCa_sym = hoc_lookup("KCa_ion");
  	_Cac_sym = hoc_lookup("Cac_ion");
  	_K_sym = hoc_lookup("K_ion");
- 	_Vm_sym = hoc_lookup("Vm_ion");
  	register_mech(_mechanism, nrn_alloc,nrn_cur, nrn_jacob, nrn_state, nrn_init, hoc_nrnpointerindex, 1);
  _mechtype = nrn_get_mechtype(_mechanism[1]);
      _nrn_setdata_reg(_mechtype, _setdata);
@@ -201,12 +193,11 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
   hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
 #endif
-  hoc_register_prop_size(_mechtype, 9, 5);
+  hoc_register_prop_size(_mechtype, 8, 4);
   hoc_register_dparam_semantics(_mechtype, 0, "KCa_ion");
   hoc_register_dparam_semantics(_mechtype, 1, "KCa_ion");
   hoc_register_dparam_semantics(_mechtype, 2, "Cac_ion");
   hoc_register_dparam_semantics(_mechtype, 3, "K_ion");
-  hoc_register_dparam_semantics(_mechtype, 4, "Vm_ion");
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
  	ivoc_help("help ?1 B_KCa /ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Fridlyand2012/x86_64/Beta_KCa.mod\n");
  hoc_register_limits(_mechtype, _hoc_parm_limits);
@@ -225,7 +216,6 @@ static void _modl_cleanup(){ _match_recurse=1;}
    nrn_update_ion_pointer(_KCa_sym, _ppvar, 1, 4);
    nrn_update_ion_pointer(_Cac_sym, _ppvar, 2, 1);
    nrn_update_ion_pointer(_K_sym, _ppvar, 3, 0);
-   nrn_update_ion_pointer(_Vm_sym, _ppvar, 4, 1);
  }
 
 static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {
@@ -261,14 +251,13 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
  v = _v;
   Caci = _ion_Caci;
   eK = _ion_eK;
-  Vmi = _ion_Vmi;
  initmodel(_p, _ppvar, _thread, _nt);
  }
 }
 
 static double _nrn_current(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt, double _v){double _current=0.;v=_v;{ {
    dKCa = ( pow ( Caci , 4.0 ) / ( pow ( KKCa , 4.0 ) + pow ( Caci , 4.0 ) ) ) ;
-   iKCa = ( gmKCa * dKCa * ( Vmi - eK ) ) ;
+   iKCa = ( gmKCa * dKCa * ( v - eK ) ) ;
    }
  _current += iKCa;
 
@@ -296,7 +285,6 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
   }
   Caci = _ion_Caci;
   eK = _ion_eK;
-  Vmi = _ion_Vmi;
  _g = _nrn_current(_p, _ppvar, _thread, _nt, _v + .001);
  	{ double _diKCa;
   _diKCa = iKCa;
@@ -367,7 +355,7 @@ static const char* nmodl_file_text =
   "USEION KCa WRITE iKCa VALENCE 1\n"
   "USEION Cac READ Caci\n"
   "USEION K READ eK\n"
-  "USEION Vm READ Vmi\n"
+  ":USEION Vm READ Vmi\n"
   "RANGE gmKCa, KKCa, eK\n"
   "RANGE dKCa, iKCa\n"
   "}\n"
@@ -378,7 +366,6 @@ static const char* nmodl_file_text =
   "eK\n"
   "Caci\n"
   "v\n"
-  "Vmi\n"
   "\n"
   "dKCa\n"
   "iKCa\n"
@@ -392,7 +379,7 @@ static const char* nmodl_file_text =
   "\n"
   "BREAKPOINT{\n"
   "dKCa = (pow(Caci,4.0) / (pow(KKCa,4.0) + pow(Caci,4.0)))                \n"
-  "iKCa =  (gmKCa * dKCa * (Vmi - eK))                \n"
+  "iKCa =  (gmKCa * dKCa * (v - eK))                \n"
   "}\n"
   ;
 #endif
