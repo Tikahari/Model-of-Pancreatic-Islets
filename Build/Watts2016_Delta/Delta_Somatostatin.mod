@@ -95,6 +95,7 @@ fer = 0.01
 sigmav = 31
 vc = 1e-13
 f = 0.003
+S = 18.71318922819339 
 }
 
 BREAKPOINT{

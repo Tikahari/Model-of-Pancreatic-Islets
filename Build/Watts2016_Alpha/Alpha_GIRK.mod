@@ -1,3 +1,5 @@
+: Sst inhibits G secretion by reducing cAMP, which primarily reduces exocytosis but also through
+: act. of G protein-coupled inward rect potass (GIRK) chans
 NEURON{
 SUFFIX A_GIRK
 USEION GIRK WRITE iGIRK, eGIRK VALENCE 1
@@ -34,7 +36,7 @@ eGIRK = -80
 BREAKPOINT{
 gGIRKbar = (1 - knockoutda) * 0.025 + knockoutda * gGIRKko
 gGIRK = gGIRKbar * EffS
-EffS = 1/(1 + exp(-(S - sombara2)/ssom2))
+EffS = 1/(1 + exp(-(S - sombara2)/ssom2)) : Effect of Sst 
 iGIRK = gGIRKbar * EffS * (v - eGIRK)
 }
 
