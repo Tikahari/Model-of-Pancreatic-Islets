@@ -6,6 +6,7 @@ from scipy.stats import expon, uniform
 import random
 import math
 import sys
+import pickle 
 
 center_prob = 1
 # cell sizes
@@ -37,26 +38,28 @@ class Probability:
         self.getDescent(center_prob)
     # m (y=mx+b => m = -2*b/(x^2) from 0 to 1/3rd radius where b is 85 (85% probability of beta cell in center))
     # interval = -(b-c)+-sqrt((b-c)^2-4*(m/2)*(c*r-r*p(beta)))/m
-    # average probability of cell type must be as defined in cell_type (calculate sum of piecewise from 1/3rd radius out)
+    # average probability of cell type must be as defined in cell_type (calculate sum of piecewise from 1/2 radius out)
     def getDescent(self, c_p):
-        # beta cell has constant probability of 0.4 from 1/3rd out
-        # self.m = (self.b*self.radius - 0.4 * (2*self.radius/3) - c_p * (self.radius/3)) * 2 / ((self.radius/3)**2) 
+        # beta cell has constant probability of 0.4 from 1/2 radius out
+        # self.b -= 0.2
+        # self.m = (self.b*self.radius - self.b * (self.radius/2) - c_p * (self.radius/2)) * 2 / ((self.radius/2)**2) 
         self.m = 0
+        self.b = 0
     def getProbability(self, x, y, z):
         ret = []
         dist = math.sqrt((self.radius-x)**2 + (self.radius-y)**2 + (self.radius-z)**2)
-        print('dist', dist)
+        print('dist', dist, x, y, z, self.radius)
         # piecewise
-        if(dist > self.radius / 3):
-            # alpha = (1 - self.b)/ (1 + self.ratio)
-            # delta = 1- self.b - alpha
-            alpha = (1 - 0)/ (1 + self.ratio)
-            delta = 1- 0 - alpha
+        if(dist > self.radius / 2):
+            alpha = (1 - self.b)/ (1 + self.ratio)
+            delta = 1- self.b - alpha
+            # alpha = (1 - 0)/ (1 + self.ratio)
+            # delta = 1- 0 - alpha
             print('m', self.m, 'ratio', self.ratio, 'radius', self.radius)
-            # print((1-self.b)/(1+self.ratio), self.b, self.ratio*(1-self.b)/(1+self.ratio), delta + alpha + self.b)
-            print((1-0)/(1+self.ratio), 0, self.ratio*(1-0)/(1+self.ratio), delta + alpha + 0)
-            # return [alpha, self.b + alpha]
-            return [alpha, alpha]
+            print((1-self.b)/(1+self.ratio), self.b, self.ratio*(1-self.b)/(1+self.ratio), delta + alpha + self.b)
+            # print((1-0)/(1+self.ratio), 0, self.ratio*(1-0)/(1+self.ratio), delta + alpha + 0)
+            return [alpha, self.b + alpha]
+            # return [alpha, alpha]
         # calculate probabilities of alpha/beta/delta in this position
         beta = self.m * dist + center_prob
         print(self.m, dist, self.m*dist, center_prob)
@@ -148,6 +151,7 @@ class Space:
             j = 0
             # j = math.floor(self.d//2 - radius)
     def plot(self):
+        print('m', self.dist.m)
         print('plotting')
         x = {'A': [], 'B': [], 'D': []}
         y = {'A': [], 'B': [], 'D': []}
@@ -169,8 +173,13 @@ class Space:
         ax.scatter(x['A'], y['A'], z['A'], c='red', s=s['A'])
         ax.scatter(x['B'], y['B'], z['B'], c='blue', s=s['B'])
         ax.scatter(x['D'], y['D'], z['D'], c='green', s=s['D'])
-        plt.savefig('distributions/'+sys.argv[2])
-        plt.show()
+        dat = [x, y, z, s, self.dist.m, self.dist.ratio, self.dist.radius, center_prob, self.dist.b]
+        # plt.savefig('distributions/'+sys.argv[2])
+        f_plt = open('distributions/'+sys.argv[2] +'.plt', 'wb')
+        f_dat = open('distributions/'+sys.argv[2] +'.dat', 'wb')
+        pickle.dump(fig, f_plt)
+        pickle.dump(dat, f_dat)
+        # plt.show()
     def writeData(self):
         prob = ''
         siz = ''
