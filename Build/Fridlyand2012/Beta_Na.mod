@@ -1,7 +1,7 @@
 NEURON{
 SUFFIX B_Na 
 USEION Na WRITE iNa, eNa VALENCE 1
-USEION Vm READ Vmi
+:USEION Vm READ Vmi
 RANGE gmNa, VdNa, kdNa, tdNa, fNa, kNar, eNa, VfNa, kfNa
 RANGE dNai, iNa, fNai, tfNa
 }
@@ -17,7 +17,6 @@ VfNa
 kfNa
 eNa
 v
-Vmi
 
 fNai
 dNai
@@ -44,9 +43,9 @@ kfNa = 6
 }
 
 BREAKPOINT{
-fNai = (1.0 / (1.0 + exp( - ((VfNa - Vmi) / kfNa))))
-dNai = (1.0 / (1.0 + exp(((VdNa - Vmi) / kdNa))))                
-iNa = (gmNa * ((pow(dNa,3.0) * fNa) + kNar) * (Vmi - eNa))                
+fNai = (1.0 / (1.0 + exp( - ((VfNa - v) / kfNa))))
+dNai = (1.0 / (1.0 + exp(((VdNa - v) / kdNa))))                
+iNa = (gmNa * ((pow(dNa,3.0) * fNa) + kNar) * (v - eNa))                
 SOLVE states METHOD cnexp
 }
 

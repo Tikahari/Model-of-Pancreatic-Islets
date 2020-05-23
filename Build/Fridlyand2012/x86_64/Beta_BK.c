@@ -60,20 +60,18 @@ extern double hoc_Exp(double);
 #define iBK _p[13]
 #define dKCaB _p[14]
 #define fKCaB _p[15]
-#define Vmi _p[16]
-#define eK _p[17]
-#define Caci _p[18]
-#define eCac _p[19]
-#define DdKCaB _p[20]
-#define DfKCaB _p[21]
-#define v _p[22]
-#define _g _p[23]
+#define eK _p[16]
+#define Caci _p[17]
+#define eCac _p[18]
+#define DdKCaB _p[19]
+#define DfKCaB _p[20]
+#define v _p[21]
+#define _g _p[22]
 #define _ion_iBK	*_ppvar[0]._pval
 #define _ion_diBKdv	*_ppvar[1]._pval
 #define _ion_eK	*_ppvar[2]._pval
 #define _ion_Caci	*_ppvar[3]._pval
 #define _ion_eCac	*_ppvar[4]._pval
-#define _ion_Vmi	*_ppvar[5]._pval
  
 #if MAC
 #if !defined(v)
@@ -153,7 +151,7 @@ static void _ode_map(int, double**, double**, double*, Datum*, double*, int);
 static void _ode_spec(_NrnThread*, _Memb_list*, int);
 static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  
-#define _cvode_ieq _ppvar[6]._i
+#define _cvode_ieq _ppvar[5]._i
  static void _ode_matsol_instance1(_threadargsproto_);
  /* connect range variables in _p that hoc is supposed to know about */
  static const char *_mechanism[] = {
@@ -182,14 +180,13 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  static Symbol* _BK_sym;
  static Symbol* _K_sym;
  static Symbol* _Cac_sym;
- static Symbol* _Vm_sym;
  
 extern Prop* need_memb(Symbol*);
 
 static void nrn_alloc(Prop* _prop) {
 	Prop *prop_ion;
 	double *_p; Datum *_ppvar;
- 	_p = nrn_prop_data_alloc(_mechtype, 24, _prop);
+ 	_p = nrn_prop_data_alloc(_mechtype, 23, _prop);
  	/*initialize range parameters*/
  	hdk = 0;
  	gmKCaB = 0;
@@ -206,8 +203,8 @@ static void nrn_alloc(Prop* _prop) {
  	VdKCaB = 0;
  	iBK = 0;
  	_prop->param = _p;
- 	_prop->param_size = 24;
- 	_ppvar = nrn_prop_datum_alloc(_mechtype, 7, _prop);
+ 	_prop->param_size = 23;
+ 	_ppvar = nrn_prop_datum_alloc(_mechtype, 6, _prop);
  	_prop->dparam = _ppvar;
  	/*connect ionic variables to this model*/
  prop_ion = need_memb(_BK_sym);
@@ -220,9 +217,6 @@ static void nrn_alloc(Prop* _prop) {
  nrn_promote(prop_ion, 1, 1);
  	_ppvar[3]._pval = &prop_ion->param[1]; /* Caci */
  	_ppvar[4]._pval = &prop_ion->param[0]; /* eCac */
- prop_ion = need_memb(_Vm_sym);
- nrn_promote(prop_ion, 1, 0);
- 	_ppvar[5]._pval = &prop_ion->param[1]; /* Vmi */
  
 }
  static void _initlists();
@@ -244,11 +238,9 @@ extern void _cvode_abstol( Symbol**, double*, int);
  	ion_reg("BK", 1.0);
  	ion_reg("K", 1.0);
  	ion_reg("Cac", -10000.);
- 	ion_reg("Vm", -10000.);
  	_BK_sym = hoc_lookup("BK_ion");
  	_K_sym = hoc_lookup("K_ion");
  	_Cac_sym = hoc_lookup("Cac_ion");
- 	_Vm_sym = hoc_lookup("Vm_ion");
  	register_mech(_mechanism, nrn_alloc,nrn_cur, nrn_jacob, nrn_state, nrn_init, hoc_nrnpointerindex, 1);
  _mechtype = nrn_get_mechtype(_mechanism[1]);
      _nrn_setdata_reg(_mechtype, _setdata);
@@ -257,14 +249,13 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
   hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
 #endif
-  hoc_register_prop_size(_mechtype, 24, 7);
+  hoc_register_prop_size(_mechtype, 23, 6);
   hoc_register_dparam_semantics(_mechtype, 0, "BK_ion");
   hoc_register_dparam_semantics(_mechtype, 1, "BK_ion");
   hoc_register_dparam_semantics(_mechtype, 2, "K_ion");
   hoc_register_dparam_semantics(_mechtype, 3, "Cac_ion");
   hoc_register_dparam_semantics(_mechtype, 4, "Cac_ion");
-  hoc_register_dparam_semantics(_mechtype, 5, "Vm_ion");
-  hoc_register_dparam_semantics(_mechtype, 6, "cvodeieq");
+  hoc_register_dparam_semantics(_mechtype, 5, "cvodeieq");
  	hoc_register_cvode(_mechtype, _ode_count, _ode_map, _ode_spec, _ode_matsol);
  	hoc_register_tolerance(_mechtype, _hoc_state_tol, &_atollist);
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
@@ -318,7 +309,6 @@ static void _ode_spec(_NrnThread* _nt, _Memb_list* _ml, int _type) {
     v = NODEV(_nd);
   Caci = _ion_Caci;
   eCac = _ion_eCac;
-  Vmi = _ion_Vmi;
      _ode_spec1 (_p, _ppvar, _thread, _nt);
    _ion_eK = eK;
  }}
@@ -348,7 +338,6 @@ static void _ode_matsol(_NrnThread* _nt, _Memb_list* _ml, int _type) {
     v = NODEV(_nd);
   Caci = _ion_Caci;
   eCac = _ion_eCac;
-  Vmi = _ion_Vmi;
  _ode_matsol_instance1(_threadargs_);
  }}
  extern void nrn_update_ion_pointer(Symbol*, Datum*, int, int);
@@ -358,7 +347,6 @@ static void _ode_matsol(_NrnThread* _nt, _Memb_list* _ml, int _type) {
    nrn_update_ion_pointer(_K_sym, _ppvar, 2, 0);
    nrn_update_ion_pointer(_Cac_sym, _ppvar, 3, 1);
    nrn_update_ion_pointer(_Cac_sym, _ppvar, 4, 0);
-   nrn_update_ion_pointer(_Vm_sym, _ppvar, 5, 1);
  }
 
 static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {
@@ -406,17 +394,16 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
  v = _v;
   Caci = _ion_Caci;
   eCac = _ion_eCac;
-  Vmi = _ion_Vmi;
  initmodel(_p, _ppvar, _thread, _nt);
    _ion_eK = eK;
 }
 }
 
 static double _nrn_current(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt, double _v){double _current=0.;v=_v;{ {
-   fKCaBi = ( 1.0 / ( 1.0 + exp ( - ( ( VfKCaB - Vmi ) / kfKCaB ) ) ) ) ;
-   dKCaBi = ( 1.0 / ( 1.0 + exp ( ( ( VdKCaB - Vmi ) / kdKCaB ) ) ) ) ;
-   iBK = ( gmKCaB * pow ( dKCaB , hdk ) * fKCaB * ( Vmi - eK ) ) ;
    VdKCaB = ( VBKo - ( kshift * log ( ( Caci / kCaBK ) ) ) ) ;
+   fKCaBi = ( 1.0 / ( 1.0 + exp ( - ( ( VfKCaB - v ) / kfKCaB ) ) ) ) ;
+   dKCaBi = ( 1.0 / ( 1.0 + exp ( ( ( VdKCaB - v ) / kdKCaB ) ) ) ) ;
+   iBK = ( gmKCaB * pow ( dKCaB , hdk ) * fKCaB * ( v - eK ) ) ;
    }
  _current += iBK;
 
@@ -444,7 +431,6 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
   }
   Caci = _ion_Caci;
   eCac = _ion_eCac;
-  Vmi = _ion_Vmi;
  _g = _nrn_current(_p, _ppvar, _thread, _nt, _v + .001);
  	{ double _diBK;
   _diBK = iBK;
@@ -515,7 +501,6 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
 {
   Caci = _ion_Caci;
   eCac = _ion_eCac;
-  Vmi = _ion_Vmi;
  {   states(_p, _ppvar, _thread, _nt);
   }   _ion_eK = eK;
 }}
@@ -545,7 +530,7 @@ static const char* nmodl_file_text =
   "USEION BK WRITE iBK VALENCE 1\n"
   "USEION K WRITE eK VALENCE 1\n"
   "USEION Cac READ Caci, eCac\n"
-  "USEION Vm READ Vmi\n"
+  ":USEION Vm READ Vmi\n"
   "\n"
   "RANGE hdk, gmKCaB, kCaBK, kdKCaB, kfKCaB, tdKCaB, tfKCaB, VfKCaB, VBKo, eK, kshift\n"
   "RANGE dKCaBi, fKCaBi, VdKCaB, iBK\n"
@@ -553,7 +538,6 @@ static const char* nmodl_file_text =
   "\n"
   "PARAMETER{\n"
   "v\n"
-  "Vmi\n"
   "hdk\n"
   "gmKCaB\n"
   "kCaBK    \n"
@@ -597,10 +581,10 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "BREAKPOINT{\n"
-  "fKCaBi = (1.0 / (1.0 + exp( - ((VfKCaB - Vmi) / kfKCaB))))                \n"
-  "dKCaBi = (1.0 / (1.0 + exp(((VdKCaB - Vmi) / kdKCaB)))) \n"
-  "iBK =  (gmKCaB * pow(dKCaB,hdk) * fKCaB * (Vmi - eK))                \n"
-  "VdKCaB =   (VBKo - (kshift * log((Caci / kCaBK))))                \n"
+  "VdKCaB =   (VBKo - (kshift * log((Caci / kCaBK)))) \n"
+  "fKCaBi = (1.0 / (1.0 + exp( - ((VfKCaB - v) / kfKCaB))))                \n"
+  "dKCaBi = (1.0 / (1.0 + exp(((VdKCaB - v) / kdKCaB)))) \n"
+  "iBK =  (gmKCaB * pow(dKCaB,hdk) * fKCaB * (v - eK))                          \n"
   "SOLVE states METHOD cnexp\n"
   "}\n"
   "\n"
