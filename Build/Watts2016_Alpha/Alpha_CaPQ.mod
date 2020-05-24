@@ -1,6 +1,6 @@
 NEURON{
 SUFFIX A_CaPQ
-USEION CaPQ WRITE iCaPW VALENCE 2
+USEION CaPQ WRITE iCaPQ VALENCE 2
 USEION Ca READ eCa VALENCE 2
 RANGE gcapq, vcapqm, scapqm, vcapqh, scapqh, tcapqh1, tcapqh2, eCa
 RANGE iCaPQ, mcapqinf, hcapqinf, taucapqm, taucapqh
@@ -49,7 +49,7 @@ hcapqinf = 1/(1+exp(-(v-vcapqh)/scapqh))
 taucapqm = (1/(exp(-(v+23)/20)+exp((v+23)/20)))+0.05
 taucapqh = (tcapqh1/(exp(-(v+0)/20)+exp((v+0)/20)))+tcapqh2
 SOLVE states METHOD cnexp
-iCaPQ = gcapq *mcapq *hcapq *(v-eca)
+iCaPQ = gcapq *mcapq *hcapq *(v-eCa)
 }
 
 DERIVATIVE states{

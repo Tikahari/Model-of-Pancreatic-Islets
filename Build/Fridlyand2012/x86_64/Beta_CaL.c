@@ -51,22 +51,19 @@ extern double hoc_Exp(double);
 #define tf2CaL _p[4]
 #define VdCaL _p[5]
 #define VfCaL _p[6]
-#define test _p[7]
-#define dCaLi _p[8]
-#define fCaLi _p[9]
-#define iCaL _p[10]
-#define tdCaL _p[11]
-#define CaLCurr _p[12]
-#define vCaL _p[13]
-#define f1CaL _p[14]
-#define f2CaL _p[15]
-#define dCaL _p[16]
-#define eCa _p[17]
-#define Df1CaL _p[18]
-#define Df2CaL _p[19]
-#define DdCaL _p[20]
-#define v _p[21]
-#define _g _p[22]
+#define dCaLi _p[7]
+#define fCaLi _p[8]
+#define iCaL _p[9]
+#define tdCaL _p[10]
+#define f1CaL _p[11]
+#define f2CaL _p[12]
+#define dCaL _p[13]
+#define eCa _p[14]
+#define Df1CaL _p[15]
+#define Df2CaL _p[16]
+#define DdCaL _p[17]
+#define v _p[18]
+#define _g _p[19]
 #define _ion_iCaL	*_ppvar[0]._pval
 #define _ion_diCaLdv	*_ppvar[1]._pval
 #define _ion_eCa	*_ppvar[2]._pval
@@ -163,14 +160,11 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  "tf2CaL_B_CaL",
  "VdCaL_B_CaL",
  "VfCaL_B_CaL",
- "test_B_CaL",
  0,
  "dCaLi_B_CaL",
  "fCaLi_B_CaL",
  "iCaL_B_CaL",
  "tdCaL_B_CaL",
- "CaLCurr_B_CaL",
- "vCaL_B_CaL",
  0,
  "f1CaL_B_CaL",
  "f2CaL_B_CaL",
@@ -185,7 +179,7 @@ extern Prop* need_memb(Symbol*);
 static void nrn_alloc(Prop* _prop) {
 	Prop *prop_ion;
 	double *_p; Datum *_ppvar;
- 	_p = nrn_prop_data_alloc(_mechtype, 23, _prop);
+ 	_p = nrn_prop_data_alloc(_mechtype, 20, _prop);
  	/*initialize range parameters*/
  	gmCaL = 0;
  	kdCaL = 0;
@@ -194,9 +188,8 @@ static void nrn_alloc(Prop* _prop) {
  	tf2CaL = 0;
  	VdCaL = 0;
  	VfCaL = 0;
- 	test = 0;
  	_prop->param = _p;
- 	_prop->param_size = 23;
+ 	_prop->param_size = 20;
  	_ppvar = nrn_prop_datum_alloc(_mechtype, 4, _prop);
  	_prop->dparam = _ppvar;
  	/*connect ionic variables to this model*/
@@ -236,7 +229,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
   hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
 #endif
-  hoc_register_prop_size(_mechtype, 23, 4);
+  hoc_register_prop_size(_mechtype, 20, 4);
   hoc_register_dparam_semantics(_mechtype, 0, "CaL_ion");
   hoc_register_dparam_semantics(_mechtype, 1, "CaL_ion");
   hoc_register_dparam_semantics(_mechtype, 2, "Ca_ion");
@@ -349,7 +342,6 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
    VdCaL = - 15.0 ;
    VfCaL = - 25.0 ;
    tdCaL = 0.41 ;
-   test = 0.41 ;
    }
  
 }
@@ -385,8 +377,6 @@ static double _nrn_current(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread
    fCaLi = ( 1.0 / ( 1.0 + exp ( ( ( v - VfCaL ) / kfCaL ) ) ) ) ;
    dCaLi = ( 1.0 / ( 1.0 + exp ( ( ( VdCaL - v ) / kdCaL ) ) ) ) ;
    iCaL = ( gmCaL * dCaL * f1CaL * f2CaL * ( v - eCa ) ) ;
-   CaLCurr = ( gmCaL * dCaL * f1CaL * f2CaL * ( v - eCa ) ) ;
-   vCaL = v ;
    }
  _current += iCaL;
 
@@ -512,7 +502,6 @@ static const char* nmodl_file_text =
   ":USEION Vm READ Vmi\n"
   "RANGE dCaL, f1CaL, f2CaL , gmCaL, kdCaL , kfCaL , tf1CaL, tf2CaL, VdCaL, VfCaL, eCa\n"
   "RANGE dCaLi, fCaLi, iCaL, tdCaL\n"
-  "RANGE CaLCurr, vCaL, test\n"
   "}\n"
   "\n"
   "PARAMETER{ \n"
@@ -525,16 +514,13 @@ static const char* nmodl_file_text =
   "VfCaL \n"
   "eCa\n"
   "v\n"
-  "test\n"
   "}\n"
   "\n"
   "ASSIGNED{\n"
   "dCaLi \n"
   "fCaLi \n"
   "iCaL    \n"
-  "tdCaL \n"
-  "CaLCurr\n"
-  "vCaL\n"
+  "tdCaL\n"
   "}\n"
   "\n"
   "STATE{\n"
@@ -555,7 +541,6 @@ static const char* nmodl_file_text =
   "VdCaL = -15\n"
   "VfCaL = -25\n"
   "tdCaL = 0.41\n"
-  "test = 0.41\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"
@@ -563,8 +548,6 @@ static const char* nmodl_file_text =
   "fCaLi = (1.0 / (1.0 + exp(((v - VfCaL) / kfCaL))))                \n"
   "dCaLi = (1.0 / (1.0 + exp(((VdCaL - v) / kdCaL))))                \n"
   "iCaL = (gmCaL * dCaL * f1CaL * f2CaL * (v - eCa))    \n"
-  "CaLCurr =  (gmCaL * dCaL * f1CaL * f2CaL * (v - eCa)) \n"
-  "vCaL = v\n"
   "SOLVE states METHOD cnexp\n"
   "}\n"
   "\n"

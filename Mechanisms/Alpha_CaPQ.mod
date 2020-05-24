@@ -1,6 +1,6 @@
 NEURON{
 SUFFIX A_CaPQ
-USEION CaPQ WRITE iCaPW VALENCE 2
+USEION CaPQ WRITE iCaPQ VALENCE 2
 USEION Ca READ eCa VALENCE 2
 RANGE gcapq, vcapqm, scapqm, vcapqh, scapqh, tcapqh1, tcapqh2, eCa
 RANGE iCaPQ, mcapqinf, hcapqinf, taucapqm, taucapqh
