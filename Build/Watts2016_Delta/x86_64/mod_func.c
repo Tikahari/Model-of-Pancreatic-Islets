@@ -5,6 +5,7 @@ extern int nrn_nobanner_;
 
 extern void _Delta_CaL_reg(void);
 extern void _Delta_CaPQ_reg(void);
+extern void _Delta_GABA_reg(void);
 extern void _Delta_Ka_reg(void);
 extern void _Delta_KATP_reg(void);
 extern void _Delta_Kdr_reg(void);
@@ -18,6 +19,7 @@ void modl_reg(){
 
     fprintf(stderr," Delta_CaL.mod");
     fprintf(stderr," Delta_CaPQ.mod");
+    fprintf(stderr," Delta_GABA.mod");
     fprintf(stderr," Delta_Ka.mod");
     fprintf(stderr," Delta_KATP.mod");
     fprintf(stderr," Delta_Kdr.mod");
@@ -28,6 +30,7 @@ void modl_reg(){
   }
   _Delta_CaL_reg();
   _Delta_CaPQ_reg();
+  _Delta_GABA_reg();
   _Delta_Ka_reg();
   _Delta_KATP_reg();
   _Delta_Kdr_reg();

@@ -43,14 +43,14 @@ extern double hoc_Exp(double);
  
 #define t _nt->_t
 #define dt _nt->_dt
-#define knockoutb _p[0]
+#define knockoutba _p[0]
 #define ka1 _p[1]
-#define gKATPbar _p[2]
+#define gKATPbara _p[2]
 #define I _p[3]
-#define EffI _p[4]
-#define gKATP _p[5]
-#define iKATP _p[6]
-#define eK _p[7]
+#define eK _p[4]
+#define EffI _p[5]
+#define gKATP _p[6]
+#define iKATP _p[7]
 #define v _p[8]
 #define _g _p[9]
 #define _ion_iKATP	*_ppvar[0]._pval
@@ -130,14 +130,11 @@ static void  nrn_jacob(_NrnThread*, _Memb_list*, int);
  static const char *_mechanism[] = {
  "7.7.0",
 "A_KATP",
- "knockoutb_A_KATP",
+ "knockoutba_A_KATP",
  "ka1_A_KATP",
- "gKATPbar_A_KATP",
+ "gKATPbara_A_KATP",
  "I_A_KATP",
  0,
- "EffI_A_KATP",
- "gKATP_A_KATP",
- "iKATP_A_KATP",
  0,
  0,
  0};
@@ -151,9 +148,9 @@ static void nrn_alloc(Prop* _prop) {
 	double *_p; Datum *_ppvar;
  	_p = nrn_prop_data_alloc(_mechtype, 10, _prop);
  	/*initialize range parameters*/
- 	knockoutb = 0;
+ 	knockoutba = 0;
  	ka1 = 0;
- 	gKATPbar = 0;
+ 	gKATPbara = 0;
  	I = 0;
  	_prop->param = _p;
  	_prop->param_size = 10;
@@ -196,7 +193,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_register_dparam_semantics(_mechtype, 1, "KATP_ion");
   hoc_register_dparam_semantics(_mechtype, 2, "K_ion");
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
- 	ivoc_help("help ?1 A_KATP /ufrc/lamb/robert727/Model-of-Pancreatic-Islets/Build/Watts2016_Alpha/x86_64/Alpha_KATP.mod\n");
+ 	ivoc_help("help ?1 A_KATP /ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Watts2016_Alpha/x86_64/Alpha_KATP.mod\n");
  hoc_register_limits(_mechtype, _hoc_parm_limits);
  hoc_register_units(_mechtype, _hoc_parm_units);
  }
@@ -217,8 +214,8 @@ static void _modl_cleanup(){ _match_recurse=1;}
 static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {
   int _i; double _save;{
  {
-   knockoutb = 0.0 ;
-   gKATPbar = 3.0 ;
+   knockoutba = 0.0 ;
+   gKATPbara = 3.0 ;
    ka1 = 0.1 ;
    eK = - 75.0 ;
    }
@@ -252,8 +249,8 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
 }
 
 static double _nrn_current(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt, double _v){double _current=0.;v=_v;{ {
-   EffI = ( 1.0 - knockoutb ) * ( ( 0.015 / ( 1.0 + exp ( ( - I + 1500.0 ) / 200.0 ) ) ) + ka1 ) + knockoutb * ka1 ;
-   gKATP = gKATPbar * EffI ;
+   EffI = ( 1.0 - knockoutba ) * ( ( 0.015 / ( 1.0 + exp ( ( - I + 1500.0 ) / 200.0 ) ) ) + ka1 ) + knockoutba * ka1 ;
+   gKATP = gKATPbara * EffI ;
    iKATP = gKATP * ( v - eK ) ;
    }
  _current += iKATP;
@@ -344,21 +341,21 @@ _first = 0;
 #endif
 
 #if NMODL_TEXT
-static const char* nmodl_filename = "/ufrc/lamb/robert727/Model-of-Pancreatic-Islets/Build/Watts2016_Alpha/Alpha_KATP.mod";
+static const char* nmodl_filename = "/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Watts2016_Alpha/Alpha_KATP.mod";
 static const char* nmodl_file_text = 
   "NEURON{\n"
   "SUFFIX A_KATP\n"
   "USEION KATP WRITE iKATP VALENCE 1\n"
   "USEION K READ eK\n"
   ":POINTER I\n"
-  "RANGE knockoutb, ka1, gKATPbar, I\n"
-  "RANGE EffI, gKATP, iKATP\n"
+  "RANGE knockoutba, ka1, gKATPbara, I\n"
+  "RANGE EffIa, gKATPa, iKATPa\n"
   "}\n"
   "\n"
   "PARAMETER{\n"
-  "knockoutb\n"
+  "knockoutba\n"
   "ka1\n"
-  "gKATPbar\n"
+  "gKATPbara\n"
   "I\n"
   "eK\n"
   "v\n"
@@ -371,15 +368,16 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "INITIAL{\n"
-  "knockoutb = 0\n"
-  "gKATPbar = 3  : 3 nS for G1; 0.6 nS for G7; 0.15 nS for G11\n"
+  "knockoutba = 0\n"
+  "gKATPbara = 3  : 3 nS for G1; 0.6 nS for G7; 0.15 nS for G11\n"
   "ka1 = 0.1\n"
   "eK = -75\n"
   "}\n"
-  "\n"
+  ": B cell modifies G secretion by increasing KATPa chan activity, so conductance of gKATPa\n"
+  ": chans depends on concentration of I \n"
   "BREAKPOINT{\n"
-  "EffI =(1 - knockoutb) * ((0.015/(1 + exp((-I + 1500)/200))) + ka1) + knockoutb * ka1\n"
-  "gKATP = gKATPbar * EffI\n"
+  "EffI = (1 - knockoutba) * ((0.015/(1 + exp((-I + 1500)/200))) + ka1) + knockoutba * ka1\n"
+  "gKATP = gKATPbara * EffI\n"
   "iKATP = gKATP*(v - eK)\n"
   "}\n"
   ;

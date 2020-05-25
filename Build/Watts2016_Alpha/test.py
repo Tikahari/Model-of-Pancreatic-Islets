@@ -40,12 +40,12 @@ a.cm = 9990
 for i in a.psection()['density_mechs']:
     for j in a.psection()['density_mechs'][i]:
         header.append(i+'_'+j)
-        rec[j] = []
+        rec[str(i+'_'+j)] = []
         # record variables of every mechanism in every segment
         for k in a:
             v.append(h.Vector().record(k._ref_v))
             mechRecord = getattr(k, '_ref_'+j+'_'+i)
-            rec[j].append(h.Vector().record(mechRecord))
+            rec[str(i+'_'+j)].append(h.Vector().record(mechRecord))
 
 # fix header / record voltage of every segment
 head = ['Time']
@@ -67,8 +67,8 @@ with open('data/watts.csv','w') as file:
     writer = csv.writer(file,quoting = csv.QUOTE_NONE,escapechar=' ')
     writer.writerow(head)
     for i in range(len(t)):
-        rec_csv = ''
-        for j in rec:
-            rec_csv += str(rec[j][0][i]) +','
-        rec_csv = rec_csv[:len(rec_csv)-1] + ' '
-        writer.writerow([t[i], v[0][i], rec_csv])
+        out = [t[i]]
+        for q in rec:
+            out.append(rec[q][0][i])
+        # print(len(rec), len(out), len(header))
+        writer.writerow(out)

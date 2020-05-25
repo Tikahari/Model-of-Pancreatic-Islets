@@ -1,7 +1,7 @@
 NEURON{
 SUFFIX B_Na 
 USEION Na WRITE iNa, eNa VALENCE 1
-:USEION Vm READ Vmi
+USEION Vm READ Vmi
 RANGE gmNa, VdNa, kdNa, tdNa, fNa, kNar, eNa, VfNa, kfNa
 RANGE dNai, iNa, fNai, tfNa
 }
@@ -17,7 +17,10 @@ VfNa
 kfNa
 eNa
 v
+Vmi
+}
 
+ASSIGNED{
 fNai
 dNai
 iNa

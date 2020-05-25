@@ -2,8 +2,9 @@ NEURON{
 SUFFIX B_CaP
 USEION CaP WRITE iCaP VALENCE 2
 USEION Ca READ eCa
-:USEION Vm READ Vmi
+USEION Vm READ Vmi
 RANGE gmCaP, dCaP, fCaP, VfCaP, VdCaP, tdCaP, tfCaP, kfCaP, kdCaP, eCa
+RANGE dCaPi, fCaPi, iCaP 
 }
 
 PARAMETER{ 
@@ -16,12 +17,14 @@ kfCaP
 kdCaP
 eCa
 v
-
-dCaPi
-fCaPi
-iCaP    
+Vmi  
 }
 
+ASSIGNED{
+dCaPi
+fCaPi
+iCaP  
+}
 
 STATE{
 dCaP

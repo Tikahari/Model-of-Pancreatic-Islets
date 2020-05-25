@@ -2,8 +2,10 @@ NEURON{
 SUFFIX B_BK
 USEION BK WRITE iBK VALENCE 1
 USEION K WRITE eK VALENCE 1
-USEION Cac READ Caci, eCac
-:USEION Vm READ Vmi
+:USEION Cac READ Caci
+USEION Ca READ eCa
+POINTER Cac
+USEION Vm READ Vmi
 
 RANGE hdk, gmKCaB, kCaBK, kdKCaB, kfKCaB, tdKCaB, tfKCaB, VfKCaB, VBKo, eK, kshift
 RANGE dKCaBi, fKCaBi, VdKCaB, iBK
@@ -11,6 +13,7 @@ RANGE dKCaBi, fKCaBi, VdKCaB, iBK
 
 PARAMETER{
 v
+Vmi
 hdk
 gmKCaB
 kCaBK    
@@ -23,8 +26,11 @@ VBKo
 eK
 kshift
 Caci
-eCac
+Cac
+eCa
+}
 
+ASSIGNED{
 dKCaBi
 fKCaBi 
 VdKCaB 
@@ -54,7 +60,7 @@ kshift = 18
 }
 
 BREAKPOINT{
-VdKCaB =   (VBKo - (kshift * log((Caci / kCaBK)))) 
+VdKCaB =   (VBKo - (kshift * log((Cac / kCaBK)))) 
 fKCaBi = (1.0 / (1.0 + exp( - ((VfKCaB - v) / kfKCaB))))                
 dKCaBi = (1.0 / (1.0 + exp(((VdKCaB - v) / kdKCaB)))) 
 iBK =  (gmKCaB * pow(dKCaB,hdk) * fKCaB * (v - eK))                          

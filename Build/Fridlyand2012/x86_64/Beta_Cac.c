@@ -48,28 +48,24 @@ extern double hoc_Exp(double);
 #define F_ca _p[1]
 #define Vi _p[2]
 #define ksg _p[3]
-#define Cac _p[4]
-#define IntCa _p[5]
-#define iCaL _p[6]
-#define iCaT _p[7]
-#define iCaP _p[8]
-#define iPCa _p[9]
-#define eCa _p[10]
-#define Caci _p[11]
-#define DCaci _p[12]
-#define IntCai _p[13]
-#define DIntCai _p[14]
+#define Caci _p[4]
+#define IntCai _p[5]
+#define Cac _p[6]
+#define IntCa _p[7]
+#define iCaL _p[8]
+#define iCaT _p[9]
+#define iCaP _p[10]
+#define iPCa _p[11]
+#define eCa _p[12]
+#define DCac _p[13]
+#define DIntCa _p[14]
 #define v _p[15]
 #define _g _p[16]
-#define _ion_Caci	*_ppvar[0]._pval
-#define _style_Cac	*((int*)_ppvar[1]._pvoid)
-#define _ion_eCa	*_ppvar[2]._pval
-#define _ion_IntCai	*_ppvar[3]._pval
-#define _style_IntCa	*((int*)_ppvar[4]._pvoid)
-#define _ion_iCaL	*_ppvar[5]._pval
-#define _ion_iCaT	*_ppvar[6]._pval
-#define _ion_iCaP	*_ppvar[7]._pval
-#define _ion_iPCa	*_ppvar[8]._pval
+#define _ion_eCa	*_ppvar[0]._pval
+#define _ion_iCaL	*_ppvar[1]._pval
+#define _ion_iCaT	*_ppvar[2]._pval
+#define _ion_iCaP	*_ppvar[3]._pval
+#define _ion_iPCa	*_ppvar[4]._pval
  
 #if MAC
 #if !defined(v)
@@ -127,8 +123,8 @@ extern void hoc_reg_nmodl_filename(int, const char*);
  static HocParmUnits _hoc_parm_units[] = {
  0,0
 };
- static double Caci0 = 0;
- static double IntCai0 = 0;
+ static double Cac0 = 0;
+ static double IntCa0 = 0;
  static double delta_t = 0.01;
  /* connect global user variables to hoc */
  static DoubScal hoc_scdoub[] = {
@@ -149,7 +145,7 @@ static void _ode_map(int, double**, double**, double*, Datum*, double*, int);
 static void _ode_spec(_NrnThread*, _Memb_list*, int);
 static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  
-#define _cvode_ieq _ppvar[9]._i
+#define _cvode_ieq _ppvar[5]._i
  static void _ode_matsol_instance1(_threadargsproto_);
  /* connect range variables in _p that hoc is supposed to know about */
  static const char *_mechanism[] = {
@@ -160,14 +156,14 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  "Vi_B_Cac",
  "ksg_B_Cac",
  0,
+ "Caci_B_Cac",
+ "IntCai_B_Cac",
+ 0,
  "Cac_B_Cac",
  "IntCa_B_Cac",
  0,
- 0,
  0};
- static Symbol* _Cac_sym;
  static Symbol* _Ca_sym;
- static Symbol* _IntCa_sym;
  static Symbol* _CaL_sym;
  static Symbol* _CaT_sym;
  static Symbol* _CaP_sym;
@@ -186,30 +182,20 @@ static void nrn_alloc(Prop* _prop) {
  	ksg = 0;
  	_prop->param = _p;
  	_prop->param_size = 17;
- 	_ppvar = nrn_prop_datum_alloc(_mechtype, 10, _prop);
+ 	_ppvar = nrn_prop_datum_alloc(_mechtype, 6, _prop);
  	_prop->dparam = _ppvar;
  	/*connect ionic variables to this model*/
- prop_ion = need_memb(_Cac_sym);
- nrn_check_conc_write(_prop, prop_ion, 1);
- nrn_promote(prop_ion, 3, 0);
- 	_ppvar[0]._pval = &prop_ion->param[1]; /* Caci */
- 	_ppvar[1]._pvoid = (void*)(&(prop_ion->dparam[0]._i)); /* iontype for Cac */
  prop_ion = need_memb(_Ca_sym);
  nrn_promote(prop_ion, 0, 3);
- 	_ppvar[2]._pval = &prop_ion->param[0]; /* eCa */
- prop_ion = need_memb(_IntCa_sym);
- nrn_check_conc_write(_prop, prop_ion, 1);
- nrn_promote(prop_ion, 3, 0);
- 	_ppvar[3]._pval = &prop_ion->param[1]; /* IntCai */
- 	_ppvar[4]._pvoid = (void*)(&(prop_ion->dparam[0]._i)); /* iontype for IntCa */
+ 	_ppvar[0]._pval = &prop_ion->param[0]; /* eCa */
  prop_ion = need_memb(_CaL_sym);
- 	_ppvar[5]._pval = &prop_ion->param[3]; /* iCaL */
+ 	_ppvar[1]._pval = &prop_ion->param[3]; /* iCaL */
  prop_ion = need_memb(_CaT_sym);
- 	_ppvar[6]._pval = &prop_ion->param[3]; /* iCaT */
+ 	_ppvar[2]._pval = &prop_ion->param[3]; /* iCaT */
  prop_ion = need_memb(_CaP_sym);
- 	_ppvar[7]._pval = &prop_ion->param[3]; /* iCaP */
+ 	_ppvar[3]._pval = &prop_ion->param[3]; /* iCaP */
  prop_ion = need_memb(_PCa_sym);
- 	_ppvar[8]._pval = &prop_ion->param[3]; /* iPCa */
+ 	_ppvar[4]._pval = &prop_ion->param[3]; /* iPCa */
  
 }
  static void _initlists();
@@ -228,16 +214,12 @@ extern void _cvode_abstol( Symbol**, double*, int);
  void _Beta_Cac_reg() {
 	int _vectorized = 1;
   _initlists();
- 	ion_reg("Cac", 2.0);
  	ion_reg("Ca", 2.0);
- 	ion_reg("IntCa", 1.0);
  	ion_reg("CaL", -10000.);
  	ion_reg("CaT", -10000.);
  	ion_reg("CaP", -10000.);
  	ion_reg("PCa", -10000.);
- 	_Cac_sym = hoc_lookup("Cac_ion");
  	_Ca_sym = hoc_lookup("Ca_ion");
- 	_IntCa_sym = hoc_lookup("IntCa_ion");
  	_CaL_sym = hoc_lookup("CaL_ion");
  	_CaT_sym = hoc_lookup("CaT_ion");
  	_CaP_sym = hoc_lookup("CaP_ion");
@@ -250,18 +232,13 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
   hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
 #endif
-  hoc_register_prop_size(_mechtype, 17, 10);
-  hoc_register_dparam_semantics(_mechtype, 0, "Cac_ion");
-  hoc_register_dparam_semantics(_mechtype, 1, "#Cac_ion");
-  hoc_register_dparam_semantics(_mechtype, 2, "Ca_ion");
-  hoc_register_dparam_semantics(_mechtype, 3, "IntCa_ion");
-  hoc_register_dparam_semantics(_mechtype, 4, "#IntCa_ion");
-  hoc_register_dparam_semantics(_mechtype, 5, "CaL_ion");
-  hoc_register_dparam_semantics(_mechtype, 6, "CaT_ion");
-  hoc_register_dparam_semantics(_mechtype, 7, "CaP_ion");
-  hoc_register_dparam_semantics(_mechtype, 8, "PCa_ion");
-  hoc_register_dparam_semantics(_mechtype, 9, "cvodeieq");
- 	nrn_writes_conc(_mechtype, 0);
+  hoc_register_prop_size(_mechtype, 17, 6);
+  hoc_register_dparam_semantics(_mechtype, 0, "Ca_ion");
+  hoc_register_dparam_semantics(_mechtype, 1, "CaL_ion");
+  hoc_register_dparam_semantics(_mechtype, 2, "CaT_ion");
+  hoc_register_dparam_semantics(_mechtype, 3, "CaP_ion");
+  hoc_register_dparam_semantics(_mechtype, 4, "PCa_ion");
+  hoc_register_dparam_semantics(_mechtype, 5, "cvodeieq");
  	hoc_register_cvode(_mechtype, _ode_count, _ode_map, _ode_spec, _ode_matsol);
  	hoc_register_tolerance(_mechtype, _hoc_state_tol, &_atollist);
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
@@ -284,20 +261,20 @@ static int _ode_spec1(_threadargsproto_);
  
 /*CVODE*/
  static int _ode_spec1 (double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {int _reset = 0; {
-   DCaci = ( ( fi * ( - iCaL - iCaP - iCaT - ( 2.0 * iPCa ) ) / ( 2.0 * F_ca * Vi ) ) - ( ksg * Caci ) ) ;
-   DIntCai = ( 0.001 * Caci ) ;
+   DCac = ( ( fi * ( - iCaL - iCaP - iCaT - ( 2.0 * iPCa ) ) / ( 2.0 * F_ca * Vi ) ) - ( ksg * Cac ) ) ;
+   DIntCa = ( 0.001 * Cac ) ;
    }
  return _reset;
 }
  static int _ode_matsol1 (double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {
- DCaci = DCaci  / (1. - dt*( ( ( - ( ( ksg )*( 1.0 ) ) ) ) )) ;
- DIntCai = DIntCai  / (1. - dt*( 0.0 )) ;
+ DCac = DCac  / (1. - dt*( ( ( - ( ( ksg )*( 1.0 ) ) ) ) )) ;
+ DIntCa = DIntCa  / (1. - dt*( 0.0 )) ;
   return 0;
 }
  /*END CVODE*/
  static int states (double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) { {
-    Caci = Caci + (1. - exp(dt*(( ( - ( ( ksg )*( 1.0 ) ) ) ))))*(- ( ( ( ( ( fi )*( ( - iCaL - iCaP - iCaT - ( ( 2.0 )*( iPCa ) ) ) ) ) / ( 2.0 * F_ca * Vi ) ) ) ) / ( ( ( - ( ( ksg )*( 1.0 ) ) ) ) ) - Caci) ;
-    IntCai = IntCai - dt*(- ( ( ( 0.001 )*( Caci ) ) ) ) ;
+    Cac = Cac + (1. - exp(dt*(( ( - ( ( ksg )*( 1.0 ) ) ) ))))*(- ( ( ( ( ( fi )*( ( - iCaL - iCaP - iCaT - ( ( 2.0 )*( iPCa ) ) ) ) ) / ( 2.0 * F_ca * Vi ) ) ) ) / ( ( ( - ( ( ksg )*( 1.0 ) ) ) ) ) - Cac) ;
+    IntCa = IntCa - dt*(- ( ( ( 0.001 )*( Cac ) ) ) ) ;
    }
   return 0;
 }
@@ -313,16 +290,12 @@ static void _ode_spec(_NrnThread* _nt, _Memb_list* _ml, int _type) {
     _p = _ml->_data[_iml]; _ppvar = _ml->_pdata[_iml];
     _nd = _ml->_nodelist[_iml];
     v = NODEV(_nd);
-  Caci = _ion_Caci;
-  IntCai = _ion_IntCai;
   iCaL = _ion_iCaL;
   iCaT = _ion_iCaT;
   iCaP = _ion_iCaP;
   iPCa = _ion_iPCa;
      _ode_spec1 (_p, _ppvar, _thread, _nt);
-  _ion_Caci = Caci;
   _ion_eCa = eCa;
-  _ion_IntCai = IntCai;
  }}
  
 static void _ode_map(int _ieq, double** _pv, double** _pvdot, double* _pp, Datum* _ppd, double* _atol, int _type) { 
@@ -333,8 +306,6 @@ static void _ode_map(int _ieq, double** _pv, double** _pvdot, double* _pp, Datum
 		_pv[_i] = _pp + _slist1[_i];  _pvdot[_i] = _pp + _dlist1[_i];
 		_cvode_abstol(_atollist, _atol, _i);
 	}
- 	_pv[0] = &(_ion_Caci);
- 	_pv[1] = &(_ion_IntCai);
  }
  
 static void _ode_matsol_instance1(_threadargsproto_) {
@@ -350,8 +321,6 @@ static void _ode_matsol(_NrnThread* _nt, _Memb_list* _ml, int _type) {
     _p = _ml->_data[_iml]; _ppvar = _ml->_pdata[_iml];
     _nd = _ml->_nodelist[_iml];
     v = NODEV(_nd);
-  Caci = _ion_Caci;
-  IntCai = _ion_IntCai;
   iCaL = _ion_iCaL;
   iCaT = _ion_iCaT;
   iCaP = _ion_iCaP;
@@ -360,20 +329,18 @@ static void _ode_matsol(_NrnThread* _nt, _Memb_list* _ml, int _type) {
  }}
  extern void nrn_update_ion_pointer(Symbol*, Datum*, int, int);
  static void _update_ion_pointer(Datum* _ppvar) {
-   nrn_update_ion_pointer(_Cac_sym, _ppvar, 0, 1);
-   nrn_update_ion_pointer(_Ca_sym, _ppvar, 2, 0);
-   nrn_update_ion_pointer(_IntCa_sym, _ppvar, 3, 1);
-   nrn_update_ion_pointer(_CaL_sym, _ppvar, 5, 3);
-   nrn_update_ion_pointer(_CaT_sym, _ppvar, 6, 3);
-   nrn_update_ion_pointer(_CaP_sym, _ppvar, 7, 3);
-   nrn_update_ion_pointer(_PCa_sym, _ppvar, 8, 3);
+   nrn_update_ion_pointer(_Ca_sym, _ppvar, 0, 0);
+   nrn_update_ion_pointer(_CaL_sym, _ppvar, 1, 3);
+   nrn_update_ion_pointer(_CaT_sym, _ppvar, 2, 3);
+   nrn_update_ion_pointer(_CaP_sym, _ppvar, 3, 3);
+   nrn_update_ion_pointer(_PCa_sym, _ppvar, 4, 3);
  }
 
 static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {
   int _i; double _save;{
+  Cac = Cac0;
+  IntCa = IntCa0;
  {
-   IntCai = 0.0 ;
-   Caci = 0.25 ;
    IntCa = 0.0 ;
    Cac = 0.25 ;
    fi = 0.005 ;
@@ -406,18 +373,12 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
     _v = NODEV(_nd);
   }
  v = _v;
-  Caci = _ion_Caci;
-  IntCai = _ion_IntCai;
   iCaL = _ion_iCaL;
   iCaT = _ion_iCaT;
   iCaP = _ion_iCaP;
   iPCa = _ion_iPCa;
  initmodel(_p, _ppvar, _thread, _nt);
-  _ion_Caci = Caci;
-  nrn_wrote_conc(_Cac_sym, (&(_ion_Caci)) - 1, _style_Cac);
   _ion_eCa = eCa;
-  _ion_IntCai = IntCai;
-  nrn_wrote_conc(_IntCa_sym, (&(_ion_IntCai)) - 1, _style_IntCa);
 }
 }
 
@@ -495,20 +456,16 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
   }
  v=_v;
 {
-  Caci = _ion_Caci;
-  IntCai = _ion_IntCai;
   iCaL = _ion_iCaL;
   iCaT = _ion_iCaT;
   iCaP = _ion_iCaP;
   iPCa = _ion_iPCa;
  {   states(_p, _ppvar, _thread, _nt);
   } {
-   Cac = Caci ;
-   IntCa = IntCai ;
+   Caci = Cac ;
+   IntCai = IntCa ;
    }
-  _ion_Caci = Caci;
   _ion_eCa = eCa;
-  _ion_IntCai = IntCai;
 }}
 
 }
@@ -519,8 +476,8 @@ static void _initlists(){
  double _x; double* _p = &_x;
  int _i; static int _first = 1;
   if (!_first) return;
- _slist1[0] = &(Caci) - _p;  _dlist1[0] = &(DCaci) - _p;
- _slist1[1] = &(IntCai) - _p;  _dlist1[1] = &(DIntCai) - _p;
+ _slist1[0] = &(Cac) - _p;  _dlist1[0] = &(DCac) - _p;
+ _slist1[1] = &(IntCa) - _p;  _dlist1[1] = &(DIntCa) - _p;
 _first = 0;
 }
 
@@ -533,14 +490,14 @@ static const char* nmodl_filename = "/ufrc/lamb/tikaharikhanal/Model-of-Pancreat
 static const char* nmodl_file_text = 
   "NEURON{\n"
   "SUFFIX B_Cac \n"
-  "USEION Cac WRITE Caci VALENCE 2\n"
+  ":USEION Cac WRITE Caci VALENCE 2\n"
+  ":USEION IntCa WRITE IntCai VALENCE 1\n"
   "USEION Ca WRITE eCa VALENCE 2\n"
-  "USEION IntCa WRITE IntCai VALENCE 1\n"
   "USEION CaL READ iCaL\n"
   "USEION CaT READ iCaT\n"
   "USEION CaP READ iCaP\n"
   "USEION PCa READ iPCa\n"
-  "RANGE Cac, IntCa, fi, F_ca, Vi, ksg\n"
+  "RANGE Caci, IntCai, fi, F_ca, Vi, ksg\n"
   "}\n"
   "\n"
   "PARAMETER{\n"
@@ -556,8 +513,6 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "INITIAL{\n"
-  "IntCai = 0\n"
-  "Caci = 0.25\n"
   "IntCa = 0\n"
   "Cac = 0.25\n"
   "fi = 0.005\n"
@@ -569,24 +524,24 @@ static const char* nmodl_file_text =
   "\n"
   "\n"
   "STATE{\n"
+  "Cac\n"
+  "IntCa\n"
+  "}\n"
+  "\n"
+  "ASSIGNED{\n"
   "Caci\n"
   "IntCai\n"
   "}\n"
   "\n"
-  "ASSIGNED{\n"
-  "Cac \n"
-  "IntCa\n"
-  "}\n"
-  "\n"
   "BREAKPOINT{\n"
-  "Cac = Caci\n"
-  "IntCa = IntCai\n"
+  "Caci = Cac\n"
+  "IntCai = IntCa\n"
   "SOLVE states METHOD cnexp\n"
   "}\n"
   "\n"
   "DERIVATIVE states{\n"
-  "Caci' = ((fi * ( - iCaL - iCaP - iCaT - (2.0 * iPCa)) / (2.0 * F_ca * Vi)) - (ksg * Caci))                \n"
-  "IntCai' = (0.001 * Caci)                \n"
+  "Cac' = ((fi * ( - iCaL - iCaP - iCaT - (2.0 * iPCa)) / (2.0 * F_ca * Vi)) - (ksg * Cac))                \n"
+  "IntCa' = (0.001 * Cac)                \n"
   "}\n"
   ;
 #endif

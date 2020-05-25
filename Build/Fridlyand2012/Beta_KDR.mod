@@ -2,7 +2,7 @@ NEURON{
 SUFFIX B_KDR
 USEION KDR WRITE iKDR VALENCE 1
 USEION K READ eK
-:USEION Vm READ Vmi
+USEION Vm READ Vmi
 RANGE gmKDr, tdKr, Vdkr, kdkr, eK
 RANGE iKDR, dKri
 }
@@ -14,9 +14,12 @@ Vdkr
 kdkr
 eK
 v
+Vmi
+}
 
-iKDR
+ASSIGNED{
 dKri
+iKDR
 }
 
 STATE{

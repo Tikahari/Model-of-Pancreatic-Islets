@@ -158,10 +158,10 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  "tfCaT_B_CaT",
  "VdCaT_B_CaT",
  "VfCaT_B_CaT",
+ 0,
  "dCaTi_B_CaT",
  "fCaTi_B_CaT",
  "iCaT_B_CaT",
- 0,
  0,
  "dCaT_B_CaT",
  "fCaT_B_CaT",
@@ -185,9 +185,6 @@ static void nrn_alloc(Prop* _prop) {
  	tfCaT = 0;
  	VdCaT = 0;
  	VfCaT = 0;
- 	dCaTi = 0;
- 	fCaTi = 0;
- 	iCaT = 0;
  	_prop->param = _p;
  	_prop->param_size = 18;
  	_ppvar = nrn_prop_datum_alloc(_mechtype, 5, _prop);
@@ -377,9 +374,9 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
 }
 
 static double _nrn_current(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt, double _v){double _current=0.;v=_v;{ {
-   dCaTi = ( 1.0 / ( 1.0 + exp ( ( ( VdCaT - Vmi ) / kdCaT ) ) ) ) ;
-   fCaTi = ( 1.0 / ( 1.0 + exp ( ( ( Vmi - VfCaT ) / kfCaT ) ) ) ) ;
-   iCaT = ( gmCaT * dCaT * fCaT * ( Vmi - eCa ) ) ;
+   dCaTi = ( 1.0 / ( 1.0 + exp ( ( ( VdCaT - v ) / kdCaT ) ) ) ) ;
+   fCaTi = ( 1.0 / ( 1.0 + exp ( ( ( v - VfCaT ) / kfCaT ) ) ) ) ;
+   iCaT = ( gmCaT * dCaT * fCaT * ( v - eCa ) ) ;
    }
  _current += iCaT;
 
@@ -519,12 +516,13 @@ static const char* nmodl_file_text =
   "VfCaT \n"
   "v\n"
   "Vmi\n"
+  "}\n"
   "\n"
+  "ASSIGNED{\n"
   "dCaTi\n"
   "fCaTi \n"
   "iCaT \n"
   "}\n"
-  "\n"
   "\n"
   "STATE{\n"
   "dCaT                \n"
@@ -544,9 +542,9 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "BREAKPOINT{\n"
-  "dCaTi = (1.0 / (1.0 + exp(((VdCaT - Vmi) / kdCaT)))) \n"
-  "fCaTi = (1.0 / (1.0 + exp(((Vmi - VfCaT) / kfCaT))))                \n"
-  "iCaT = (gmCaT * dCaT * fCaT * (Vmi - eCa))                \n"
+  "dCaTi = (1.0 / (1.0 + exp(((VdCaT - v) / kdCaT)))) \n"
+  "fCaTi = (1.0 / (1.0 + exp(((v - VfCaT) / kfCaT))))                \n"
+  "iCaT = (gmCaT * dCaT * fCaT * (v - eCa))                \n"
   "SOLVE states METHOD cnexp\n"
   "}\n"
   "\n"

@@ -1,7 +1,8 @@
 NEURON{
 SUFFIX B_KCa
 USEION KCa WRITE iKCa VALENCE 1
-USEION Cac READ Caci
+:USEION Cac READ Caci
+POINTER Cac
 USEION K READ eK
 :USEION Vm READ Vmi
 RANGE gmKCa, KKCa, eK
@@ -13,6 +14,7 @@ gmKCa
 KKCa
 eK
 Caci
+Cac
 v
 
 dKCa
@@ -26,6 +28,6 @@ dKCa = 0.1
 }
 
 BREAKPOINT{
-dKCa = (pow(Caci,4.0) / (pow(KKCa,4.0) + pow(Caci,4.0)))                
+dKCa = (pow(Cac,4.0) / (pow(KKCa,4.0) + pow(Cac,4.0)))                
 iKCa =  (gmKCa * dKCa * (v - eK))                
 }

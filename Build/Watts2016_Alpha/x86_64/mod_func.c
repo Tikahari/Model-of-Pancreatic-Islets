@@ -13,7 +13,6 @@ extern void _Alpha_KATP_reg(void);
 extern void _Alpha_KDR_reg(void);
 extern void _Alpha_L_reg(void);
 extern void _Alpha_Na_reg(void);
-extern void _Alpha_SOC_reg(void);
 
 void modl_reg(){
   if (!nrn_nobanner_) if (nrnmpi_myid < 1) {
@@ -29,7 +28,6 @@ void modl_reg(){
     fprintf(stderr," Alpha_KDR.mod");
     fprintf(stderr," Alpha_L.mod");
     fprintf(stderr," Alpha_Na.mod");
-    fprintf(stderr," Alpha_SOC.mod");
     fprintf(stderr, "\n");
   }
   _Alpha_CaL_reg();
@@ -42,5 +40,4 @@ void modl_reg(){
   _Alpha_KDR_reg();
   _Alpha_L_reg();
   _Alpha_Na_reg();
-  _Alpha_SOC_reg();
 }

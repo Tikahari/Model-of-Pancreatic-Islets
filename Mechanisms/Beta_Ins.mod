@@ -1,6 +1,7 @@
 NEURON{
 SUFFIX B_Ins
-USEION Cac READ Caci
+:USEION Cac READ Caci
+POINTER Cac
 USEION CaP READ iCaP
 RANGE Vpi, kpi, Ni, In, kci, KiCa, kre, ksi
 RANGE fsi, IS, fiCa
@@ -17,6 +18,7 @@ kre
 ksi
 iCaP
 Caci
+Cac
 
 fsi
 IS
@@ -40,7 +42,7 @@ F_ins = 96480
 }
 
 BREAKPOINT{
-fiCa =  (Caci * Caci / ((KiCa * KiCa) + (Caci * Caci)))                
+fiCa =  (Cac * Cac / ((KiCa * KiCa) + (Cac * Cac)))                
 fsi = ( - (kci * fiCa * iCaP / F_ins) + kre)                
 IS =  (kpi * ksi * In) 
 SOLVE states METHOD cnexp

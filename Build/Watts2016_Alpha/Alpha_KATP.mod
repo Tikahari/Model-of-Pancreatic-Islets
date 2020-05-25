@@ -17,9 +17,9 @@ v
 }
 
 ASSIGNED{
-EffIa
-gKATPa
-iKATPa
+EffI
+gKATP
+iKATP
 }
 
 INITIAL{
@@ -31,7 +31,7 @@ eK = -75
 : B cell modifies G secretion by increasing KATPa chan activity, so conductance of gKATPa
 : chans depends on concentration of I 
 BREAKPOINT{
-EffIa = (1 - knockoutba) * ((0.015/(1 + exp((-I + 1500)/200))) + ka1) + knockoutba * ka1
-gKATPa = gKATPbara * EffIa
-iKATPa = gKATPa*(v - eK)
+EffI = (1 - knockoutba) * ((0.015/(1 + exp((-I + 1500)/200))) + ka1) + knockoutba * ka1
+gKATP = gKATPbara * EffI
+iKATP = gKATP*(v - eK)
 }

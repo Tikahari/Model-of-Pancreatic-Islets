@@ -3,14 +3,19 @@ import configparser
 import csv
 import mod
 import os
+import sys
+import ast
 # read mechanism configuration (mech.ini)
 config = configparser.ConfigParser(allow_no_value= True)
 config.optionxform = str
 config.read('mech.ini')
 # set up mechanisms according to parameters for cell type (Beta.ini)
 mechs = []
+pointers = {}
 for i in config['Beta']:
     mechs.append(i)
+    if config['Beta'][i] is not None:
+        pointers[i] = ast.literal_eval(config['Beta'][i])
     mod.writeMod('Beta.ini', 'Beta_'+i+'.mod')
 # compile mod files
 os.system('nrnivmodl *mod > compile 2>&1')
@@ -19,7 +24,6 @@ t = []
 v = []
 rec = {}
 header = []
-
 # create section and add all mechanisms
 from neuron import h, gui
 a = h.Section()
@@ -27,18 +31,29 @@ for i in mechs:
     a.insert('B_'+i)
 # simulation parameter
 a.cm = 9990
+# set pointers
+for i in pointers:
+    for j in pointers[i]:
+        for k in a:
+            temp = j.split('_')
+            point_to = "B_"+i
+            point_from = "_ref_"+temp[0]+"_B_"+temp[2]
+            # print('point from', point_from, "point to", point_to)
+            from_ = getattr(k, point_from)
+            to_ = getattr(k, point_to)
+            h.setpointer(from_, temp[2], to_)
 
 # a.nseg = 5
 # record mechanisms
 for i in a.psection()['density_mechs']:
     for j in a.psection()['density_mechs'][i]:
         header.append(i+'_'+j)
-        rec[j] = []
+        rec[str(i+'_'+j)] = []
         # record variables of every mechanism in every segment
         for k in a:
             v.append(h.Vector().record(k._ref_v))
             mechRecord = getattr(k, '_ref_'+j+'_'+i)
-            rec[j].append(h.Vector().record(mechRecord))
+            rec[str(i+'_'+j)].append(h.Vector().record(mechRecord))
 
 # fix header / record voltage of every segment
 head = ['Time']
@@ -56,12 +71,12 @@ t = h.Vector().record(h._ref_t)
 h.finitialize(-62)
 h.continuerun(200)
 
-with open('data/mechSim.csv','w') as file:
+with open('data/mechSim_4_Assigned.csv','w') as file:
     writer = csv.writer(file,quoting = csv.QUOTE_NONE,escapechar=' ')
     writer.writerow(head)
     for i in range(len(t)):
-        rec_csv = ''
-        for j in rec:
-            rec_csv += str(rec[j][0][i]) +','
-        rec_csv = rec_csv[:len(rec_csv)-1] + ' '
-        writer.writerow([t[i], v[0][i], rec_csv])
+        out = [t[i]]
+        for q in rec:
+            out.append(rec[q][0][i])
+        # print(len(rec), len(out), len(header))
+        writer.writerow(out)
