@@ -51,17 +51,21 @@ extern double hoc_Exp(double);
 #define tfCaP _p[4]
 #define kfCaP _p[5]
 #define kdCaP _p[6]
-#define dCaP _p[7]
-#define fCaP _p[8]
-#define eCa _p[9]
-#define iCaP _p[10]
-#define DdCaP _p[11]
-#define DfCaP _p[12]
-#define v _p[13]
-#define _g _p[14]
+#define dCaPi _p[7]
+#define fCaPi _p[8]
+#define iCaP _p[9]
+#define dCaP _p[10]
+#define fCaP _p[11]
+#define eCa _p[12]
+#define Vmi _p[13]
+#define DdCaP _p[14]
+#define DfCaP _p[15]
+#define v _p[16]
+#define _g _p[17]
 #define _ion_iCaP	*_ppvar[0]._pval
 #define _ion_diCaPdv	*_ppvar[1]._pval
 #define _ion_eCa	*_ppvar[2]._pval
+#define _ion_Vmi	*_ppvar[3]._pval
  
 #if MAC
 #if !defined(v)
@@ -112,13 +116,6 @@ extern void hoc_reg_nmodl_filename(int, const char*);
  0, 0
 };
  /* declare global and static user variables */
- static int _thread1data_inuse = 0;
-static double _thread1data[2];
-#define _gth 0
-#define dCaPi_B_CaP _thread1data[0]
-#define dCaPi _thread[_gth]._pval[0]
-#define fCaPi_B_CaP _thread1data[1]
-#define fCaPi _thread[_gth]._pval[1]
  /* some parameters have upper and lower limits */
  static HocParmLimits _hoc_parm_limits[] = {
  0,0,0
@@ -131,8 +128,6 @@ static double _thread1data[2];
  static double fCaP0 = 0;
  /* connect global user variables to hoc */
  static DoubScal hoc_scdoub[] = {
- "dCaPi_B_CaP", &dCaPi_B_CaP,
- "fCaPi_B_CaP", &fCaPi_B_CaP,
  0,0
 };
  static DoubVec hoc_vdoub[] = {
@@ -150,7 +145,7 @@ static void _ode_map(int, double**, double**, double*, Datum*, double*, int);
 static void _ode_spec(_NrnThread*, _Memb_list*, int);
 static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  
-#define _cvode_ieq _ppvar[3]._i
+#define _cvode_ieq _ppvar[4]._i
  static void _ode_matsol_instance1(_threadargsproto_);
  /* connect range variables in _p that hoc is supposed to know about */
  static const char *_mechanism[] = {
@@ -164,6 +159,9 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  "kfCaP_B_CaP",
  "kdCaP_B_CaP",
  0,
+ "dCaPi_B_CaP",
+ "fCaPi_B_CaP",
+ "iCaP_B_CaP",
  0,
  "dCaP_B_CaP",
  "fCaP_B_CaP",
@@ -171,13 +169,14 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  0};
  static Symbol* _CaP_sym;
  static Symbol* _Ca_sym;
+ static Symbol* _Vm_sym;
  
 extern Prop* need_memb(Symbol*);
 
 static void nrn_alloc(Prop* _prop) {
 	Prop *prop_ion;
 	double *_p; Datum *_ppvar;
- 	_p = nrn_prop_data_alloc(_mechtype, 15, _prop);
+ 	_p = nrn_prop_data_alloc(_mechtype, 18, _prop);
  	/*initialize range parameters*/
  	gmCaP = 0;
  	VfCaP = 0;
@@ -187,8 +186,8 @@ static void nrn_alloc(Prop* _prop) {
  	kfCaP = 0;
  	kdCaP = 0;
  	_prop->param = _p;
- 	_prop->param_size = 15;
- 	_ppvar = nrn_prop_datum_alloc(_mechtype, 4, _prop);
+ 	_prop->param_size = 18;
+ 	_ppvar = nrn_prop_datum_alloc(_mechtype, 5, _prop);
  	_prop->dparam = _ppvar;
  	/*connect ionic variables to this model*/
  prop_ion = need_memb(_CaP_sym);
@@ -197,6 +196,9 @@ static void nrn_alloc(Prop* _prop) {
  prop_ion = need_memb(_Ca_sym);
  nrn_promote(prop_ion, 0, 1);
  	_ppvar[2]._pval = &prop_ion->param[0]; /* eCa */
+ prop_ion = need_memb(_Vm_sym);
+ nrn_promote(prop_ion, 1, 0);
+ 	_ppvar[3]._pval = &prop_ion->param[1]; /* Vmi */
  
 }
  static void _initlists();
@@ -205,8 +207,6 @@ static void nrn_alloc(Prop* _prop) {
  static HocStateTolerance _hoc_state_tol[] = {
  0,0
 };
- static void _thread_mem_init(Datum*);
- static void _thread_cleanup(Datum*);
  static void _update_ion_pointer(Datum*);
  extern Symbol* hoc_lookup(const char*);
 extern void _nrn_thread_reg(int, int, void(*)(Datum*));
@@ -219,26 +219,24 @@ extern void _cvode_abstol( Symbol**, double*, int);
   _initlists();
  	ion_reg("CaP", 2.0);
  	ion_reg("Ca", -10000.);
+ 	ion_reg("Vm", -10000.);
  	_CaP_sym = hoc_lookup("CaP_ion");
  	_Ca_sym = hoc_lookup("Ca_ion");
- 	register_mech(_mechanism, nrn_alloc,nrn_cur, nrn_jacob, nrn_state, nrn_init, hoc_nrnpointerindex, 2);
-  _extcall_thread = (Datum*)ecalloc(1, sizeof(Datum));
-  _thread_mem_init(_extcall_thread);
-  _thread1data_inuse = 0;
+ 	_Vm_sym = hoc_lookup("Vm_ion");
+ 	register_mech(_mechanism, nrn_alloc,nrn_cur, nrn_jacob, nrn_state, nrn_init, hoc_nrnpointerindex, 1);
  _mechtype = nrn_get_mechtype(_mechanism[1]);
      _nrn_setdata_reg(_mechtype, _setdata);
-     _nrn_thread_reg(_mechtype, 1, _thread_mem_init);
-     _nrn_thread_reg(_mechtype, 0, _thread_cleanup);
      _nrn_thread_reg(_mechtype, 2, _update_ion_pointer);
  #if NMODL_TEXT
   hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
   hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
 #endif
-  hoc_register_prop_size(_mechtype, 15, 4);
+  hoc_register_prop_size(_mechtype, 18, 5);
   hoc_register_dparam_semantics(_mechtype, 0, "CaP_ion");
   hoc_register_dparam_semantics(_mechtype, 1, "CaP_ion");
   hoc_register_dparam_semantics(_mechtype, 2, "Ca_ion");
-  hoc_register_dparam_semantics(_mechtype, 3, "cvodeieq");
+  hoc_register_dparam_semantics(_mechtype, 3, "Vm_ion");
+  hoc_register_dparam_semantics(_mechtype, 4, "cvodeieq");
  	hoc_register_cvode(_mechtype, _ode_count, _ode_map, _ode_spec, _ode_matsol);
  	hoc_register_tolerance(_mechtype, _hoc_state_tol, &_atollist);
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
@@ -291,6 +289,7 @@ static void _ode_spec(_NrnThread* _nt, _Memb_list* _ml, int _type) {
     _nd = _ml->_nodelist[_iml];
     v = NODEV(_nd);
   eCa = _ion_eCa;
+  Vmi = _ion_Vmi;
      _ode_spec1 (_p, _ppvar, _thread, _nt);
   }}
  
@@ -318,28 +317,15 @@ static void _ode_matsol(_NrnThread* _nt, _Memb_list* _ml, int _type) {
     _nd = _ml->_nodelist[_iml];
     v = NODEV(_nd);
   eCa = _ion_eCa;
+  Vmi = _ion_Vmi;
  _ode_matsol_instance1(_threadargs_);
  }}
- 
-static void _thread_mem_init(Datum* _thread) {
-  if (_thread1data_inuse) {_thread[_gth]._pval = (double*)ecalloc(2, sizeof(double));
- }else{
- _thread[_gth]._pval = _thread1data; _thread1data_inuse = 1;
- }
- }
- 
-static void _thread_cleanup(Datum* _thread) {
-  if (_thread[_gth]._pval == _thread1data) {
-   _thread1data_inuse = 0;
-  }else{
-   free((void*)_thread[_gth]._pval);
-  }
- }
  extern void nrn_update_ion_pointer(Symbol*, Datum*, int, int);
  static void _update_ion_pointer(Datum* _ppvar) {
    nrn_update_ion_pointer(_CaP_sym, _ppvar, 0, 3);
    nrn_update_ion_pointer(_CaP_sym, _ppvar, 1, 4);
    nrn_update_ion_pointer(_Ca_sym, _ppvar, 2, 0);
+   nrn_update_ion_pointer(_Vm_sym, _ppvar, 3, 1);
  }
 
 static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {
@@ -383,6 +369,7 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
   }
  v = _v;
   eCa = _ion_eCa;
+  Vmi = _ion_Vmi;
  initmodel(_p, _ppvar, _thread, _nt);
  }
 }
@@ -417,6 +404,7 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
     _v = NODEV(_nd);
   }
   eCa = _ion_eCa;
+  Vmi = _ion_Vmi;
  _g = _nrn_current(_p, _ppvar, _thread, _nt, _v + .001);
  	{ double _diCaP;
   _diCaP = iCaP;
@@ -485,6 +473,7 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
  v=_v;
 {
   eCa = _ion_eCa;
+  Vmi = _ion_Vmi;
  {   states(_p, _ppvar, _thread, _nt);
   } }}
 
@@ -512,8 +501,9 @@ static const char* nmodl_file_text =
   "SUFFIX B_CaP\n"
   "USEION CaP WRITE iCaP VALENCE 2\n"
   "USEION Ca READ eCa\n"
-  ":USEION Vm READ Vmi\n"
+  "USEION Vm READ Vmi\n"
   "RANGE gmCaP, dCaP, fCaP, VfCaP, VdCaP, tdCaP, tfCaP, kfCaP, kdCaP, eCa\n"
+  "RANGE dCaPi, fCaPi, iCaP \n"
   "}\n"
   "\n"
   "PARAMETER{ \n"
@@ -526,12 +516,14 @@ static const char* nmodl_file_text =
   "kdCaP\n"
   "eCa\n"
   "v\n"
-  "\n"
-  "dCaPi\n"
-  "fCaPi\n"
-  "iCaP    \n"
+  "Vmi  \n"
   "}\n"
   "\n"
+  "ASSIGNED{\n"
+  "dCaPi\n"
+  "fCaPi\n"
+  "iCaP  \n"
+  "}\n"
   "\n"
   "STATE{\n"
   "dCaP\n"

@@ -157,10 +157,10 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  "KiCa_B_Ins",
  "kre_B_Ins",
  "ksi_B_Ins",
+ 0,
  "fsi_B_Ins",
  "IS_B_Ins",
  "fiCa_B_Ins",
- 0,
  0,
  "In_B_Ins",
  0,
@@ -182,9 +182,6 @@ static void nrn_alloc(Prop* _prop) {
  	KiCa = 0;
  	kre = 0;
  	ksi = 0;
- 	fsi = 0;
- 	IS = 0;
- 	fiCa = 0;
  	_prop->param = _p;
  	_prop->param_size = 14;
  	_ppvar = nrn_prop_datum_alloc(_mechtype, 3, _prop);
@@ -418,7 +415,7 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
 {
   iCaP = _ion_iCaP;
  { error =  states();
- if(error){fprintf(stderr,"at line 48 in file Beta_Ins.mod:\nSOLVE states METHOD cnexp\n"); nrn_complain(_p); abort_run(error);}
+ if(error){fprintf(stderr,"at line 51 in file Beta_Ins.mod:\nSOLVE states METHOD cnexp\n"); nrn_complain(_p); abort_run(error);}
  } {
    fiCa = ( Cac * Cac / ( ( KiCa * KiCa ) + ( Cac * Cac ) ) ) ;
    fsi = ( - ( kci * fiCa * iCaP / F_ins ) + kre ) ;
@@ -462,6 +459,9 @@ static const char* nmodl_file_text =
   "Caci\n"
   "Cac\n"
   "\n"
+  "}\n"
+  "\n"
+  "ASSIGNED{\n"
   "fsi\n"
   "IS\n"
   "fiCa\n"

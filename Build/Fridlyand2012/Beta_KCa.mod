@@ -4,7 +4,7 @@ USEION KCa WRITE iKCa VALENCE 1
 :USEION Cac READ Caci
 POINTER Cac
 USEION K READ eK
-:USEION Vm READ Vmi
+USEION Vm READ Vmi
 RANGE gmKCa, KKCa, eK
 RANGE dKCa, iKCa
 }
@@ -16,7 +16,10 @@ eK
 Caci
 Cac
 v
+Vmi
+}
 
+ASSIGNED{
 dKCa
 iKCa
 }

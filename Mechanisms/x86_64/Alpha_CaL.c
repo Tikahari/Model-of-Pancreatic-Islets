@@ -468,7 +468,7 @@ static const char* nmodl_file_text =
   "USEION CaL WRITE iCaL VALENCE 2\n"
   "USEION Ca WRITE eCa VALENCE 2\n"
   "RANGE iCaL, mCaL_inf, hCaL_inf, tau_mCaL, tau_hCaL\n"
-  "RANGE eCa, gCaL\n"
+  "RANGE gCaL\n"
   "}\n"
   "\n"
   "PARAMETER{\n"

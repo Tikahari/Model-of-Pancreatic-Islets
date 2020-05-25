@@ -217,7 +217,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
  	hoc_register_cvode(_mechtype, _ode_count, _ode_map, _ode_spec, _ode_matsol);
  	hoc_register_tolerance(_mechtype, _hoc_state_tol, &_atollist);
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
- 	ivoc_help("help ?1 A_CaL /ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Watts2016/x86_64/Alpha_CaL.mod\n");
+ 	ivoc_help("help ?1 A_CaL /ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Watts2016_Alpha/x86_64/Alpha_CaL.mod\n");
  hoc_register_limits(_mechtype, _hoc_parm_limits);
  hoc_register_units(_mechtype, _hoc_parm_units);
  }
@@ -308,6 +308,8 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
  {
    eCa = 65.0 ;
    gCaL = 0.7 ;
+   mCaL = 0.1293341713632475 ;
+   hCaL = 0.8127842536675057 ;
    }
  
 }
@@ -459,14 +461,14 @@ _first = 0;
 #endif
 
 #if NMODL_TEXT
-static const char* nmodl_filename = "/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Watts2016/Alpha_CaL.mod";
+static const char* nmodl_filename = "/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Watts2016_Alpha/Alpha_CaL.mod";
 static const char* nmodl_file_text = 
   "NEURON{\n"
   "SUFFIX A_CaL\n"
   "USEION CaL WRITE iCaL VALENCE 2\n"
   "USEION Ca WRITE eCa VALENCE 2\n"
   "RANGE iCaL, mCaL_inf, hCaL_inf, tau_mCaL, tau_hCaL\n"
-  "RANGE eCa, gCaL\n"
+  "RANGE gCaL\n"
   "}\n"
   "\n"
   "PARAMETER{\n"
@@ -491,6 +493,8 @@ static const char* nmodl_file_text =
   "INITIAL{\n"
   "eCa = 65\n"
   "gCaL = 0.7\n"
+  "mCaL = 0.1293341713632475 \n"
+  "hCaL = 0.8127842536675057\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"

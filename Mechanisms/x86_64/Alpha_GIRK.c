@@ -43,18 +43,21 @@ extern double hoc_Exp(double);
  
 #define t _nt->_t
 #define dt _nt->_dt
-#define gbarGIRK _p[0]
-#define S _p[1]
-#define eGIRK _p[2]
-#define eK _p[3]
-#define iGIRK _p[4]
-#define EffS _p[5]
-#define v _p[6]
-#define _g _p[7]
+#define knockoutda _p[0]
+#define gGIRKko _p[1]
+#define sombara2 _p[2]
+#define ssom2 _p[3]
+#define S _p[4]
+#define gGIRKbar _p[5]
+#define gGIRK _p[6]
+#define EffS _p[7]
+#define iGIRK _p[8]
+#define eGIRK _p[9]
+#define v _p[10]
+#define _g _p[11]
 #define _ion_iGIRK	*_ppvar[0]._pval
 #define _ion_diGIRKdv	*_ppvar[1]._pval
 #define _ion_eGIRK	*_ppvar[2]._pval
-#define _ion_eK	*_ppvar[3]._pval
  
 #if MAC
 #if !defined(v)
@@ -129,27 +132,36 @@ static void  nrn_jacob(_NrnThread*, _Memb_list*, int);
  static const char *_mechanism[] = {
  "7.7.0",
 "A_GIRK",
- "gbarGIRK_A_GIRK",
+ "knockoutda_A_GIRK",
+ "gGIRKko_A_GIRK",
+ "sombara2_A_GIRK",
+ "ssom2_A_GIRK",
  "S_A_GIRK",
  0,
+ "gGIRKbar_A_GIRK",
+ "gGIRK_A_GIRK",
+ "EffS_A_GIRK",
+ "iGIRK_A_GIRK",
  0,
  0,
  0};
  static Symbol* _GIRK_sym;
- static Symbol* _K_sym;
  
 extern Prop* need_memb(Symbol*);
 
 static void nrn_alloc(Prop* _prop) {
 	Prop *prop_ion;
 	double *_p; Datum *_ppvar;
- 	_p = nrn_prop_data_alloc(_mechtype, 8, _prop);
+ 	_p = nrn_prop_data_alloc(_mechtype, 12, _prop);
  	/*initialize range parameters*/
- 	gbarGIRK = 0;
+ 	knockoutda = 0;
+ 	gGIRKko = 0;
+ 	sombara2 = 0;
+ 	ssom2 = 0;
  	S = 0;
  	_prop->param = _p;
- 	_prop->param_size = 8;
- 	_ppvar = nrn_prop_datum_alloc(_mechtype, 4, _prop);
+ 	_prop->param_size = 12;
+ 	_ppvar = nrn_prop_datum_alloc(_mechtype, 3, _prop);
  	_prop->dparam = _ppvar;
  	/*connect ionic variables to this model*/
  prop_ion = need_memb(_GIRK_sym);
@@ -157,9 +169,6 @@ static void nrn_alloc(Prop* _prop) {
  	_ppvar[0]._pval = &prop_ion->param[3]; /* iGIRK */
  	_ppvar[1]._pval = &prop_ion->param[4]; /* _ion_diGIRKdv */
  	_ppvar[2]._pval = &prop_ion->param[0]; /* eGIRK */
- prop_ion = need_memb(_K_sym);
- nrn_promote(prop_ion, 0, 1);
- 	_ppvar[3]._pval = &prop_ion->param[0]; /* eK */
  
 }
  static void _initlists();
@@ -174,9 +183,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
 	int _vectorized = 1;
   _initlists();
  	ion_reg("GIRK", 1.0);
- 	ion_reg("K", -10000.);
  	_GIRK_sym = hoc_lookup("GIRK_ion");
- 	_K_sym = hoc_lookup("K_ion");
  	register_mech(_mechanism, nrn_alloc,nrn_cur, nrn_jacob, nrn_state, nrn_init, hoc_nrnpointerindex, 1);
  _mechtype = nrn_get_mechtype(_mechanism[1]);
      _nrn_setdata_reg(_mechtype, _setdata);
@@ -185,11 +192,10 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
   hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
 #endif
-  hoc_register_prop_size(_mechtype, 8, 4);
+  hoc_register_prop_size(_mechtype, 12, 3);
   hoc_register_dparam_semantics(_mechtype, 0, "GIRK_ion");
   hoc_register_dparam_semantics(_mechtype, 1, "GIRK_ion");
   hoc_register_dparam_semantics(_mechtype, 2, "GIRK_ion");
-  hoc_register_dparam_semantics(_mechtype, 3, "K_ion");
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
  	ivoc_help("help ?1 A_GIRK /ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Mechanisms/x86_64/Alpha_GIRK.mod\n");
  hoc_register_limits(_mechtype, _hoc_parm_limits);
@@ -207,13 +213,16 @@ static void _modl_cleanup(){ _match_recurse=1;}
    nrn_update_ion_pointer(_GIRK_sym, _ppvar, 0, 3);
    nrn_update_ion_pointer(_GIRK_sym, _ppvar, 1, 4);
    nrn_update_ion_pointer(_GIRK_sym, _ppvar, 2, 0);
-   nrn_update_ion_pointer(_K_sym, _ppvar, 3, 0);
  }
 
 static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {
   int _i; double _save;{
  {
-   gbarGIRK = 10.0 ;
+   knockoutda = 0.0 ;
+   gGIRKko = 0.0 ;
+   sombara2 = 35.0 ;
+   ssom2 = 10.0 ;
+   eGIRK = - 80.0 ;
    }
 
 }
@@ -239,7 +248,6 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
     _v = NODEV(_nd);
   }
  v = _v;
-  eK = _ion_eK;
  initmodel(_p, _ppvar, _thread, _nt);
    _ion_eGIRK = eGIRK;
 }
@@ -247,8 +255,9 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
 
 static double _nrn_current(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt, double _v){double _current=0.;v=_v;{ {
    gGIRKbar = ( 1.0 - knockoutda ) * 0.025 + knockoutda * gGIRKko ;
-   EffS = 1.0 / ( 1.0 + exp ( - ( S - 35.0 ) / 10.0 ) ) ;
-   iGIRK = gbarGIRK * EFFS * ( v - eGIRK ) ;
+   gGIRK = gGIRKbar * EffS ;
+   EffS = 1.0 / ( 1.0 + exp ( - ( S - sombara2 ) / ssom2 ) ) ;
+   iGIRK = gGIRKbar * EffS * ( v - eGIRK ) ;
    }
  _current += iGIRK;
 
@@ -274,7 +283,6 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
     _nd = _ml->_nodelist[_iml];
     _v = NODEV(_nd);
   }
-  eK = _ion_eK;
  _g = _nrn_current(_p, _ppvar, _thread, _nt, _v + .001);
  	{ double _diGIRK;
   _diGIRK = iGIRK;
@@ -341,35 +349,46 @@ _first = 0;
 #if NMODL_TEXT
 static const char* nmodl_filename = "/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Mechanisms/Alpha_GIRK.mod";
 static const char* nmodl_file_text = 
+  ": Sst inhibits G secretion by reducing cAMP, which primarily reduces exocytosis but also through\n"
+  ": act. of G protein-coupled inward rect potass (GIRK) chans\n"
   "NEURON{\n"
   "SUFFIX A_GIRK\n"
   "USEION GIRK WRITE iGIRK, eGIRK VALENCE 1\n"
-  "USEION K READ eK\n"
   ":POINTER S\n"
-  "RANGE eGIRK, gbarGIRK, S\n"
+  "RANGE knockoutda, gGIRKko, sombara2, ssom2, S\n"
+  "RANGE gGIRKbar, gGIRK, EffS, iGIRK\n"
   "}\n"
   "\n"
   "PARAMETER{\n"
-  "eGIRK\n"
-  "gbarGIRK\n"
+  "knockoutda \n"
+  "gGIRKko \n"
+  "sombara2\n"
+  "ssom2\n"
   "S\n"
+  "eGIRK \n"
   "v\n"
-  "eK\n"
   "}\n"
   "\n"
   "ASSIGNED{\n"
-  "iGIRK\n"
+  "gGIRKbar\n"
+  "gGIRK\n"
   "EffS\n"
+  "iGIRK\n"
   "}\n"
   "\n"
   "INITIAL{\n"
-  "gbarGIRK = 10\n"
+  "knockoutda = 0\n"
+  "gGIRKko = 0\n"
+  "sombara2 = 35\n"
+  "ssom2 = 10\n"
+  "eGIRK = -80\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"
-  "gGIRKbar = (1-knockoutda)*0.025+knockoutda*gGIRKko\n"
-  "EffS = 1/(1+exp(-(S-35)/10))\n"
-  "iGIRK = gbarGIRK * EFFS * (v - eGIRK)\n"
+  "gGIRKbar = (1 - knockoutda) * 0.025 + knockoutda * gGIRKko\n"
+  "gGIRK = gGIRKbar * EffS\n"
+  "EffS = 1/(1 + exp(-(S - sombara2)/ssom2)) : Effect of Sst \n"
+  "iGIRK = gGIRKbar * EffS * (v - eGIRK)\n"
   "}\n"
   "\n"
   ;

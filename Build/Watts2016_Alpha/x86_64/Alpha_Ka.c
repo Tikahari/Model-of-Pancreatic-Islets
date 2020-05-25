@@ -45,14 +45,14 @@ extern double hoc_Exp(double);
 #define t _nt->_t
 #define dt _nt->_dt
 #define gKa _p[0]
-#define iKa _p[1]
-#define mKa_inf _p[2]
-#define hKa_inf _p[3]
-#define tau_hKa _p[4]
-#define mKa _p[5]
-#define hKa _p[6]
-#define eK _p[7]
-#define tau_mKa _p[8]
+#define tau_mKa _p[1]
+#define iKa _p[2]
+#define mKa_inf _p[3]
+#define hKa_inf _p[4]
+#define tau_hKa _p[5]
+#define mKa _p[6]
+#define hKa _p[7]
+#define eK _p[8]
 #define DmKa _p[9]
 #define DhKa _p[10]
 #define v _p[11]
@@ -146,6 +146,7 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  "7.7.0",
 "A_Ka",
  "gKa_A_Ka",
+ "tau_mKa_A_Ka",
  0,
  "iKa_A_Ka",
  "mKa_inf_A_Ka",
@@ -167,6 +168,7 @@ static void nrn_alloc(Prop* _prop) {
  	_p = nrn_prop_data_alloc(_mechtype, 13, _prop);
  	/*initialize range parameters*/
  	gKa = 0;
+ 	tau_mKa = 0;
  	_prop->param = _p;
  	_prop->param_size = 13;
  	_ppvar = nrn_prop_datum_alloc(_mechtype, 4, _prop);
@@ -216,7 +218,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
  	hoc_register_cvode(_mechtype, _ode_count, _ode_map, _ode_spec, _ode_matsol);
  	hoc_register_tolerance(_mechtype, _hoc_state_tol, &_atollist);
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
- 	ivoc_help("help ?1 A_Ka /ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Watts2016/x86_64/Alpha_Ka.mod\n");
+ 	ivoc_help("help ?1 A_Ka /ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Watts2016_Alpha/x86_64/Alpha_Ka.mod\n");
  hoc_register_limits(_mechtype, _hoc_parm_limits);
  hoc_register_units(_mechtype, _hoc_parm_units);
  }
@@ -307,6 +309,9 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
   mKa = mKa0;
  {
    gKa = 1.0 ;
+   mKa = 0.4001652246173745 ;
+   hKa = 0.1373195977592295 ;
+   tau_mKa = 0.1 ;
    }
  
 }
@@ -341,7 +346,6 @@ static double _nrn_current(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread
    mKa_inf = 1.0 / ( 1.0 + exp ( ( - ( v + 45.0 ) ) / 10.0 ) ) ;
    hKa_inf = 1.0 / ( 1.0 + exp ( ( - ( v + 68.0 ) ) / 10.0 ) ) ;
    tau_hKa = ( 60.0 / ( exp ( ( - ( v - 5.0 ) ) / 20.0 ) + exp ( ( v - 5.0 ) / 20.0 ) ) ) + 5.0 ;
-   tau_mKa = ( 60.0 / ( exp ( ( - ( v - 5.0 ) ) / 20.0 ) + exp ( ( v - 5.0 ) / 20.0 ) ) ) + 5.0 ;
    iKa = gKa * mKa * hKa * ( v - eK ) ;
    }
  _current += iKa;
@@ -458,19 +462,20 @@ _first = 0;
 #endif
 
 #if NMODL_TEXT
-static const char* nmodl_filename = "/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Watts2016/Alpha_Ka.mod";
+static const char* nmodl_filename = "/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Watts2016_Alpha/Alpha_Ka.mod";
 static const char* nmodl_file_text = 
   "NEURON{\n"
   "SUFFIX A_Ka\n"
   "USEION Ka WRITE iKa VALENCE 1\n"
   "USEION K READ eK\n"
   "RANGE iKa, mKa_inf, hKa_inf, tau_hKa\n"
-  "RANGE eK, gKa\n"
+  "RANGE eK, gKa, tau_mKa\n"
   "}\n"
   "\n"
   "PARAMETER{\n"
   "eK\n"
   "gKa\n"
+  "tau_mKa\n"
   "v\n"
   "}\n"
   "\n"
@@ -479,7 +484,6 @@ static const char* nmodl_file_text =
   "mKa_inf\n"
   "hKa_inf\n"
   "tau_hKa\n"
-  "tau_mKa\n"
   "}\n"
   "\n"
   "STATE{\n"
@@ -489,13 +493,15 @@ static const char* nmodl_file_text =
   "\n"
   "INITIAL{\n"
   "gKa = 1\n"
+  "mKa = 0.4001652246173745\n"
+  "hKa = 0.1373195977592295 \n"
+  "tau_mKa = 0.1\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"
   "mKa_inf = 1/(1 + exp((-(v + 45))/10))\n"
   "hKa_inf = 1/(1 + exp((-(v + 68))/10))\n"
   "tau_hKa = (60/(exp((-(v - 5))/20) + exp((v - 5)/20))) + 5\n"
-  "tau_mKa = (60/(exp((-(v - 5))/20) + exp((v - 5)/20))) + 5 : CHANGE\n"
   "SOLVE states METHOD cnexp\n"
   "iKa = gKa * mKa * hKa*(v - eK)\n"
   "}\n"

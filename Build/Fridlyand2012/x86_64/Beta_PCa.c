@@ -129,8 +129,8 @@ static void  nrn_jacob(_NrnThread*, _Memb_list*, int);
 "B_PCa",
  "PmCaP_B_PCa",
  "kCap_B_PCa",
- "iPCa_B_PCa",
  0,
+ "iPCa_B_PCa",
  0,
  0,
  "Cac_B_PCa",
@@ -146,7 +146,6 @@ static void nrn_alloc(Prop* _prop) {
  	/*initialize range parameters*/
  	PmCaP = 0;
  	kCap = 0;
- 	iPCa = 0;
  	_prop->param = _p;
  	_prop->param_size = 4;
  	_ppvar = nrn_prop_datum_alloc(_mechtype, 3, _prop);
@@ -326,7 +325,9 @@ static const char* nmodl_file_text =
   "Caci\n"
   "Cac\n"
   "v\n"
+  "}\n"
   "\n"
+  "ASSIGNED{\n"
   "iPCa\n"
   "}\n"
   "\n"

@@ -213,7 +213,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
  	hoc_register_cvode(_mechtype, _ode_count, _ode_map, _ode_spec, _ode_matsol);
  	hoc_register_tolerance(_mechtype, _hoc_state_tol, &_atollist);
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
- 	ivoc_help("help ?1 A_Na /ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Watts2016/x86_64/Alpha_Na.mod\n");
+ 	ivoc_help("help ?1 A_Na /ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Watts2016_Alpha/x86_64/Alpha_Na.mod\n");
  hoc_register_limits(_mechtype, _hoc_parm_limits);
  hoc_register_units(_mechtype, _hoc_parm_units);
  }
@@ -304,6 +304,8 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
  {
    eNa = 70.0 ;
    gNa = 11.0 ;
+   mNa = 0.007938786735335676 ;
+   hNa = 0.2498175179717122 ;
    }
  
 }
@@ -455,7 +457,7 @@ _first = 0;
 #endif
 
 #if NMODL_TEXT
-static const char* nmodl_filename = "/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Watts2016/Alpha_Na.mod";
+static const char* nmodl_filename = "/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Watts2016_Alpha/Alpha_Na.mod";
 static const char* nmodl_file_text = 
   "NEURON{\n"
   "SUFFIX A_Na\n"
@@ -486,6 +488,8 @@ static const char* nmodl_file_text =
   "INITIAL{\n"
   "eNa = 70\n"
   "gNa = 11\n"
+  "mNa = 0.007938786735335676\n"
+  "hNa = 0.2498175179717122\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"

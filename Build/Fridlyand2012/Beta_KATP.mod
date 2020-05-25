@@ -2,7 +2,7 @@ NEURON{
 SUFFIX B_KATP
 USEION KATP WRITE iKATP VALENCE 1
 USEION K READ eK
-:USEION Vm READ Vmi
+USEION Vm READ Vmi
 RANGE gmKATP, ATP, eK, ADPf, kdd, ktt, ktd
 RANGE iKATP, MgADP, OKATP
 }
@@ -16,10 +16,13 @@ kdd
 ktt
 ktd
 v
+Vmi
+}
 
-iKATP 
+ASSIGNED{
 MgADP             
-OKATP 
+OKATP
+iKATP 
 }
 
 INITIAL{

@@ -58,13 +58,15 @@ extern double hoc_Exp(double);
 #define dNa _p[11]
 #define fNa _p[12]
 #define eNa _p[13]
-#define DdNa _p[14]
-#define DfNa _p[15]
-#define v _p[16]
-#define _g _p[17]
+#define Vmi _p[14]
+#define DdNa _p[15]
+#define DfNa _p[16]
+#define v _p[17]
+#define _g _p[18]
 #define _ion_iNa	*_ppvar[0]._pval
 #define _ion_diNadv	*_ppvar[1]._pval
 #define _ion_eNa	*_ppvar[2]._pval
+#define _ion_Vmi	*_ppvar[3]._pval
  
 #if MAC
 #if !defined(v)
@@ -144,7 +146,7 @@ static void _ode_map(int, double**, double**, double*, Datum*, double*, int);
 static void _ode_spec(_NrnThread*, _Memb_list*, int);
 static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  
-#define _cvode_ieq _ppvar[3]._i
+#define _cvode_ieq _ppvar[4]._i
  static void _ode_matsol_instance1(_threadargsproto_);
  /* connect range variables in _p that hoc is supposed to know about */
  static const char *_mechanism[] = {
@@ -158,23 +160,24 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  "kNar_B_Na",
  "VfNa_B_Na",
  "kfNa_B_Na",
+ 0,
  "fNai_B_Na",
  "dNai_B_Na",
  "iNa_B_Na",
- 0,
  0,
  "dNa_B_Na",
  "fNa_B_Na",
  0,
  0};
  static Symbol* _Na_sym;
+ static Symbol* _Vm_sym;
  
 extern Prop* need_memb(Symbol*);
 
 static void nrn_alloc(Prop* _prop) {
 	Prop *prop_ion;
 	double *_p; Datum *_ppvar;
- 	_p = nrn_prop_data_alloc(_mechtype, 18, _prop);
+ 	_p = nrn_prop_data_alloc(_mechtype, 19, _prop);
  	/*initialize range parameters*/
  	gmNa = 0;
  	VdNa = 0;
@@ -184,12 +187,9 @@ static void nrn_alloc(Prop* _prop) {
  	kNar = 0;
  	VfNa = 0;
  	kfNa = 0;
- 	fNai = 0;
- 	dNai = 0;
- 	iNa = 0;
  	_prop->param = _p;
- 	_prop->param_size = 18;
- 	_ppvar = nrn_prop_datum_alloc(_mechtype, 4, _prop);
+ 	_prop->param_size = 19;
+ 	_ppvar = nrn_prop_datum_alloc(_mechtype, 5, _prop);
  	_prop->dparam = _ppvar;
  	/*connect ionic variables to this model*/
  prop_ion = need_memb(_Na_sym);
@@ -197,6 +197,9 @@ static void nrn_alloc(Prop* _prop) {
  	_ppvar[0]._pval = &prop_ion->param[3]; /* iNa */
  	_ppvar[1]._pval = &prop_ion->param[4]; /* _ion_diNadv */
  	_ppvar[2]._pval = &prop_ion->param[0]; /* eNa */
+ prop_ion = need_memb(_Vm_sym);
+ nrn_promote(prop_ion, 1, 0);
+ 	_ppvar[3]._pval = &prop_ion->param[1]; /* Vmi */
  
 }
  static void _initlists();
@@ -216,7 +219,9 @@ extern void _cvode_abstol( Symbol**, double*, int);
 	int _vectorized = 1;
   _initlists();
  	ion_reg("Na", 1.0);
+ 	ion_reg("Vm", -10000.);
  	_Na_sym = hoc_lookup("Na_ion");
+ 	_Vm_sym = hoc_lookup("Vm_ion");
  	register_mech(_mechanism, nrn_alloc,nrn_cur, nrn_jacob, nrn_state, nrn_init, hoc_nrnpointerindex, 1);
  _mechtype = nrn_get_mechtype(_mechanism[1]);
      _nrn_setdata_reg(_mechtype, _setdata);
@@ -225,11 +230,12 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
   hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
 #endif
-  hoc_register_prop_size(_mechtype, 18, 4);
+  hoc_register_prop_size(_mechtype, 19, 5);
   hoc_register_dparam_semantics(_mechtype, 0, "Na_ion");
   hoc_register_dparam_semantics(_mechtype, 1, "Na_ion");
   hoc_register_dparam_semantics(_mechtype, 2, "Na_ion");
-  hoc_register_dparam_semantics(_mechtype, 3, "cvodeieq");
+  hoc_register_dparam_semantics(_mechtype, 3, "Vm_ion");
+  hoc_register_dparam_semantics(_mechtype, 4, "cvodeieq");
  	hoc_register_cvode(_mechtype, _ode_count, _ode_map, _ode_spec, _ode_matsol);
  	hoc_register_tolerance(_mechtype, _hoc_state_tol, &_atollist);
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
@@ -281,6 +287,7 @@ static void _ode_spec(_NrnThread* _nt, _Memb_list* _ml, int _type) {
     _p = _ml->_data[_iml]; _ppvar = _ml->_pdata[_iml];
     _nd = _ml->_nodelist[_iml];
     v = NODEV(_nd);
+  Vmi = _ion_Vmi;
      _ode_spec1 (_p, _ppvar, _thread, _nt);
    _ion_eNa = eNa;
  }}
@@ -308,6 +315,7 @@ static void _ode_matsol(_NrnThread* _nt, _Memb_list* _ml, int _type) {
     _p = _ml->_data[_iml]; _ppvar = _ml->_pdata[_iml];
     _nd = _ml->_nodelist[_iml];
     v = NODEV(_nd);
+  Vmi = _ion_Vmi;
  _ode_matsol_instance1(_threadargs_);
  }}
  extern void nrn_update_ion_pointer(Symbol*, Datum*, int, int);
@@ -315,6 +323,7 @@ static void _ode_matsol(_NrnThread* _nt, _Memb_list* _ml, int _type) {
    nrn_update_ion_pointer(_Na_sym, _ppvar, 0, 3);
    nrn_update_ion_pointer(_Na_sym, _ppvar, 1, 4);
    nrn_update_ion_pointer(_Na_sym, _ppvar, 2, 0);
+   nrn_update_ion_pointer(_Vm_sym, _ppvar, 3, 1);
  }
 
 static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {
@@ -358,6 +367,7 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
     _v = NODEV(_nd);
   }
  v = _v;
+  Vmi = _ion_Vmi;
  initmodel(_p, _ppvar, _thread, _nt);
    _ion_eNa = eNa;
 }
@@ -392,6 +402,7 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
     _nd = _ml->_nodelist[_iml];
     _v = NODEV(_nd);
   }
+  Vmi = _ion_Vmi;
  _g = _nrn_current(_p, _ppvar, _thread, _nt, _v + .001);
  	{ double _diNa;
   _diNa = iNa;
@@ -460,6 +471,7 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
   }
  v=_v;
 {
+  Vmi = _ion_Vmi;
  {   states(_p, _ppvar, _thread, _nt);
   }   _ion_eNa = eNa;
 }}
@@ -487,7 +499,7 @@ static const char* nmodl_file_text =
   "NEURON{\n"
   "SUFFIX B_Na \n"
   "USEION Na WRITE iNa, eNa VALENCE 1\n"
-  ":USEION Vm READ Vmi\n"
+  "USEION Vm READ Vmi\n"
   "RANGE gmNa, VdNa, kdNa, tdNa, fNa, kNar, eNa, VfNa, kfNa\n"
   "RANGE dNai, iNa, fNai, tfNa\n"
   "}\n"
@@ -503,7 +515,10 @@ static const char* nmodl_file_text =
   "kfNa\n"
   "eNa\n"
   "v\n"
+  "Vmi\n"
+  "}\n"
   "\n"
+  "ASSIGNED{\n"
   "fNai\n"
   "dNai\n"
   "iNa\n"

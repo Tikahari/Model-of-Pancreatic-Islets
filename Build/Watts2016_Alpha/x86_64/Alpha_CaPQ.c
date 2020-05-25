@@ -334,6 +334,7 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
    scapqh = - 5.0 ;
    tcapqh1 = 60.0 ;
    tcapqh2 = 51.0 ;
+   eCa = 65.0 ;
    }
  
 }
@@ -491,7 +492,7 @@ static const char* nmodl_file_text =
   "SUFFIX A_CaPQ\n"
   "USEION CaPQ WRITE iCaPQ VALENCE 2\n"
   "USEION Ca READ eCa VALENCE 2\n"
-  "RANGE gcapq, vcapqm, scapqm, vcapqh, scapqh, tcapqh1, tcapqh2, eCa\n"
+  "RANGE gcapq, vcapqm, scapqm, vcapqh, scapqh, tcapqh1, tcapqh2\n"
   "RANGE iCaPQ, mcapqinf, hcapqinf, taucapqm, taucapqh\n"
   "}\n"
   "\n"
@@ -530,6 +531,7 @@ static const char* nmodl_file_text =
   "scapqh = -5\n"
   "tcapqh1 = 60\n"
   "tcapqh2 = 51\n"
+  "eCa = 65\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"

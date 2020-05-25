@@ -48,17 +48,19 @@ extern double hoc_Exp(double);
 #define F_ca _p[1]
 #define Vi _p[2]
 #define ksg _p[3]
-#define Cac _p[4]
-#define IntCa _p[5]
-#define iCaL _p[6]
-#define iCaT _p[7]
-#define iCaP _p[8]
-#define iPCa _p[9]
-#define eCa _p[10]
-#define DCac _p[11]
-#define DIntCa _p[12]
-#define v _p[13]
-#define _g _p[14]
+#define Caci _p[4]
+#define IntCai _p[5]
+#define Cac _p[6]
+#define IntCa _p[7]
+#define iCaL _p[8]
+#define iCaT _p[9]
+#define iCaP _p[10]
+#define iPCa _p[11]
+#define eCa _p[12]
+#define DCac _p[13]
+#define DIntCa _p[14]
+#define v _p[15]
+#define _g _p[16]
 #define _ion_eCa	*_ppvar[0]._pval
 #define _ion_iCaL	*_ppvar[1]._pval
 #define _ion_iCaT	*_ppvar[2]._pval
@@ -154,6 +156,8 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  "Vi_B_Cac",
  "ksg_B_Cac",
  0,
+ "Caci_B_Cac",
+ "IntCai_B_Cac",
  0,
  "Cac_B_Cac",
  "IntCa_B_Cac",
@@ -170,14 +174,14 @@ extern Prop* need_memb(Symbol*);
 static void nrn_alloc(Prop* _prop) {
 	Prop *prop_ion;
 	double *_p; Datum *_ppvar;
- 	_p = nrn_prop_data_alloc(_mechtype, 15, _prop);
+ 	_p = nrn_prop_data_alloc(_mechtype, 17, _prop);
  	/*initialize range parameters*/
  	fi = 0;
  	F_ca = 0;
  	Vi = 0;
  	ksg = 0;
  	_prop->param = _p;
- 	_prop->param_size = 15;
+ 	_prop->param_size = 17;
  	_ppvar = nrn_prop_datum_alloc(_mechtype, 6, _prop);
  	_prop->dparam = _ppvar;
  	/*connect ionic variables to this model*/
@@ -228,7 +232,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
   hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
 #endif
-  hoc_register_prop_size(_mechtype, 15, 6);
+  hoc_register_prop_size(_mechtype, 17, 6);
   hoc_register_dparam_semantics(_mechtype, 0, "Ca_ion");
   hoc_register_dparam_semantics(_mechtype, 1, "CaL_ion");
   hoc_register_dparam_semantics(_mechtype, 2, "CaT_ion");
@@ -458,6 +462,8 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
   iPCa = _ion_iPCa;
  {   states(_p, _ppvar, _thread, _nt);
   } {
+   Caci = Cac ;
+   IntCai = IntCa ;
    }
   _ion_eCa = eCa;
 }}
@@ -485,13 +491,13 @@ static const char* nmodl_file_text =
   "NEURON{\n"
   "SUFFIX B_Cac \n"
   ":USEION Cac WRITE Caci VALENCE 2\n"
-  "USEION Ca WRITE eCa VALENCE 2\n"
   ":USEION IntCa WRITE IntCai VALENCE 1\n"
+  "USEION Ca WRITE eCa VALENCE 2\n"
   "USEION CaL READ iCaL\n"
   "USEION CaT READ iCaT\n"
   "USEION CaP READ iCaP\n"
   "USEION PCa READ iPCa\n"
-  "RANGE Cac, IntCa, fi, F_ca, Vi, ksg\n"
+  "RANGE Caci, IntCai, fi, F_ca, Vi, ksg\n"
   "}\n"
   "\n"
   "PARAMETER{\n"
@@ -522,7 +528,14 @@ static const char* nmodl_file_text =
   "IntCa\n"
   "}\n"
   "\n"
+  "ASSIGNED{\n"
+  "Caci\n"
+  "IntCai\n"
+  "}\n"
+  "\n"
   "BREAKPOINT{\n"
+  "Caci = Cac\n"
+  "IntCai = IntCa\n"
   "SOLVE states METHOD cnexp\n"
   "}\n"
   "\n"

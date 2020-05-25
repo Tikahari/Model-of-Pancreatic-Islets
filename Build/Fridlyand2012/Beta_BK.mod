@@ -3,9 +3,9 @@ SUFFIX B_BK
 USEION BK WRITE iBK VALENCE 1
 USEION K WRITE eK VALENCE 1
 :USEION Cac READ Caci
-:USEION Ca READ eCa
+USEION Ca READ eCa
 POINTER Cac
-:USEION Vm READ Vmi
+USEION Vm READ Vmi
 
 RANGE hdk, gmKCaB, kCaBK, kdKCaB, kfKCaB, tdKCaB, tfKCaB, VfKCaB, VBKo, eK, kshift
 RANGE dKCaBi, fKCaBi, VdKCaB, iBK
@@ -13,6 +13,7 @@ RANGE dKCaBi, fKCaBi, VdKCaB, iBK
 
 PARAMETER{
 v
+Vmi
 hdk
 gmKCaB
 kCaBK    
@@ -27,7 +28,9 @@ kshift
 Caci
 Cac
 eCa
+}
 
+ASSIGNED{
 dKCaBi
 fKCaBi 
 VdKCaB 

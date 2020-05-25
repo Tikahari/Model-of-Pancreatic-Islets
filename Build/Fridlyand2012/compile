@@ -1,8 +1,134 @@
 /ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Fridlyand2012
 Beta_BK.mod Beta_Cac.mod Beta_CaL.mod Beta_CaP.mod Beta_CaT.mod Beta_HERG.mod Beta_Ins.mod Beta_KATP.mod Beta_KCa.mod Beta_KDR.mod Beta_NaB.mod Beta_Na.mod Beta_PCa.mod Beta_V.mod
 Beta_BK.mod Beta_Cac.mod Beta_CaL.mod Beta_CaP.mod Beta_CaT.mod Beta_HERG.mod Beta_Ins.mod Beta_KATP.mod Beta_KCa.mod Beta_KDR.mod Beta_NaB.mod Beta_Na.mod Beta_PCa.mod Beta_V.mod
+"/apps/neuron/7.7.2/bin/nocmodl" Beta_BK
+"/apps/neuron/7.7.2/bin/nocmodl" Beta_Cac
+"/apps/neuron/7.7.2/bin/nocmodl" Beta_CaL
+"/apps/neuron/7.7.2/bin/nocmodl" Beta_CaP
+Translating Beta_BK.mod into Beta_BK.c
+Translating Beta_CaP.mod into Beta_CaP.c
+Notice: Use of POINTER is not thread safe.
+Translating Beta_Cac.mod into Beta_Cac.c
+Thread Safe
+"/apps/neuron/7.7.2/bin/nocmodl" Beta_CaT
+"/apps/neuron/7.7.2/bin/nocmodl" Beta_HERG
+Thread Safe
+"/apps/neuron/7.7.2/bin/nocmodl" Beta_Ins
+Translating Beta_Ins.mod into Beta_Ins.c
+Translating Beta_HERG.mod into Beta_HERG.c
+Notice: Use of POINTER is not thread safe.
+Translating Beta_CaL.mod into Beta_CaL.c
+Thread Safe
+"/apps/neuron/7.7.2/bin/nocmodl" Beta_KATP
+"/apps/neuron/7.7.2/bin/nocmodl" Beta_KCa
+Thread Safe
+"/apps/neuron/7.7.2/bin/nocmodl" Beta_KDR
+Translating Beta_KDR.mod into Beta_KDR.c
+Thread Safe
+"/apps/neuron/7.7.2/bin/nocmodl" Beta_NaB
+Translating Beta_CaT.mod into Beta_CaT.c
+Thread Safe
+"/apps/neuron/7.7.2/bin/nocmodl" Beta_Na
+Translating Beta_NaB.mod into Beta_NaB.c
+Thread Safe
+"/apps/neuron/7.7.2/bin/nocmodl" Beta_PCa
+Translating Beta_KCa.mod into Beta_KCa.c
+Notice: Use of POINTER is not thread safe.
+"/apps/neuron/7.7.2/bin/nocmodl" Beta_V
+Translating Beta_Na.mod into Beta_Na.c
+Thread Safe
 "/apps/neuron/7.7.2/share/nrn/libtool" --tag=CC --mode=compile mpicc -DHAVE_CONFIG_H  -I. -I.. -I"/apps/neuron/7.7.2/include/nrn" -I"/apps/neuron/7.7.2/lib"      -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c -o mod_func.lo mod_func.c
+Translating Beta_V.mod into Beta_V.c
+Thread Safe
+"/apps/neuron/7.7.2/share/nrn/libtool" --tag=CC --mode=compile mpicc -DHAVE_CONFIG_H  -I. -I.. -I"/apps/neuron/7.7.2/include/nrn" -I"/apps/neuron/7.7.2/lib"      -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c -o Beta_BK.lo `test -f 'Beta_BK.c' || echo '/'`Beta_BK.c
+Translating Beta_KATP.mod into Beta_KATP.c
+Thread Safe
+"/apps/neuron/7.7.2/share/nrn/libtool" --tag=CC --mode=compile mpicc -DHAVE_CONFIG_H  -I. -I.. -I"/apps/neuron/7.7.2/include/nrn" -I"/apps/neuron/7.7.2/lib"      -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c -o Beta_Cac.lo `test -f 'Beta_Cac.c' || echo '/'`Beta_Cac.c
+Translating Beta_PCa.mod into Beta_PCa.c
+Notice: Use of POINTER is not thread safe.
+"/apps/neuron/7.7.2/share/nrn/libtool" --tag=CC --mode=compile mpicc -DHAVE_CONFIG_H  -I. -I.. -I"/apps/neuron/7.7.2/include/nrn" -I"/apps/neuron/7.7.2/lib"      -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c -o Beta_CaL.lo `test -f 'Beta_CaL.c' || echo '/'`Beta_CaL.c
 libtool: compile:  mpicc -DHAVE_CONFIG_H -I. -I.. -I/apps/neuron/7.7.2/include/nrn -I/apps/neuron/7.7.2/lib -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c mod_func.c  -fPIC -DPIC -o .libs/mod_func.o
+libtool: compile:  mpicc -DHAVE_CONFIG_H -I. -I.. -I/apps/neuron/7.7.2/include/nrn -I/apps/neuron/7.7.2/lib -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c Beta_BK.c  -fPIC -DPIC -o .libs/Beta_BK.o
+libtool: compile:  mpicc -DHAVE_CONFIG_H -I. -I.. -I/apps/neuron/7.7.2/include/nrn -I/apps/neuron/7.7.2/lib -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c Beta_Cac.c  -fPIC -DPIC -o .libs/Beta_Cac.o
+libtool: compile:  mpicc -DHAVE_CONFIG_H -I. -I.. -I/apps/neuron/7.7.2/include/nrn -I/apps/neuron/7.7.2/lib -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c Beta_CaL.c  -fPIC -DPIC -o .libs/Beta_CaL.o
+icc: command line warning #10006: ignoring unknown option '-fno-plt'
+icc: command line warning #10006: ignoring unknown option '-fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2'
+icc: command line warning #10006: ignoring unknown option '-fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix'
+icc: command line warning #10006: ignoring unknown option '-fno-plt'
+icc: command line warning #10006: ignoring unknown option '-fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2'
+icc: command line warning #10006: ignoring unknown option '-fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix'
+icc: command line warning #10006: ignoring unknown option '-fno-plt'
+icc: command line warning #10006: ignoring unknown option '-fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2'
+icc: command line warning #10006: ignoring unknown option '-fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix'
+icc: command line warning #10006: ignoring unknown option '-fno-plt'
+icc: command line warning #10006: ignoring unknown option '-fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2'
+icc: command line warning #10006: ignoring unknown option '-fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix'
+icc: warning #10193: -vec is default; use -x and -ax to configure vectorization
+icc: warning #10193: -vec is default; use -x and -ax to configure vectorization
+icc: warning #10193: -vec is default; use -x and -ax to configure vectorization
+icc: warning #10193: -vec is default; use -x and -ax to configure vectorization
+"/apps/neuron/7.7.2/share/nrn/libtool" --tag=CC --mode=compile mpicc -DHAVE_CONFIG_H  -I. -I.. -I"/apps/neuron/7.7.2/include/nrn" -I"/apps/neuron/7.7.2/lib"      -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c -o Beta_CaP.lo `test -f 'Beta_CaP.c' || echo '/'`Beta_CaP.c
+"/apps/neuron/7.7.2/share/nrn/libtool" --tag=CC --mode=compile mpicc -DHAVE_CONFIG_H  -I. -I.. -I"/apps/neuron/7.7.2/include/nrn" -I"/apps/neuron/7.7.2/lib"      -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c -o Beta_CaT.lo `test -f 'Beta_CaT.c' || echo '/'`Beta_CaT.c
+libtool: compile:  mpicc -DHAVE_CONFIG_H -I. -I.. -I/apps/neuron/7.7.2/include/nrn -I/apps/neuron/7.7.2/lib -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c Beta_CaP.c  -fPIC -DPIC -o .libs/Beta_CaP.o
+"/apps/neuron/7.7.2/share/nrn/libtool" --tag=CC --mode=compile mpicc -DHAVE_CONFIG_H  -I. -I.. -I"/apps/neuron/7.7.2/include/nrn" -I"/apps/neuron/7.7.2/lib"      -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c -o Beta_HERG.lo `test -f 'Beta_HERG.c' || echo '/'`Beta_HERG.c
+"/apps/neuron/7.7.2/share/nrn/libtool" --tag=CC --mode=compile mpicc -DHAVE_CONFIG_H  -I. -I.. -I"/apps/neuron/7.7.2/include/nrn" -I"/apps/neuron/7.7.2/lib"      -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c -o Beta_Ins.lo `test -f 'Beta_Ins.c' || echo '/'`Beta_Ins.c
+icc: command line warning #10006: ignoring unknown option '-fno-plt'
+icc: command line warning #10006: ignoring unknown option '-fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2'
+icc: command line warning #10006: ignoring unknown option '-fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix'
+icc: warning #10193: -vec is default; use -x and -ax to configure vectorization
+libtool: compile:  mpicc -DHAVE_CONFIG_H -I. -I.. -I/apps/neuron/7.7.2/include/nrn -I/apps/neuron/7.7.2/lib -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c Beta_CaT.c  -fPIC -DPIC -o .libs/Beta_CaT.o
+libtool: compile:  mpicc -DHAVE_CONFIG_H -I. -I.. -I/apps/neuron/7.7.2/include/nrn -I/apps/neuron/7.7.2/lib -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c Beta_HERG.c  -fPIC -DPIC -o .libs/Beta_HERG.o
+libtool: compile:  mpicc -DHAVE_CONFIG_H -I. -I.. -I/apps/neuron/7.7.2/include/nrn -I/apps/neuron/7.7.2/lib -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c Beta_Ins.c  -fPIC -DPIC -o .libs/Beta_Ins.o
+icc: command line warning #10006: ignoring unknown option '-fno-plt'
+icc: command line warning #10006: ignoring unknown option '-fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2'
+icc: command line warning #10006: ignoring unknown option '-fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix'
+icc: warning #10193: -vec is default; use -x and -ax to configure vectorization
+icc: command line warning #10006: ignoring unknown option '-fno-plt'
+icc: command line warning #10006: ignoring unknown option '-fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2'
+icc: command line warning #10006: ignoring unknown option '-fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix'
+icc: command line warning #10006: ignoring unknown option '-fno-plt'
+icc: command line warning #10006: ignoring unknown option '-fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2'
+icc: command line warning #10006: ignoring unknown option '-fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix'
+icc: warning #10193: -vec is default; use -x and -ax to configure vectorization
+icc: warning #10193: -vec is default; use -x and -ax to configure vectorization
+"/apps/neuron/7.7.2/share/nrn/libtool" --tag=CC --mode=compile mpicc -DHAVE_CONFIG_H  -I. -I.. -I"/apps/neuron/7.7.2/include/nrn" -I"/apps/neuron/7.7.2/lib"      -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c -o Beta_KATP.lo `test -f 'Beta_KATP.c' || echo '/'`Beta_KATP.c
+libtool: compile:  mpicc -DHAVE_CONFIG_H -I. -I.. -I/apps/neuron/7.7.2/include/nrn -I/apps/neuron/7.7.2/lib -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c Beta_KATP.c  -fPIC -DPIC -o .libs/Beta_KATP.o
+"/apps/neuron/7.7.2/share/nrn/libtool" --tag=CC --mode=compile mpicc -DHAVE_CONFIG_H  -I. -I.. -I"/apps/neuron/7.7.2/include/nrn" -I"/apps/neuron/7.7.2/lib"      -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c -o Beta_KCa.lo `test -f 'Beta_KCa.c' || echo '/'`Beta_KCa.c
+"/apps/neuron/7.7.2/share/nrn/libtool" --tag=CC --mode=compile mpicc -DHAVE_CONFIG_H  -I. -I.. -I"/apps/neuron/7.7.2/include/nrn" -I"/apps/neuron/7.7.2/lib"      -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c -o Beta_KDR.lo `test -f 'Beta_KDR.c' || echo '/'`Beta_KDR.c
+"/apps/neuron/7.7.2/share/nrn/libtool" --tag=CC --mode=compile mpicc -DHAVE_CONFIG_H  -I. -I.. -I"/apps/neuron/7.7.2/include/nrn" -I"/apps/neuron/7.7.2/lib"      -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c -o Beta_NaB.lo `test -f 'Beta_NaB.c' || echo '/'`Beta_NaB.c
+icc: command line warning #10006: ignoring unknown option '-fno-plt'
+icc: command line warning #10006: ignoring unknown option '-fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2'
+icc: command line warning #10006: ignoring unknown option '-fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix'
+icc: warning #10193: -vec is default; use -x and -ax to configure vectorization
+libtool: compile:  mpicc -DHAVE_CONFIG_H -I. -I.. -I/apps/neuron/7.7.2/include/nrn -I/apps/neuron/7.7.2/lib -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c Beta_KDR.c  -fPIC -DPIC -o .libs/Beta_KDR.o
+libtool: compile:  mpicc -DHAVE_CONFIG_H -I. -I.. -I/apps/neuron/7.7.2/include/nrn -I/apps/neuron/7.7.2/lib -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c Beta_KCa.c  -fPIC -DPIC -o .libs/Beta_KCa.o
+libtool: compile:  mpicc -DHAVE_CONFIG_H -I. -I.. -I/apps/neuron/7.7.2/include/nrn -I/apps/neuron/7.7.2/lib -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c Beta_NaB.c  -fPIC -DPIC -o .libs/Beta_NaB.o
+icc: command line warning #10006: ignoring unknown option '-fno-plt'
+icc: command line warning #10006: ignoring unknown option '-fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2'
+icc: command line warning #10006: ignoring unknown option '-fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix'
+icc: command line warning #10006: ignoring unknown option '-fno-plt'
+icc: command line warning #10006: ignoring unknown option '-fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2'
+icc: command line warning #10006: ignoring unknown option '-fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix'
+icc: command line warning #10006: ignoring unknown option '-fno-plt'
+icc: command line warning #10006: ignoring unknown option '-fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2'
+icc: command line warning #10006: ignoring unknown option '-fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix'
+icc: warning #10193: -vec is default; use -x and -ax to configure vectorization
+icc: warning #10193: -vec is default; use -x and -ax to configure vectorization
+icc: warning #10193: -vec is default; use -x and -ax to configure vectorization
+"/apps/neuron/7.7.2/share/nrn/libtool" --tag=CC --mode=compile mpicc -DHAVE_CONFIG_H  -I. -I.. -I"/apps/neuron/7.7.2/include/nrn" -I"/apps/neuron/7.7.2/lib"      -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c -o Beta_Na.lo `test -f 'Beta_Na.c' || echo '/'`Beta_Na.c
+"/apps/neuron/7.7.2/share/nrn/libtool" --tag=CC --mode=compile mpicc -DHAVE_CONFIG_H  -I. -I.. -I"/apps/neuron/7.7.2/include/nrn" -I"/apps/neuron/7.7.2/lib"      -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c -o Beta_PCa.lo `test -f 'Beta_PCa.c' || echo '/'`Beta_PCa.c
+"/apps/neuron/7.7.2/share/nrn/libtool" --tag=CC --mode=compile mpicc -DHAVE_CONFIG_H  -I. -I.. -I"/apps/neuron/7.7.2/include/nrn" -I"/apps/neuron/7.7.2/lib"      -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c -o Beta_V.lo `test -f 'Beta_V.c' || echo '/'`Beta_V.c
+libtool: compile:  mpicc -DHAVE_CONFIG_H -I. -I.. -I/apps/neuron/7.7.2/include/nrn -I/apps/neuron/7.7.2/lib -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c Beta_Na.c  -fPIC -DPIC -o .libs/Beta_Na.o
+icc: command line warning #10006: ignoring unknown option '-fno-plt'
+icc: command line warning #10006: ignoring unknown option '-fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2'
+icc: command line warning #10006: ignoring unknown option '-fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix'
+libtool: compile:  mpicc -DHAVE_CONFIG_H -I. -I.. -I/apps/neuron/7.7.2/include/nrn -I/apps/neuron/7.7.2/lib -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c Beta_PCa.c  -fPIC -DPIC -o .libs/Beta_PCa.o
+icc: warning #10193: -vec is default; use -x and -ax to configure vectorization
+libtool: compile:  mpicc -DHAVE_CONFIG_H -I. -I.. -I/apps/neuron/7.7.2/include/nrn -I/apps/neuron/7.7.2/lib -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c Beta_V.c  -fPIC -DPIC -o .libs/Beta_V.o
+icc: command line warning #10006: ignoring unknown option '-fno-plt'
+icc: command line warning #10006: ignoring unknown option '-fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2'
+icc: command line warning #10006: ignoring unknown option '-fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix'
+icc: warning #10193: -vec is default; use -x and -ax to configure vectorization
 icc: command line warning #10006: ignoring unknown option '-fno-plt'
 icc: command line warning #10006: ignoring unknown option '-fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2'
 icc: command line warning #10006: ignoring unknown option '-fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix'
