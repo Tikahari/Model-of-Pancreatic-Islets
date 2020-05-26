@@ -46,13 +46,11 @@ extern double hoc_Exp(double);
 #define gBNa _p[0]
 #define iNaB _p[1]
 #define eNa _p[2]
-#define Vmi _p[3]
-#define v _p[4]
-#define _g _p[5]
+#define v _p[3]
+#define _g _p[4]
 #define _ion_iNaB	*_ppvar[0]._pval
 #define _ion_diNaBdv	*_ppvar[1]._pval
 #define _ion_eNa	*_ppvar[2]._pval
-#define _ion_Vmi	*_ppvar[3]._pval
  
 #if MAC
 #if !defined(v)
@@ -135,19 +133,18 @@ static void  nrn_jacob(_NrnThread*, _Memb_list*, int);
  0};
  static Symbol* _NaB_sym;
  static Symbol* _Na_sym;
- static Symbol* _Vm_sym;
  
 extern Prop* need_memb(Symbol*);
 
 static void nrn_alloc(Prop* _prop) {
 	Prop *prop_ion;
 	double *_p; Datum *_ppvar;
- 	_p = nrn_prop_data_alloc(_mechtype, 6, _prop);
+ 	_p = nrn_prop_data_alloc(_mechtype, 5, _prop);
  	/*initialize range parameters*/
  	gBNa = 0;
  	_prop->param = _p;
- 	_prop->param_size = 6;
- 	_ppvar = nrn_prop_datum_alloc(_mechtype, 4, _prop);
+ 	_prop->param_size = 5;
+ 	_ppvar = nrn_prop_datum_alloc(_mechtype, 3, _prop);
  	_prop->dparam = _ppvar;
  	/*connect ionic variables to this model*/
  prop_ion = need_memb(_NaB_sym);
@@ -156,9 +153,6 @@ static void nrn_alloc(Prop* _prop) {
  prop_ion = need_memb(_Na_sym);
  nrn_promote(prop_ion, 0, 1);
  	_ppvar[2]._pval = &prop_ion->param[0]; /* eNa */
- prop_ion = need_memb(_Vm_sym);
- nrn_promote(prop_ion, 1, 0);
- 	_ppvar[3]._pval = &prop_ion->param[1]; /* Vmi */
  
 }
  static void _initlists();
@@ -174,10 +168,8 @@ extern void _cvode_abstol( Symbol**, double*, int);
   _initlists();
  	ion_reg("NaB", 1.0);
  	ion_reg("Na", -10000.);
- 	ion_reg("Vm", -10000.);
  	_NaB_sym = hoc_lookup("NaB_ion");
  	_Na_sym = hoc_lookup("Na_ion");
- 	_Vm_sym = hoc_lookup("Vm_ion");
  	register_mech(_mechanism, nrn_alloc,nrn_cur, nrn_jacob, nrn_state, nrn_init, hoc_nrnpointerindex, 1);
  _mechtype = nrn_get_mechtype(_mechanism[1]);
      _nrn_setdata_reg(_mechtype, _setdata);
@@ -186,13 +178,12 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
   hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
 #endif
-  hoc_register_prop_size(_mechtype, 6, 4);
+  hoc_register_prop_size(_mechtype, 5, 3);
   hoc_register_dparam_semantics(_mechtype, 0, "NaB_ion");
   hoc_register_dparam_semantics(_mechtype, 1, "NaB_ion");
   hoc_register_dparam_semantics(_mechtype, 2, "Na_ion");
-  hoc_register_dparam_semantics(_mechtype, 3, "Vm_ion");
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
- 	ivoc_help("help ?1 B_NaB /ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Temp/x86_64/Beta_NaB.mod\n");
+ 	ivoc_help("help ?1 B_NaB /ufrc/lamb/robert727/Model-of-Pancreatic-Islets/Build/Temp/x86_64/Beta_NaB.mod\n");
  hoc_register_limits(_mechtype, _hoc_parm_limits);
  hoc_register_units(_mechtype, _hoc_parm_units);
  }
@@ -208,7 +199,6 @@ static void _modl_cleanup(){ _match_recurse=1;}
    nrn_update_ion_pointer(_NaB_sym, _ppvar, 0, 3);
    nrn_update_ion_pointer(_NaB_sym, _ppvar, 1, 4);
    nrn_update_ion_pointer(_Na_sym, _ppvar, 2, 0);
-   nrn_update_ion_pointer(_Vm_sym, _ppvar, 3, 1);
  }
 
 static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {
@@ -241,13 +231,12 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
   }
  v = _v;
   eNa = _ion_eNa;
-  Vmi = _ion_Vmi;
  initmodel(_p, _ppvar, _thread, _nt);
  }
 }
 
 static double _nrn_current(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt, double _v){double _current=0.;v=_v;{ {
-   iNaB = ( gBNa * ( Vmi - eNa ) ) ;
+   iNaB = ( gBNa * ( v - eNa ) ) ;
    }
  _current += iNaB;
 
@@ -274,7 +263,6 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
     _v = NODEV(_nd);
   }
   eNa = _ion_eNa;
-  Vmi = _ion_Vmi;
  _g = _nrn_current(_p, _ppvar, _thread, _nt, _v + .001);
  	{ double _diNaB;
   _diNaB = iNaB;
@@ -338,26 +326,26 @@ _first = 0;
 #endif
 
 #if NMODL_TEXT
-static const char* nmodl_filename = "/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Temp/Beta_NaB.mod";
+static const char* nmodl_filename = "/ufrc/lamb/robert727/Model-of-Pancreatic-Islets/Build/Temp/Beta_NaB.mod";
 static const char* nmodl_file_text = 
   "NEURON{\n"
   "SUFFIX B_NaB \n"
   "USEION NaB WRITE iNaB VALENCE 1\n"
   "USEION Na READ eNa\n"
-  "USEION Vm READ Vmi\n"
-  "RANGE gBNa, eNa\n"
+  ":USEION Vm READ Vmi\n"
+  "RANGE gBNa\n"
   "RANGE iNaB\n"
   "}\n"
   "\n"
   "PARAMETER{\n"
   "gBNa\n"
-  "eNa\n"
-  "v\n"
-  "Vmi\n"
+  ":Vmi\n"
   "}\n"
   "\n"
   "ASSIGNED{\n"
   "iNaB\n"
+  "eNa\n"
+  "v\n"
   "}\n"
   "\n"
   "INITIAL{\n"
@@ -365,7 +353,7 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "BREAKPOINT{\n"
-  "iNaB =  (gBNa * (Vmi - eNa))                \n"
+  "iNaB =  (gBNa * (v - eNa))                \n"
   "}\n"
   ;
 #endif

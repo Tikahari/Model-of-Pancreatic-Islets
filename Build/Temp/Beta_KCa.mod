@@ -4,24 +4,24 @@ USEION KCa WRITE iKCa VALENCE 1
 :USEION Cac READ Caci
 POINTER Cac
 USEION K READ eK
-USEION Vm READ Vmi
-RANGE gmKCa, KKCa, eK
+:USEION Vm READ Vmi
+RANGE gmKCa, KKCa
 RANGE dKCa, iKCa
 }
 
 PARAMETER{
 gmKCa
 KKCa
-eK
 Caci
 Cac
-v
-Vmi
+:Vmi
 }
 
 ASSIGNED{
 dKCa
 iKCa
+v
+eK
 }
 
 INITIAL{
@@ -32,5 +32,5 @@ dKCa = 0.1
 
 BREAKPOINT{
 dKCa = (pow(Cac,4.0) / (pow(KKCa,4.0) + pow(Cac,4.0)))                
-iKCa =  (gmKCa * dKCa * (Vmi - eK))                
+iKCa =  (gmKCa * dKCa * (v - eK))                
 }

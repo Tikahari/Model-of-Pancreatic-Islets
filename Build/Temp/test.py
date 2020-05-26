@@ -64,7 +64,7 @@ def test():
                 mechRecord = getattr(k, '_ref_'+j+'_'+i)
                 rec[str(i+'_'+j)].append(h.Vector().record(mechRecord))
     t = h.Vector().record(h._ref_t)
-    h.finitialize()
+    h.finitialize(-62)
     h.continuerun(200)
     z = 0
     for i in rec:

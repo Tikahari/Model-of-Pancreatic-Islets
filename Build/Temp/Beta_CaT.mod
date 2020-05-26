@@ -2,13 +2,12 @@ NEURON{
 SUFFIX B_CaT
 USEION CaT WRITE iCaT VALENCE 2
 USEION Ca READ eCa
-USEION Vm READ Vmi
-RANGE eCa, gmCaT, kdCaT, kfCaT, tdCaT, tfCaT, VdCaT, VfCaT
+:USEION Vm READ Vmi
+RANGE gmCaT, kdCaT, kfCaT, tdCaT, tfCaT, VdCaT, VfCaT
 RANGE dCaTi, fCaTi, iCaT 
 }
 
 PARAMETER{
-eCa
 gmCaT 
 kdCaT 
 kfCaT 
@@ -16,14 +15,15 @@ tdCaT
 tfCaT 
 VdCaT
 VfCaT 
-v
-Vmi
+:Vmi
 }
 
 ASSIGNED{
 dCaTi
 fCaTi 
 iCaT 
+eCa
+v
 }
 
 STATE{
@@ -44,9 +44,9 @@ VfCaT = -64
 }
 
 BREAKPOINT{
-dCaTi = (1.0 / (1.0 + exp(((VdCaT - Vmi) / kdCaT)))) 
-fCaTi = (1.0 / (1.0 + exp(((Vmi - VfCaT) / kfCaT))))                
-iCaT = (gmCaT * dCaT * fCaT * (Vmi - eCa))                
+dCaTi = (1.0 / (1.0 + exp(((VdCaT - v) / kdCaT)))) 
+fCaTi = (1.0 / (1.0 + exp(((v - VfCaT) / kfCaT))))                
+iCaT = (gmCaT * dCaT * fCaT * (v - eCa))                
 SOLVE states METHOD cnexp
 }
 

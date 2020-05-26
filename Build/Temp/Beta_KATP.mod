@@ -2,27 +2,27 @@ NEURON{
 SUFFIX B_KATP
 USEION KATP WRITE iKATP VALENCE 1
 USEION K READ eK
-USEION Vm READ Vmi
-RANGE gmKATP, ATP, eK, ADPf, kdd, ktt, ktd
+:USEION Vm READ Vmi
+RANGE gmKATP, ATP, ADPf, kdd, ktt, ktd
 RANGE iKATP, MgADP, OKATP
 }
 
 PARAMETER{
 gmKATP   
 ATP
-eK
 ADPf
 kdd
 ktt
 ktd
-v
-Vmi
+:Vmi
 }
 
 ASSIGNED{
 MgADP             
 OKATP
 iKATP 
+eK
+v
 }
 
 INITIAL{
@@ -37,5 +37,5 @@ ktd = 26
 BREAKPOINT{             
 MgADP =  (0.55 * ADPf)                
 OKATP =  (((0.08 * (1.0 + (2.0 * MgADP / kdd))) + (0.89 * MgADP * MgADP / kdd / kdd)) / ((1.0 + (MgADP / kdd)) * (1.0 + (MgADP / kdd)) * (1.0 + (0.45 * MgADP / ktd) + (ATP / ktt))))                
-iKATP =  (gmKATP * OKATP * (Vmi - eK))   
+iKATP =  (gmKATP * OKATP * (v - eK))   
 }

@@ -1,6 +1,6 @@
 NEURON{
     SUFFIX frid
-    USEION Vm WRITE Vmi VALENCE 1
+    :USEION Vm WRITE Vmi VALENCE 1
     RANGE Cm, ADPf, ATP, Cac, dCaL, dCaP, dCaT, dKCa, dKCaB, dKhe
     RANGE dKr, dNa, ECa, EK, ENa, F, f1CaL, f2CaL, fCaP, fCaT
     RANGE fi, fKCaB, fKhe, fNa, gBNa, gmCaL, gmCaP, gmCaT, gmKATP, gmKCa
@@ -13,7 +13,7 @@ NEURON{
     RANGE tdKr, tdNa, tf1CaL, tfCaP, tfCaT, tf2CaL
     RANGE tdCaL, test, Vp
     RANGE VdKCaB
-    RANGE ICaL, ICaP, ICaT, IKATP, IKCa, IKCaB, IKDr, IKher, INa, INab, IPCa
+    RANGE ICaL, ICaP, ICaT, IKATP, IKCa, IBK, iKDR, IHERG, INa, INaB, IPCa
     RANGE IS, MgADP, OKATP, tdCaL, VdKCaB
     RANGE V_real
     USEION CaL READ iCaL
@@ -143,11 +143,11 @@ PARAMETER{
     ICaT
     IKATP
     IKCa
-    IKCaB
-    IKDr
-    IKher
+    IBK
+    IKDR
+    IHERG
     INa
-    INab
+    INaB
     IPCa
     IS : insulin secretion
     MgADP
@@ -180,7 +180,7 @@ STATE{
     dKhe
     fKhe
     In
-    Vmi
+    :Vmi
 }
 
 INITIAL{
@@ -281,13 +281,13 @@ INITIAL{
     VfNa = -42
     Vi = 0.764
     Vp = -62
-    Vmi = -62
+    :Vmi = -62
     Vpi = 45000
     tdCaL = 0.41
 }
 
 BREAKPOINT{
-    V_real = Vmi
+    V_real = v
     test = test + 3
     dCaLi = (1.0 / (1.0 + exp(((VdCaL - Vp) / kdCaL))))
     dCaPi = (1.0 / (1.0 + exp(((VdCaP - Vp) / kdCaP))))
@@ -310,11 +310,11 @@ BREAKPOINT{
     ICaT = (gmCaT * dCaT * fCaT * (Vp - ECa))
     IKATP =  (gmKATP * OKATP * (Vp - EK))
     IKCa =  (gmKCa * dKCa * (Vp - EK))
-    IKCaB =  (gmKCaB * pow(dKCaB,hdk) * fKCaB * (Vp - EK))
-    IKDr =  (gmKDr * dKr * dKr * (Vp - EK))
-    IKher =  (gmKhe * dKhe * fKhe * (Vp - EK))
+    IBK =  (gmKCaB * pow(dKCaB,hdk) * fKCaB * (Vp - EK))
+    IKDR =  (gmKDr * dKr * dKr * (Vp - EK))
+    IHERG =  (gmKhe * dKhe * fKhe * (Vp - EK))
     INa = (gmNa * ((pow(dNa,3.0) * fNa) + kNar) * (Vp - ENa))
-    INab =  (gBNa * (Vp - ENa))
+    INaB =  (gBNa * (Vp - ENa))
     IPCa =  (PmCaP * Cac * Cac / ((Cac * Cac) + (kCap * kCap)))
     IS =  (kpi * ksi * In)
     MgADP =  (0.55 * ADPf)
@@ -325,11 +325,11 @@ BREAKPOINT{
 }
 
 DERIVATIVE states{
-    Cac' = ((fi * ( - iCaL - ICaP - ICaT - (2.0 * IPCa)) / (2.0 * F * Vi)) - (ksg * Cac))
+    Cac' = ((fi * ( - iCaL - iCaP - ICaT - (2.0 * IPCa)) / (2.0 * F * Vi)) - (ksg * Cac))
     IntCa' = (0.001 * Cac)
     dKr' = ((dKri - dKr) / tdKr)
-    Vp' =  - ((ICaL + ICaP + ICaT + IKDr + IPCa + IKCa + IKCaB + IKATP + IKher + INab + INa) / Cm)
-    Vmi' = - ((iCaL + iCaP + iCaT + iKDR + iPCa + iKCa + iBK + iKATP + iHERG + iNaB + iNa) / Cm)
+    Vp' =  - ((ICaL + ICaP + ICaT + IKDR + IPCa + IKCa + IBK + IKATP + IHERG + INaB + INa) / Cm)
+    :Vmi' = - ((iCaL + iCaP + iCaT + iKDR + iPCa + iKCa + iBK + iKATP + iHERG + iNaB + iNa) / Cm)
     dCaL' = ((dCaLi - dCaL) / tdCaL)
     dCaP' = ((dCaPi - dCaP) / tdCaP)
     fCaP' = ((fCaPi - fCaP) / tfCaP)

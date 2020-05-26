@@ -12,11 +12,11 @@ PmCaP
 kCap
 Caci
 Cac
-v
 }
 
 ASSIGNED{
 iPCa
+v
 }
 
 INITIAL{

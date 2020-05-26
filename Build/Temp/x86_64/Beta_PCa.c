@@ -182,7 +182,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_register_dparam_semantics(_mechtype, 1, "PCa_ion");
   hoc_register_dparam_semantics(_mechtype, 2, "pointer");
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
- 	ivoc_help("help ?1 B_PCa /ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Temp/x86_64/Beta_PCa.mod\n");
+ 	ivoc_help("help ?1 B_PCa /ufrc/lamb/robert727/Model-of-Pancreatic-Islets/Build/Temp/x86_64/Beta_PCa.mod\n");
  hoc_register_limits(_mechtype, _hoc_parm_limits);
  hoc_register_units(_mechtype, _hoc_parm_units);
  }
@@ -308,7 +308,7 @@ _first = 0;
 }
 
 #if NMODL_TEXT
-static const char* nmodl_filename = "/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Temp/Beta_PCa.mod";
+static const char* nmodl_filename = "/ufrc/lamb/robert727/Model-of-Pancreatic-Islets/Build/Temp/Beta_PCa.mod";
 static const char* nmodl_file_text = 
   "NEURON{\n"
   "SUFFIX B_PCa\n"
@@ -324,11 +324,11 @@ static const char* nmodl_file_text =
   "kCap\n"
   "Caci\n"
   "Cac\n"
-  "v\n"
   "}\n"
   "\n"
   "ASSIGNED{\n"
   "iPCa\n"
+  "v\n"
   "}\n"
   "\n"
   "INITIAL{\n"
