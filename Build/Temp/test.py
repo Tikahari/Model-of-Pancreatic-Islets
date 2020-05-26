@@ -21,10 +21,11 @@ def test():
     v = []
     pointers = {}
     mechs = []
-    header = ['Time']
+    header = []
     config = configparser.ConfigParser(allow_no_value= True)
     config.optionxform = str
     config.read('mech.ini')
+    print('mechanisms from separate ".mod":', len(config['Beta']))
     for i in config['Beta']:
         mechs.append(i)
         if config['Beta'][i] is not None:
@@ -38,7 +39,8 @@ def test():
         print('mech:',i)
         fridsec.insert('B_'+i)
     fridsec.insert('frid')
-
+    # membrane capacitance
+    fridsec.cm = 9990
     # set pointers
     for i in pointers:
         for j in pointers[i]:
@@ -53,7 +55,6 @@ def test():
 
     # record variables
     # get variable names
-    cnt = 1
     for i in fridsec.psection()['density_mechs']:
         for j in fridsec.psection()['density_mechs'][i]:
             header.append(i+'_'+j)
@@ -63,17 +64,26 @@ def test():
                 v.append(h.Vector().record(k._ref_v))
                 mechRecord = getattr(k, '_ref_'+j+'_'+i)
                 rec[str(i+'_'+j)].append(h.Vector().record(mechRecord))
+    # fix header / record voltage of every segment
+    head = ['Time']
+    count = 0
+    for i in fridsec:
+        temp = 'VC'+str(count)
+        # ease writing to csv by keeping same format even though it is not necessary
+        rec[temp] = []
+        rec[temp].append(h.Vector().record(i._ref_v))
+        count += 1
+    head.extend(header)
+    head.append(temp)
+    # simulate
     t = h.Vector().record(h._ref_t)
     h.finitialize(-62)
-    h.continuerun(200)
-    z = 0
-    for i in rec:
-        # print('Header:', header[z], 'Length:', len(rec[i][0]))
-        z += 1
+    h.continuerun(5000)
+
     # write to csv
-    with open('data/'+sys.argv[1],'w') as file:
+    with open('data/'+sys.argv[1],'w+') as file:
         writer = csv.writer(file,quoting = csv.QUOTE_NONE,escapechar=' ')
-        writer.writerow(header)
+        writer.writerow(head)
         for i in range(len(t)):
             out = [t[i]]
             for q in rec:

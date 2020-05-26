@@ -1,6 +1,5 @@
 NEURON{
     SUFFIX frid
-    :USEION Vm WRITE Vmi VALENCE 1
     RANGE Cm, ADPf, ATP, Cac, dCaL, dCaP, dCaT, dKCa, dKCaB, dKhe
     RANGE dKr, dNa, ECa, EK, ENa, F, f1CaL, f2CaL, fCaP, fCaT
     RANGE fi, fKCaB, fKhe, fNa, gBNa, gmCaL, gmCaP, gmCaT, gmKATP, gmKCa
@@ -27,6 +26,19 @@ NEURON{
     USEION KCa READ iKCa
     USEION KATP READ iKATP
     USEION KDR READ iKDR
+:    USEION CaLL WRITE iCaLL VALENCE 2   
+:   USEION CaTT WRITE iCaTT VALENCE 2
+:   USEION CaPP WRITE iCaPP VALENCE 2
+:    USEION BKK WRITE iBKK VALENCE 1
+:    USEION Naa WRITE iNaa VALENCE 1
+:    USEION NaBB WRITE iNaBB VALENCE 1
+:    USEION HERGG WRITE iHERGG VALENCE 1
+:    USEION PCaa WRITE iPCaa VALENCE 2
+:    USEION KCaa WRITE iKCaa VALENCE 1
+:    USEION KATPP WRITE iKATPP VALENCE 1
+:    USEION KDRR WRITE iKDRR VALENCE 1
+    RANGE fi_, dCaLi_, dCaPi_, dCaTi_, dKCa_, dKCaBi_, dKhei_, dKri_, dNai_, fCaLi_, fCaPi_, fCaTi_, fiCa_, fKCaBi_, fKhei_, fNai_, fsi_, MgADP_, OKATP_, tdCaL_, VdKCaB_
+    RANGE iCaLL, iCaTT, iCaPP, iBKK, iNaa, iNaBB, iHERGG, iPCaa, iKCaa, iKATPP, iKDRR
 }
 
 PARAMETER{
@@ -122,7 +134,7 @@ PARAMETER{
     tdKhe	
 
     test	
-    	dCaLi
+    dCaLi
     dCaPi
     dCaTi
     dKCa
@@ -155,10 +167,44 @@ PARAMETER{
     tdCaL
     VdKCaB
     V_real
+
+    : 'v' for 'Vp'
+    fi_
+    dCaLi_
+    dCaPi_
+    dCaTi_
+    dKCa_
+    dKCaBi_
+    dKhei_
+    dKri_
+    dNai_
+    fCaLi_
+    fCaPi_
+    fCaTi_
+    fiCa_
+    fKCaBi_
+    fKhei_
+    fNai_
+    fsi_
+    MgADP_
+    OKATP_
+    tdCaL_
+    VdKCaB_
 }
 
 ASSIGNED{
     Vmio
+    iCaLL
+    iCaTT
+    iCaPP
+    iBKK
+    iNaa
+    iNaBB
+    iHERGG
+    iPCaa
+    iKCaa
+    iKATPP
+    iKDRR
 }
 
 STATE{
@@ -180,7 +226,24 @@ STATE{
     dKhe
     fKhe
     In
-    :Vmi
+    Vmi
+
+    Cac_
+    IntCa_
+    dKr_
+    dCaL_
+    dCaP_
+    fCaP_
+    f1CaL_
+    f2CaL_
+    dNa_
+    fNa_
+    dCaT_
+    fCaT_
+    dKCaB_
+    fKCaB_
+    dKhe_
+    fKhe_
 }
 
 INITIAL{
@@ -197,6 +260,18 @@ INITIAL{
     dKhe = 0.1
     dKr = 0.0029
     dNa = 0.1
+
+    : 'v' for 'Vp'
+    Cac_ = 0.25
+    dCaL_ = 0.001
+    dCaP_ = 0.1
+    dCaT_ = 0.1
+    dKCa_ = 0.1
+    dKCaB_ = 0.1
+    dKhe_ = 0.1
+    dKr_ = 0.0029
+    dNa_ = 0.1
+
     ECa = 100
     EK = -75
     ENa = 70
@@ -209,6 +284,17 @@ INITIAL{
     fKCaB = 0.1
     fKhe = 0.1
     fNa = 0.1
+
+    :'v' for 'Vp'
+    f1CaL_ = 0.1
+    f2CaL_ = 0.7
+    fCaP_ = 0.1
+    fCaT_ = 0.1
+    fi_ = 0.005
+    fKCaB_ = 0.1
+    fKhe_ = 0.1
+    fNa_ = 0.1    
+
     gBNa = 10.0
     gmCaL = 2700
     gmCaP = 1200
@@ -284,6 +370,7 @@ INITIAL{
     :Vmi = -62
     Vpi = 45000
     tdCaL = 0.41
+    tdCaL_ = 0.41
 }
 
 BREAKPOINT{
@@ -305,6 +392,31 @@ BREAKPOINT{
     fKhei = (1.0 / (1.0 + exp(((Vp - Vfhe) / kfhe))))
     fNai = (1.0 / (1.0 + exp( - ((VfNa - Vp) / kfNa))))
     fsi = ( - (kci * fiCa * ICaP / F) + kre)
+
+    : use 'v' instead of 'Vp' for gating variables
+    dCaLi_ = (1.0 / (1.0 + exp(((VdCaL - v) / kdCaL))))
+    dCaPi_ = (1.0 / (1.0 + exp(((VdCaP - v) / kdCaP))))
+    dCaTi_ = (1.0 / (1.0 + exp(((VdCaT - v) / kdCaT))))
+    dKCa_ = (pow(Cac_,4.0) / (pow(KKCa,4.0) + pow(Cac_,4.0)))
+    dKCaBi_ = (1.0 / (1.0 + exp(((VdKCaB - v) / kdKCaB))))
+    dKhei_ =  (1.0 / (1.0 + exp(((Vdhe - v) / kdhe))))
+    dKri_ = (1.0 / (1.0 + exp(((Vdkr - v) / kdkr))))
+    dNai_ = (1.0 / (1.0 + exp(((VdNa - v) / kdNa))))
+    fCaLi_ = (1.0 / (1.0 + exp(((v - VfCaL) / kfCaL))))
+    fCaPi_ =  (1.0 / (1.0 + exp(((v - VfCaP) / kfCaP))))
+    fCaTi_ = (1.0 / (1.0 + exp(((v - VfCaT) / kfCaT))))
+    fiCa_ =  (Cac_ * Cac_ / ((KiCa * KiCa) + (Cac_ * Cac_)))
+    fKCaBi_ = (1.0 / (1.0 + exp( - ((VfKCaB - v) / kfKCaB))))
+    fKhei_ = (1.0 / (1.0 + exp(((v - Vfhe) / kfhe))))
+    fNai_ = (1.0 / (1.0 + exp( - ((VfNa - v) / kfNa))))
+    fsi_ = ( - (kci * fiCa * iCaPP / F) + kre)
+
+    MgADP_ =  (0.55 * ADPf)
+    OKATP_ =  (((0.08 * (1.0 + (2.0 * MgADP / kdd))) + (0.89 * MgADP * MgADP / kdd / kdd)) / ((1.0 + (MgADP / kdd)) * (1.0 + (MgADP / kdd)) * (1.0 + (0.45 * MgADP / ktd) + (ATP / ktt))))
+    tdCaL_ =  (2.2 - (1.79 * exp( - (.00020292043084065876 * ( - 9.7 + v) * ( - 9.7 + v)))))
+    VdKCaB_ =   (VBKo - (kshift * log((Cac_ / kCaBK))))
+
+
     ICaL = (gmCaL * dCaL * f1CaL * f2CaL * (Vp - ECa))
     ICaP = (gmCaP * dCaP * fCaP * (Vp - ECa))
     ICaT = (gmCaT * dCaT * fCaT * (Vp - ECa))
@@ -317,19 +429,33 @@ BREAKPOINT{
     INaB =  (gBNa * (Vp - ENa))
     IPCa =  (PmCaP * Cac * Cac / ((Cac * Cac) + (kCap * kCap)))
     IS =  (kpi * ksi * In)
+
     MgADP =  (0.55 * ADPf)
     OKATP =  (((0.08 * (1.0 + (2.0 * MgADP / kdd))) + (0.89 * MgADP * MgADP / kdd / kdd)) / ((1.0 + (MgADP / kdd)) * (1.0 + (MgADP / kdd)) * (1.0 + (0.45 * MgADP / ktd) + (ATP / ktt))))
     tdCaL =  (2.2 - (1.79 * exp( - (.00020292043084065876 * ( - 9.7 + Vp) * ( - 9.7 + Vp)))))
     VdKCaB =   (VBKo - (kshift * log((Cac / kCaBK))))
+
+    : use 'v' instead of 'Vp' for currents
+    iCaLL = (gmCaL * dCaL_ * f1CaL_ * f2CaL_ * (v - ECa))
+    iCaTT = (gmCaT * dCaT_ * fCaT_ * (v - ECa))
+    iCaPP = (gmCaP * dCaP_ * fCaP_ * (v - ECa))
+    iBKK =  (gmKCaB * pow(dKCaB_,hdk) * fKCaB_ * (v - EK))
+    iNaa = (gmNa * ((pow(dNa_,3.0) * fNa_) + kNar) * (v - ENa))
+    iNaBB =  (gBNa * (v - ENa))
+    iHERGG =  (gmKhe * dKhe_ * fKhe_ * (v - EK))
+    iPCaa =  (PmCaP * Cac_ * Cac_ / ((Cac_ * Cac_) + (kCap * kCap)))
+    iKCaa =  (gmKCa * dKCa_ * (v - EK))
+    iKATPP =  (gmKATP * OKATP_ * (v - EK))
+    iKDRR =  (gmKDr * dKr_ * dKr_ * (v - EK))
     SOLVE states METHOD cnexp  
 }
 
 DERIVATIVE states{
-    Cac' = ((fi * ( - iCaL - iCaP - ICaT - (2.0 * IPCa)) / (2.0 * F * Vi)) - (ksg * Cac))
+    Cac' = ((fi * ( - ICaL - ICaP - ICaT - (2.0 * IPCa)) / (2.0 * F * Vi)) - (ksg * Cac))
     IntCa' = (0.001 * Cac)
     dKr' = ((dKri - dKr) / tdKr)
     Vp' =  - ((ICaL + ICaP + ICaT + IKDR + IPCa + IKCa + IBK + IKATP + IHERG + INaB + INa) / Cm)
-    :Vmi' = - ((iCaL + iCaP + iCaT + iKDR + iPCa + iKCa + iBK + iKATP + iHERG + iNaB + iNa) / Cm)
+    Vmi' = - ((iCaL + iCaP + iCaT + iKDR + iPCa + iKCa + iBK + iKATP + iHERG + iNaB + iNa) / Cm)
     dCaL' = ((dCaLi - dCaL) / tdCaL)
     dCaP' = ((dCaPi - dCaP) / tdCaP)
     fCaP' = ((fCaPi - fCaP) / tfCaP)
@@ -344,4 +470,21 @@ DERIVATIVE states{
     dKhe' = ((dKhei - dKhe) / tdKhe)
     fKhe' = ((fKhei - fKhe) / tfKhe)
     In' = ((fsi * Ni / Vpi) - (kpi * In))
+
+    : use 'v' instead of 'Vp' for state variables
+    Cac_' = ((fi * ( - iCaLL - iCaPP - iCaTT - (2.0 * iPCaa)) / (2.0 * F * Vi)) - (ksg * Cac_))
+    dKr_' = ((dKri_ - dKr_) / tdKr)
+    dCaL_' = ((dCaLi_ - dCaL_) / tdCaL_)
+    dCaP_' = ((dCaPi_ - dCaP_) / tdCaP)
+    fCaP_' = ((fCaPi_ - fCaP_) / tfCaP)
+    f1CaL_' = ((fCaLi_ - f1CaL_) / tf1CaL)
+    f2CaL_' = ((fCaLi_ - f2CaL_) / tf2CaL)
+    dNa_' = ((dNai_ - dNa_) / tdNa)
+    fNa_' = ((fNai_ - fNa_) / tfNa)
+    dCaT_' = ((dCaTi_ - dCaT_) / tdCaT)
+    fCaT_' = ((fCaTi_ - fCaT_) / tfCaT)
+    dKCaB_' = ((dKCaBi_ - dKCaB_) / tdKCaB)
+    fKCaB_' = ((fKCaBi_ - fKCaB_) / tfKCaB)
+    dKhe_' = ((dKhei_ - dKhe_) / tdKhe)
+    fKhe_' = ((fKhei_ - fKhe_) / tfKhe)
 }
