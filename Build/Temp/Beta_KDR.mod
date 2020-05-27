@@ -1,7 +1,7 @@
 NEURON{
 SUFFIX B_KDR
 USEION KDR WRITE iKDR VALENCE 1
-USEION K READ eK
+:USEION K READ eK
 :USEION Vm READ Vmi
 RANGE gmKDr, tdKr, Vdkr, kdkr
 RANGE iKDR, dKri
@@ -32,6 +32,7 @@ tdKr = 20
 dKr = 0.0029
 Vdkr = -9
 kdkr = 8
+eK = -75
 }
 
 BREAKPOINT{

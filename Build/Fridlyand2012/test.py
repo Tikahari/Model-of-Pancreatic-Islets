@@ -61,17 +61,17 @@ count = 0
 for i in a:
     temp = 'VC'+str(count)
     # ease writing to csv by keeping same format even though it is not necessary
-    # rec[temp] = []
-    # rec[temp].append(h.Vector().record(i._ref_v))
-    head.append(temp)
+    rec[temp] = []
+    rec[temp].append(h.Vector().record(i._ref_v))
     count += 1
 head.extend(header)
+head.append(temp)
 
 t = h.Vector().record(h._ref_t)
 h.finitialize(-62)
-h.continuerun(200)
+h.continuerun(5000)
 
-with open('data/mechSim_4_Assigned.csv','w') as file:
+with open('data/'+sys.argv[1],'w') as file:
     writer = csv.writer(file,quoting = csv.QUOTE_NONE,escapechar=' ')
     writer.writerow(head)
     for i in range(len(t)):

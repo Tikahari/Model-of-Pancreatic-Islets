@@ -1,7 +1,7 @@
 NEURON{
 SUFFIX B_KATP
 USEION KATP WRITE iKATP VALENCE 1
-USEION K READ eK
+:USEION K READ eK
 :USEION Vm READ Vmi
 RANGE gmKATP, ATP, ADPf, kdd, ktt, ktd
 RANGE iKATP, MgADP, OKATP
@@ -32,6 +32,7 @@ ADPf = 15.0
 kdd = 17
 ktt = 50
 ktd = 26
+eK = -75
 }
 
 BREAKPOINT{             

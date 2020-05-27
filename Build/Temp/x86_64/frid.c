@@ -265,6 +265,26 @@ extern double hoc_Exp(double);
 #define _ion_iKCa	*_ppvar[8]._pval
 #define _ion_iKATP	*_ppvar[9]._pval
 #define _ion_iKDR	*_ppvar[10]._pval
+#define _ion_iCaLL	*_ppvar[11]._pval
+#define _ion_diCaLLdv	*_ppvar[12]._pval
+#define _ion_iCaTT	*_ppvar[13]._pval
+#define _ion_diCaTTdv	*_ppvar[14]._pval
+#define _ion_iCaPP	*_ppvar[15]._pval
+#define _ion_diCaPPdv	*_ppvar[16]._pval
+#define _ion_iBKK	*_ppvar[17]._pval
+#define _ion_diBKKdv	*_ppvar[18]._pval
+#define _ion_iNaa	*_ppvar[19]._pval
+#define _ion_diNaadv	*_ppvar[20]._pval
+#define _ion_iNaBB	*_ppvar[21]._pval
+#define _ion_diNaBBdv	*_ppvar[22]._pval
+#define _ion_iHERGG	*_ppvar[23]._pval
+#define _ion_diHERGGdv	*_ppvar[24]._pval
+#define _ion_iPCaa	*_ppvar[25]._pval
+#define _ion_diPCaadv	*_ppvar[26]._pval
+#define _ion_iKCaa	*_ppvar[27]._pval
+#define _ion_diKCaadv	*_ppvar[28]._pval
+#define _ion_iKDRR	*_ppvar[29]._pval
+#define _ion_diKDRRdv	*_ppvar[30]._pval
  
 #if MAC
 #if !defined(v)
@@ -434,7 +454,7 @@ static void _ode_map(int, double**, double**, double*, Datum*, double*, int);
 static void _ode_spec(_NrnThread*, _Memb_list*, int);
 static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  
-#define _cvode_ieq _ppvar[11]._i
+#define _cvode_ieq _ppvar[31]._i
  static void _ode_matsol_instance1(_threadargsproto_);
  /* connect range variables in _p that hoc is supposed to know about */
  static const char *_mechanism[] = {
@@ -617,6 +637,16 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  static Symbol* _KCa_sym;
  static Symbol* _KATP_sym;
  static Symbol* _KDR_sym;
+ static Symbol* _CaLL_sym;
+ static Symbol* _CaTT_sym;
+ static Symbol* _CaPP_sym;
+ static Symbol* _BKK_sym;
+ static Symbol* _Naa_sym;
+ static Symbol* _NaBB_sym;
+ static Symbol* _HERGG_sym;
+ static Symbol* _PCaa_sym;
+ static Symbol* _KCaa_sym;
+ static Symbol* _KDRR_sym;
  
 extern Prop* need_memb(Symbol*);
 
@@ -743,7 +773,7 @@ static void nrn_alloc(Prop* _prop) {
  	VdKCaB_ = 0;
  	_prop->param = _p;
  	_prop->param_size = 210;
- 	_ppvar = nrn_prop_datum_alloc(_mechtype, 12, _prop);
+ 	_ppvar = nrn_prop_datum_alloc(_mechtype, 32, _prop);
  	_prop->dparam = _ppvar;
  	/*connect ionic variables to this model*/
  prop_ion = need_memb(_CaL_sym);
@@ -768,6 +798,36 @@ static void nrn_alloc(Prop* _prop) {
  	_ppvar[9]._pval = &prop_ion->param[3]; /* iKATP */
  prop_ion = need_memb(_KDR_sym);
  	_ppvar[10]._pval = &prop_ion->param[3]; /* iKDR */
+ prop_ion = need_memb(_CaLL_sym);
+ 	_ppvar[11]._pval = &prop_ion->param[3]; /* iCaLL */
+ 	_ppvar[12]._pval = &prop_ion->param[4]; /* _ion_diCaLLdv */
+ prop_ion = need_memb(_CaTT_sym);
+ 	_ppvar[13]._pval = &prop_ion->param[3]; /* iCaTT */
+ 	_ppvar[14]._pval = &prop_ion->param[4]; /* _ion_diCaTTdv */
+ prop_ion = need_memb(_CaPP_sym);
+ 	_ppvar[15]._pval = &prop_ion->param[3]; /* iCaPP */
+ 	_ppvar[16]._pval = &prop_ion->param[4]; /* _ion_diCaPPdv */
+ prop_ion = need_memb(_BKK_sym);
+ 	_ppvar[17]._pval = &prop_ion->param[3]; /* iBKK */
+ 	_ppvar[18]._pval = &prop_ion->param[4]; /* _ion_diBKKdv */
+ prop_ion = need_memb(_Naa_sym);
+ 	_ppvar[19]._pval = &prop_ion->param[3]; /* iNaa */
+ 	_ppvar[20]._pval = &prop_ion->param[4]; /* _ion_diNaadv */
+ prop_ion = need_memb(_NaBB_sym);
+ 	_ppvar[21]._pval = &prop_ion->param[3]; /* iNaBB */
+ 	_ppvar[22]._pval = &prop_ion->param[4]; /* _ion_diNaBBdv */
+ prop_ion = need_memb(_HERGG_sym);
+ 	_ppvar[23]._pval = &prop_ion->param[3]; /* iHERGG */
+ 	_ppvar[24]._pval = &prop_ion->param[4]; /* _ion_diHERGGdv */
+ prop_ion = need_memb(_PCaa_sym);
+ 	_ppvar[25]._pval = &prop_ion->param[3]; /* iPCaa */
+ 	_ppvar[26]._pval = &prop_ion->param[4]; /* _ion_diPCaadv */
+ prop_ion = need_memb(_KCaa_sym);
+ 	_ppvar[27]._pval = &prop_ion->param[3]; /* iKCaa */
+ 	_ppvar[28]._pval = &prop_ion->param[4]; /* _ion_diKCaadv */
+ prop_ion = need_memb(_KDRR_sym);
+ 	_ppvar[29]._pval = &prop_ion->param[3]; /* iKDRR */
+ 	_ppvar[30]._pval = &prop_ion->param[4]; /* _ion_diKDRRdv */
  
 }
  static void _initlists();
@@ -799,6 +859,16 @@ extern void _cvode_abstol( Symbol**, double*, int);
  	ion_reg("KCa", -10000.);
  	ion_reg("KATP", -10000.);
  	ion_reg("KDR", -10000.);
+ 	ion_reg("CaLL", 2.0);
+ 	ion_reg("CaTT", 2.0);
+ 	ion_reg("CaPP", 2.0);
+ 	ion_reg("BKK", 1.0);
+ 	ion_reg("Naa", 1.0);
+ 	ion_reg("NaBB", 1.0);
+ 	ion_reg("HERGG", 1.0);
+ 	ion_reg("PCaa", 2.0);
+ 	ion_reg("KCaa", 1.0);
+ 	ion_reg("KDRR", 1.0);
  	_CaL_sym = hoc_lookup("CaL_ion");
  	_CaT_sym = hoc_lookup("CaT_ion");
  	_CaP_sym = hoc_lookup("CaP_ion");
@@ -810,6 +880,16 @@ extern void _cvode_abstol( Symbol**, double*, int);
  	_KCa_sym = hoc_lookup("KCa_ion");
  	_KATP_sym = hoc_lookup("KATP_ion");
  	_KDR_sym = hoc_lookup("KDR_ion");
+ 	_CaLL_sym = hoc_lookup("CaLL_ion");
+ 	_CaTT_sym = hoc_lookup("CaTT_ion");
+ 	_CaPP_sym = hoc_lookup("CaPP_ion");
+ 	_BKK_sym = hoc_lookup("BKK_ion");
+ 	_Naa_sym = hoc_lookup("Naa_ion");
+ 	_NaBB_sym = hoc_lookup("NaBB_ion");
+ 	_HERGG_sym = hoc_lookup("HERGG_ion");
+ 	_PCaa_sym = hoc_lookup("PCaa_ion");
+ 	_KCaa_sym = hoc_lookup("KCaa_ion");
+ 	_KDRR_sym = hoc_lookup("KDRR_ion");
  	register_mech(_mechanism, nrn_alloc,nrn_cur, nrn_jacob, nrn_state, nrn_init, hoc_nrnpointerindex, 2);
   _extcall_thread = (Datum*)ecalloc(1, sizeof(Datum));
   _thread_mem_init(_extcall_thread);
@@ -823,7 +903,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
   hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
 #endif
-  hoc_register_prop_size(_mechtype, 210, 12);
+  hoc_register_prop_size(_mechtype, 210, 32);
   hoc_register_dparam_semantics(_mechtype, 0, "CaL_ion");
   hoc_register_dparam_semantics(_mechtype, 1, "CaT_ion");
   hoc_register_dparam_semantics(_mechtype, 2, "CaP_ion");
@@ -835,7 +915,27 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_register_dparam_semantics(_mechtype, 8, "KCa_ion");
   hoc_register_dparam_semantics(_mechtype, 9, "KATP_ion");
   hoc_register_dparam_semantics(_mechtype, 10, "KDR_ion");
-  hoc_register_dparam_semantics(_mechtype, 11, "cvodeieq");
+  hoc_register_dparam_semantics(_mechtype, 11, "CaLL_ion");
+  hoc_register_dparam_semantics(_mechtype, 12, "CaLL_ion");
+  hoc_register_dparam_semantics(_mechtype, 13, "CaTT_ion");
+  hoc_register_dparam_semantics(_mechtype, 14, "CaTT_ion");
+  hoc_register_dparam_semantics(_mechtype, 15, "CaPP_ion");
+  hoc_register_dparam_semantics(_mechtype, 16, "CaPP_ion");
+  hoc_register_dparam_semantics(_mechtype, 17, "BKK_ion");
+  hoc_register_dparam_semantics(_mechtype, 18, "BKK_ion");
+  hoc_register_dparam_semantics(_mechtype, 19, "Naa_ion");
+  hoc_register_dparam_semantics(_mechtype, 20, "Naa_ion");
+  hoc_register_dparam_semantics(_mechtype, 21, "NaBB_ion");
+  hoc_register_dparam_semantics(_mechtype, 22, "NaBB_ion");
+  hoc_register_dparam_semantics(_mechtype, 23, "HERGG_ion");
+  hoc_register_dparam_semantics(_mechtype, 24, "HERGG_ion");
+  hoc_register_dparam_semantics(_mechtype, 25, "PCaa_ion");
+  hoc_register_dparam_semantics(_mechtype, 26, "PCaa_ion");
+  hoc_register_dparam_semantics(_mechtype, 27, "KCaa_ion");
+  hoc_register_dparam_semantics(_mechtype, 28, "KCaa_ion");
+  hoc_register_dparam_semantics(_mechtype, 29, "KDRR_ion");
+  hoc_register_dparam_semantics(_mechtype, 30, "KDRR_ion");
+  hoc_register_dparam_semantics(_mechtype, 31, "cvodeieq");
  	hoc_register_cvode(_mechtype, _ode_count, _ode_map, _ode_spec, _ode_matsol);
  	hoc_register_tolerance(_mechtype, _hoc_state_tol, &_atollist);
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
@@ -995,7 +1095,7 @@ static void _ode_spec(_NrnThread* _nt, _Memb_list* _ml, int _type) {
   iKATP = _ion_iKATP;
   iKDR = _ion_iKDR;
      _ode_spec1 (_p, _ppvar, _thread, _nt);
- }}
+           }}
  
 static void _ode_map(int _ieq, double** _pv, double** _pvdot, double* _pp, Datum* _ppd, double* _atol, int _type) { 
 	double* _p; Datum* _ppvar;
@@ -1061,6 +1161,26 @@ static void _thread_cleanup(Datum* _thread) {
    nrn_update_ion_pointer(_KCa_sym, _ppvar, 8, 3);
    nrn_update_ion_pointer(_KATP_sym, _ppvar, 9, 3);
    nrn_update_ion_pointer(_KDR_sym, _ppvar, 10, 3);
+   nrn_update_ion_pointer(_CaLL_sym, _ppvar, 11, 3);
+   nrn_update_ion_pointer(_CaLL_sym, _ppvar, 12, 4);
+   nrn_update_ion_pointer(_CaTT_sym, _ppvar, 13, 3);
+   nrn_update_ion_pointer(_CaTT_sym, _ppvar, 14, 4);
+   nrn_update_ion_pointer(_CaPP_sym, _ppvar, 15, 3);
+   nrn_update_ion_pointer(_CaPP_sym, _ppvar, 16, 4);
+   nrn_update_ion_pointer(_BKK_sym, _ppvar, 17, 3);
+   nrn_update_ion_pointer(_BKK_sym, _ppvar, 18, 4);
+   nrn_update_ion_pointer(_Naa_sym, _ppvar, 19, 3);
+   nrn_update_ion_pointer(_Naa_sym, _ppvar, 20, 4);
+   nrn_update_ion_pointer(_NaBB_sym, _ppvar, 21, 3);
+   nrn_update_ion_pointer(_NaBB_sym, _ppvar, 22, 4);
+   nrn_update_ion_pointer(_HERGG_sym, _ppvar, 23, 3);
+   nrn_update_ion_pointer(_HERGG_sym, _ppvar, 24, 4);
+   nrn_update_ion_pointer(_PCaa_sym, _ppvar, 25, 3);
+   nrn_update_ion_pointer(_PCaa_sym, _ppvar, 26, 4);
+   nrn_update_ion_pointer(_KCaa_sym, _ppvar, 27, 3);
+   nrn_update_ion_pointer(_KCaa_sym, _ppvar, 28, 4);
+   nrn_update_ion_pointer(_KDRR_sym, _ppvar, 29, 3);
+   nrn_update_ion_pointer(_KDRR_sym, _ppvar, 30, 4);
  }
 
 static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {
@@ -1255,96 +1375,10 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
   iKATP = _ion_iKATP;
   iKDR = _ion_iKDR;
  initmodel(_p, _ppvar, _thread, _nt);
-}
-}
-
-static double _nrn_current(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt, double _v){double _current=0.;v=_v;{
-} return _current;
+          }
 }
 
-static void nrn_cur(_NrnThread* _nt, _Memb_list* _ml, int _type) {
-double* _p; Datum* _ppvar; Datum* _thread;
-Node *_nd; int* _ni; double _rhs, _v; int _iml, _cntml;
-#if CACHEVEC
-    _ni = _ml->_nodeindices;
-#endif
-_cntml = _ml->_nodecount;
-_thread = _ml->_thread;
-for (_iml = 0; _iml < _cntml; ++_iml) {
- _p = _ml->_data[_iml]; _ppvar = _ml->_pdata[_iml];
-#if CACHEVEC
-  if (use_cachevec) {
-    _v = VEC_V(_ni[_iml]);
-  }else
-#endif
-  {
-    _nd = _ml->_nodelist[_iml];
-    _v = NODEV(_nd);
-  }
- 
-}
- 
-}
-
-static void nrn_jacob(_NrnThread* _nt, _Memb_list* _ml, int _type) {
-double* _p; Datum* _ppvar; Datum* _thread;
-Node *_nd; int* _ni; int _iml, _cntml;
-#if CACHEVEC
-    _ni = _ml->_nodeindices;
-#endif
-_cntml = _ml->_nodecount;
-_thread = _ml->_thread;
-for (_iml = 0; _iml < _cntml; ++_iml) {
- _p = _ml->_data[_iml];
-#if CACHEVEC
-  if (use_cachevec) {
-	VEC_D(_ni[_iml]) += _g;
-  }else
-#endif
-  {
-     _nd = _ml->_nodelist[_iml];
-	NODED(_nd) += _g;
-  }
- 
-}
- 
-}
-
-static void nrn_state(_NrnThread* _nt, _Memb_list* _ml, int _type) {
-double* _p; Datum* _ppvar; Datum* _thread;
-Node *_nd; double _v = 0.0; int* _ni; int _iml, _cntml;
-#if CACHEVEC
-    _ni = _ml->_nodeindices;
-#endif
-_cntml = _ml->_nodecount;
-_thread = _ml->_thread;
-for (_iml = 0; _iml < _cntml; ++_iml) {
- _p = _ml->_data[_iml]; _ppvar = _ml->_pdata[_iml];
- _nd = _ml->_nodelist[_iml];
-#if CACHEVEC
-  if (use_cachevec) {
-    _v = VEC_V(_ni[_iml]);
-  }else
-#endif
-  {
-    _nd = _ml->_nodelist[_iml];
-    _v = NODEV(_nd);
-  }
- v=_v;
-{
-  iCaL = _ion_iCaL;
-  iCaT = _ion_iCaT;
-  iCaP = _ion_iCaP;
-  iBK = _ion_iBK;
-  iNa = _ion_iNa;
-  iNaB = _ion_iNaB;
-  iHERG = _ion_iHERG;
-  iPCa = _ion_iPCa;
-  iKCa = _ion_iKCa;
-  iKATP = _ion_iKATP;
-  iKDR = _ion_iKDR;
- {   states(_p, _ppvar, _thread, _nt);
-  } {
+static double _nrn_current(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt, double _v){double _current=0.;v=_v;{ {
    V_real = v ;
    test = test + 3.0 ;
    dCaLi = ( 1.0 / ( 1.0 + exp ( ( ( VdCaL - Vp ) / kdCaL ) ) ) ) ;
@@ -1411,7 +1445,166 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
    iKATPP = ( gmKATP * OKATP_ * ( v - EK ) ) ;
    iKDRR = ( gmKDr * dKr_ * dKr_ * ( v - EK ) ) ;
    }
-}}
+ _current += iCaLL;
+ _current += iCaTT;
+ _current += iCaPP;
+ _current += iBKK;
+ _current += iNaa;
+ _current += iNaBB;
+ _current += iHERGG;
+ _current += iPCaa;
+ _current += iKCaa;
+ _current += iKDRR;
+
+} return _current;
+}
+
+static void nrn_cur(_NrnThread* _nt, _Memb_list* _ml, int _type) {
+double* _p; Datum* _ppvar; Datum* _thread;
+Node *_nd; int* _ni; double _rhs, _v; int _iml, _cntml;
+#if CACHEVEC
+    _ni = _ml->_nodeindices;
+#endif
+_cntml = _ml->_nodecount;
+_thread = _ml->_thread;
+for (_iml = 0; _iml < _cntml; ++_iml) {
+ _p = _ml->_data[_iml]; _ppvar = _ml->_pdata[_iml];
+#if CACHEVEC
+  if (use_cachevec) {
+    _v = VEC_V(_ni[_iml]);
+  }else
+#endif
+  {
+    _nd = _ml->_nodelist[_iml];
+    _v = NODEV(_nd);
+  }
+  iCaL = _ion_iCaL;
+  iCaT = _ion_iCaT;
+  iCaP = _ion_iCaP;
+  iBK = _ion_iBK;
+  iNa = _ion_iNa;
+  iNaB = _ion_iNaB;
+  iHERG = _ion_iHERG;
+  iPCa = _ion_iPCa;
+  iKCa = _ion_iKCa;
+  iKATP = _ion_iKATP;
+  iKDR = _ion_iKDR;
+ _g = _nrn_current(_p, _ppvar, _thread, _nt, _v + .001);
+ 	{ double _diKDRR;
+ double _diKCaa;
+ double _diPCaa;
+ double _diHERGG;
+ double _diNaBB;
+ double _diNaa;
+ double _diBKK;
+ double _diCaPP;
+ double _diCaTT;
+ double _diCaLL;
+  _diCaLL = iCaLL;
+  _diCaTT = iCaTT;
+  _diCaPP = iCaPP;
+  _diBKK = iBKK;
+  _diNaa = iNaa;
+  _diNaBB = iNaBB;
+  _diHERGG = iHERGG;
+  _diPCaa = iPCaa;
+  _diKCaa = iKCaa;
+  _diKDRR = iKDRR;
+ _rhs = _nrn_current(_p, _ppvar, _thread, _nt, _v);
+  _ion_diCaLLdv += (_diCaLL - iCaLL)/.001 ;
+  _ion_diCaTTdv += (_diCaTT - iCaTT)/.001 ;
+  _ion_diCaPPdv += (_diCaPP - iCaPP)/.001 ;
+  _ion_diBKKdv += (_diBKK - iBKK)/.001 ;
+  _ion_diNaadv += (_diNaa - iNaa)/.001 ;
+  _ion_diNaBBdv += (_diNaBB - iNaBB)/.001 ;
+  _ion_diHERGGdv += (_diHERGG - iHERGG)/.001 ;
+  _ion_diPCaadv += (_diPCaa - iPCaa)/.001 ;
+  _ion_diKCaadv += (_diKCaa - iKCaa)/.001 ;
+  _ion_diKDRRdv += (_diKDRR - iKDRR)/.001 ;
+ 	}
+ _g = (_g - _rhs)/.001;
+  _ion_iCaLL += iCaLL ;
+  _ion_iCaTT += iCaTT ;
+  _ion_iCaPP += iCaPP ;
+  _ion_iBKK += iBKK ;
+  _ion_iNaa += iNaa ;
+  _ion_iNaBB += iNaBB ;
+  _ion_iHERGG += iHERGG ;
+  _ion_iPCaa += iPCaa ;
+  _ion_iKCaa += iKCaa ;
+  _ion_iKDRR += iKDRR ;
+#if CACHEVEC
+  if (use_cachevec) {
+	VEC_RHS(_ni[_iml]) -= _rhs;
+  }else
+#endif
+  {
+	NODERHS(_nd) -= _rhs;
+  }
+ 
+}
+ 
+}
+
+static void nrn_jacob(_NrnThread* _nt, _Memb_list* _ml, int _type) {
+double* _p; Datum* _ppvar; Datum* _thread;
+Node *_nd; int* _ni; int _iml, _cntml;
+#if CACHEVEC
+    _ni = _ml->_nodeindices;
+#endif
+_cntml = _ml->_nodecount;
+_thread = _ml->_thread;
+for (_iml = 0; _iml < _cntml; ++_iml) {
+ _p = _ml->_data[_iml];
+#if CACHEVEC
+  if (use_cachevec) {
+	VEC_D(_ni[_iml]) += _g;
+  }else
+#endif
+  {
+     _nd = _ml->_nodelist[_iml];
+	NODED(_nd) += _g;
+  }
+ 
+}
+ 
+}
+
+static void nrn_state(_NrnThread* _nt, _Memb_list* _ml, int _type) {
+double* _p; Datum* _ppvar; Datum* _thread;
+Node *_nd; double _v = 0.0; int* _ni; int _iml, _cntml;
+#if CACHEVEC
+    _ni = _ml->_nodeindices;
+#endif
+_cntml = _ml->_nodecount;
+_thread = _ml->_thread;
+for (_iml = 0; _iml < _cntml; ++_iml) {
+ _p = _ml->_data[_iml]; _ppvar = _ml->_pdata[_iml];
+ _nd = _ml->_nodelist[_iml];
+#if CACHEVEC
+  if (use_cachevec) {
+    _v = VEC_V(_ni[_iml]);
+  }else
+#endif
+  {
+    _nd = _ml->_nodelist[_iml];
+    _v = NODEV(_nd);
+  }
+ v=_v;
+{
+  iCaL = _ion_iCaL;
+  iCaT = _ion_iCaT;
+  iCaP = _ion_iCaP;
+  iBK = _ion_iBK;
+  iNa = _ion_iNa;
+  iNaB = _ion_iNaB;
+  iHERG = _ion_iHERG;
+  iPCa = _ion_iPCa;
+  iKCa = _ion_iKCa;
+  iKATP = _ion_iKATP;
+  iKDR = _ion_iKDR;
+ {   states(_p, _ppvar, _thread, _nt);
+  }          }}
 
 }
 
@@ -1493,17 +1686,17 @@ static const char* nmodl_file_text =
   "    USEION KCa READ iKCa\n"
   "    USEION KATP READ iKATP\n"
   "    USEION KDR READ iKDR\n"
-  ":    USEION CaLL WRITE iCaLL VALENCE 2   \n"
-  ":   USEION CaTT WRITE iCaTT VALENCE 2\n"
-  ":   USEION CaPP WRITE iCaPP VALENCE 2\n"
-  ":    USEION BKK WRITE iBKK VALENCE 1\n"
-  ":    USEION Naa WRITE iNaa VALENCE 1\n"
-  ":    USEION NaBB WRITE iNaBB VALENCE 1\n"
-  ":    USEION HERGG WRITE iHERGG VALENCE 1\n"
-  ":    USEION PCaa WRITE iPCaa VALENCE 2\n"
-  ":    USEION KCaa WRITE iKCaa VALENCE 1\n"
+  "    USEION CaLL WRITE iCaLL VALENCE 2   \n"
+  "    USEION CaTT WRITE iCaTT VALENCE 2\n"
+  "    USEION CaPP WRITE iCaPP VALENCE 2\n"
+  "    USEION BKK WRITE iBKK VALENCE 1\n"
+  "    USEION Naa WRITE iNaa VALENCE 1\n"
+  "    USEION NaBB WRITE iNaBB VALENCE 1\n"
+  "    USEION HERGG WRITE iHERGG VALENCE 1\n"
+  "    USEION PCaa WRITE iPCaa VALENCE 2\n"
+  "   USEION KCaa WRITE iKCaa VALENCE 1\n"
   ":    USEION KATPP WRITE iKATPP VALENCE 1\n"
-  ":    USEION KDRR WRITE iKDRR VALENCE 1\n"
+  "    USEION KDRR WRITE iKDRR VALENCE 1\n"
   "    RANGE fi_, dCaLi_, dCaPi_, dCaTi_, dKCa_, dKCaBi_, dKhei_, dKri_, dNai_, fCaLi_, fCaPi_, fCaTi_, fiCa_, fKCaBi_, fKhei_, fNai_, fsi_, MgADP_, OKATP_, tdCaL_, VdKCaB_\n"
   "    RANGE iCaLL, iCaTT, iCaPP, iBKK, iNaa, iNaBB, iHERGG, iPCaa, iKCaa, iKATPP, iKDRR\n"
   "}\n"

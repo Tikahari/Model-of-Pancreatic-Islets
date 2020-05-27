@@ -51,9 +51,8 @@ extern double hoc_Exp(double);
 #define _g _p[5]
 #define _ion_iKCa	*_ppvar[0]._pval
 #define _ion_diKCadv	*_ppvar[1]._pval
-#define _ion_eK	*_ppvar[2]._pval
-#define Cac	*_ppvar[3]._pval
-#define _p_Cac	_ppvar[3]._pval
+#define Cac	*_ppvar[2]._pval
+#define _p_Cac	_ppvar[2]._pval
  
 #if MAC
 #if !defined(v)
@@ -67,7 +66,7 @@ extern double hoc_Exp(double);
 #if defined(__cplusplus)
 extern "C" {
 #endif
- static int hoc_nrnpointerindex =  3;
+ static int hoc_nrnpointerindex =  2;
  /* external NEURON variables */
  /* declaration of user functions */
  static int _mechtype;
@@ -140,7 +139,6 @@ static void  nrn_jacob(_NrnThread*, _Memb_list*, int);
  "Cac_B_KCa",
  0};
  static Symbol* _KCa_sym;
- static Symbol* _K_sym;
  
 extern Prop* need_memb(Symbol*);
 
@@ -153,15 +151,12 @@ static void nrn_alloc(Prop* _prop) {
  	KKCa = 0;
  	_prop->param = _p;
  	_prop->param_size = 6;
- 	_ppvar = nrn_prop_datum_alloc(_mechtype, 4, _prop);
+ 	_ppvar = nrn_prop_datum_alloc(_mechtype, 3, _prop);
  	_prop->dparam = _ppvar;
  	/*connect ionic variables to this model*/
  prop_ion = need_memb(_KCa_sym);
  	_ppvar[0]._pval = &prop_ion->param[3]; /* iKCa */
  	_ppvar[1]._pval = &prop_ion->param[4]; /* _ion_diKCadv */
- prop_ion = need_memb(_K_sym);
- nrn_promote(prop_ion, 0, 1);
- 	_ppvar[2]._pval = &prop_ion->param[0]; /* eK */
  
 }
  static void _initlists();
@@ -176,9 +171,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
 	int _vectorized = 0;
   _initlists();
  	ion_reg("KCa", 1.0);
- 	ion_reg("K", -10000.);
  	_KCa_sym = hoc_lookup("KCa_ion");
- 	_K_sym = hoc_lookup("K_ion");
  	register_mech(_mechanism, nrn_alloc,nrn_cur, nrn_jacob, nrn_state, nrn_init, hoc_nrnpointerindex, 0);
  _mechtype = nrn_get_mechtype(_mechanism[1]);
      _nrn_setdata_reg(_mechtype, _setdata);
@@ -187,13 +180,12 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
   hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
 #endif
-  hoc_register_prop_size(_mechtype, 6, 4);
+  hoc_register_prop_size(_mechtype, 6, 3);
   hoc_register_dparam_semantics(_mechtype, 0, "KCa_ion");
   hoc_register_dparam_semantics(_mechtype, 1, "KCa_ion");
-  hoc_register_dparam_semantics(_mechtype, 2, "K_ion");
-  hoc_register_dparam_semantics(_mechtype, 3, "pointer");
+  hoc_register_dparam_semantics(_mechtype, 2, "pointer");
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
- 	ivoc_help("help ?1 B_KCa /ufrc/lamb/robert727/Model-of-Pancreatic-Islets/Build/Temp/x86_64/Beta_KCa.mod\n");
+ 	ivoc_help("help ?1 B_KCa /ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Temp/x86_64/Beta_KCa.mod\n");
  hoc_register_limits(_mechtype, _hoc_parm_limits);
  hoc_register_units(_mechtype, _hoc_parm_units);
  }
@@ -208,7 +200,6 @@ static void _modl_cleanup(){ _match_recurse=1;}
  static void _update_ion_pointer(Datum* _ppvar) {
    nrn_update_ion_pointer(_KCa_sym, _ppvar, 0, 3);
    nrn_update_ion_pointer(_KCa_sym, _ppvar, 1, 4);
-   nrn_update_ion_pointer(_K_sym, _ppvar, 2, 0);
  }
 
 static void initmodel() {
@@ -218,6 +209,7 @@ static void initmodel() {
    gmKCa = 150.0 ;
    KKCa = 0.2 ;
    dKCa = 0.1 ;
+   eK = - 75.0 ;
    }
 
 }
@@ -241,7 +233,6 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
     _v = NODEV(_nd);
   }
  v = _v;
-  eK = _ion_eK;
  initmodel();
  }}
 
@@ -271,7 +262,6 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
     _nd = _ml->_nodelist[_iml];
     _v = NODEV(_nd);
   }
-  eK = _ion_eK;
  _g = _nrn_current(_v + .001);
  	{ double _diKCa;
   _diKCa = iKCa;
@@ -324,14 +314,14 @@ _first = 0;
 }
 
 #if NMODL_TEXT
-static const char* nmodl_filename = "/ufrc/lamb/robert727/Model-of-Pancreatic-Islets/Build/Temp/Beta_KCa.mod";
+static const char* nmodl_filename = "/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Temp/Beta_KCa.mod";
 static const char* nmodl_file_text = 
   "NEURON{\n"
   "SUFFIX B_KCa\n"
   "USEION KCa WRITE iKCa VALENCE 1\n"
   ":USEION Cac READ Caci\n"
   "POINTER Cac\n"
-  "USEION K READ eK\n"
+  ":USEION K READ eK\n"
   ":USEION Vm READ Vmi\n"
   "RANGE gmKCa, KKCa\n"
   "RANGE dKCa, iKCa\n"
@@ -356,6 +346,7 @@ static const char* nmodl_file_text =
   "gmKCa = 150\n"
   "KKCa = 0.2\n"
   "dKCa = 0.1\n"
+  "eK = -75\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"

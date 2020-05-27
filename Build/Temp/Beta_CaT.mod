@@ -1,7 +1,7 @@
 NEURON{
 SUFFIX B_CaT
 USEION CaT WRITE iCaT VALENCE 2
-USEION Ca READ eCa
+:USEION Ca READ eCa
 :USEION Vm READ Vmi
 RANGE gmCaT, kdCaT, kfCaT, tdCaT, tfCaT, VdCaT, VfCaT
 RANGE dCaTi, fCaTi, iCaT 
@@ -41,6 +41,7 @@ tdCaT = 0.41
 tfCaT = 6.8
 VdCaT = -50
 VfCaT = -64
+eCa = 100
 }
 
 BREAKPOINT{

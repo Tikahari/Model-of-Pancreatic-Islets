@@ -1,7 +1,7 @@
 NEURON{
 SUFFIX B_CaL
 USEION CaL WRITE iCaL VALENCE 2
-USEION Ca READ eCa
+:USEION Ca READ eCa
 :USEION Vm READ Vmi
 RANGE dCaL, f1CaL, f2CaL , gmCaL, kdCaL , kfCaL , tf1CaL, tf2CaL, VdCaL, VfCaL
 RANGE dCaLi, fCaLi, iCaL, tdCaL
@@ -45,6 +45,7 @@ tf2CaL = 65
 VdCaL = -15
 VfCaL = -25
 tdCaL = 0.41
+eCa = 100
 }
 
 BREAKPOINT{
