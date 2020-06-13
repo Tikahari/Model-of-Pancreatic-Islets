@@ -6,29 +6,26 @@ RANGE eNa, gNa
 }
 
 PARAMETER{
-eNa
 gNa
-v
 }
 
 ASSIGNED{
-iNa
 mNa_inf
 hNa_inf
 tau_mNa
 tau_hNa
+v
 }
 
 STATE{
+eNa
+iNa
 mNa
 hNa
 }
 
 INITIAL{
 eNa = 70
-gNa = 11
-mNa = 0.007938786735335676
-hNa = 0.2498175179717122
 }
 
 BREAKPOINT{

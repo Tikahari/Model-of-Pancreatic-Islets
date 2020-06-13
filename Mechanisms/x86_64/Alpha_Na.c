@@ -45,18 +45,20 @@ extern double hoc_Exp(double);
 #define t _nt->_t
 #define dt _nt->_dt
 #define gNa _p[0]
-#define iNa _p[1]
-#define mNa_inf _p[2]
-#define hNa_inf _p[3]
-#define tau_mNa _p[4]
-#define tau_hNa _p[5]
+#define mNa_inf _p[1]
+#define hNa_inf _p[2]
+#define tau_mNa _p[3]
+#define tau_hNa _p[4]
+#define iNa _p[5]
 #define mNa _p[6]
 #define hNa _p[7]
 #define eNa _p[8]
-#define DmNa _p[9]
-#define DhNa _p[10]
-#define v _p[11]
-#define _g _p[12]
+#define DeNa _p[9]
+#define DiNa _p[10]
+#define DmNa _p[11]
+#define DhNa _p[12]
+#define v _p[13]
+#define _g _p[14]
 #define _ion_iNa	*_ppvar[0]._pval
 #define _ion_diNadv	*_ppvar[1]._pval
 #define _ion_eNa	*_ppvar[2]._pval
@@ -118,7 +120,9 @@ extern void hoc_reg_nmodl_filename(int, const char*);
  0,0
 };
  static double delta_t = 0.01;
+ static double eNa0 = 0;
  static double hNa0 = 0;
+ static double iNa0 = 0;
  static double mNa0 = 0;
  /* connect global user variables to hoc */
  static DoubScal hoc_scdoub[] = {
@@ -147,12 +151,12 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
 "A_Na",
  "gNa_A_Na",
  0,
- "iNa_A_Na",
  "mNa_inf_A_Na",
  "hNa_inf_A_Na",
  "tau_mNa_A_Na",
  "tau_hNa_A_Na",
  0,
+ "iNa_A_Na",
  "mNa_A_Na",
  "hNa_A_Na",
  0,
@@ -164,11 +168,11 @@ extern Prop* need_memb(Symbol*);
 static void nrn_alloc(Prop* _prop) {
 	Prop *prop_ion;
 	double *_p; Datum *_ppvar;
- 	_p = nrn_prop_data_alloc(_mechtype, 13, _prop);
+ 	_p = nrn_prop_data_alloc(_mechtype, 15, _prop);
  	/*initialize range parameters*/
  	gNa = 0;
  	_prop->param = _p;
- 	_prop->param_size = 13;
+ 	_prop->param_size = 15;
  	_ppvar = nrn_prop_datum_alloc(_mechtype, 4, _prop);
  	_prop->dparam = _ppvar;
  	/*connect ionic variables to this model*/
@@ -205,7 +209,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
   hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
 #endif
-  hoc_register_prop_size(_mechtype, 13, 4);
+  hoc_register_prop_size(_mechtype, 15, 4);
   hoc_register_dparam_semantics(_mechtype, 0, "Na_ion");
   hoc_register_dparam_semantics(_mechtype, 1, "Na_ion");
   hoc_register_dparam_semantics(_mechtype, 2, "Na_ion");
@@ -299,13 +303,13 @@ static void _ode_matsol(_NrnThread* _nt, _Memb_list* _ml, int _type) {
 
 static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {
   int _i; double _save;{
+  eNa = eNa0;
   hNa = hNa0;
+  iNa = iNa0;
   mNa = mNa0;
  {
    eNa = 70.0 ;
    gNa = 11.0 ;
-   mNa = 0.007938786735335676 ;
-   hNa = 0.2498175179717122 ;
    }
  
 }
@@ -467,20 +471,20 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "PARAMETER{\n"
-  "eNa\n"
   "gNa\n"
-  "v\n"
   "}\n"
   "\n"
   "ASSIGNED{\n"
-  "iNa\n"
   "mNa_inf\n"
   "hNa_inf\n"
   "tau_mNa\n"
   "tau_hNa\n"
+  "v\n"
   "}\n"
   "\n"
   "STATE{\n"
+  "eNa\n"
+  "iNa\n"
   "mNa\n"
   "hNa\n"
   "}\n"
@@ -488,8 +492,6 @@ static const char* nmodl_file_text =
   "INITIAL{\n"
   "eNa = 70\n"
   "gNa = 11\n"
-  "mNa = 0.007938786735335676\n"
-  "hNa = 0.2498175179717122\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"

@@ -45,18 +45,20 @@ extern double hoc_Exp(double);
 #define t _nt->_t
 #define dt _nt->_dt
 #define gCaL _p[0]
-#define iCaL _p[1]
-#define mCaL_inf _p[2]
-#define hCaL_inf _p[3]
-#define tau_mCaL _p[4]
-#define tau_hCaL _p[5]
+#define mCaL_inf _p[1]
+#define hCaL_inf _p[2]
+#define tau_mCaL _p[3]
+#define tau_hCaL _p[4]
+#define iCaL _p[5]
 #define mCaL _p[6]
 #define hCaL _p[7]
 #define eCa _p[8]
-#define DmCaL _p[9]
-#define DhCaL _p[10]
-#define v _p[11]
-#define _g _p[12]
+#define DeCa _p[9]
+#define DiCaL _p[10]
+#define DmCaL _p[11]
+#define DhCaL _p[12]
+#define v _p[13]
+#define _g _p[14]
 #define _ion_iCaL	*_ppvar[0]._pval
 #define _ion_diCaLdv	*_ppvar[1]._pval
 #define _ion_eCa	*_ppvar[2]._pval
@@ -118,7 +120,9 @@ extern void hoc_reg_nmodl_filename(int, const char*);
  0,0
 };
  static double delta_t = 0.01;
+ static double eCa0 = 0;
  static double hCaL0 = 0;
+ static double iCaL0 = 0;
  static double mCaL0 = 0;
  /* connect global user variables to hoc */
  static DoubScal hoc_scdoub[] = {
@@ -147,12 +151,12 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
 "A_CaL",
  "gCaL_A_CaL",
  0,
- "iCaL_A_CaL",
  "mCaL_inf_A_CaL",
  "hCaL_inf_A_CaL",
  "tau_mCaL_A_CaL",
  "tau_hCaL_A_CaL",
  0,
+ "iCaL_A_CaL",
  "mCaL_A_CaL",
  "hCaL_A_CaL",
  0,
@@ -165,11 +169,11 @@ extern Prop* need_memb(Symbol*);
 static void nrn_alloc(Prop* _prop) {
 	Prop *prop_ion;
 	double *_p; Datum *_ppvar;
- 	_p = nrn_prop_data_alloc(_mechtype, 13, _prop);
+ 	_p = nrn_prop_data_alloc(_mechtype, 15, _prop);
  	/*initialize range parameters*/
  	gCaL = 0;
  	_prop->param = _p;
- 	_prop->param_size = 13;
+ 	_prop->param_size = 15;
  	_ppvar = nrn_prop_datum_alloc(_mechtype, 4, _prop);
  	_prop->dparam = _ppvar;
  	/*connect ionic variables to this model*/
@@ -209,7 +213,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
   hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
 #endif
-  hoc_register_prop_size(_mechtype, 13, 4);
+  hoc_register_prop_size(_mechtype, 15, 4);
   hoc_register_dparam_semantics(_mechtype, 0, "CaL_ion");
   hoc_register_dparam_semantics(_mechtype, 1, "CaL_ion");
   hoc_register_dparam_semantics(_mechtype, 2, "Ca_ion");
@@ -303,7 +307,9 @@ static void _ode_matsol(_NrnThread* _nt, _Memb_list* _ml, int _type) {
 
 static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {
   int _i; double _save;{
+  eCa = eCa0;
   hCaL = hCaL0;
+  iCaL = iCaL0;
   mCaL = mCaL0;
  {
    eCa = 65.0 ;
@@ -472,20 +478,20 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "PARAMETER{\n"
-  "eCa\n"
   "gCaL\n"
-  "v\n"
   "}\n"
   "\n"
   "ASSIGNED{\n"
-  "iCaL\n"
   "mCaL_inf\n"
   "hCaL_inf\n"
   "tau_mCaL\n"
   "tau_hCaL\n"
+  "v\n"
   "}\n"
   "\n"
   "STATE{\n"
+  "eCa\n"
+  "iCaL\n"
   "mCaL\n"
   "hCaL\n"
   "}\n"
@@ -493,7 +499,7 @@ static const char* nmodl_file_text =
   "INITIAL{\n"
   "eCa = 65\n"
   "gCaL = 0.7\n"
-  "mCaL = 0.1293341713632475 \n"
+  "mCaL = 0.1293341713632475\n"
   "hCaL = 0.8127842536675057\n"
   "}\n"
   "\n"

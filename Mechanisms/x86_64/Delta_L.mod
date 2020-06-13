@@ -1,1 +1,1 @@
-../Delta_L.mod
+..//ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Mechanisms//Delta_L.mod

@@ -14,9 +14,6 @@ vCaPQh
 sCaPQh 
 tCaPQh1 
 tCaPQh2   
-eCa
-v : This is the voltage when I run h.initial.....
-
 }
 
 ASSIGNED{
@@ -24,25 +21,18 @@ mCaPQ_inf
 hCaPQ_inf
 tauCaPQm
 tauCaPQh
-iCaPQ
+eCa
+v : This is the voltage when I run h.initial.....
 }
 
 STATE{
+iCaPQ
 mCaPQ
 hCaPQ
 }
 
 INITIAL{
 eCa = 65
-gCaPQ = 0.7
-mCaPQ = 0.5089033026581684  
-hCaPQ = 0.6672499701175263  
-vCaPQm = -15
-sCaPQm = 10
-vCaPQh = -33
-sCaPQh = -5
-tCaPQh1 = 60
-tCaPQh2 = 51
 }
 
 BREAKPOINT{

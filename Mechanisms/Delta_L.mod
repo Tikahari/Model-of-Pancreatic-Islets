@@ -7,17 +7,18 @@ RANGE eL, iL :For other currents we didn't include the reversal potential as a r
 
 PARAMETER{   
 gL
-eL
-v : This is the voltage when I run h.initial.....
 }
 
 ASSIGNED{
+v : This is the voltage when I run h.initial.....
+}
+
+STATE{
+eL
 iL
 }
 
 INITIAL{
-gL = 0
-eL = -20
 }
 
 BREAKPOINT{

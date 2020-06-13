@@ -516,51 +516,6 @@ static void initmodel() {
   cera = cera0;
   ca = ca0;
  {
-   alpha = 5.0 ;
-   Ba = 1.0 ;
-   fcyta = 0.01 ;
-   fVpqa = 0.00226 ;
-   tmsb = 0.001 ;
-   vcella = 0.624e-12 ;
-   vmdpq = 1.41e-15 ;
-   cmdpqa = 11.51299890826233 ;
-   ca = 0.3449148387259899 ;
-   kpmcaa = 0.3 ;
-   ksercaa = 0.05 ;
-   pleaka = 0.0003 ;
-   cera = 58.71698724650182 ;
-   N1a = 1.057203539612775e-05 ;
-   N2a = 2.113947666062938e-05 ;
-   N3a = 2.388848788981755e-05 ;
-   N4a = 2.391806975716259e-06 ;
-   N5a = 0.008850176609826538 ;
-   N6a = 12.69715161782077 ;
-   NFa = 0.001724142875712899 ;
-   NRa = 0.1927364884362762 ;
-   fera = 0.01 ;
-   sigmava = 31.0 ;
-   fmda = 0.01 ;
-   k1a = 20.0 ;
-   km1a = 100.0 ;
-   r1a = 0.6 ;
-   rm1a = 1.0 ;
-   r20a = 0.006 ;
-   r30a = 1.205 ;
-   rm3a = 0.0001 ;
-   u1a = 2000.0 ;
-   u2a = 3.0 ;
-   u3a = 0.025 ;
-   kpa = 2.3 ;
-   kp2a = 2.3 ;
-   GlucFacta = 0.05 ;
-   knockoutda = 0.0 ;
-   ra = 4.5 ;
-   sombara = 50.0 ;
-   rako = 0.001 ;
-   ssom = 15.0 ;
-   fa = 150.0 ;
-   G = 31.73727470720019 ;
-   vc = 1e-13 ;
    }
   _sav_indep = t; t = _save;
 
@@ -659,7 +614,7 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
   iCaT = _ion_iCaT;
   iCaL = _ion_iCaL;
  { error =  states();
- if(error){fprintf(stderr,"at line 135 in file Alpha_Glucagon.mod:\nSOLVE states METHOD cnexp\n"); nrn_complain(_p); abort_run(error);}
+ if(error){fprintf(stderr,"at line 90 in file Alpha_Glucagon.mod:\nSOLVE states METHOD cnexp\n"); nrn_complain(_p); abort_run(error);}
  } {
    JPQ = - alpha * iCaPQ / vmdpq ;
    JTa = - alpha * iCaT / vcella ;
@@ -781,51 +736,6 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "INITIAL{\n"
-  "alpha = 5\n"
-  "Ba = 1\n"
-  "fcyta = 0.01\n"
-  "fVpqa = 0.00226\n"
-  "tmsb = 0.001\n"
-  "vcella = 0.624e-12\n"
-  "vmdpq = 1.41e-15\n"
-  "cmdpqa = 11.51299890826233 \n"
-  "ca = 0.3449148387259899  \n"
-  "kpmcaa = 0.3\n"
-  "ksercaa = 0.05\n"
-  "pleaka = 0.0003\n"
-  "cera = 58.71698724650182\n"
-  "N1a = 1.057203539612775e-05\n"
-  "N2a = 2.113947666062938e-05  \n"
-  "N3a = 2.388848788981755e-05  \n"
-  "N4a = 2.391806975716259e-06  \n"
-  "N5a = 0.008850176609826538  \n"
-  "N6a = 12.69715161782077  \n"
-  "NFa = 0.001724142875712899  \n"
-  "NRa = 0.1927364884362762  \n"
-  "fera = 0.01\n"
-  "sigmava = 31\n"
-  "fmda = 0.01\n"
-  "k1a = 20 \n"
-  "km1a = 100\n"
-  "r1a = 0.6 \n"
-  "rm1a = 1 \n"
-  "r20a = 0.006\n"
-  "r30a = 1.205 \n"
-  "rm3a = 0.0001\n"
-  "u1a = 2000\n"
-  "u2a = 3\n"
-  "u3a = 0.025\n"
-  "kpa = 2.3 \n"
-  "kp2a = 2.3 \n"
-  "GlucFacta = 0.05\n"
-  "knockoutda = 0\n"
-  "ra = 4.5\n"
-  "sombara = 50\n"
-  "rako = 0.001\n"
-  "ssom = 15\n"
-  "fa = 150\n"
-  "G = 31.73727470720019 \n"
-  "vc = 1e-13\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"

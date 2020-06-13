@@ -1,1 +1,1 @@
-../Beta_Insulin.mod
+..//ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Mechanisms//Beta_Insulin.mod

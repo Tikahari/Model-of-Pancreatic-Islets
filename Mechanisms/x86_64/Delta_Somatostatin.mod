@@ -1,1 +1,1 @@
-../Delta_Somatostatin.mod
+..//ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Mechanisms//Delta_Somatostatin.mod

@@ -1,25 +1,25 @@
 NEURON{
 SUFFIX B_Insulin
-USEION Ca READ iCa
-USEION Ca READ iCaL
-USEION Ca READ iCaR
-RANGE G, S, vmd, vcell, alpha, B, kpmca, cbas, kserca2b, kserca3, per, phigk, KGPDH, kappa, Jgk, fcyt, delta, p23 
+:USEION Ca READ iCa
+:USEION Ca READ iCaL
+:USEION Ca READ iCaR
+RANGE vmd, vcell, alpha, B, kpmca, cbas, kserca2b, kserca3, per, phigk, KGPDH, kappa, Jgk, fcyt, delta, p23 
 RANGE p24, psim, p21, p22, fer, sigmav, fmd, lambda, VmaxPFK, weight1, topa1, bottom1, atot, k4, k3, f43, k2, f42 
 RANGE f23, amp, k1, f41, f13, gamma, p19, Amtot, p20, FRT, p16, p13, p14, p15, fmito, p8, p9, p10, p11, p17, p18 
-RANGE Cmito, p1, p2, p3, NADmtot, Jgpdh_bas, p4, p5, p6, p7, vm, sm, gca, nca, vCa, raL, khyd, JhydSS, taua, tmsb 
+RANGE Cmito, p1, p2, p3, NADmtot, Jgpdh_bas, p4, p5, p6, p7, vm, sm, gCa, nCa, vCa, raL, khyd, JhydSS, taua, tmsb 
 RANGE u1, u2, u3, gthresh, Kp2, Kp, r30, factor, amplify, bas_r3, rm3, rb, knockoutdb, sombarb, ssomb, r1, rm1, km1
-RANGE bas_cmd, max_cmd, cmdp, kcmd, exo_k1, vc, fb : End of parameters
+RANGE bas_cmd, max_cmd, cmdp, kcmd, exo_k1, vc, fb, Ins_init : End of parameters
 RANGE minf, iCa, iCaL, iCaR, vmdcyt, JL, JR, Jmem, Jserca, Jleak, Jer, f6p, Jgpdh, Jgk_ms, JNaCa, Juni, Jmito, ATPm 
 RANGE RATm, JANT, b2, JF1F0, JHatp, MM2, JHres, JHleak, NADm, JPDH, MM1, JO, atp, Jhyd, weight2, topa2, bottom2, weight3 
 RANGE topa3, bottom3, weight4, topa4, bottom4, weight5, topa5, bottom5, weight6, topa6, bottom6, weight7, topa7, bottom7 
 RANGE weight8, topa8, bottom8, weight9, topa9, bottom9, weight10, topa10, bottom10, weight11, topa11, bottom11, weight12 
 RANGE topa12, bottom12, weight13, topa13, bottom13, weight14, topa14, bottom14, weight15, topa15, topb, bottom15, weight16 
 RANGE topa16, bottom16, pfk, pfk_ms, r20, ampfactor, r3, r2, rm2b, mod_cmd, JIS 
+POINTER G
+POINTER Sst
 }
 
 PARAMETER{   
-G
-S
 vmd 
 vcell 
 alpha 
@@ -87,8 +87,8 @@ p6
 p7 
 vm 
 sm 
-gca 
-nca 
+gCa 
+nCa 
 vCa 
 raL 
 khyd 
@@ -120,10 +120,12 @@ kcmd
 exo_k1 
 vc 
 fb 
-v : This is the voltage when I run h.initial.....
+Ins_init 
 }
 
 ASSIGNED{
+G
+Sst
 minf
 iCa 
 iCaL 
@@ -211,6 +213,7 @@ r2
 rm2b 
 mod_cmd 
 JIS 
+v : This is the voltage when I run h.initial.....
 }
 
 STATE{
@@ -232,7 +235,7 @@ N5
 N6
 NF
 NR
-I
+Ins
 }
 
 INITIAL{
@@ -241,24 +244,24 @@ vcell = 1.15
 alpha = 5.18e-6
 B = 1
 cmd = 0.4188629403487558
-c = 0.0630015242008439  
+c = 0.0630015242008439
 kpmca = 0.2
 cbas = 0.05
 kserca2b = 0.01
 kserca3 = 0.1
 per = 0.0002
-cer = 81.57023672312617 
+cer = 81.57023672312617
 phigk = 0.3
-g6p = 244.936858732948  
+g6p = 244.936858732948
 KGPDH = 0.0005
 kappa = 0.001
 Jgk = 0.4
-fbp = 0.08283840527865462 
-ADPm = 13.53015038508978 
+fbp = 0.08283840527865462
+ADPm = 13.53015038508978
 fcyt = 0.01
 delta = 3.9/53.2 : There is an exclamation point before the delta in the model link. idk why
 p23 = 0.01
-cam = 0.01102007399722167 
+cam = 0.01102007399722167
 p24 = 0.016
 psim = 151.1015153147079
 p21 = 0.04
@@ -272,7 +275,7 @@ weight1 = 1
 topa1 = 0
 bottom1 = 1
 atot = 2500
-adp = 1913.096601466651 
+adp = 1913.096601466651
 k4 = 150
 k3 = 50000
 f43 = 20
@@ -294,7 +297,7 @@ p14 = 190
 p15 = 8.5
 fmito = 0.01
 p8 = 7
-NADHm = 0.02908310367935971 
+NADHm = 0.02908310367935971
 p9 = 0.1
 p10 = 177
 p11 = 5
@@ -312,8 +315,6 @@ p6 = 177
 p7 = 5
 vm = -6
 sm = 10
-gca = 7
-nca = 590
 vCa = 25
 raL = 0.5
 khyd = 0.00005
@@ -323,13 +324,13 @@ tmsb = 0.001
 u1 = 2000
 u2 = 3
 u3 = 0.02
-N1 = 4.627586868810905  
-N2 = 0.2262327588817945  
-N3 = 0.003661670524646639  
-N4 = 2.595179480355916e-06  
-N5 = 7.762125378310579  
-N6 = 274.1666227230976  
-NF = 0.00172689211245988  
+N1 = 4.627586868810905
+N2 = 0.2262327588817945
+N3 = 0.003661670524646639
+N4 = 2.595179480355916e-06
+N5 = 7.762125378310579
+N6 = 274.1666227230976
+NF = 0.00172689211245988
 NR = 0.3002686554719045
 gthresh = 40
 Kp2 = 2.3
@@ -347,13 +348,13 @@ r1 = 0.6
 rm1 = 1
 km1 = 100
 bas_cmd = 0.06935
-max_cmd = 32 
-cmdp = 4 
+max_cmd = 32
+cmdp = 4
 kcmd = 3
 exo_k1 = 20
-I = 48.04298494148047
 vc = 1e-13
 fb = 2000
+v = -71.33779976819424
 }
 
 BREAKPOINT{
@@ -444,7 +445,7 @@ r20 = 0.004/(1 + exp(-G + gthresh)) + 0.006 : Alpha stimulating beta
 ampfactor = factor * pow(JO,2)
 r3 = bas_r3 + amplify * ampfactor * r30 *c/(c + Kp)
 r2 = r20 * c/(c + Kp2)
-rm2b = (1 - knockoutdb) * rb/(1 + exp(-(S - sombarb)/ssomb)) + knockoutdb * 0.001
+rm2b = (1 - knockoutdb) * rb/(1 + exp(-(Sst - sombarb)/ssomb)) + knockoutdb * 0.001
 SOLVE states METHOD cnexp : Put equations that need to have ODE's solved to evaluate under here
 mod_cmd = bas_cmd + max_cmd * pow(cmd,cmdp)/(pow(cmd,cmdp) + pow(kcmd,cmdp))
 JIS = tmsb * u3 * NR * 0.0016
@@ -469,6 +470,6 @@ N5' = tmsb * (rm1 * N1 - (r1 + rm2b) * N5 + r2 * N6)
 N6' = tmsb * (r3 + rm2b * N5 - (rm3 + r2) * N6)
 NF' = tmsb * (u1 * N4 - u2 * NF)
 NR' = tmsb * (u2 * NF - u3 * NR)
-I' = JIS/vc - fb * I
+Ins' = JIS/vc - fb * Ins_init
 }
 

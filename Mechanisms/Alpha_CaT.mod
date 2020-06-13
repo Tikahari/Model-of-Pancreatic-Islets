@@ -8,27 +8,24 @@ RANGE gCaT
 
 PARAMETER{
 gCaT
-eCa
-v
 }
 
 ASSIGNED{
-iCaT
 mCaT_inf
 hCaT_inf
 tau_mCaT
 tau_hCaT
+eCa
+v
 }
 
 STATE{
+iCaT
 mCaT
 hCaT
 }
 
 INITIAL{
-gCaT = 0.4
-mCaT = 0.4633857551023612 
-hCaT = 0.3735421388722815
 }
 
 BREAKPOINT{

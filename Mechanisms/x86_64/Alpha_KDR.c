@@ -47,14 +47,15 @@ extern double hoc_Exp(double);
 #define gkdr _p[0]
 #define vkdrm _p[1]
 #define skdrm _p[2]
-#define iKDR _p[3]
-#define mkdrinf _p[4]
-#define taukdrm _p[5]
+#define mkdrinf _p[3]
+#define taukdrm _p[4]
+#define iKDR _p[5]
 #define mkdr _p[6]
 #define eK _p[7]
-#define Dmkdr _p[8]
-#define v _p[9]
-#define _g _p[10]
+#define DiKDR _p[8]
+#define Dmkdr _p[9]
+#define v _p[10]
+#define _g _p[11]
 #define _ion_iKDR	*_ppvar[0]._pval
 #define _ion_diKDRdv	*_ppvar[1]._pval
 #define _ion_eK	*_ppvar[2]._pval
@@ -116,6 +117,7 @@ extern void hoc_reg_nmodl_filename(int, const char*);
  0,0
 };
  static double delta_t = 0.01;
+ static double iKDR0 = 0;
  static double mkdr0 = 0;
  /* connect global user variables to hoc */
  static DoubScal hoc_scdoub[] = {
@@ -146,10 +148,10 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  "vkdrm_A_KDR",
  "skdrm_A_KDR",
  0,
- "iKDR_A_KDR",
  "mkdrinf_A_KDR",
  "taukdrm_A_KDR",
  0,
+ "iKDR_A_KDR",
  "mkdr_A_KDR",
  0,
  0};
@@ -161,13 +163,13 @@ extern Prop* need_memb(Symbol*);
 static void nrn_alloc(Prop* _prop) {
 	Prop *prop_ion;
 	double *_p; Datum *_ppvar;
- 	_p = nrn_prop_data_alloc(_mechtype, 11, _prop);
+ 	_p = nrn_prop_data_alloc(_mechtype, 12, _prop);
  	/*initialize range parameters*/
  	gkdr = 0;
  	vkdrm = 0;
  	skdrm = 0;
  	_prop->param = _p;
- 	_prop->param_size = 11;
+ 	_prop->param_size = 12;
  	_ppvar = nrn_prop_datum_alloc(_mechtype, 4, _prop);
  	_prop->dparam = _ppvar;
  	/*connect ionic variables to this model*/
@@ -207,7 +209,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
   hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
 #endif
-  hoc_register_prop_size(_mechtype, 11, 4);
+  hoc_register_prop_size(_mechtype, 12, 4);
   hoc_register_dparam_semantics(_mechtype, 0, "KDR_ion");
   hoc_register_dparam_semantics(_mechtype, 1, "KDR_ion");
   hoc_register_dparam_semantics(_mechtype, 2, "K_ion");
@@ -299,6 +301,7 @@ static void _ode_matsol(_NrnThread* _nt, _Memb_list* _ml, int _type) {
 
 static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {
   int _i; double _save;{
+  iKDR = iKDR0;
   mkdr = mkdr0;
  {
    gkdr = 4.5 ;
@@ -467,17 +470,17 @@ static const char* nmodl_file_text =
   "gkdr\n"
   "vkdrm\n"
   "skdrm\n"
+  "}\n"
+  "\n"
+  "ASSIGNED{\n"
+  "mkdrinf\n"
+  "taukdrm\n"
   "eK\n"
   "v\n"
   "}\n"
   "\n"
-  "ASSIGNED{\n"
-  "iKDR\n"
-  "mkdrinf\n"
-  "taukdrm\n"
-  "}\n"
-  "\n"
   "STATE{\n"
+  "iKDR\n"
   "mkdr\n"
   "}\n"
   "\n"

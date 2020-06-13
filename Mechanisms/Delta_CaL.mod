@@ -14,8 +14,6 @@ vCaLh
 tCaLh1
 tCaLh2
 gCaL
-eCa
-v : This is the voltage when I run h.initial.....
 
 }
 
@@ -24,25 +22,18 @@ mCaL_inf
 hCaL_inf
 tauCaLm
 tauCaLh
-iCaL
+v : This is the voltage when I run h.initial.....
 }
 
 STATE{
+iCaL
+eCa
 mCaL
 hCaL
 }
 
 INITIAL{
-eCa = 65 : mV
-gCaL = 0.7 : nS
-mCaL = 0.8218051702003508
-hCaL = 0.6672499701175263 
-sCaLm = 10
-sCaLh = -5
-vCaLm = -30
-vCaLh = -33
-tCaLh1 = 60
-tCaLh2 = 51
+eCa = 65
 }
 
 BREAKPOINT{

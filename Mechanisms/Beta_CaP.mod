@@ -38,7 +38,6 @@ tdCaP = 0.41
 tfCaP = 65
 kfCaP = 8
 kdCaP = 6
-iCaP = 0
 }
 
 BREAKPOINT{

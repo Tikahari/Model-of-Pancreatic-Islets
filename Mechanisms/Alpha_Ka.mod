@@ -7,29 +7,25 @@ RANGE eK, gKa, tau_mKa
 }
 
 PARAMETER{
-eK
 gKa
 tau_mKa
-v
 }
 
 ASSIGNED{
-iKa
 mKa_inf
 hKa_inf
 tau_hKa
+eK
+v
 }
 
 STATE{
+iKa
 mKa
 hKa
 }
 
 INITIAL{
-gKa = 1
-mKa = 0.4001652246173745
-hKa = 0.1373195977592295 
-tau_mKa = 0.1
 }
 
 BREAKPOINT{

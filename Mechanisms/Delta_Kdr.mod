@@ -9,28 +9,23 @@ RANGE mKdr_inf, tauKdrm, iKdr
 PARAMETER{   
 vKdrm 
 sKdrm 
-gKdr 
-eK 
-v : This is the voltage when I run h.initial.....
-
+gKdr  
 }
 
 ASSIGNED{
 mKdr_inf
 tauKdrm
-iKdr
+eK
+v : This is the voltage when I run h.initial.....
 }
 
 STATE{
+iKdr
 mKdr
 }
 
 INITIAL{
-vKdrm = -25
-sKdrm = 23
-gKdr = 7.5
 eK = -75
-mKdr = 0.5717652452166768
 }
 
 BREAKPOINT{

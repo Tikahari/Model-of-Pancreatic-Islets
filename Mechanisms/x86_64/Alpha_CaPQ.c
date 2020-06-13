@@ -51,18 +51,19 @@ extern double hoc_Exp(double);
 #define scapqh _p[4]
 #define tcapqh1 _p[5]
 #define tcapqh2 _p[6]
-#define iCaPQ _p[7]
-#define mcapqinf _p[8]
-#define hcapqinf _p[9]
-#define taucapqm _p[10]
-#define taucapqh _p[11]
+#define mcapqinf _p[7]
+#define hcapqinf _p[8]
+#define taucapqm _p[9]
+#define taucapqh _p[10]
+#define iCaPQ _p[11]
 #define mcapq _p[12]
 #define hcapq _p[13]
 #define eCa _p[14]
-#define Dmcapq _p[15]
-#define Dhcapq _p[16]
-#define v _p[17]
-#define _g _p[18]
+#define DiCaPQ _p[15]
+#define Dmcapq _p[16]
+#define Dhcapq _p[17]
+#define v _p[18]
+#define _g _p[19]
 #define _ion_iCaPQ	*_ppvar[0]._pval
 #define _ion_diCaPQdv	*_ppvar[1]._pval
 #define _ion_eCa	*_ppvar[2]._pval
@@ -125,6 +126,7 @@ extern void hoc_reg_nmodl_filename(int, const char*);
 };
  static double delta_t = 0.01;
  static double hcapq0 = 0;
+ static double iCaPQ0 = 0;
  static double mcapq0 = 0;
  /* connect global user variables to hoc */
  static DoubScal hoc_scdoub[] = {
@@ -159,12 +161,12 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  "tcapqh1_A_CaPQ",
  "tcapqh2_A_CaPQ",
  0,
- "iCaPQ_A_CaPQ",
  "mcapqinf_A_CaPQ",
  "hcapqinf_A_CaPQ",
  "taucapqm_A_CaPQ",
  "taucapqh_A_CaPQ",
  0,
+ "iCaPQ_A_CaPQ",
  "mcapq_A_CaPQ",
  "hcapq_A_CaPQ",
  0,
@@ -177,7 +179,7 @@ extern Prop* need_memb(Symbol*);
 static void nrn_alloc(Prop* _prop) {
 	Prop *prop_ion;
 	double *_p; Datum *_ppvar;
- 	_p = nrn_prop_data_alloc(_mechtype, 19, _prop);
+ 	_p = nrn_prop_data_alloc(_mechtype, 20, _prop);
  	/*initialize range parameters*/
  	gcapq = 0;
  	vcapqm = 0;
@@ -187,7 +189,7 @@ static void nrn_alloc(Prop* _prop) {
  	tcapqh1 = 0;
  	tcapqh2 = 0;
  	_prop->param = _p;
- 	_prop->param_size = 19;
+ 	_prop->param_size = 20;
  	_ppvar = nrn_prop_datum_alloc(_mechtype, 4, _prop);
  	_prop->dparam = _ppvar;
  	/*connect ionic variables to this model*/
@@ -227,7 +229,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
   hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
 #endif
-  hoc_register_prop_size(_mechtype, 19, 4);
+  hoc_register_prop_size(_mechtype, 20, 4);
   hoc_register_dparam_semantics(_mechtype, 0, "CaPQ_ion");
   hoc_register_dparam_semantics(_mechtype, 1, "CaPQ_ion");
   hoc_register_dparam_semantics(_mechtype, 2, "Ca_ion");
@@ -323,6 +325,7 @@ static void _ode_matsol(_NrnThread* _nt, _Memb_list* _ml, int _type) {
 static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {
   int _i; double _save;{
   hcapq = hcapq0;
+  iCaPQ = iCaPQ0;
   mcapq = mcapq0;
  {
    gcapq = 0.6 ;
@@ -504,30 +507,30 @@ static const char* nmodl_file_text =
   "scapqh\n"
   "tcapqh1\n"
   "tcapqh2\n"
-  "eCa\n"
-  "v\n"
   "}\n"
   "\n"
   "ASSIGNED{\n"
-  "iCaPQ\n"
+  "eCa\n"
   "mcapqinf\n"
   "hcapqinf\n"
   "taucapqm\n"
   "taucapqh\n"
+  "v\n"
   "}\n"
   "\n"
   "STATE{\n"
+  "iCaPQ\n"
   "mcapq \n"
   "hcapq\n"
   "}\n"
   "\n"
   "INITIAL{\n"
   "gcapq = 0.6\n"
-  "mcapq = 0.0120465460803863  \n"
+  "mcapq = 0.0120465460803863\n"
   "hcapq = 0.8127842536675057\n"
   "vcapqm = -5\n"
   "scapqm = 10\n"
-  "vcapqh = -33 \n"
+  "vcapqh = -33\n"
   "scapqh = -5\n"
   "tcapqh1 = 60\n"
   "tcapqh2 = 51\n"

@@ -8,16 +8,18 @@ RANGE iKATP
 
 PARAMETER{  
 gKATPbar 
+}
+
+ASSIGNED{
 eK
 v : This is the voltage when I run h.initial.....
 }
 
-ASSIGNED{
+STATE{
 iKATP
 }
 
 INITIAL{
-gKATPbar = 0.29 : This is at G1, 0.27 at G7, and 0.18 at G11
 eK = -75
 }
 

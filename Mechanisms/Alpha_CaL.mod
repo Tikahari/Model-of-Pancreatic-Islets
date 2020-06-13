@@ -7,29 +7,26 @@ RANGE gCaL
 }
 
 PARAMETER{
-eCa
 gCaL
-v
 }
 
 ASSIGNED{
-iCaL
 mCaL_inf
 hCaL_inf
 tau_mCaL
 tau_hCaL
+v
 }
 
 STATE{
+eCa
+iCaL
 mCaL
 hCaL
 }
 
 INITIAL{
-eCa = 65
-gCaL = 0.7
-mCaL = 0.1293341713632475 
-hCaL = 0.8127842536675057
+eCa = [60,70]
 }
 
 BREAKPOINT{

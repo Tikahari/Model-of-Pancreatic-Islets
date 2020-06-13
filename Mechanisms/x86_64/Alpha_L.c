@@ -46,8 +46,10 @@ extern double hoc_Exp(double);
 #define gL _p[0]
 #define iL _p[1]
 #define eL _p[2]
-#define v _p[3]
-#define _g _p[4]
+#define DeL _p[3]
+#define DiL _p[4]
+#define v _p[5]
+#define _g _p[6]
 #define _ion_iL	*_ppvar[0]._pval
 #define _ion_diLdv	*_ppvar[1]._pval
 #define _ion_eL	*_ppvar[2]._pval
@@ -108,6 +110,8 @@ extern void hoc_reg_nmodl_filename(int, const char*);
  static HocParmUnits _hoc_parm_units[] = {
  0,0
 };
+ static double eL0 = 0;
+ static double iL0 = 0;
  /* connect global user variables to hoc */
  static DoubScal hoc_scdoub[] = {
  0,0
@@ -127,8 +131,8 @@ static void  nrn_jacob(_NrnThread*, _Memb_list*, int);
 "A_L",
  "gL_A_L",
  0,
- "iL_A_L",
  0,
+ "iL_A_L",
  0,
  0};
  static Symbol* _L_sym;
@@ -138,11 +142,11 @@ extern Prop* need_memb(Symbol*);
 static void nrn_alloc(Prop* _prop) {
 	Prop *prop_ion;
 	double *_p; Datum *_ppvar;
- 	_p = nrn_prop_data_alloc(_mechtype, 5, _prop);
+ 	_p = nrn_prop_data_alloc(_mechtype, 7, _prop);
  	/*initialize range parameters*/
  	gL = 0;
  	_prop->param = _p;
- 	_prop->param_size = 5;
+ 	_prop->param_size = 7;
  	_ppvar = nrn_prop_datum_alloc(_mechtype, 3, _prop);
  	_prop->dparam = _ppvar;
  	/*connect ionic variables to this model*/
@@ -174,7 +178,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
   hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
 #endif
-  hoc_register_prop_size(_mechtype, 5, 3);
+  hoc_register_prop_size(_mechtype, 7, 3);
   hoc_register_dparam_semantics(_mechtype, 0, "L_ion");
   hoc_register_dparam_semantics(_mechtype, 1, "L_ion");
   hoc_register_dparam_semantics(_mechtype, 2, "L_ion");
@@ -199,6 +203,8 @@ static void _modl_cleanup(){ _match_recurse=1;}
 
 static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {
   int _i; double _save;{
+  eL = eL0;
+  iL = iL0;
  {
    eL = - 20.0 ;
    gL = 0.2 ;
@@ -333,12 +339,15 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "PARAMETER{\n"
-  "eL\n"
   "gL\n"
-  "v\n"
   "}\n"
   "\n"
   "ASSIGNED{\n"
+  "v\n"
+  "}\n"
+  "\n"
+  "STATE{\n"
+  "eL\n"
   "iL\n"
   "}\n"
   "\n"

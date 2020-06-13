@@ -14,30 +14,30 @@ vcapqh
 scapqh
 tcapqh1
 tcapqh2
-eCa
-v
 }
 
 ASSIGNED{
-iCaPQ
+eCa
 mcapqinf
 hcapqinf
 taucapqm
 taucapqh
+v
 }
 
 STATE{
+iCaPQ
 mcapq 
 hcapq
 }
 
 INITIAL{
 gcapq = 0.6
-mcapq = 0.0120465460803863  
+mcapq = 0.0120465460803863
 hcapq = 0.8127842536675057
 vcapqm = -5
 scapqm = 10
-vcapqh = -33 
+vcapqh = -33
 scapqh = -5
 tcapqh1 = 60
 tcapqh2 = 51

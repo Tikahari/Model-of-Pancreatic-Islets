@@ -1,0 +1,1 @@
+../../../Mechanisms/Beta_HERG.mod

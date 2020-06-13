@@ -1,1 +1,1 @@
-../Alpha_CaT.mod
+..//ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Mechanisms//Alpha_CaT.mod

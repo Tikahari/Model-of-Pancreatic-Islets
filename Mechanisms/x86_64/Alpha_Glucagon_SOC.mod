@@ -1,0 +1,1 @@
+..//ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Mechanisms//Alpha_Glucagon_SOC.mod

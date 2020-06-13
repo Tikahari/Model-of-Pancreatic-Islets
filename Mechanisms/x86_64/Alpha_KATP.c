@@ -1,6 +1,6 @@
 /* Created by Language version: 7.7.0 */
-/* VECTORIZED */
-#define NRN_VECTORIZED 1
+/* NOT VECTORIZED */
+#define NRN_VECTORIZED 0
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -30,32 +30,33 @@ extern double hoc_Exp(double);
 #define nrn_state _nrn_state__A_KATP
 #define _net_receive _net_receive__A_KATP 
  
-#define _threadargscomma_ _p, _ppvar, _thread, _nt,
-#define _threadargsprotocomma_ double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt,
-#define _threadargs_ _p, _ppvar, _thread, _nt
-#define _threadargsproto_ double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
+#define _threadargscomma_ /**/
+#define _threadargsprotocomma_ /**/
+#define _threadargs_ /**/
+#define _threadargsproto_ /**/
  	/*SUPPRESS 761*/
 	/*SUPPRESS 762*/
 	/*SUPPRESS 763*/
 	/*SUPPRESS 765*/
 	 extern double *getarg();
- /* Thread safe. No static _p or _ppvar. */
+ static double *_p; static Datum *_ppvar;
  
-#define t _nt->_t
-#define dt _nt->_dt
+#define t nrn_threads->_t
+#define dt nrn_threads->_dt
 #define knockoutba _p[0]
 #define ka1 _p[1]
 #define gKATPbara _p[2]
-#define I _p[3]
-#define eK _p[4]
-#define EffI _p[5]
-#define gKATP _p[6]
-#define iKATP _p[7]
-#define v _p[8]
-#define _g _p[9]
+#define iKATP _p[3]
+#define EffI _p[4]
+#define gKATP _p[5]
+#define eK _p[6]
+#define DiKATP _p[7]
+#define _g _p[8]
 #define _ion_iKATP	*_ppvar[0]._pval
 #define _ion_diKATPdv	*_ppvar[1]._pval
 #define _ion_eK	*_ppvar[2]._pval
+#define Ins	*_ppvar[3]._pval
+#define _p_Ins	_ppvar[3]._pval
  
 #if MAC
 #if !defined(v)
@@ -69,9 +70,7 @@ extern double hoc_Exp(double);
 #if defined(__cplusplus)
 extern "C" {
 #endif
- static int hoc_nrnpointerindex =  -1;
- static Datum* _extcall_thread;
- static Prop* _extcall_prop;
+ static int hoc_nrnpointerindex =  3;
  /* external NEURON variables */
  /* declaration of user functions */
  static int _mechtype;
@@ -92,7 +91,7 @@ extern void hoc_reg_nmodl_filename(int, const char*);
 
  extern void _nrn_setdata_reg(int, void(*)(Prop*));
  static void _setdata(Prop* _prop) {
- _extcall_prop = _prop;
+ _p = _prop->param; _ppvar = _prop->dparam;
  }
  static void _hoc_setdata() {
  Prop *_prop, *hoc_getdata_range(int);
@@ -113,6 +112,8 @@ extern void hoc_reg_nmodl_filename(int, const char*);
  static HocParmUnits _hoc_parm_units[] = {
  0,0
 };
+ static double iKATP0 = 0;
+ static double v = 0;
  /* connect global user variables to hoc */
  static DoubScal hoc_scdoub[] = {
  0,0
@@ -133,10 +134,11 @@ static void  nrn_jacob(_NrnThread*, _Memb_list*, int);
  "knockoutba_A_KATP",
  "ka1_A_KATP",
  "gKATPbara_A_KATP",
- "I_A_KATP",
  0,
  0,
+ "iKATP_A_KATP",
  0,
+ "Ins_A_KATP",
  0};
  static Symbol* _KATP_sym;
  static Symbol* _K_sym;
@@ -146,15 +148,14 @@ extern Prop* need_memb(Symbol*);
 static void nrn_alloc(Prop* _prop) {
 	Prop *prop_ion;
 	double *_p; Datum *_ppvar;
- 	_p = nrn_prop_data_alloc(_mechtype, 10, _prop);
+ 	_p = nrn_prop_data_alloc(_mechtype, 9, _prop);
  	/*initialize range parameters*/
  	knockoutba = 0;
  	ka1 = 0;
  	gKATPbara = 0;
- 	I = 0;
  	_prop->param = _p;
- 	_prop->param_size = 10;
- 	_ppvar = nrn_prop_datum_alloc(_mechtype, 3, _prop);
+ 	_prop->param_size = 9;
+ 	_ppvar = nrn_prop_datum_alloc(_mechtype, 4, _prop);
  	_prop->dparam = _ppvar;
  	/*connect ionic variables to this model*/
  prop_ion = need_memb(_KATP_sym);
@@ -174,13 +175,13 @@ extern void hoc_register_tolerance(int, HocStateTolerance*, Symbol***);
 extern void _cvode_abstol( Symbol**, double*, int);
 
  void _Alpha_KATP_reg() {
-	int _vectorized = 1;
+	int _vectorized = 0;
   _initlists();
  	ion_reg("KATP", 1.0);
  	ion_reg("K", -10000.);
  	_KATP_sym = hoc_lookup("KATP_ion");
  	_K_sym = hoc_lookup("K_ion");
- 	register_mech(_mechanism, nrn_alloc,nrn_cur, nrn_jacob, nrn_state, nrn_init, hoc_nrnpointerindex, 1);
+ 	register_mech(_mechanism, nrn_alloc,nrn_cur, nrn_jacob, nrn_state, nrn_init, hoc_nrnpointerindex, 0);
  _mechtype = nrn_get_mechtype(_mechanism[1]);
      _nrn_setdata_reg(_mechtype, _setdata);
      _nrn_thread_reg(_mechtype, 2, _update_ion_pointer);
@@ -188,10 +189,11 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
   hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
 #endif
-  hoc_register_prop_size(_mechtype, 10, 3);
+  hoc_register_prop_size(_mechtype, 9, 4);
   hoc_register_dparam_semantics(_mechtype, 0, "KATP_ion");
   hoc_register_dparam_semantics(_mechtype, 1, "KATP_ion");
   hoc_register_dparam_semantics(_mechtype, 2, "K_ion");
+  hoc_register_dparam_semantics(_mechtype, 3, "pointer");
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
  	ivoc_help("help ?1 A_KATP /ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Mechanisms/x86_64/Alpha_KATP.mod\n");
  hoc_register_limits(_mechtype, _hoc_parm_limits);
@@ -211,26 +213,22 @@ static void _modl_cleanup(){ _match_recurse=1;}
    nrn_update_ion_pointer(_K_sym, _ppvar, 2, 0);
  }
 
-static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {
-  int _i; double _save;{
+static void initmodel() {
+  int _i; double _save;_ninits++;
+{
+  iKATP = iKATP0;
  {
-   knockoutba = 0.0 ;
-   gKATPbara = 3.0 ;
-   ka1 = 0.1 ;
-   eK = - 75.0 ;
    }
 
 }
 }
 
 static void nrn_init(_NrnThread* _nt, _Memb_list* _ml, int _type){
-double* _p; Datum* _ppvar; Datum* _thread;
 Node *_nd; double _v; int* _ni; int _iml, _cntml;
 #if CACHEVEC
     _ni = _ml->_nodeindices;
 #endif
 _cntml = _ml->_nodecount;
-_thread = _ml->_thread;
 for (_iml = 0; _iml < _cntml; ++_iml) {
  _p = _ml->_data[_iml]; _ppvar = _ml->_pdata[_iml];
 #if CACHEVEC
@@ -244,12 +242,11 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
   }
  v = _v;
   eK = _ion_eK;
- initmodel(_p, _ppvar, _thread, _nt);
- }
-}
+ initmodel();
+ }}
 
-static double _nrn_current(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt, double _v){double _current=0.;v=_v;{ {
-   EffI = ( 1.0 - knockoutba ) * ( ( 0.015 / ( 1.0 + exp ( ( - I + 1500.0 ) / 200.0 ) ) ) + ka1 ) + knockoutba * ka1 ;
+static double _nrn_current(double _v){double _current=0.;v=_v;{ {
+   EffI = ( 1.0 - knockoutba ) * ( ( 0.015 / ( 1.0 + exp ( ( - Ins + 1500.0 ) / 200.0 ) ) ) + ka1 ) + knockoutba * ka1 ;
    gKATP = gKATPbara * EffI ;
    iKATP = gKATP * ( v - eK ) ;
    }
@@ -258,14 +255,12 @@ static double _nrn_current(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread
 } return _current;
 }
 
-static void nrn_cur(_NrnThread* _nt, _Memb_list* _ml, int _type) {
-double* _p; Datum* _ppvar; Datum* _thread;
+static void nrn_cur(_NrnThread* _nt, _Memb_list* _ml, int _type){
 Node *_nd; int* _ni; double _rhs, _v; int _iml, _cntml;
 #if CACHEVEC
     _ni = _ml->_nodeindices;
 #endif
 _cntml = _ml->_nodecount;
-_thread = _ml->_thread;
 for (_iml = 0; _iml < _cntml; ++_iml) {
  _p = _ml->_data[_iml]; _ppvar = _ml->_pdata[_iml];
 #if CACHEVEC
@@ -278,10 +273,10 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
     _v = NODEV(_nd);
   }
   eK = _ion_eK;
- _g = _nrn_current(_p, _ppvar, _thread, _nt, _v + .001);
+ _g = _nrn_current(_v + .001);
  	{ double _diKATP;
   _diKATP = iKATP;
- _rhs = _nrn_current(_p, _ppvar, _thread, _nt, _v);
+ _rhs = _nrn_current(_v);
   _ion_diKATPdv += (_diKATP - iKATP)/.001 ;
  	}
  _g = (_g - _rhs)/.001;
@@ -295,18 +290,14 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
 	NODERHS(_nd) -= _rhs;
   }
  
-}
- 
-}
+}}
 
-static void nrn_jacob(_NrnThread* _nt, _Memb_list* _ml, int _type) {
-double* _p; Datum* _ppvar; Datum* _thread;
+static void nrn_jacob(_NrnThread* _nt, _Memb_list* _ml, int _type){
 Node *_nd; int* _ni; int _iml, _cntml;
 #if CACHEVEC
     _ni = _ml->_nodeindices;
 #endif
 _cntml = _ml->_nodecount;
-_thread = _ml->_thread;
 for (_iml = 0; _iml < _cntml; ++_iml) {
  _p = _ml->_data[_iml];
 #if CACHEVEC
@@ -319,26 +310,19 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
 	NODED(_nd) += _g;
   }
  
-}
- 
-}
+}}
 
-static void nrn_state(_NrnThread* _nt, _Memb_list* _ml, int _type) {
+static void nrn_state(_NrnThread* _nt, _Memb_list* _ml, int _type){
 
 }
 
 static void terminal(){}
 
-static void _initlists(){
- double _x; double* _p = &_x;
+static void _initlists() {
  int _i; static int _first = 1;
   if (!_first) return;
 _first = 0;
 }
-
-#if defined(__cplusplus)
-} /* extern "C" */
-#endif
 
 #if NMODL_TEXT
 static const char* nmodl_filename = "/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Mechanisms/Alpha_KATP.mod";
@@ -347,36 +331,36 @@ static const char* nmodl_file_text =
   "SUFFIX A_KATP\n"
   "USEION KATP WRITE iKATP VALENCE 1\n"
   "USEION K READ eK\n"
-  ":POINTER I\n"
-  "RANGE knockoutba, ka1, gKATPbara, I\n"
+  "RANGE knockoutba, ka1, gKATPbara\n"
   "RANGE EffIa, gKATPa, iKATPa\n"
+  "POINTER Ins\n"
   "}\n"
   "\n"
   "PARAMETER{\n"
   "knockoutba\n"
   "ka1\n"
   "gKATPbara\n"
-  "I\n"
-  "eK\n"
-  "v\n"
   "}\n"
   "\n"
   "ASSIGNED{\n"
   "EffI\n"
   "gKATP\n"
+  "Ins\n"
+  "eK\n"
+  "v\n"
+  "}\n"
+  "\n"
+  "STATE{\n"
   "iKATP\n"
   "}\n"
   "\n"
   "INITIAL{\n"
-  "knockoutba = 0\n"
-  "gKATPbara = 3  : 3 nS for G1; 0.6 nS for G7; 0.15 nS for G11\n"
-  "ka1 = 0.1\n"
-  "eK = -75\n"
   "}\n"
+  "\n"
   ": B cell modifies G secretion by increasing KATPa chan activity, so conductance of gKATPa\n"
   ": chans depends on concentration of I \n"
   "BREAKPOINT{\n"
-  "EffI = (1 - knockoutba) * ((0.015/(1 + exp((-I + 1500)/200))) + ka1) + knockoutba * ka1\n"
+  "EffI = (1 - knockoutba) * ((0.015/(1 + exp((-Ins + 1500)/200))) + ka1) + knockoutba * ka1\n"
   "gKATP = gKATPbara * EffI\n"
   "iKATP = gKATP*(v - eK)\n"
   "}\n"

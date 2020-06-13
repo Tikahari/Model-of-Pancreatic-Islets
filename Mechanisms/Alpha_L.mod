@@ -6,18 +6,19 @@ RANGE eL, gL
 }
 
 PARAMETER{
-eL
 gL
-v
 }
 
 ASSIGNED{
+v
+}
+
+STATE{
+eL
 iL
 }
 
 INITIAL{
-eL = -20
-gL = 0.2
 }
 
 BREAKPOINT{

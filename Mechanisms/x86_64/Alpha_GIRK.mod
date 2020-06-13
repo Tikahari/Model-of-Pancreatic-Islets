@@ -1,1 +1,1 @@
-../Alpha_GIRK.mod
+..//ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Mechanisms//Alpha_GIRK.mod

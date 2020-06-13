@@ -5,28 +5,29 @@
 NEURON{
 SUFFIX D_GABA
 NONSPECIFIC_CURRENT iGABA
-POINTER Ins
 RANGE knockoutbd, vGABA 
 RANGE gGABAbar, EffId, iGABA
+POINTER Ins
 }
 
 PARAMETER{   
 knockoutbd
 vGABA
-Ins
-v : This is the voltage when I run h.initial.....
 }
 
 ASSIGNED{
 gGABAbar
 EffId
 iGABA
+Ins
+v : This is the voltage when I run h.initial.....
 }
 
 INITIAL{
 knockoutbd = 0
-vGABA = 0 
+vGABA = 0
 }
+
 : B cells stim D cells. In both rat and human islets it has been shown that Sst coreleased with
 : ins. So there is a GABA curr dependent on I concentration 
 BREAKPOINT{

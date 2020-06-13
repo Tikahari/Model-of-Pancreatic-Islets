@@ -46,17 +46,18 @@ extern double hoc_Exp(double);
 #define dt _nt->_dt
 #define gKa _p[0]
 #define tau_mKa _p[1]
-#define iKa _p[2]
-#define mKa_inf _p[3]
-#define hKa_inf _p[4]
-#define tau_hKa _p[5]
+#define mKa_inf _p[2]
+#define hKa_inf _p[3]
+#define tau_hKa _p[4]
+#define iKa _p[5]
 #define mKa _p[6]
 #define hKa _p[7]
 #define eK _p[8]
-#define DmKa _p[9]
-#define DhKa _p[10]
-#define v _p[11]
-#define _g _p[12]
+#define DiKa _p[9]
+#define DmKa _p[10]
+#define DhKa _p[11]
+#define v _p[12]
+#define _g _p[13]
 #define _ion_iKa	*_ppvar[0]._pval
 #define _ion_diKadv	*_ppvar[1]._pval
 #define _ion_eK	*_ppvar[2]._pval
@@ -119,6 +120,7 @@ extern void hoc_reg_nmodl_filename(int, const char*);
 };
  static double delta_t = 0.01;
  static double hKa0 = 0;
+ static double iKa0 = 0;
  static double mKa0 = 0;
  /* connect global user variables to hoc */
  static DoubScal hoc_scdoub[] = {
@@ -148,11 +150,11 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  "gKa_A_Ka",
  "tau_mKa_A_Ka",
  0,
- "iKa_A_Ka",
  "mKa_inf_A_Ka",
  "hKa_inf_A_Ka",
  "tau_hKa_A_Ka",
  0,
+ "iKa_A_Ka",
  "mKa_A_Ka",
  "hKa_A_Ka",
  0,
@@ -165,12 +167,12 @@ extern Prop* need_memb(Symbol*);
 static void nrn_alloc(Prop* _prop) {
 	Prop *prop_ion;
 	double *_p; Datum *_ppvar;
- 	_p = nrn_prop_data_alloc(_mechtype, 13, _prop);
+ 	_p = nrn_prop_data_alloc(_mechtype, 14, _prop);
  	/*initialize range parameters*/
  	gKa = 0;
  	tau_mKa = 0;
  	_prop->param = _p;
- 	_prop->param_size = 13;
+ 	_prop->param_size = 14;
  	_ppvar = nrn_prop_datum_alloc(_mechtype, 4, _prop);
  	_prop->dparam = _ppvar;
  	/*connect ionic variables to this model*/
@@ -210,7 +212,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
   hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
 #endif
-  hoc_register_prop_size(_mechtype, 13, 4);
+  hoc_register_prop_size(_mechtype, 14, 4);
   hoc_register_dparam_semantics(_mechtype, 0, "Ka_ion");
   hoc_register_dparam_semantics(_mechtype, 1, "Ka_ion");
   hoc_register_dparam_semantics(_mechtype, 2, "K_ion");
@@ -306,6 +308,7 @@ static void _ode_matsol(_NrnThread* _nt, _Memb_list* _ml, int _type) {
 static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {
   int _i; double _save;{
   hKa = hKa0;
+  iKa = iKa0;
   mKa = mKa0;
  {
    gKa = 1.0 ;
@@ -473,20 +476,20 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "PARAMETER{\n"
-  "eK\n"
   "gKa\n"
   "tau_mKa\n"
-  "v\n"
   "}\n"
   "\n"
   "ASSIGNED{\n"
-  "iKa\n"
   "mKa_inf\n"
   "hKa_inf\n"
   "tau_hKa\n"
+  "eK\n"
+  "v\n"
   "}\n"
   "\n"
   "STATE{\n"
+  "iKa\n"
   "mKa\n"
   "hKa\n"
   "}\n"
@@ -494,7 +497,7 @@ static const char* nmodl_file_text =
   "INITIAL{\n"
   "gKa = 1\n"
   "mKa = 0.4001652246173745\n"
-  "hKa = 0.1373195977592295 \n"
+  "hKa = 0.1373195977592295\n"
   "tau_mKa = 0.1\n"
   "}\n"
   "\n"

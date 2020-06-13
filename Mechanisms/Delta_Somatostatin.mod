@@ -2,13 +2,11 @@ NEURON{
 SUFFIX D_Somatostatin
 USEION CaL READ iCaL
 USEION CaPQ READ iCaPQ
-RANGE iCaL, iCaPQ, tmsb, con, alpha, vmdl, vmdPQ, fVl, B, fVPQ, kpmca, kserca, pleak, vCaPQm, sCaPQm, vCaPQh, sCaPQh, tCaPQh1, tCaPQh2, tausom, bas, fcyt, fmd, fer, sigmav, vc, f 
+RANGE iCaL, iCaPQ, tmsb, con, alpha, vmdl, vmdPQ, fVl, B, fVPQ, kpmca, kserca, pleak, vCaPQm, sCaPQm, vCaPQh, sCaPQh, tCaPQh1, tCaPQh2, tausom, bas, fcyt, fmd, fer, sigmav, vc, f, Sst_init 
 RANGE JL, JPQ, Jserca, Jer, mCaPQ_inf, hCaPQ_inf, tauCaPQm, tauCaPQh, Jmem, y, Jleak, som, JSS 
 }
 
 PARAMETER{   
-iCaL
-iCaPQ
 tmsb
 con
 alpha 
@@ -34,10 +32,12 @@ fer
 sigmav 
 vc 
 f 
-v : This is the voltage when I run h.initial.....
+Sst_init
 }
 
 ASSIGNED{
+iCaL
+iCaPQ
 JL 
 JPQ 
 Jserca 
@@ -51,6 +51,7 @@ y
 Jleak 
 som 
 JSS 
+v : This is the voltage when I run h.initial.....
 }
 
 STATE{
@@ -60,7 +61,7 @@ c
 cmdl
 cmdPQ
 cer
-S
+Sst
 }
 
 INITIAL{
@@ -70,17 +71,17 @@ alpha = 5.18e-15
 vmdl = 2.12e-15
 vmdPQ = 1.41e-15
 fVl = 0.00340
-B = 1 
-cmdl = 19.82903375122306 
-c = 0.3051356309084454  
+B = 1
+cmdl = 19.82903375122306
+c = 0.3051356309084454
 fVPQ = 0.00226
-cmdPQ = 27.93917378868966 
+cmdPQ = 27.93917378868966
 kpmca = 0.3
 kserca = 0.4
 pleak = 0.0003
-cer = 413.8135591677398 
-mCaPQ = 0.5089033026581684  
-hCaPQ = 0.6672499701175263 
+cer = 413.8135591677398
+mCaPQ = 0.5089033026581684
+hCaPQ = 0.6672499701175263
 vCaPQm = -15
 sCaPQm = 10
 vCaPQh = -33
@@ -95,7 +96,7 @@ fer = 0.01
 sigmav = 31
 vc = 1e-13
 f = 0.003
-S = 18.71318922819339 
+v = -16.26895428994972
 }
 
 BREAKPOINT{
@@ -122,5 +123,5 @@ c' = fcyt * (Jmem + Jer)
 cmdl' = fmd * JL - fmd * B * (cmdl - c)
 cmdPQ' = fmd * JPQ - fmd * B * (cmdPQ-c)
 cer' = -fer * sigmav * Jer
-S' = JSS/vc - f * S
+Sst' = JSS/vc - f * Sst_init
 }
