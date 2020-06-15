@@ -331,15 +331,6 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
   mCaL = mCaL0;
  {
    eCa = 65.0 ;
-   gCaL = 0.7 ;
-   mCaL = 0.8218051702003508 ;
-   hCaL = 0.6672499701175263 ;
-   sCaLm = 10.0 ;
-   sCaLh = - 5.0 ;
-   vCaLm = - 30.0 ;
-   vCaLh = - 33.0 ;
-   tCaLh1 = 60.0 ;
-   tCaLh2 = 51.0 ;
    }
  
 }
@@ -529,15 +520,6 @@ static const char* nmodl_file_text =
   "\n"
   "INITIAL{\n"
   "eCa = 65\n"
-  "gCaL = 0.7\n"
-  "mCaL = 0.8218051702003508\n"
-  "hCaL = 0.6672499701175263\n"
-  "sCaLm = 10\n"
-  "sCaLh = -5\n"
-  "vCaLm = -30\n"
-  "vCaLh = -33\n"
-  "tCaLh1 = 60\n"
-  "tCaLh2 = 51\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"

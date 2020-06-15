@@ -3,7 +3,7 @@ SUFFIX A_Glucagon
 USEION CaPQ READ iCaPQ
 USEION CaT READ iCaT
 USEION CaL READ iCaL
-POINTER Som
+:POINTER Som
 RANGE iCaPQ, iCaT, iCaL, alpha, Ba, fcyta, fVpqa, tmsb, fmda, vcella, vmdpq, kpmcaa, ksercaa, pleaka, fera, sigmava, fmda, k1a, km1a, r1a, rm1a, r20a, r30a, rm3a, u1a, u2a, u3a, kpa, kp2a, GlucFacta, knockoutda, ra, sombara, rako, ssom, fa, vc, S 
 RANGE JPQ, JTa, JLa, Jera, rm2a, r2a, r3a, Jsercaa, Jleaka, Jmema, JGS
 }

@@ -207,7 +207,6 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
   int _i; double _save;{
   iKATP = iKATP0;
  {
-   gKATPbar = 0.29 ;
    eK = - 75.0 ;
    }
 
@@ -354,7 +353,6 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "INITIAL{\n"
-  "gKATPbar = 0.29\n"
   "eK = -75\n"
   "}\n"
   "\n"

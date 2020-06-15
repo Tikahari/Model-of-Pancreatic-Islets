@@ -1,1 +1,0 @@
-../../../Mechanisms/Alpha_Glucagon_SOC.mod

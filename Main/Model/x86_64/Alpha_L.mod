@@ -1,1 +1,0 @@
-../../../Mechanisms/Alpha_L.mod

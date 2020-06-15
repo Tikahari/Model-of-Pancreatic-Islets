@@ -1,7 +1,0 @@
-[Config]
-dimensions=10
-Probability_Alpha = 15.0
-Probability_Beta = 60.0
-Size_Alpha = 10
-Size_Beta = 10
-[Data]

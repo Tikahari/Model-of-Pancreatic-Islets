@@ -206,8 +206,6 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
   eL = eL0;
   iL = iL0;
  {
-   gL = 0.0 ;
-   eL = - 20.0 ;
    }
 
 }
@@ -352,8 +350,6 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "INITIAL{\n"
-  "gL = 0\n"
-  "eL = -20\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"

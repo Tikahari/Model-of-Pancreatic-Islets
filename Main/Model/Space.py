@@ -1,5 +1,6 @@
 """The 'Space' object is used to determine the probability and spatial distribution of cells. A probability object is introduced to handle non-uniform distributions."""
 import numpy as np
+from neuron import h
 from matplotlib import pyplot as plt
 from matplotlib import patches as mpatches
 import random
@@ -28,10 +29,12 @@ class Probability:
     def getDescent(self, c_p):
         # beta cell has constant probability of 0.4 from 1/2 radius out
         # self.b -= 0.2
-        # self.m = (self.b*self.radius - self.b * (self.radius/2) - c_p * (self.radius/2)) * 2 / ((self.radius/2)**2) 
-        self.m = 0
-        self.b = 0
+        self.m = (self.b*self.radius - self.b * (self.radius/2) - c_p * (self.radius/2)) * 2 / ((self.radius/2)**2) 
+        # self.m = 0
+        # self.b = 0
     def getProbability(self, x, y, z):
+        # uniform distribution
+        return [(1-self.b)/(1+self.ratio), self.b + (1-self.b)/(1+self.ratio)]
         ret = []
         dist = math.sqrt((self.radius-x)**2 + (self.radius-y)**2 + (self.radius-z)**2)
         # piecewise
@@ -106,6 +109,7 @@ class Space:
                         k += 1
                         continue
                     typ = self.getCell(random.random(), i, j, k)
+                    print('type is ', typ)
                     # if position is vacant, add cell to space
                     cell = Cell.Cell(c, i, j, k, typ)
                     self.cs[i][j][k] = cell
@@ -118,6 +122,9 @@ class Space:
                 k = 0
             i += 1
             j = 0
+        self.connectCells()
+    def connectCells(self):
+        return
     def plot(self):
         print('m', self.dist.m)
         print('plotting')
@@ -177,7 +184,7 @@ class Space:
         types = {'A': [False, 0], 'B': [False, 0], 'D': [False, 0]}
         t = []
         index = 0
-        # get data and header
+        #get header
         for i in range(len(self.cs)):
             for j in range(len(self.cs[i])):
                 for k in range(len(self.cs[i][j])):
@@ -185,25 +192,41 @@ class Space:
                         # each cell type is going to have a different header
                         if self.cs[i][j][k].type in types and types[self.cs[i][j][k].type][0] == False:
                             types[self.cs[i][j][k].type][0] = True
-                            types[self.cs[i][j][k].type][0] = index
-                            index += len(self.cs[i][j][k].rec['VC0'][0])
-                            print('added header of length', len(self.cs[i][j][k].rec['VC0'][0]), 'at index', index, types[self.cs[i][j][k]])
+                            types[self.cs[i][j][k].type][1] = index
+                            index += len(self.cs[i][j][k].header)
+                            print('added header of length', len(self.cs[i][j][k].rec['VC0'][0]), 'at index', index, 'for cell type', self.cs[i][j][k].type, 'types now', types[self.cs[i][j][k].type])
+                            print(types[self.cs[i][j][k].type])
                             header.extend(self.cs[i][j][k].header)
-                        temp = str(self.cs[i][j][k].typ) + str(self.cs[i][j][k].id)
-                        for q in self.cs[i][j][k].rec:
-                            temp.extend(self.cs[i][j][k].rec[q][0])
                         # get time
-                        if self.cs[i][j][k].id == 0 and self.cs[i][j][k].type == 'B':
+                        if self.cs[i][j][k].id == 0:
                             t = self.cs[i][j][k].t
-                            data.insert(0, t)
-                        data.append(temp)
+                            print('got t')
         # write to csv
-        with open(Islet.env['output'] + '/orientation/' + Islet.env['gid'] + '.csv','w') as file:
+        with open(Islet.env['output'] + '/physiology/' + Islet.env['gid'] + '.csv','w+') as file:
             writer = csv.writer(file,quoting = csv.QUOTE_NONE,escapechar=' ')
             writer.writerow(header)
-            for i in range(len(t)):
-                writer.writerow(data)
+            # get data and header
+            for i in range(len(self.cs)):
+                for j in range(len(self.cs[i])):
+                    for k in range(len(self.cs[i][j])):
+                        if self.cs[i][j][k] is not None:
+                            temp = []
+                            temp.append(t, str(self.cs[i][j][k].type) + str(self.cs[i][j][k].id))
+                            print('intial temp', temp)
+                            # add nothing if not appropriate cell type
+                            for q in range(types[self.cs[i][j][k].type][1]):
+                                temp.append(-1)
+                            print('append temp', len(temp))
+                            for q in self.cs[i][j][k].rec:
+                                temp.extend(self.cs[i][j][k].rec[q][0])
+                            print('extend temp', len(temp))
+                            # data.append(temp)
+                            # print('extend data', len(data))
+                            for i in range(len(t)):
+                                writer.writerow(temp)
+                                print('write row', i)
     def getCell(self, r, x, y, z):
+        print('cell r:', r, 'prob', self.ps[x][y][z])
         if r <= self.ps[x][y][z][0]:
             return 'A'
         elif r <= self.ps[x][y][z][1]:

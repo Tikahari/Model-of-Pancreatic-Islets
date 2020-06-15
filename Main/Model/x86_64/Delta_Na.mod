@@ -1,1 +1,0 @@
-../../../Mechanisms/Delta_Na.mod

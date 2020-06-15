@@ -1,1 +1,0 @@
-../../../Mechanisms/Beta_Ins.mod

@@ -26,7 +26,7 @@ hCaL
 }
 
 INITIAL{
-eCa = [60,70]
+eCa = 60
 }
 
 BREAKPOINT{

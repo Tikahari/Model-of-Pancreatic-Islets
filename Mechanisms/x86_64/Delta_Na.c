@@ -326,16 +326,7 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
   iNa = iNa0;
   mNa = mNa0;
  {
-   eNa = 70.0 ;
-   gNa = 5.0 ;
-   vNam = - 30.0 ;
-   vNah = - 52.0 ;
-   sNam = 4.0 ;
-   sNah = - 8.0 ;
-   tNah1 = 120.0 ;
-   tNah2 = 0.5 ;
-   mNa = 0.9737137320580179 ;
-   hNa = 0.006777955247303555 ;
+   eNa = - 70.0 ;
    }
  
 }
@@ -522,16 +513,7 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "INITIAL{\n"
-  "eNa = 70\n"
-  "gNa = 5\n"
-  "vNam = -30\n"
-  "vNah = -52\n"
-  "sNam = 4\n"
-  "sNah = -8\n"
-  "tNah1 = 120\n"
-  "tNah2 = 0.5\n"
-  "mNa = 0.9737137320580179\n"
-  "hNa = 0.006777955247303555\n"
+  "eNa = -70\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"

@@ -26,7 +26,7 @@ class Cell:
         self.readData()
         self.addMechanisms()
         self.setPointers()
-        # self.record()
+        self.record()
     def readData(self):
         # set up mechanisms according to parameters for cell type
         # set initialization file
@@ -60,6 +60,7 @@ class Cell:
                     # print('point from', point_from, "point to", point_to)
                     from_ = getattr(k, point_from)
                     to_ = getattr(k, point_to)
+                    print('from', point_from, 'to', point_to, 'temp[2]', temp[2])
                     h.setpointer(from_, temp[2], to_)
     def record(self):
         for i in self.cell.psection()['density_mechs']:
@@ -80,7 +81,8 @@ class Cell:
             self.rec[temp].append(h.Vector().record(i._ref_v))
             count += 1
         self.header.append(temp)
-        if self.id == 0 and self.type == 'B':
+        #only first cell will record time
+        if self.id == 0:
             self.t = h.Vector().record(h._ref_t)
     def __repr__(self):
         return '{} cell: {}'.format(self.type, self.id)

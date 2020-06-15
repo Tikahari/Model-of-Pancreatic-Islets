@@ -15,8 +15,8 @@ RANGE topa3, bottom3, weight4, topa4, bottom4, weight5, topa5, bottom5, weight6,
 RANGE weight8, topa8, bottom8, weight9, topa9, bottom9, weight10, topa10, bottom10, weight11, topa11, bottom11, weight12 
 RANGE topa12, bottom12, weight13, topa13, bottom13, weight14, topa14, bottom14, weight15, topa15, topb, bottom15, weight16 
 RANGE topa16, bottom16, pfk, pfk_ms, r20, ampfactor, r3, r2, rm2b, mod_cmd, JIS 
-POINTER G
-POINTER Sst
+:POINTER G
+:POINTER Sst
 }
 
 PARAMETER{   

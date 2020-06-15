@@ -1,1 +1,0 @@
-../../../Mechanisms/Beta_CaP.mod
