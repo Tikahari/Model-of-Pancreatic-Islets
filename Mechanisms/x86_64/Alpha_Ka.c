@@ -52,12 +52,13 @@ extern double hoc_Exp(double);
 #define iKa _p[5]
 #define mKa _p[6]
 #define hKa _p[7]
-#define eK _p[8]
-#define DiKa _p[9]
-#define DmKa _p[10]
-#define DhKa _p[11]
-#define v _p[12]
-#define _g _p[13]
+#define DiKa _p[8]
+#define eK _p[9]
+#define DeK _p[10]
+#define DmKa _p[11]
+#define DhKa _p[12]
+#define v _p[13]
+#define _g _p[14]
 #define _ion_iKa	*_ppvar[0]._pval
 #define _ion_diKadv	*_ppvar[1]._pval
 #define _ion_eK	*_ppvar[2]._pval
@@ -119,6 +120,7 @@ extern void hoc_reg_nmodl_filename(int, const char*);
  0,0
 };
  static double delta_t = 0.01;
+ static double eK0 = 0;
  static double hKa0 = 0;
  static double iKa0 = 0;
  static double mKa0 = 0;
@@ -167,12 +169,12 @@ extern Prop* need_memb(Symbol*);
 static void nrn_alloc(Prop* _prop) {
 	Prop *prop_ion;
 	double *_p; Datum *_ppvar;
- 	_p = nrn_prop_data_alloc(_mechtype, 14, _prop);
+ 	_p = nrn_prop_data_alloc(_mechtype, 15, _prop);
  	/*initialize range parameters*/
  	gKa = 0;
  	tau_mKa = 0;
  	_prop->param = _p;
- 	_prop->param_size = 14;
+ 	_prop->param_size = 15;
  	_ppvar = nrn_prop_datum_alloc(_mechtype, 4, _prop);
  	_prop->dparam = _ppvar;
  	/*connect ionic variables to this model*/
@@ -180,7 +182,7 @@ static void nrn_alloc(Prop* _prop) {
  	_ppvar[0]._pval = &prop_ion->param[3]; /* iKa */
  	_ppvar[1]._pval = &prop_ion->param[4]; /* _ion_diKadv */
  prop_ion = need_memb(_K_sym);
- nrn_promote(prop_ion, 0, 1);
+ nrn_promote(prop_ion, 0, 3);
  	_ppvar[2]._pval = &prop_ion->param[0]; /* eK */
  
 }
@@ -201,7 +203,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
 	int _vectorized = 1;
   _initlists();
  	ion_reg("Ka", 1.0);
- 	ion_reg("K", -10000.);
+ 	ion_reg("K", 1.0);
  	_Ka_sym = hoc_lookup("Ka_ion");
  	_K_sym = hoc_lookup("K_ion");
  	register_mech(_mechanism, nrn_alloc,nrn_cur, nrn_jacob, nrn_state, nrn_init, hoc_nrnpointerindex, 1);
@@ -212,7 +214,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
   hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
 #endif
-  hoc_register_prop_size(_mechtype, 14, 4);
+  hoc_register_prop_size(_mechtype, 15, 4);
   hoc_register_dparam_semantics(_mechtype, 0, "Ka_ion");
   hoc_register_dparam_semantics(_mechtype, 1, "Ka_ion");
   hoc_register_dparam_semantics(_mechtype, 2, "K_ion");
@@ -268,9 +270,9 @@ static void _ode_spec(_NrnThread* _nt, _Memb_list* _ml, int _type) {
     _p = _ml->_data[_iml]; _ppvar = _ml->_pdata[_iml];
     _nd = _ml->_nodelist[_iml];
     v = NODEV(_nd);
-  eK = _ion_eK;
      _ode_spec1 (_p, _ppvar, _thread, _nt);
-  }}
+   _ion_eK = eK;
+ }}
  
 static void _ode_map(int _ieq, double** _pv, double** _pvdot, double* _pp, Datum* _ppd, double* _atol, int _type) { 
 	double* _p; Datum* _ppvar;
@@ -295,7 +297,6 @@ static void _ode_matsol(_NrnThread* _nt, _Memb_list* _ml, int _type) {
     _p = _ml->_data[_iml]; _ppvar = _ml->_pdata[_iml];
     _nd = _ml->_nodelist[_iml];
     v = NODEV(_nd);
-  eK = _ion_eK;
  _ode_matsol_instance1(_threadargs_);
  }}
  extern void nrn_update_ion_pointer(Symbol*, Datum*, int, int);
@@ -307,14 +308,11 @@ static void _ode_matsol(_NrnThread* _nt, _Memb_list* _ml, int _type) {
 
 static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {
   int _i; double _save;{
+  eK = eK0;
   hKa = hKa0;
   iKa = iKa0;
   mKa = mKa0;
  {
-   gKa = 1.0 ;
-   mKa = 0.4001652246173745 ;
-   hKa = 0.1373195977592295 ;
-   tau_mKa = 0.1 ;
    }
  
 }
@@ -340,9 +338,9 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
     _v = NODEV(_nd);
   }
  v = _v;
-  eK = _ion_eK;
  initmodel(_p, _ppvar, _thread, _nt);
- }
+   _ion_eK = eK;
+}
 }
 
 static double _nrn_current(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt, double _v){double _current=0.;v=_v;{ {
@@ -375,7 +373,6 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
     _nd = _ml->_nodelist[_iml];
     _v = NODEV(_nd);
   }
-  eK = _ion_eK;
  _g = _nrn_current(_p, _ppvar, _thread, _nt, _v + .001);
  	{ double _diKa;
   _diKa = iKa;
@@ -384,6 +381,7 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
  	}
  _g = (_g - _rhs)/.001;
   _ion_iKa += iKa ;
+  _ion_eK = eK;
 #if CACHEVEC
   if (use_cachevec) {
 	VEC_RHS(_ni[_iml]) -= _rhs;
@@ -443,9 +441,9 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
   }
  v=_v;
 {
-  eK = _ion_eK;
  {   states(_p, _ppvar, _thread, _nt);
-  } }}
+  }   _ion_eK = eK;
+}}
 
 }
 
@@ -470,9 +468,9 @@ static const char* nmodl_file_text =
   "NEURON{\n"
   "SUFFIX A_Ka\n"
   "USEION Ka WRITE iKa VALENCE 1\n"
-  "USEION K READ eK\n"
-  "RANGE iKa, mKa_inf, hKa_inf, tau_hKa\n"
-  "RANGE eK, gKa, tau_mKa\n"
+  "USEION K WRITE eK VALENCE 1\n"
+  "RANGE mKa_inf, hKa_inf, tau_hKa\n"
+  "RANGE gKa, tau_mKa\n"
   "}\n"
   "\n"
   "PARAMETER{\n"
@@ -484,21 +482,17 @@ static const char* nmodl_file_text =
   "mKa_inf\n"
   "hKa_inf\n"
   "tau_hKa\n"
-  "eK\n"
   "v\n"
   "}\n"
   "\n"
   "STATE{\n"
   "iKa\n"
+  "eK\n"
   "mKa\n"
   "hKa\n"
   "}\n"
   "\n"
   "INITIAL{\n"
-  "gKa = 1\n"
-  "mKa = 0.4001652246173745\n"
-  "hKa = 0.1373195977592295\n"
-  "tau_mKa = 0.1\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"

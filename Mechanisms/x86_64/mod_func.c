@@ -8,12 +8,12 @@ extern void _Alpha_CaPQ_reg(void);
 extern void _Alpha_CaT_reg(void);
 extern void _Alpha_GIRK_reg(void);
 extern void _Alpha_Glucagon_reg(void);
-extern void _Alpha_Glucagon_SOC_reg(void);
 extern void _Alpha_Ka_reg(void);
 extern void _Alpha_KATP_reg(void);
 extern void _Alpha_KDR_reg(void);
 extern void _Alpha_L_reg(void);
 extern void _Alpha_Na_reg(void);
+extern void _Alpha_Syn_reg(void);
 extern void _Beta_BK_reg(void);
 extern void _Beta_Cac_reg(void);
 extern void _Beta_CaL_reg(void);
@@ -28,6 +28,7 @@ extern void _Beta_KDR_reg(void);
 extern void _Beta_NaB_reg(void);
 extern void _Beta_Na_reg(void);
 extern void _Beta_PCa_reg(void);
+extern void _Beta_Syn_reg(void);
 extern void _Beta_V_reg(void);
 extern void _Delta_CaL_reg(void);
 extern void _Delta_CaPQ_reg(void);
@@ -38,6 +39,7 @@ extern void _Delta_Kdr_reg(void);
 extern void _Delta_L_reg(void);
 extern void _Delta_Na_reg(void);
 extern void _Delta_Somatostatin_reg(void);
+extern void _Delta_Syn_reg(void);
 
 void modl_reg(){
   if (!nrn_nobanner_) if (nrnmpi_myid < 1) {
@@ -48,12 +50,12 @@ void modl_reg(){
     fprintf(stderr," Alpha_CaT.mod");
     fprintf(stderr," Alpha_GIRK.mod");
     fprintf(stderr," Alpha_Glucagon.mod");
-    fprintf(stderr," Alpha_Glucagon_SOC.mod");
     fprintf(stderr," Alpha_Ka.mod");
     fprintf(stderr," Alpha_KATP.mod");
     fprintf(stderr," Alpha_KDR.mod");
     fprintf(stderr," Alpha_L.mod");
     fprintf(stderr," Alpha_Na.mod");
+    fprintf(stderr," Alpha_Syn.mod");
     fprintf(stderr," Beta_BK.mod");
     fprintf(stderr," Beta_Cac.mod");
     fprintf(stderr," Beta_CaL.mod");
@@ -68,6 +70,7 @@ void modl_reg(){
     fprintf(stderr," Beta_NaB.mod");
     fprintf(stderr," Beta_Na.mod");
     fprintf(stderr," Beta_PCa.mod");
+    fprintf(stderr," Beta_Syn.mod");
     fprintf(stderr," Beta_V.mod");
     fprintf(stderr," Delta_CaL.mod");
     fprintf(stderr," Delta_CaPQ.mod");
@@ -78,6 +81,7 @@ void modl_reg(){
     fprintf(stderr," Delta_L.mod");
     fprintf(stderr," Delta_Na.mod");
     fprintf(stderr," Delta_Somatostatin.mod");
+    fprintf(stderr," Delta_Syn.mod");
     fprintf(stderr, "\n");
   }
   _Alpha_CaL_reg();
@@ -85,12 +89,12 @@ void modl_reg(){
   _Alpha_CaT_reg();
   _Alpha_GIRK_reg();
   _Alpha_Glucagon_reg();
-  _Alpha_Glucagon_SOC_reg();
   _Alpha_Ka_reg();
   _Alpha_KATP_reg();
   _Alpha_KDR_reg();
   _Alpha_L_reg();
   _Alpha_Na_reg();
+  _Alpha_Syn_reg();
   _Beta_BK_reg();
   _Beta_Cac_reg();
   _Beta_CaL_reg();
@@ -105,6 +109,7 @@ void modl_reg(){
   _Beta_NaB_reg();
   _Beta_Na_reg();
   _Beta_PCa_reg();
+  _Beta_Syn_reg();
   _Beta_V_reg();
   _Delta_CaL_reg();
   _Delta_CaPQ_reg();
@@ -115,4 +120,5 @@ void modl_reg(){
   _Delta_L_reg();
   _Delta_Na_reg();
   _Delta_Somatostatin_reg();
+  _Delta_Syn_reg();
 }

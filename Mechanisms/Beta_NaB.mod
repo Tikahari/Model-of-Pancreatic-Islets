@@ -16,7 +16,6 @@ iNaB
 }
 
 INITIAL{
-gBNa = 10.0
 }
 
 BREAKPOINT{

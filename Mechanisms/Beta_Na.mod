@@ -29,17 +29,6 @@ fNa
 }
 
 INITIAL{
-gmNa = 10000
-dNa = 0.1
-VdNa = -30
-kdNa = 10
-tdNa = 0.1
-tfNa = 0.5
-fNa = 0.1
-kNar = 0
-eNa = 70
-VfNa = -42
-kfNa = 6
 }
 
 BREAKPOINT{

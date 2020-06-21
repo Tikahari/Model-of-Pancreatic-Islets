@@ -3,7 +3,7 @@ SUFFIX A_KDR
 USEION KDR WRITE iKDR VALENCE 1
 USEION K READ eK
 RANGE gkdr, vkdrm, skdrm
-RANGE iKDR, mkdrinf, taukdrm
+RANGE mkdrinf, taukdrm
 }
 
 PARAMETER{

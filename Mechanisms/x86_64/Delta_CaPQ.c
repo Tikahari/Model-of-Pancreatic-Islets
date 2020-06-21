@@ -328,7 +328,6 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
   iCaPQ = iCaPQ0;
   mCaPQ = mCaPQ0;
  {
-   eCa = 65.0 ;
    }
  
 }
@@ -487,7 +486,7 @@ static const char* nmodl_file_text =
   "USEION CaPQ WRITE iCaPQ VALENCE 2\n"
   "USEION Ca READ eCa\n"
   "RANGE gCaPQ, mCaPQ, hCaPQ, vCaPQm, sCaPQm, vCaPQh, sCaPQh, tCaPQh1, tCaPQh2  \n"
-  "RANGE mCaPQ_inf, hCaPQ_inf, tauCaPQm, tauCaPQh, iCaPQ\n"
+  "RANGE mCaPQ_inf, hCaPQ_inf, tauCaPQm, tauCaPQh\n"
   "}\n"
   "\n"
   "PARAMETER{\n"
@@ -516,7 +515,6 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "INITIAL{\n"
-  "eCa = 65\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"

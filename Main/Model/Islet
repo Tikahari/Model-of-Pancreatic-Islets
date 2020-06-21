@@ -1,0 +1,53 @@
+cell r: 0.9190119526471618 prob [0.15, 0.75]
+type is  D
+type, i D , Somatostatin
+type, i D , CaL
+type, i D , CaPQ
+type, i D , Na
+type, i D , Ka
+type, i D , Kdr
+type, i D , KATP
+type, i D , L
+connect cells D cell 0
+len temp 27 [None None None None None None None None None None None None None D cell 0
+ None None None None None None None None None None None None None]
+cell r: 0.8827300341550514 prob [0.15, 0.75]
+type is  D
+type, i D , Somatostatin
+type, i D , CaL
+type, i D , CaPQ
+type, i D , Na
+type, i D , Ka
+type, i D , Kdr
+type, i D , KATP
+type, i D , L
+connect cells D cell 1
+len temp 27 [None None None None None None None None None None None None None D cell 0
+ D cell 1 None None None None None None None None None None None None]
+cell r: 0.49541098753533264 prob [0.15, 0.75]
+type is  B
+type, i B , Insulin
+type, i B , BK
+type, i B , Cac
+type, i B , CaL
+type, i B , CaT
+type, i B , CaP
+type, i B , HERG
+type, i B , Ins
+type, i B , KATP
+type, i B , KCa
+type, i B , KDR
+type, i B , Na
+type, i B , NaB
+type, i B , PCa
+from _ref_Cac_B_Cac to B_BK temp[2] Cac
+from _ref_Cac_B_Cac to B_Ins temp[2] Cac
+from _ref_Cac_B_Cac to B_KCa temp[2] Cac
+from _ref_Cac_B_Cac to B_PCa temp[2] Cac
+connect cells B cell 2
+len temp 27 [None None None None None None None None None None None None None D cell 0
+ D cell 1 None B cell 2 None None None None None None None None None None]
+j D i B
+d to b D cell 0 B cell 2
+j D i B
+d to b D cell 1 B cell 2

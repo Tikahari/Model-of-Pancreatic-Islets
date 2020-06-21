@@ -3,16 +3,17 @@ import os
 import csv
 import Space
 import neuron
+import neuron.gui
 import importlib
 # path to initialization file, mechanisms, output, and generation identifier
-env = {'ini': "/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/", 'mech': "/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Mechanisms/", 'output':"/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Outputs/", 'gid': "test"}
+env = {'ini': "/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/", 'mech': "/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Mechanisms/", 'output':"/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Outputs/", 'gid': "1_0"}
 
 class Islet:
     def __init__(self, probabilities, sizes, n):
-        self.getLib()
+        self.setFolder()
         self.space = Space.Space(probabilities, sizes, n)
         self.space.RadialSetup()
-    def getLib(self):
+    def setFolder(self):
         os.system('rm -r x86_64/')
         os.system('module load intel/2019')
         os.system('module load openmpi')

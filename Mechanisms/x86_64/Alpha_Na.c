@@ -308,8 +308,6 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
   iNa = iNa0;
   mNa = mNa0;
  {
-   eNa = 70.0 ;
-   gNa = 11.0 ;
    }
  
 }
@@ -466,8 +464,8 @@ static const char* nmodl_file_text =
   "NEURON{\n"
   "SUFFIX A_Na\n"
   "USEION Na WRITE iNa, eNa VALENCE 1\n"
-  "RANGE iNa, mNa_inf, hNa_inf, tau_mNa, tau_hNa\n"
-  "RANGE eNa, gNa\n"
+  "RANGE mNa_inf, hNa_inf, tau_mNa, tau_hNa\n"
+  "RANGE gNa\n"
   "}\n"
   "\n"
   "PARAMETER{\n"
@@ -490,8 +488,6 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "INITIAL{\n"
-  "eNa = 70\n"
-  "gNa = 11\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"

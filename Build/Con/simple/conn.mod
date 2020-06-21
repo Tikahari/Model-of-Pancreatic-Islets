@@ -1,18 +1,23 @@
 NEURON{
 POINT_PROCESS A_Conn
-RANGE Sst, w
+RANGE w
+POINTER Sst
 }
 
 PARAMETER{
-Sst
 w
+Sst
 }
 
-NET_RECEIVE(weight, Som){
-Sst = Sst + Som*weight
-w = weight
+INITIAL{
+Sst = 4 
+}
+
+NET_RECEIVE(weight){
+Sst = Sst + weight
+:w = weight
 :state_discontinuity(Som, Som + weight)
 VERBATIM
-printf("net receive called");
+//printf("net receive called\n");
 ENDVERBATIM
 }

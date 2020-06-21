@@ -23,12 +23,6 @@ OKATP
 }
 
 INITIAL{
-gmKATP = 65000
-ATP = 3600
-ADPf = 15.0
-kdd = 17
-ktt = 50
-ktd = 26
 }
 
 BREAKPOINT{             

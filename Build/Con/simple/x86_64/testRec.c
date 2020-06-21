@@ -44,8 +44,7 @@ extern double hoc_Exp(double);
 #define t nrn_threads->_t
 #define dt nrn_threads->_dt
 #define som _p[0]
-#define Dsom _p[1]
-#define _g _p[2]
+#define _g _p[1]
  
 #if MAC
 #if !defined(v)
@@ -101,7 +100,6 @@ extern void hoc_reg_nmodl_filename(int, const char*);
  static HocParmUnits _hoc_parm_units[] = {
  0,0
 };
- static double som0 = 0;
  static double v = 0;
  /* connect global user variables to hoc */
  static DoubScal hoc_scdoub[] = {
@@ -121,8 +119,8 @@ static void  nrn_jacob(_NrnThread*, _Memb_list*, int);
  "7.7.0",
 "receive",
  0,
- 0,
  "som_receive",
+ 0,
  0,
  0};
  
@@ -131,10 +129,10 @@ extern Prop* need_memb(Symbol*);
 static void nrn_alloc(Prop* _prop) {
 	Prop *prop_ion;
 	double *_p; Datum *_ppvar;
- 	_p = nrn_prop_data_alloc(_mechtype, 3, _prop);
+ 	_p = nrn_prop_data_alloc(_mechtype, 2, _prop);
  	/*initialize range parameters*/
  	_prop->param = _p;
- 	_prop->param_size = 3;
+ 	_prop->param_size = 2;
  
 }
  static void _initlists();
@@ -154,7 +152,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
   hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
 #endif
-  hoc_register_prop_size(_mechtype, 3, 0);
+  hoc_register_prop_size(_mechtype, 2, 0);
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
  	ivoc_help("help ?1 receive /ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Con/simple/x86_64/testRec.mod\n");
  hoc_register_limits(_mechtype, _hoc_parm_limits);
@@ -171,10 +169,6 @@ static void _modl_cleanup(){ _match_recurse=1;}
 static void initmodel() {
   int _i; double _save;_ninits++;
 {
-  som = som0;
- {
-   som = 1.0 ;
-   }
 
 }
 }
@@ -288,12 +282,11 @@ static const char* nmodl_file_text =
   "    SUFFIX receive\n"
   "    RANGE som\n"
   "}\n"
-  "INITIAL{\n"
-  "    som = 1\n"
+  "\n"
+  "ASSIGNED{\n"
+  "som\n"
   "}\n"
-  "STATE{\n"
-  "    som\n"
-  "}\n"
+  "\n"
   "BREAKPOINT{\n"
   "VERBATIM\n"
   "//printf(\"receive\\n\");\n"

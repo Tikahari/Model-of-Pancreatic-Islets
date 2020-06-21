@@ -3,7 +3,7 @@ SUFFIX D_Kdr
 USEION Kdr WRITE iKdr VALENCE 1
 USEION K READ eK
 RANGE vKdrm, sKdrm, gKdr 
-RANGE mKdr_inf, tauKdrm, iKdr
+RANGE mKdr_inf, tauKdrm
 }
 
 PARAMETER{   
@@ -25,7 +25,6 @@ mKdr
 }
 
 INITIAL{
-eK = -75
 }
 
 BREAKPOINT{

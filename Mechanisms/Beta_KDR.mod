@@ -24,11 +24,6 @@ dKr
 }
 
 INITIAL{
-gmKDr = 18000
-tdKr = 20
-dKr = 0.0029
-Vdkr = -9
-kdkr = 8
 }
 
 BREAKPOINT{

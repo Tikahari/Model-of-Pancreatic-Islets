@@ -1,9 +1,9 @@
 NEURON{
 SUFFIX A_CaPQ
 USEION CaPQ WRITE iCaPQ VALENCE 2
-USEION Ca READ eCa VALENCE 2
+USEION Ca READ eCa 
 RANGE gcapq, vcapqm, scapqm, vcapqh, scapqh, tcapqh1, tcapqh2
-RANGE iCaPQ, mcapqinf, hcapqinf, taucapqm, taucapqh
+RANGE mcapqinf, hcapqinf, taucapqm, taucapqh
 }
 
 PARAMETER{
@@ -41,7 +41,6 @@ vcapqh = -33
 scapqh = -5
 tcapqh1 = 60
 tcapqh2 = 51
-eCa = 65
 }
 
 BREAKPOINT{

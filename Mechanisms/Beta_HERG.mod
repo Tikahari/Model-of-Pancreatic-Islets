@@ -29,15 +29,6 @@ fKhe
 }
 
 INITIAL{
-dKhe = 0.1
-fKhe = 0.1
-gmKhe = 200
-kdhe = 10
-kfhe = 17.5
-tdKhe = 100
-tfKhe = 50
-Vdhe = -30
-Vfhe = -42
 }
 
 BREAKPOINT{

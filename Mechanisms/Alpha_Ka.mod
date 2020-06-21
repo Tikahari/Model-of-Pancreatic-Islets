@@ -1,9 +1,9 @@
 NEURON{
 SUFFIX A_Ka
 USEION Ka WRITE iKa VALENCE 1
-USEION K READ eK
-RANGE iKa, mKa_inf, hKa_inf, tau_hKa
-RANGE eK, gKa, tau_mKa
+USEION K WRITE eK VALENCE 1
+RANGE mKa_inf, hKa_inf, tau_hKa
+RANGE gKa, tau_mKa
 }
 
 PARAMETER{
@@ -15,12 +15,12 @@ ASSIGNED{
 mKa_inf
 hKa_inf
 tau_hKa
-eK
 v
 }
 
 STATE{
 iKa
+eK
 mKa
 hKa
 }

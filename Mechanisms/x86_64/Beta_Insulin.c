@@ -1,6 +1,6 @@
 /* Created by Language version: 7.7.0 */
-/* NOT VECTORIZED */
-#define NRN_VECTORIZED 0
+/* VECTORIZED */
+#define NRN_VECTORIZED 1
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -31,250 +31,251 @@ extern double hoc_Exp(double);
 #define _net_receive _net_receive__B_Insulin 
 #define states states__B_Insulin 
  
-#define _threadargscomma_ /**/
-#define _threadargsprotocomma_ /**/
-#define _threadargs_ /**/
-#define _threadargsproto_ /**/
+#define _threadargscomma_ _p, _ppvar, _thread, _nt,
+#define _threadargsprotocomma_ double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt,
+#define _threadargs_ _p, _ppvar, _thread, _nt
+#define _threadargsproto_ double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
  	/*SUPPRESS 761*/
 	/*SUPPRESS 762*/
 	/*SUPPRESS 763*/
 	/*SUPPRESS 765*/
 	 extern double *getarg();
- static double *_p; static Datum *_ppvar;
+ /* Thread safe. No static _p or _ppvar. */
  
-#define t nrn_threads->_t
-#define dt nrn_threads->_dt
-#define vmd _p[0]
-#define vcell _p[1]
-#define alpha _p[2]
-#define B _p[3]
-#define kpmca _p[4]
-#define cbas _p[5]
-#define kserca2b _p[6]
-#define kserca3 _p[7]
-#define per _p[8]
-#define phigk _p[9]
-#define KGPDH _p[10]
-#define kappa _p[11]
-#define Jgk _p[12]
-#define fcyt _p[13]
-#define delta _p[14]
-#define p23 _p[15]
-#define p24 _p[16]
-#define psim _p[17]
-#define p21 _p[18]
-#define p22 _p[19]
-#define fer _p[20]
-#define sigmav _p[21]
-#define fmd _p[22]
-#define lambda _p[23]
-#define VmaxPFK _p[24]
-#define weight1 _p[25]
-#define topa1 _p[26]
-#define bottom1 _p[27]
-#define atot _p[28]
-#define k4 _p[29]
-#define k3 _p[30]
-#define f43 _p[31]
-#define k2 _p[32]
-#define f42 _p[33]
-#define f23 _p[34]
-#define amp _p[35]
-#define k1 _p[36]
-#define f41 _p[37]
-#define f13 _p[38]
-#define gamma _p[39]
-#define p19 _p[40]
-#define Amtot _p[41]
-#define p20 _p[42]
-#define FRT _p[43]
-#define p16 _p[44]
-#define p13 _p[45]
-#define p14 _p[46]
-#define p15 _p[47]
-#define fmito _p[48]
-#define p8 _p[49]
-#define p9 _p[50]
-#define p10 _p[51]
-#define p11 _p[52]
-#define p17 _p[53]
-#define p18 _p[54]
-#define Cmito _p[55]
-#define p1 _p[56]
-#define p2 _p[57]
-#define p3 _p[58]
-#define NADmtot _p[59]
-#define Jgpdh_bas _p[60]
-#define p4 _p[61]
-#define p5 _p[62]
-#define p6 _p[63]
-#define p7 _p[64]
-#define vm _p[65]
-#define sm _p[66]
-#define gCa _p[67]
-#define nCa _p[68]
-#define vCa _p[69]
-#define raL _p[70]
-#define khyd _p[71]
-#define JhydSS _p[72]
-#define taua _p[73]
-#define tmsb _p[74]
-#define u1 _p[75]
-#define u2 _p[76]
-#define u3 _p[77]
-#define gthresh _p[78]
-#define Kp2 _p[79]
-#define Kp _p[80]
-#define r30 _p[81]
-#define factor _p[82]
-#define amplify _p[83]
-#define bas_r3 _p[84]
-#define rm3 _p[85]
-#define rb _p[86]
-#define knockoutdb _p[87]
-#define sombarb _p[88]
-#define ssomb _p[89]
-#define r1 _p[90]
-#define rm1 _p[91]
-#define km1 _p[92]
-#define bas_cmd _p[93]
-#define max_cmd _p[94]
-#define cmdp _p[95]
-#define kcmd _p[96]
-#define exo_k1 _p[97]
-#define vc _p[98]
-#define fb _p[99]
-#define Ins_init _p[100]
-#define minf _p[101]
-#define iCa _p[102]
-#define iCaL _p[103]
-#define iCaR _p[104]
-#define vmdcyt _p[105]
-#define JL _p[106]
-#define JR _p[107]
-#define Jmem _p[108]
-#define Jserca _p[109]
-#define Jleak _p[110]
-#define Jer _p[111]
-#define f6p _p[112]
-#define Jgpdh _p[113]
-#define Jgk_ms _p[114]
-#define JNaCa _p[115]
-#define Juni _p[116]
-#define Jmito _p[117]
-#define ATPm _p[118]
-#define RATm _p[119]
-#define JANT _p[120]
-#define b2 _p[121]
-#define JF1F0 _p[122]
-#define JHatp _p[123]
-#define MM2 _p[124]
-#define JHres _p[125]
-#define JHleak _p[126]
-#define NADm _p[127]
-#define JPDH _p[128]
-#define MM1 _p[129]
-#define JO _p[130]
-#define atp _p[131]
-#define Jhyd _p[132]
-#define weight2 _p[133]
-#define topa2 _p[134]
-#define bottom2 _p[135]
-#define weight3 _p[136]
-#define topa3 _p[137]
-#define bottom3 _p[138]
-#define weight4 _p[139]
-#define topa4 _p[140]
-#define bottom4 _p[141]
-#define weight5 _p[142]
-#define topa5 _p[143]
-#define bottom5 _p[144]
-#define weight6 _p[145]
-#define topa6 _p[146]
-#define bottom6 _p[147]
-#define weight7 _p[148]
-#define topa7 _p[149]
-#define bottom7 _p[150]
-#define weight8 _p[151]
-#define topa8 _p[152]
-#define bottom8 _p[153]
-#define weight9 _p[154]
-#define topa9 _p[155]
-#define bottom9 _p[156]
-#define weight10 _p[157]
-#define topa10 _p[158]
-#define bottom10 _p[159]
-#define weight11 _p[160]
-#define topa11 _p[161]
-#define bottom11 _p[162]
-#define weight12 _p[163]
-#define topa12 _p[164]
-#define bottom12 _p[165]
-#define weight13 _p[166]
-#define topa13 _p[167]
-#define bottom13 _p[168]
-#define weight14 _p[169]
-#define topa14 _p[170]
-#define bottom14 _p[171]
-#define weight15 _p[172]
-#define topa15 _p[173]
-#define topb _p[174]
-#define bottom15 _p[175]
-#define weight16 _p[176]
-#define topa16 _p[177]
-#define bottom16 _p[178]
-#define pfk _p[179]
-#define pfk_ms _p[180]
-#define r20 _p[181]
-#define ampfactor _p[182]
-#define r3 _p[183]
-#define r2 _p[184]
-#define rm2b _p[185]
-#define mod_cmd _p[186]
-#define JIS _p[187]
-#define c _p[188]
-#define cer _p[189]
-#define cmd _p[190]
-#define g6p _p[191]
-#define fbp _p[192]
-#define ADPm _p[193]
-#define cam _p[194]
-#define Psim _p[195]
-#define adp _p[196]
-#define NADHm _p[197]
-#define N1 _p[198]
-#define N2 _p[199]
-#define N3 _p[200]
-#define N4 _p[201]
-#define N5 _p[202]
-#define N6 _p[203]
-#define NF _p[204]
-#define NR _p[205]
-#define Ins _p[206]
-#define Dc _p[207]
-#define Dcer _p[208]
-#define Dcmd _p[209]
-#define Dg6p _p[210]
-#define Dfbp _p[211]
-#define DADPm _p[212]
-#define Dcam _p[213]
-#define DPsim _p[214]
-#define Dadp _p[215]
-#define DNADHm _p[216]
-#define DN1 _p[217]
-#define DN2 _p[218]
-#define DN3 _p[219]
-#define DN4 _p[220]
-#define DN5 _p[221]
-#define DN6 _p[222]
-#define DNF _p[223]
-#define DNR _p[224]
-#define DIns _p[225]
-#define _g _p[226]
-#define G	*_ppvar[0]._pval
-#define _p_G	_ppvar[0]._pval
-#define Sst	*_ppvar[1]._pval
-#define _p_Sst	_ppvar[1]._pval
+#define t _nt->_t
+#define dt _nt->_dt
+#define t_ _p[0]
+#define dir _p[1]
+#define G _p[2]
+#define Sst _p[3]
+#define vmd _p[4]
+#define vcell _p[5]
+#define alpha _p[6]
+#define B _p[7]
+#define kpmca _p[8]
+#define cbas _p[9]
+#define kserca2b _p[10]
+#define kserca3 _p[11]
+#define per _p[12]
+#define phigk _p[13]
+#define KGPDH _p[14]
+#define kappa _p[15]
+#define Jgk _p[16]
+#define fcyt _p[17]
+#define delta _p[18]
+#define p23 _p[19]
+#define p24 _p[20]
+#define psim _p[21]
+#define p21 _p[22]
+#define p22 _p[23]
+#define fer _p[24]
+#define sigmav _p[25]
+#define fmd _p[26]
+#define lambda _p[27]
+#define VmaxPFK _p[28]
+#define weight1 _p[29]
+#define topa1 _p[30]
+#define bottom1 _p[31]
+#define atot _p[32]
+#define k4 _p[33]
+#define k3 _p[34]
+#define f43 _p[35]
+#define k2 _p[36]
+#define f42 _p[37]
+#define f23 _p[38]
+#define amp _p[39]
+#define k1 _p[40]
+#define f41 _p[41]
+#define f13 _p[42]
+#define gamma _p[43]
+#define p19 _p[44]
+#define Amtot _p[45]
+#define p20 _p[46]
+#define FRT _p[47]
+#define p16 _p[48]
+#define p13 _p[49]
+#define p14 _p[50]
+#define p15 _p[51]
+#define fmito _p[52]
+#define p8 _p[53]
+#define p9 _p[54]
+#define p10 _p[55]
+#define p11 _p[56]
+#define p17 _p[57]
+#define p18 _p[58]
+#define Cmito _p[59]
+#define p1 _p[60]
+#define p2 _p[61]
+#define p3 _p[62]
+#define NADmtot _p[63]
+#define Jgpdh_bas _p[64]
+#define p4 _p[65]
+#define p5 _p[66]
+#define p6 _p[67]
+#define p7 _p[68]
+#define vm _p[69]
+#define sm _p[70]
+#define gCa _p[71]
+#define nCa _p[72]
+#define vCa _p[73]
+#define raL _p[74]
+#define khyd _p[75]
+#define JhydSS _p[76]
+#define taua _p[77]
+#define tmsb _p[78]
+#define u1 _p[79]
+#define u2 _p[80]
+#define u3 _p[81]
+#define gthresh _p[82]
+#define Kp2 _p[83]
+#define Kp _p[84]
+#define r30 _p[85]
+#define factor _p[86]
+#define amplify _p[87]
+#define bas_r3 _p[88]
+#define rm3 _p[89]
+#define rb _p[90]
+#define knockoutdb _p[91]
+#define sombarb _p[92]
+#define ssomb _p[93]
+#define r1 _p[94]
+#define rm1 _p[95]
+#define km1 _p[96]
+#define bas_cmd _p[97]
+#define max_cmd _p[98]
+#define cmdp _p[99]
+#define kcmd _p[100]
+#define exo_k1 _p[101]
+#define vc _p[102]
+#define fb _p[103]
+#define Ins_init _p[104]
+#define minf _p[105]
+#define iCa _p[106]
+#define iCaL _p[107]
+#define iCaR _p[108]
+#define vmdcyt _p[109]
+#define JL _p[110]
+#define JR _p[111]
+#define Jmem _p[112]
+#define Jserca _p[113]
+#define Jleak _p[114]
+#define Jer _p[115]
+#define f6p _p[116]
+#define Jgpdh _p[117]
+#define Jgk_ms _p[118]
+#define JNaCa _p[119]
+#define Juni _p[120]
+#define Jmito _p[121]
+#define ATPm _p[122]
+#define RATm _p[123]
+#define JANT _p[124]
+#define b2 _p[125]
+#define JF1F0 _p[126]
+#define JHatp _p[127]
+#define MM2 _p[128]
+#define JHres _p[129]
+#define JHleak _p[130]
+#define NADm _p[131]
+#define JPDH _p[132]
+#define MM1 _p[133]
+#define JO _p[134]
+#define atp _p[135]
+#define Jhyd _p[136]
+#define weight2 _p[137]
+#define topa2 _p[138]
+#define bottom2 _p[139]
+#define weight3 _p[140]
+#define topa3 _p[141]
+#define bottom3 _p[142]
+#define weight4 _p[143]
+#define topa4 _p[144]
+#define bottom4 _p[145]
+#define weight5 _p[146]
+#define topa5 _p[147]
+#define bottom5 _p[148]
+#define weight6 _p[149]
+#define topa6 _p[150]
+#define bottom6 _p[151]
+#define weight7 _p[152]
+#define topa7 _p[153]
+#define bottom7 _p[154]
+#define weight8 _p[155]
+#define topa8 _p[156]
+#define bottom8 _p[157]
+#define weight9 _p[158]
+#define topa9 _p[159]
+#define bottom9 _p[160]
+#define weight10 _p[161]
+#define topa10 _p[162]
+#define bottom10 _p[163]
+#define weight11 _p[164]
+#define topa11 _p[165]
+#define bottom11 _p[166]
+#define weight12 _p[167]
+#define topa12 _p[168]
+#define bottom12 _p[169]
+#define weight13 _p[170]
+#define topa13 _p[171]
+#define bottom13 _p[172]
+#define weight14 _p[173]
+#define topa14 _p[174]
+#define bottom14 _p[175]
+#define weight15 _p[176]
+#define topa15 _p[177]
+#define topb _p[178]
+#define bottom15 _p[179]
+#define weight16 _p[180]
+#define topa16 _p[181]
+#define bottom16 _p[182]
+#define pfk _p[183]
+#define pfk_ms _p[184]
+#define r20 _p[185]
+#define ampfactor _p[186]
+#define r3 _p[187]
+#define r2 _p[188]
+#define rm2b _p[189]
+#define mod_cmd _p[190]
+#define JIS _p[191]
+#define c _p[192]
+#define cer _p[193]
+#define cmd _p[194]
+#define g6p _p[195]
+#define fbp _p[196]
+#define ADPm _p[197]
+#define cam _p[198]
+#define Psim _p[199]
+#define adp _p[200]
+#define NADHm _p[201]
+#define N1 _p[202]
+#define N2 _p[203]
+#define N3 _p[204]
+#define N4 _p[205]
+#define N5 _p[206]
+#define N6 _p[207]
+#define NF _p[208]
+#define NR _p[209]
+#define Ins _p[210]
+#define Dc _p[211]
+#define Dcer _p[212]
+#define Dcmd _p[213]
+#define Dg6p _p[214]
+#define Dfbp _p[215]
+#define DADPm _p[216]
+#define Dcam _p[217]
+#define DPsim _p[218]
+#define Dadp _p[219]
+#define DNADHm _p[220]
+#define DN1 _p[221]
+#define DN2 _p[222]
+#define DN3 _p[223]
+#define DN4 _p[224]
+#define DN5 _p[225]
+#define DN6 _p[226]
+#define DNF _p[227]
+#define DNR _p[228]
+#define DIns _p[229]
+#define v _p[230]
+#define _g _p[231]
  
 #if MAC
 #if !defined(v)
@@ -288,7 +289,9 @@ extern double hoc_Exp(double);
 #if defined(__cplusplus)
 extern "C" {
 #endif
- static int hoc_nrnpointerindex =  0;
+ static int hoc_nrnpointerindex =  -1;
+ static Datum* _extcall_thread;
+ static Prop* _extcall_prop;
  /* external NEURON variables */
  /* declaration of user functions */
  static int _mechtype;
@@ -309,7 +312,7 @@ extern void hoc_reg_nmodl_filename(int, const char*);
 
  extern void _nrn_setdata_reg(int, void(*)(Prop*));
  static void _setdata(Prop* _prop) {
- _p = _prop->param; _ppvar = _prop->dparam;
+ _extcall_prop = _prop;
  }
  static void _hoc_setdata() {
  Prop *_prop, *hoc_getdata_range(int);
@@ -350,7 +353,6 @@ extern void hoc_reg_nmodl_filename(int, const char*);
  static double delta_t = 0.01;
  static double fbp0 = 0;
  static double g6p0 = 0;
- static double v = 0;
  /* connect global user variables to hoc */
  static DoubScal hoc_scdoub[] = {
  0,0
@@ -370,12 +372,16 @@ static void _ode_map(int, double**, double**, double*, Datum*, double*, int);
 static void _ode_spec(_NrnThread*, _Memb_list*, int);
 static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  
-#define _cvode_ieq _ppvar[2]._i
+#define _cvode_ieq _ppvar[0]._i
  static void _ode_matsol_instance1(_threadargsproto_);
  /* connect range variables in _p that hoc is supposed to know about */
  static const char *_mechanism[] = {
  "7.7.0",
 "B_Insulin",
+ "t__B_Insulin",
+ "dir_B_Insulin",
+ "G_B_Insulin",
+ "Sst_B_Insulin",
  "vmd_B_Insulin",
  "vcell_B_Insulin",
  "alpha_B_Insulin",
@@ -586,8 +592,6 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  "NR_B_Insulin",
  "Ins_B_Insulin",
  0,
- "G_B_Insulin",
- "Sst_B_Insulin",
  0};
  
 extern Prop* need_memb(Symbol*);
@@ -595,8 +599,12 @@ extern Prop* need_memb(Symbol*);
 static void nrn_alloc(Prop* _prop) {
 	Prop *prop_ion;
 	double *_p; Datum *_ppvar;
- 	_p = nrn_prop_data_alloc(_mechtype, 227, _prop);
+ 	_p = nrn_prop_data_alloc(_mechtype, 232, _prop);
  	/*initialize range parameters*/
+ 	t_ = 0;
+ 	dir = 0;
+ 	G = 0;
+ 	Sst = 0;
  	vmd = 0;
  	vcell = 0;
  	alpha = 0;
@@ -699,8 +707,8 @@ static void nrn_alloc(Prop* _prop) {
  	fb = 0;
  	Ins_init = 0;
  	_prop->param = _p;
- 	_prop->param_size = 227;
- 	_ppvar = nrn_prop_datum_alloc(_mechtype, 3, _prop);
+ 	_prop->param_size = 232;
+ 	_ppvar = nrn_prop_datum_alloc(_mechtype, 1, _prop);
  	_prop->dparam = _ppvar;
  	/*connect ionic variables to this model*/
  
@@ -718,19 +726,17 @@ extern void hoc_register_tolerance(int, HocStateTolerance*, Symbol***);
 extern void _cvode_abstol( Symbol**, double*, int);
 
  void _Beta_Insulin_reg() {
-	int _vectorized = 0;
+	int _vectorized = 1;
   _initlists();
- 	register_mech(_mechanism, nrn_alloc,nrn_cur, nrn_jacob, nrn_state, nrn_init, hoc_nrnpointerindex, 0);
+ 	register_mech(_mechanism, nrn_alloc,nrn_cur, nrn_jacob, nrn_state, nrn_init, hoc_nrnpointerindex, 1);
  _mechtype = nrn_get_mechtype(_mechanism[1]);
      _nrn_setdata_reg(_mechtype, _setdata);
  #if NMODL_TEXT
   hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
   hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
 #endif
-  hoc_register_prop_size(_mechtype, 227, 3);
-  hoc_register_dparam_semantics(_mechtype, 0, "pointer");
-  hoc_register_dparam_semantics(_mechtype, 1, "pointer");
-  hoc_register_dparam_semantics(_mechtype, 2, "cvodeieq");
+  hoc_register_prop_size(_mechtype, 232, 1);
+  hoc_register_dparam_semantics(_mechtype, 0, "cvodeieq");
  	hoc_register_cvode(_mechtype, _ode_count, _ode_map, _ode_spec, _ode_matsol);
  	hoc_register_tolerance(_mechtype, _hoc_state_tol, &_atollist);
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
@@ -752,8 +758,7 @@ static int _ode_spec1(_threadargsproto_);
  static int states(_threadargsproto_);
  
 /*CVODE*/
- static int _ode_spec1 () {_reset=0;
- {
+ static int _ode_spec1 (double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {int _reset = 0; {
    Dc = fcyt * ( Jmem + Jer + delta * Jmito ) ;
    Dcer = - fer * sigmav * Jer ;
    Dcmd = fmd * ( JL - B * ( cmd - c ) ) ;
@@ -776,7 +781,7 @@ static int _ode_spec1(_threadargsproto_);
    }
  return _reset;
 }
- static int _ode_matsol1 () {
+ static int _ode_matsol1 (double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {
  Dc = Dc  / (1. - dt*( 0.0 )) ;
  Dcer = Dcer  / (1. - dt*( 0.0 )) ;
  Dcmd = Dcmd  / (1. - dt*( ( fmd )*( ( ( - ( B )*( ( 1.0 ) ) ) ) ) )) ;
@@ -799,8 +804,7 @@ static int _ode_spec1(_threadargsproto_);
   return 0;
 }
  /*END CVODE*/
- static int states () {_reset=0;
- {
+ static int states (double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) { {
     c = c - dt*(- ( ( fcyt )*( ( Jmem + Jer + ( delta )*( Jmito ) ) ) ) ) ;
     cer = cer - dt*(- ( ( ( - fer )*( sigmav ) )*( Jer ) ) ) ;
     cmd = cmd + (1. - exp(dt*(( fmd )*( ( ( - ( B )*( ( 1.0 ) ) ) ) ))))*(- ( ( fmd )*( ( JL - ( B )*( ( ( - c ) ) ) ) ) ) / ( ( fmd )*( ( ( - ( B )*( ( 1.0 ) ) ) ) ) ) - cmd) ;
@@ -827,7 +831,7 @@ static int _ode_spec1(_threadargsproto_);
 static int _ode_count(int _type){ return 19;}
  
 static void _ode_spec(_NrnThread* _nt, _Memb_list* _ml, int _type) {
-   Datum* _thread;
+   double* _p; Datum* _ppvar; Datum* _thread;
    Node* _nd; double _v; int _iml, _cntml;
   _cntml = _ml->_nodecount;
   _thread = _ml->_thread;
@@ -835,10 +839,11 @@ static void _ode_spec(_NrnThread* _nt, _Memb_list* _ml, int _type) {
     _p = _ml->_data[_iml]; _ppvar = _ml->_pdata[_iml];
     _nd = _ml->_nodelist[_iml];
     v = NODEV(_nd);
-     _ode_spec1 ();
+     _ode_spec1 (_p, _ppvar, _thread, _nt);
  }}
  
 static void _ode_map(int _ieq, double** _pv, double** _pvdot, double* _pp, Datum* _ppd, double* _atol, int _type) { 
+	double* _p; Datum* _ppvar;
  	int _i; _p = _pp; _ppvar = _ppd;
 	_cvode_ieq = _ieq;
 	for (_i=0; _i < 19; ++_i) {
@@ -848,11 +853,11 @@ static void _ode_map(int _ieq, double** _pv, double** _pvdot, double* _pp, Datum
  }
  
 static void _ode_matsol_instance1(_threadargsproto_) {
- _ode_matsol1 ();
+ _ode_matsol1 (_p, _ppvar, _thread, _nt);
  }
  
 static void _ode_matsol(_NrnThread* _nt, _Memb_list* _ml, int _type) {
-   Datum* _thread;
+   double* _p; Datum* _ppvar; Datum* _thread;
    Node* _nd; double _v; int _iml, _cntml;
   _cntml = _ml->_nodecount;
   _thread = _ml->_thread;
@@ -863,11 +868,8 @@ static void _ode_matsol(_NrnThread* _nt, _Memb_list* _ml, int _type) {
  _ode_matsol_instance1(_threadargs_);
  }}
 
-static void initmodel() {
-  int _i; double _save;_ninits++;
- _save = t;
- t = 0.0;
-{
+static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {
+  int _i; double _save;{
   ADPm = ADPm0;
   Ins = Ins0;
   NR = NR0;
@@ -888,134 +890,21 @@ static void initmodel() {
   fbp = fbp0;
   g6p = g6p0;
  {
-   vmd = 4.2e-3 ;
-   vcell = 1.15 ;
-   alpha = 5.18e-6 ;
-   B = 1.0 ;
-   cmd = 0.4188629403487558 ;
-   c = 0.0630015242008439 ;
-   kpmca = 0.2 ;
-   cbas = 0.05 ;
-   kserca2b = 0.01 ;
-   kserca3 = 0.1 ;
-   per = 0.0002 ;
-   cer = 81.57023672312617 ;
-   phigk = 0.3 ;
-   g6p = 244.936858732948 ;
-   KGPDH = 0.0005 ;
-   kappa = 0.001 ;
-   Jgk = 0.4 ;
-   fbp = 0.08283840527865462 ;
-   ADPm = 13.53015038508978 ;
-   fcyt = 0.01 ;
-   delta = 3.9 / 53.2 ;
-   p23 = 0.01 ;
-   cam = 0.01102007399722167 ;
-   p24 = 0.016 ;
-   psim = 151.1015153147079 ;
-   p21 = 0.04 ;
-   p22 = 1.1 ;
-   fer = 0.01 ;
-   sigmav = 30.0 ;
-   fmd = 0.01 ;
-   lambda = 0.06 ;
-   VmaxPFK = 5.0 ;
-   weight1 = 1.0 ;
-   topa1 = 0.0 ;
-   bottom1 = 1.0 ;
-   atot = 2500.0 ;
-   adp = 1913.096601466651 ;
-   k4 = 150.0 ;
-   k3 = 50000.0 ;
-   f43 = 20.0 ;
-   k2 = 1.0 ;
-   f42 = 20.0 ;
-   f23 = 0.2 ;
-   amp = 500.0 ;
-   k1 = 30.0 ;
-   f41 = 20.0 ;
-   f13 = 0.02 ;
-   gamma = 0.001 ;
-   p19 = 0.35 ;
-   Amtot = 15.0 ;
-   p20 = 2.0 ;
-   FRT = 96480.0 / ( 310.16 * 8315.0 ) ;
-   p16 = 35.0 ;
-   p13 = 10.0 ;
-   p14 = 190.0 ;
-   p15 = 8.5 ;
-   fmito = 0.01 ;
-   p8 = 7.0 ;
-   NADHm = 0.02908310367935971 ;
-   p9 = 0.1 ;
-   p10 = 177.0 ;
-   p11 = 5.0 ;
-   p17 = 0.002 ;
-   p18 = - 0.03 ;
-   Cmito = 1.8 ;
-   p1 = 400.0 ;
-   p2 = 1.0 ;
-   p3 = 0.01 ;
-   NADmtot = 10.0 ;
-   Jgpdh_bas = 0.0005 ;
-   p4 = 0.6 ;
-   p5 = 0.1 ;
-   p6 = 177.0 ;
-   p7 = 5.0 ;
-   vm = - 6.0 ;
-   sm = 10.0 ;
-   vCa = 25.0 ;
-   raL = 0.5 ;
-   khyd = 0.00005 ;
-   JhydSS = 0.00005 ;
-   taua = 5.0 ;
-   tmsb = 0.001 ;
-   u1 = 2000.0 ;
-   u2 = 3.0 ;
-   u3 = 0.02 ;
-   N1 = 4.627586868810905 ;
-   N2 = 0.2262327588817945 ;
-   N3 = 0.003661670524646639 ;
-   N4 = 2.595179480355916e-06 ;
-   N5 = 7.762125378310579 ;
-   N6 = 274.1666227230976 ;
-   NF = 0.00172689211245988 ;
-   NR = 0.3002686554719045 ;
-   gthresh = 40.0 ;
-   Kp2 = 2.3 ;
-   Kp = 2.3 ;
-   r30 = 1.205 ;
-   factor = 14.0 ;
-   amplify = 1.0 ;
-   bas_r3 = 0.032 ;
-   rm3 = 0.0001 ;
-   rb = 0.002 ;
-   knockoutdb = 0.0 ;
-   sombarb = 50.0 ;
-   ssomb = 15.0 ;
-   r1 = 0.6 ;
-   rm1 = 1.0 ;
-   km1 = 100.0 ;
-   bas_cmd = 0.06935 ;
-   max_cmd = 32.0 ;
-   cmdp = 4.0 ;
-   kcmd = 3.0 ;
-   exo_k1 = 20.0 ;
-   vc = 1e-13 ;
-   fb = 2000.0 ;
-   v = - 71.33779976819424 ;
+   t_ = 0.0 ;
+   dir = 0.0 ;
    }
-  _sav_indep = t; t = _save;
-
+ 
 }
 }
 
 static void nrn_init(_NrnThread* _nt, _Memb_list* _ml, int _type){
+double* _p; Datum* _ppvar; Datum* _thread;
 Node *_nd; double _v; int* _ni; int _iml, _cntml;
 #if CACHEVEC
     _ni = _ml->_nodeindices;
 #endif
 _cntml = _ml->_nodecount;
+_thread = _ml->_thread;
 for (_iml = 0; _iml < _cntml; ++_iml) {
  _p = _ml->_data[_iml]; _ppvar = _ml->_pdata[_iml];
 #if CACHEVEC
@@ -1028,19 +917,22 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
     _v = NODEV(_nd);
   }
  v = _v;
- initmodel();
-}}
+ initmodel(_p, _ppvar, _thread, _nt);
+}
+}
 
-static double _nrn_current(double _v){double _current=0.;v=_v;{
+static double _nrn_current(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt, double _v){double _current=0.;v=_v;{
 } return _current;
 }
 
-static void nrn_cur(_NrnThread* _nt, _Memb_list* _ml, int _type){
+static void nrn_cur(_NrnThread* _nt, _Memb_list* _ml, int _type) {
+double* _p; Datum* _ppvar; Datum* _thread;
 Node *_nd; int* _ni; double _rhs, _v; int _iml, _cntml;
 #if CACHEVEC
     _ni = _ml->_nodeindices;
 #endif
 _cntml = _ml->_nodecount;
+_thread = _ml->_thread;
 for (_iml = 0; _iml < _cntml; ++_iml) {
  _p = _ml->_data[_iml]; _ppvar = _ml->_pdata[_iml];
 #if CACHEVEC
@@ -1053,14 +945,18 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
     _v = NODEV(_nd);
   }
  
-}}
+}
+ 
+}
 
-static void nrn_jacob(_NrnThread* _nt, _Memb_list* _ml, int _type){
+static void nrn_jacob(_NrnThread* _nt, _Memb_list* _ml, int _type) {
+double* _p; Datum* _ppvar; Datum* _thread;
 Node *_nd; int* _ni; int _iml, _cntml;
 #if CACHEVEC
     _ni = _ml->_nodeindices;
 #endif
 _cntml = _ml->_nodecount;
+_thread = _ml->_thread;
 for (_iml = 0; _iml < _cntml; ++_iml) {
  _p = _ml->_data[_iml];
 #if CACHEVEC
@@ -1073,14 +969,18 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
 	NODED(_nd) += _g;
   }
  
-}}
+}
+ 
+}
 
-static void nrn_state(_NrnThread* _nt, _Memb_list* _ml, int _type){
+static void nrn_state(_NrnThread* _nt, _Memb_list* _ml, int _type) {
+double* _p; Datum* _ppvar; Datum* _thread;
 Node *_nd; double _v = 0.0; int* _ni; int _iml, _cntml;
 #if CACHEVEC
     _ni = _ml->_nodeindices;
 #endif
 _cntml = _ml->_nodecount;
+_thread = _ml->_thread;
 for (_iml = 0; _iml < _cntml; ++_iml) {
  _p = _ml->_data[_iml]; _ppvar = _ml->_pdata[_iml];
  _nd = _ml->_nodelist[_iml];
@@ -1095,9 +995,20 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
   }
  v=_v;
 {
- { error =  states();
- if(error){fprintf(stderr,"at line 449 in file Beta_Insulin.mod:\nSOLVE states METHOD cnexp : Put equations that need to have ODE's solved to evaluate under here\n"); nrn_complain(_p); abort_run(error);}
- } {
+ {   states(_p, _ppvar, _thread, _nt);
+  } {
+   if ( t_ > 2.0 ) {
+     dir = 1.0 ;
+     }
+   else if ( t_  == 0.0 ) {
+     dir = 0.0 ;
+     }
+   if ( dir  == 0.0 ) {
+     t_ = t_ + 1.0 ;
+     }
+   else {
+     t_ = t_ - 1.0 ;
+     }
    minf = 1.0 / ( 1.0 + exp ( ( vm - v ) / sm ) ) ;
    iCa = gCa * nCa * minf * ( v - vCa ) ;
    iCaL = raL * iCa ;
@@ -1195,7 +1106,8 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
 
 static void terminal(){}
 
-static void _initlists() {
+static void _initlists(){
+ double _x; double* _p = &_x;
  int _i; static int _first = 1;
   if (!_first) return;
  _slist1[0] = &(c) - _p;  _dlist1[0] = &(Dc) - _p;
@@ -1220,6 +1132,10 @@ static void _initlists() {
 _first = 0;
 }
 
+#if defined(__cplusplus)
+} /* extern "C" */
+#endif
+
 #if NMODL_TEXT
 static const char* nmodl_filename = "/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Mechanisms/Beta_Insulin.mod";
 static const char* nmodl_file_text = 
@@ -1240,11 +1156,16 @@ static const char* nmodl_file_text =
   "RANGE weight8, topa8, bottom8, weight9, topa9, bottom9, weight10, topa10, bottom10, weight11, topa11, bottom11, weight12 \n"
   "RANGE topa12, bottom12, weight13, topa13, bottom13, weight14, topa14, bottom14, weight15, topa15, topb, bottom15, weight16 \n"
   "RANGE topa16, bottom16, pfk, pfk_ms, r20, ampfactor, r3, r2, rm2b, mod_cmd, JIS \n"
-  "POINTER G\n"
-  "POINTER Sst\n"
+  "RANGE G, Sst\n"
+  "RANGE t_, dir\n"
   "}\n"
   "\n"
   "PARAMETER{   \n"
+  ": hormone secretion variables\n"
+  "t_\n"
+  "dir\n"
+  "G\n"
+  "Sst\n"
   "vmd \n"
   "vcell \n"
   "alpha \n"
@@ -1349,8 +1270,6 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "ASSIGNED{\n"
-  "G\n"
-  "Sst\n"
   "minf\n"
   "iCa \n"
   "iCaL \n"
@@ -1464,125 +1383,23 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "INITIAL{\n"
-  "vmd = 4.2e-3\n"
-  "vcell = 1.15\n"
-  "alpha = 5.18e-6\n"
-  "B = 1\n"
-  "cmd = 0.4188629403487558\n"
-  "c = 0.0630015242008439\n"
-  "kpmca = 0.2\n"
-  "cbas = 0.05\n"
-  "kserca2b = 0.01\n"
-  "kserca3 = 0.1\n"
-  "per = 0.0002\n"
-  "cer = 81.57023672312617\n"
-  "phigk = 0.3\n"
-  "g6p = 244.936858732948\n"
-  "KGPDH = 0.0005\n"
-  "kappa = 0.001\n"
-  "Jgk = 0.4\n"
-  "fbp = 0.08283840527865462\n"
-  "ADPm = 13.53015038508978\n"
-  "fcyt = 0.01\n"
-  "delta = 3.9/53.2 : There is an exclamation point before the delta in the model link. idk why\n"
-  "p23 = 0.01\n"
-  "cam = 0.01102007399722167\n"
-  "p24 = 0.016\n"
-  "psim = 151.1015153147079\n"
-  "p21 = 0.04\n"
-  "p22 = 1.1\n"
-  "fer = 0.01\n"
-  "sigmav = 30\n"
-  "fmd = 0.01\n"
-  "lambda = 0.06\n"
-  "VmaxPFK = 5\n"
-  "weight1 = 1\n"
-  "topa1 = 0\n"
-  "bottom1 = 1\n"
-  "atot = 2500\n"
-  "adp = 1913.096601466651\n"
-  "k4 = 150\n"
-  "k3 = 50000\n"
-  "f43 = 20\n"
-  "k2 = 1\n"
-  "f42 = 20\n"
-  "f23 = 0.2\n"
-  "amp = 500\n"
-  "k1 = 30\n"
-  "f41 = 20\n"
-  "f13 = 0.02\n"
-  "gamma = 0.001\n"
-  "p19 = 0.35\n"
-  "Amtot = 15\n"
-  "p20 = 2\n"
-  "FRT = 96480/(310.16*8315)\n"
-  "p16 = 35\n"
-  "p13 = 10\n"
-  "p14 = 190\n"
-  "p15 = 8.5\n"
-  "fmito = 0.01\n"
-  "p8 = 7\n"
-  "NADHm = 0.02908310367935971\n"
-  "p9 = 0.1\n"
-  "p10 = 177\n"
-  "p11 = 5\n"
-  "p17 = 0.002\n"
-  "p18 = -0.03\n"
-  "Cmito = 1.8\n"
-  "p1 = 400\n"
-  "p2 = 1\n"
-  "p3 = 0.01\n"
-  "NADmtot = 10\n"
-  "Jgpdh_bas = 0.0005\n"
-  "p4 = 0.6\n"
-  "p5 = 0.1\n"
-  "p6 = 177\n"
-  "p7 = 5\n"
-  "vm = -6\n"
-  "sm = 10\n"
-  "vCa = 25\n"
-  "raL = 0.5\n"
-  "khyd = 0.00005\n"
-  "JhydSS = 0.00005\n"
-  "taua = 5\n"
-  "tmsb = 0.001\n"
-  "u1 = 2000\n"
-  "u2 = 3\n"
-  "u3 = 0.02\n"
-  "N1 = 4.627586868810905\n"
-  "N2 = 0.2262327588817945\n"
-  "N3 = 0.003661670524646639\n"
-  "N4 = 2.595179480355916e-06\n"
-  "N5 = 7.762125378310579\n"
-  "N6 = 274.1666227230976\n"
-  "NF = 0.00172689211245988\n"
-  "NR = 0.3002686554719045\n"
-  "gthresh = 40\n"
-  "Kp2 = 2.3\n"
-  "Kp = 2.3\n"
-  "r30 = 1.205\n"
-  "factor = 14\n"
-  "amplify = 1\n"
-  "bas_r3 = 0.032\n"
-  "rm3 = 0.0001\n"
-  "rb = 0.002\n"
-  "knockoutdb = 0\n"
-  "sombarb = 50\n"
-  "ssomb = 15\n"
-  "r1 = 0.6\n"
-  "rm1 = 1\n"
-  "km1 = 100\n"
-  "bas_cmd = 0.06935\n"
-  "max_cmd = 32\n"
-  "cmdp = 4\n"
-  "kcmd = 3\n"
-  "exo_k1 = 20\n"
-  "vc = 1e-13\n"
-  "fb = 2000\n"
-  "v = -71.33779976819424\n"
+  "t_ = 0\n"
+  "dir = 0\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"
+  "if (t_ > 2){\n"
+  "dir = 1\n"
+  "}\n"
+  "else if (t_ == 0){\n"
+  "dir = 0\n"
+  "}\n"
+  "if (dir == 0){\n"
+  "t_ = t_ + 1\n"
+  "}\n"
+  "else{\n"
+  "t_ = t_ - 1\n"
+  "}\n"
   "minf = 1/(1 + exp((vm - v)/sm))\n"
   "iCa = gCa * nCa * minf * (v - vCa)\n"
   "iCaL = raL * iCa\n"

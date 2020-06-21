@@ -304,11 +304,6 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
   int _i; double _save;{
   dKr = dKr0;
  {
-   gmKDr = 18000.0 ;
-   tdKr = 20.0 ;
-   dKr = 0.0029 ;
-   Vdkr = - 9.0 ;
-   kdkr = 8.0 ;
    }
  
 }
@@ -484,11 +479,6 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "INITIAL{\n"
-  "gmKDr = 18000\n"
-  "tdKr = 20\n"
-  "dKr = 0.0029\n"
-  "Vdkr = -9\n"
-  "kdkr = 8\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"

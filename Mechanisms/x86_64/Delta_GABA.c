@@ -187,8 +187,6 @@ static void initmodel() {
   int _i; double _save;_ninits++;
 {
  {
-   knockoutbd = 0.0 ;
-   vGABA = 0.0 ;
    }
 
 }
@@ -318,8 +316,6 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "INITIAL{\n"
-  "knockoutbd = 0\n"
-  "vGABA = 0\n"
   "}\n"
   "\n"
   ": B cells stim D cells. In both rat and human islets it has been shown that Sst coreleased with\n"

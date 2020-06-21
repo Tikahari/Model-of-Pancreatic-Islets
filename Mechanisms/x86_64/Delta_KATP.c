@@ -207,7 +207,6 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
   int _i; double _save;{
   iKATP = iKATP0;
  {
-   eK = - 75.0 ;
    }
 
 }
@@ -336,7 +335,6 @@ static const char* nmodl_file_text =
   "USEION KATP WRITE iKATP VALENCE 1\n"
   "USEION K READ eK\n"
   "RANGE gKATPbar\n"
-  "RANGE iKATP\n"
   "}\n"
   "\n"
   "PARAMETER{  \n"
@@ -353,11 +351,9 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "INITIAL{\n"
-  "eK = -75\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"
-  ":SOLVE states METHOD cnexp : Put current equation below this\n"
   "iKATP = gKATPbar * (v - eK)\n"
   "}\n"
   ;

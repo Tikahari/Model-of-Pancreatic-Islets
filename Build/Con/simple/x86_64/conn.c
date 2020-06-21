@@ -43,10 +43,11 @@ extern double hoc_Exp(double);
  
 #define t nrn_threads->_t
 #define dt nrn_threads->_dt
-#define Sst _p[0]
-#define w _p[1]
-#define _tsav _p[2]
+#define w _p[0]
+#define _tsav _p[1]
 #define _nd_area  *_ppvar[0]._pval
+#define Sst	*_ppvar[2]._pval
+#define _p_Sst	_ppvar[2]._pval
  
 #if MAC
 #if !defined(v)
@@ -60,7 +61,7 @@ extern double hoc_Exp(double);
 #if defined(__cplusplus)
 extern "C" {
 #endif
- static int hoc_nrnpointerindex =  -1;
+ static int hoc_nrnpointerindex =  2;
  /* external NEURON variables */
  /* declaration of user functions */
  static int _mechtype;
@@ -139,11 +140,11 @@ static void nrn_state(_NrnThread*, _Memb_list*, int);
  static const char *_mechanism[] = {
  "7.7.0",
 "A_Conn",
- "Sst",
  "w",
  0,
  0,
  0,
+ "Sst",
  0};
  
 extern Prop* need_memb(Symbol*);
@@ -156,15 +157,14 @@ static void nrn_alloc(Prop* _prop) {
 	_p = nrn_point_prop_->param;
 	_ppvar = nrn_point_prop_->dparam;
  }else{
- 	_p = nrn_prop_data_alloc(_mechtype, 3, _prop);
+ 	_p = nrn_prop_data_alloc(_mechtype, 2, _prop);
  	/*initialize range parameters*/
- 	Sst = 0;
  	w = 0;
   }
  	_prop->param = _p;
- 	_prop->param_size = 3;
+ 	_prop->param_size = 2;
   if (!nrn_point_prop_) {
- 	_ppvar = nrn_prop_datum_alloc(_mechtype, 2, _prop);
+ 	_ppvar = nrn_prop_datum_alloc(_mechtype, 3, _prop);
   }
  	_prop->dparam = _ppvar;
  	/*connect ionic variables to this model*/
@@ -191,11 +191,12 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
   hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
 #endif
-  hoc_register_prop_size(_mechtype, 3, 2);
+  hoc_register_prop_size(_mechtype, 2, 3);
   hoc_register_dparam_semantics(_mechtype, 0, "area");
   hoc_register_dparam_semantics(_mechtype, 1, "pntproc");
+  hoc_register_dparam_semantics(_mechtype, 2, "pointer");
  pnt_receive[_mechtype] = _net_receive;
- pnt_receive_size[_mechtype] = 2;
+ pnt_receive_size[_mechtype] = 1;
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
  	ivoc_help("help ?1 A_Conn /ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Con/simple/x86_64/conn.mod\n");
  hoc_register_limits(_mechtype, _hoc_parm_limits);
@@ -213,16 +214,18 @@ static void _net_receive (_pnt, _args, _lflag) Point_process* _pnt; double* _arg
 {    _p = _pnt->_prop->param; _ppvar = _pnt->_prop->dparam;
   if (_tsav > t){ extern char* hoc_object_name(); hoc_execerror(hoc_object_name(_pnt->ob), ":Event arrived out of order. Must call ParallelContext.set_maxstep AFTER assigning minimum NetCon.delay");}
  _tsav = t; {
-   Sst = Sst + _args[1] * _args[0] ;
-   w = _args[0] ;
+   Sst = Sst + _args[0] ;
    
 /*VERBATIM*/
-printf("net receive called");
+//printf("net receive called\n");
  } }
 
 static void initmodel() {
   int _i; double _save;_ninits++;
 {
+ {
+   Sst = 4.0 ;
+   }
 
 }
 }
@@ -290,20 +293,25 @@ static const char* nmodl_filename = "/ufrc/lamb/tikaharikhanal/Model-of-Pancreat
 static const char* nmodl_file_text = 
   "NEURON{\n"
   "POINT_PROCESS A_Conn\n"
-  "RANGE Sst, w\n"
+  "RANGE w\n"
+  "POINTER Sst\n"
   "}\n"
   "\n"
   "PARAMETER{\n"
-  "Sst\n"
   "w\n"
+  "Sst\n"
   "}\n"
   "\n"
-  "NET_RECEIVE(weight, Som){\n"
-  "Sst = Sst + Som*weight\n"
-  "w = weight\n"
+  "INITIAL{\n"
+  "Sst = 4 \n"
+  "}\n"
+  "\n"
+  "NET_RECEIVE(weight){\n"
+  "Sst = Sst + weight\n"
+  ":w = weight\n"
   ":state_discontinuity(Som, Som + weight)\n"
   "VERBATIM\n"
-  "printf(\"net receive called\");\n"
+  "//printf(\"net receive called\\n\");\n"
   "ENDVERBATIM\n"
   "}\n"
   ;

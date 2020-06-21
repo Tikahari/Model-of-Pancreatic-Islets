@@ -304,7 +304,6 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
   iKdr = iKdr0;
   mKdr = mKdr0;
  {
-   eK = - 75.0 ;
    }
  
 }
@@ -460,7 +459,7 @@ static const char* nmodl_file_text =
   "USEION Kdr WRITE iKdr VALENCE 1\n"
   "USEION K READ eK\n"
   "RANGE vKdrm, sKdrm, gKdr \n"
-  "RANGE mKdr_inf, tauKdrm, iKdr\n"
+  "RANGE mKdr_inf, tauKdrm\n"
   "}\n"
   "\n"
   "PARAMETER{   \n"
@@ -482,7 +481,6 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "INITIAL{\n"
-  "eK = -75\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"

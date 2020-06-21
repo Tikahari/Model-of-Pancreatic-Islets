@@ -331,7 +331,6 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
   iKa = iKa0;
   mKa = mKa0;
  {
-   eK = - 75.0 ;
    }
  
 }
@@ -489,7 +488,7 @@ static const char* nmodl_file_text =
   "USEION Ka WRITE iKa VALENCE 1\n"
   "USEION K WRITE eK VALENCE 1\n"
   "RANGE gKa, vKam, sKam, vKah, sKah, tauKam, tKah1, tKah2 \n"
-  "RANGE mKa_inf, hKa_inf, tauKah, iKa\n"
+  "RANGE mKa_inf, hKa_inf, tauKah\n"
   "}\n"
   "\n"
   "PARAMETER{   \n"
@@ -518,7 +517,6 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "INITIAL{\n"
-  "eK = -75\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"

@@ -1,6 +1,6 @@
 /* Created by Language version: 7.7.0 */
-/* NOT VECTORIZED */
-#define NRN_VECTORIZED 0
+/* VECTORIZED */
+#define NRN_VECTORIZED 1
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -31,23 +31,23 @@ extern double hoc_Exp(double);
 #define _net_receive _net_receive__A_Glucagon 
 #define states states__A_Glucagon 
  
-#define _threadargscomma_ /**/
-#define _threadargsprotocomma_ /**/
-#define _threadargs_ /**/
-#define _threadargsproto_ /**/
+#define _threadargscomma_ _p, _ppvar, _thread, _nt,
+#define _threadargsprotocomma_ double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt,
+#define _threadargs_ _p, _ppvar, _thread, _nt
+#define _threadargsproto_ double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
  	/*SUPPRESS 761*/
 	/*SUPPRESS 762*/
 	/*SUPPRESS 763*/
 	/*SUPPRESS 765*/
 	 extern double *getarg();
- static double *_p; static Datum *_ppvar;
+ /* Thread safe. No static _p or _ppvar. */
  
-#define t nrn_threads->_t
-#define dt nrn_threads->_dt
-#define iCaPQ _p[0]
-#define iCaT _p[1]
-#define iCaL _p[2]
-#define alpha _p[3]
+#define t _nt->_t
+#define dt _nt->_dt
+#define t_ _p[0]
+#define dir _p[1]
+#define Ins _p[2]
+#define alphaa _p[3]
 #define Ba _p[4]
 #define fcyta _p[5]
 #define fVpqa _p[6]
@@ -80,47 +80,57 @@ extern double hoc_Exp(double);
 #define ssom _p[33]
 #define fa _p[34]
 #define vc _p[35]
-#define JPQ _p[36]
-#define JTa _p[37]
-#define JLa _p[38]
-#define Jera _p[39]
-#define rm2a _p[40]
-#define r2a _p[41]
-#define r3a _p[42]
-#define Jsercaa _p[43]
-#define Jleaka _p[44]
-#define Jmema _p[45]
-#define JGS _p[46]
-#define ca _p[47]
-#define cera _p[48]
-#define cmdpqa _p[49]
-#define N1a _p[50]
-#define N2a _p[51]
-#define N3a _p[52]
-#define N4a _p[53]
-#define N5a _p[54]
-#define N6a _p[55]
-#define NFa _p[56]
-#define NRa _p[57]
-#define G _p[58]
-#define Dca _p[59]
-#define Dcera _p[60]
-#define Dcmdpqa _p[61]
-#define DN1a _p[62]
-#define DN2a _p[63]
-#define DN3a _p[64]
-#define DN4a _p[65]
-#define DN5a _p[66]
-#define DN6a _p[67]
-#define DNFa _p[68]
-#define DNRa _p[69]
-#define DG _p[70]
-#define _g _p[71]
+#define caerbara _p[36]
+#define ssoca _p[37]
+#define gsocbara _p[38]
+#define vsoca _p[39]
+#define G_init _p[40]
+#define iCaPQ _p[41]
+#define iCaT _p[42]
+#define iCaL _p[43]
+#define JPQ _p[44]
+#define JTa _p[45]
+#define JLa _p[46]
+#define Jera _p[47]
+#define rm2a _p[48]
+#define r2a _p[49]
+#define r3a _p[50]
+#define Jsercaa _p[51]
+#define Jleaka _p[52]
+#define Jmema _p[53]
+#define JGS _p[54]
+#define cinfa _p[55]
+#define isoca _p[56]
+#define Sst _p[57]
+#define ca _p[58]
+#define cera _p[59]
+#define cmdpqa _p[60]
+#define N1a _p[61]
+#define N2a _p[62]
+#define N3a _p[63]
+#define N4a _p[64]
+#define N5a _p[65]
+#define N6a _p[66]
+#define NFa _p[67]
+#define NRa _p[68]
+#define G _p[69]
+#define Dca _p[70]
+#define Dcera _p[71]
+#define Dcmdpqa _p[72]
+#define DN1a _p[73]
+#define DN2a _p[74]
+#define DN3a _p[75]
+#define DN4a _p[76]
+#define DN5a _p[77]
+#define DN6a _p[78]
+#define DNFa _p[79]
+#define DNRa _p[80]
+#define DG _p[81]
+#define v _p[82]
+#define _g _p[83]
 #define _ion_iCaPQ	*_ppvar[0]._pval
 #define _ion_iCaT	*_ppvar[1]._pval
 #define _ion_iCaL	*_ppvar[2]._pval
-#define Som	*_ppvar[3]._pval
-#define _p_Som	_ppvar[3]._pval
  
 #if MAC
 #if !defined(v)
@@ -134,7 +144,9 @@ extern double hoc_Exp(double);
 #if defined(__cplusplus)
 extern "C" {
 #endif
- static int hoc_nrnpointerindex =  3;
+ static int hoc_nrnpointerindex =  -1;
+ static Datum* _extcall_thread;
+ static Prop* _extcall_prop;
  /* external NEURON variables */
  /* declaration of user functions */
  static int _mechtype;
@@ -155,7 +167,7 @@ extern void hoc_reg_nmodl_filename(int, const char*);
 
  extern void _nrn_setdata_reg(int, void(*)(Prop*));
  static void _setdata(Prop* _prop) {
- _p = _prop->param; _ppvar = _prop->dparam;
+ _extcall_prop = _prop;
  }
  static void _hoc_setdata() {
  Prop *_prop, *hoc_getdata_range(int);
@@ -189,7 +201,6 @@ extern void hoc_reg_nmodl_filename(int, const char*);
  static double cera0 = 0;
  static double ca0 = 0;
  static double delta_t = 0.01;
- static double v = 0;
  /* connect global user variables to hoc */
  static DoubScal hoc_scdoub[] = {
  0,0
@@ -209,16 +220,16 @@ static void _ode_map(int, double**, double**, double*, Datum*, double*, int);
 static void _ode_spec(_NrnThread*, _Memb_list*, int);
 static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  
-#define _cvode_ieq _ppvar[4]._i
+#define _cvode_ieq _ppvar[3]._i
  static void _ode_matsol_instance1(_threadargsproto_);
  /* connect range variables in _p that hoc is supposed to know about */
  static const char *_mechanism[] = {
  "7.7.0",
 "A_Glucagon",
- "iCaPQ_A_Glucagon",
- "iCaT_A_Glucagon",
- "iCaL_A_Glucagon",
- "alpha_A_Glucagon",
+ "t__A_Glucagon",
+ "dir_A_Glucagon",
+ "Ins_A_Glucagon",
+ "alphaa_A_Glucagon",
  "Ba_A_Glucagon",
  "fcyta_A_Glucagon",
  "fVpqa_A_Glucagon",
@@ -251,7 +262,15 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  "ssom_A_Glucagon",
  "fa_A_Glucagon",
  "vc_A_Glucagon",
+ "caerbara_A_Glucagon",
+ "ssoca_A_Glucagon",
+ "gsocbara_A_Glucagon",
+ "vsoca_A_Glucagon",
+ "G_init_A_Glucagon",
  0,
+ "iCaPQ_A_Glucagon",
+ "iCaT_A_Glucagon",
+ "iCaL_A_Glucagon",
  "JPQ_A_Glucagon",
  "JTa_A_Glucagon",
  "JLa_A_Glucagon",
@@ -263,6 +282,9 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  "Jleaka_A_Glucagon",
  "Jmema_A_Glucagon",
  "JGS_A_Glucagon",
+ "cinfa_A_Glucagon",
+ "isoca_A_Glucagon",
+ "Sst_A_Glucagon",
  0,
  "ca_A_Glucagon",
  "cera_A_Glucagon",
@@ -277,7 +299,6 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  "NRa_A_Glucagon",
  "G_A_Glucagon",
  0,
- "Som_A_Glucagon",
  0};
  static Symbol* _CaPQ_sym;
  static Symbol* _CaT_sym;
@@ -288,12 +309,12 @@ extern Prop* need_memb(Symbol*);
 static void nrn_alloc(Prop* _prop) {
 	Prop *prop_ion;
 	double *_p; Datum *_ppvar;
- 	_p = nrn_prop_data_alloc(_mechtype, 72, _prop);
+ 	_p = nrn_prop_data_alloc(_mechtype, 84, _prop);
  	/*initialize range parameters*/
- 	iCaPQ = 0;
- 	iCaT = 0;
- 	iCaL = 0;
- 	alpha = 0;
+ 	t_ = 0;
+ 	dir = 0;
+ 	Ins = 0;
+ 	alphaa = 0;
  	Ba = 0;
  	fcyta = 0;
  	fVpqa = 0;
@@ -326,9 +347,14 @@ static void nrn_alloc(Prop* _prop) {
  	ssom = 0;
  	fa = 0;
  	vc = 0;
+ 	caerbara = 0;
+ 	ssoca = 0;
+ 	gsocbara = 0;
+ 	vsoca = 0;
+ 	G_init = 0;
  	_prop->param = _p;
- 	_prop->param_size = 72;
- 	_ppvar = nrn_prop_datum_alloc(_mechtype, 5, _prop);
+ 	_prop->param_size = 84;
+ 	_ppvar = nrn_prop_datum_alloc(_mechtype, 4, _prop);
  	_prop->dparam = _ppvar;
  	/*connect ionic variables to this model*/
  prop_ion = need_memb(_CaPQ_sym);
@@ -353,7 +379,7 @@ extern void hoc_register_tolerance(int, HocStateTolerance*, Symbol***);
 extern void _cvode_abstol( Symbol**, double*, int);
 
  void _Alpha_Glucagon_reg() {
-	int _vectorized = 0;
+	int _vectorized = 1;
   _initlists();
  	ion_reg("CaPQ", -10000.);
  	ion_reg("CaT", -10000.);
@@ -361,7 +387,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
  	_CaPQ_sym = hoc_lookup("CaPQ_ion");
  	_CaT_sym = hoc_lookup("CaT_ion");
  	_CaL_sym = hoc_lookup("CaL_ion");
- 	register_mech(_mechanism, nrn_alloc,nrn_cur, nrn_jacob, nrn_state, nrn_init, hoc_nrnpointerindex, 0);
+ 	register_mech(_mechanism, nrn_alloc,nrn_cur, nrn_jacob, nrn_state, nrn_init, hoc_nrnpointerindex, 1);
  _mechtype = nrn_get_mechtype(_mechanism[1]);
      _nrn_setdata_reg(_mechtype, _setdata);
      _nrn_thread_reg(_mechtype, 2, _update_ion_pointer);
@@ -369,12 +395,11 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
   hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
 #endif
-  hoc_register_prop_size(_mechtype, 72, 5);
+  hoc_register_prop_size(_mechtype, 84, 4);
   hoc_register_dparam_semantics(_mechtype, 0, "CaPQ_ion");
   hoc_register_dparam_semantics(_mechtype, 1, "CaT_ion");
   hoc_register_dparam_semantics(_mechtype, 2, "CaL_ion");
-  hoc_register_dparam_semantics(_mechtype, 3, "pointer");
-  hoc_register_dparam_semantics(_mechtype, 4, "cvodeieq");
+  hoc_register_dparam_semantics(_mechtype, 3, "cvodeieq");
  	hoc_register_cvode(_mechtype, _ode_count, _ode_map, _ode_spec, _ode_matsol);
  	hoc_register_tolerance(_mechtype, _hoc_state_tol, &_atollist);
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
@@ -396,8 +421,7 @@ static int _ode_spec1(_threadargsproto_);
  static int states(_threadargsproto_);
  
 /*CVODE*/
- static int _ode_spec1 () {_reset=0;
- {
+ static int _ode_spec1 (double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {int _reset = 0; {
    Dca = fcyta * ( Jmema + Jera ) ;
    Dcera = - fera * sigmava * Jera ;
    Dcmdpqa = fmda * JPQ - fmda * Ba * ( cmdpqa - ca ) ;
@@ -409,11 +433,11 @@ static int _ode_spec1(_threadargsproto_);
    DN6a = tmsb * ( r3a + rm2a * N5a - ( rm3a + r2a ) * N6a ) ;
    DNFa = tmsb * ( u1a * N4a - u2a * NFa ) ;
    DNRa = tmsb * ( u2a * NFa - u3a * NRa ) ;
-   DG = JGS / vc - fa * G ;
+   DG = JGS / vc - fa * G_init ;
    }
  return _reset;
 }
- static int _ode_matsol1 () {
+ static int _ode_matsol1 (double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {
  Dca = Dca  / (1. - dt*( 0.0 )) ;
  Dcera = Dcera  / (1. - dt*( 0.0 )) ;
  Dcmdpqa = Dcmdpqa  / (1. - dt*( ( - ( fmda * Ba )*( ( 1.0 ) ) ) )) ;
@@ -425,12 +449,11 @@ static int _ode_spec1(_threadargsproto_);
  DN6a = DN6a  / (1. - dt*( ( tmsb )*( ( ( - ( ( rm3a + r2a ) )*( 1.0 ) ) ) ) )) ;
  DNFa = DNFa  / (1. - dt*( ( tmsb )*( ( ( - ( u2a )*( 1.0 ) ) ) ) )) ;
  DNRa = DNRa  / (1. - dt*( ( tmsb )*( ( ( - ( u3a )*( 1.0 ) ) ) ) )) ;
- DG = DG  / (1. - dt*( ( - ( fa )*( 1.0 ) ) )) ;
+ DG = DG  / (1. - dt*( 0.0 )) ;
   return 0;
 }
  /*END CVODE*/
- static int states () {_reset=0;
- {
+ static int states (double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) { {
     ca = ca - dt*(- ( ( fcyta )*( ( Jmema + Jera ) ) ) ) ;
     cera = cera - dt*(- ( ( ( - fera )*( sigmava ) )*( Jera ) ) ) ;
     cmdpqa = cmdpqa + (1. - exp(dt*(( - ( fmda * Ba )*( ( 1.0 ) ) ))))*(- ( ( fmda )*( JPQ ) - ( ( fmda )*( Ba ) )*( ( ( - ca ) ) ) ) / ( ( - ( ( fmda )*( Ba ) )*( ( 1.0 ) ) ) ) - cmdpqa) ;
@@ -442,7 +465,7 @@ static int _ode_spec1(_threadargsproto_);
     N6a = N6a + (1. - exp(dt*(( tmsb )*( ( ( - ( ( rm3a + r2a ) )*( 1.0 ) ) ) ))))*(- ( ( tmsb )*( ( r3a + ( rm2a )*( N5a ) ) ) ) / ( ( tmsb )*( ( ( - ( ( rm3a + r2a ) )*( 1.0 ) ) ) ) ) - N6a) ;
     NFa = NFa + (1. - exp(dt*(( tmsb )*( ( ( - ( u2a )*( 1.0 ) ) ) ))))*(- ( ( tmsb )*( ( ( u1a )*( N4a ) ) ) ) / ( ( tmsb )*( ( ( - ( u2a )*( 1.0 ) ) ) ) ) - NFa) ;
     NRa = NRa + (1. - exp(dt*(( tmsb )*( ( ( - ( u3a )*( 1.0 ) ) ) ))))*(- ( ( tmsb )*( ( ( u2a )*( NFa ) ) ) ) / ( ( tmsb )*( ( ( - ( u3a )*( 1.0 ) ) ) ) ) - NRa) ;
-    G = G + (1. - exp(dt*(( - ( fa )*( 1.0 ) ))))*(- ( ( JGS ) / vc ) / ( ( - ( fa )*( 1.0 ) ) ) - G) ;
+    G = G - dt*(- ( ( JGS ) / vc - ( fa )*( G_init ) ) ) ;
    }
   return 0;
 }
@@ -450,7 +473,7 @@ static int _ode_spec1(_threadargsproto_);
 static int _ode_count(int _type){ return 12;}
  
 static void _ode_spec(_NrnThread* _nt, _Memb_list* _ml, int _type) {
-   Datum* _thread;
+   double* _p; Datum* _ppvar; Datum* _thread;
    Node* _nd; double _v; int _iml, _cntml;
   _cntml = _ml->_nodecount;
   _thread = _ml->_thread;
@@ -461,10 +484,11 @@ static void _ode_spec(_NrnThread* _nt, _Memb_list* _ml, int _type) {
   iCaPQ = _ion_iCaPQ;
   iCaT = _ion_iCaT;
   iCaL = _ion_iCaL;
-     _ode_spec1 ();
+     _ode_spec1 (_p, _ppvar, _thread, _nt);
  }}
  
 static void _ode_map(int _ieq, double** _pv, double** _pvdot, double* _pp, Datum* _ppd, double* _atol, int _type) { 
+	double* _p; Datum* _ppvar;
  	int _i; _p = _pp; _ppvar = _ppd;
 	_cvode_ieq = _ieq;
 	for (_i=0; _i < 12; ++_i) {
@@ -474,11 +498,11 @@ static void _ode_map(int _ieq, double** _pv, double** _pvdot, double* _pp, Datum
  }
  
 static void _ode_matsol_instance1(_threadargsproto_) {
- _ode_matsol1 ();
+ _ode_matsol1 (_p, _ppvar, _thread, _nt);
  }
  
 static void _ode_matsol(_NrnThread* _nt, _Memb_list* _ml, int _type) {
-   Datum* _thread;
+   double* _p; Datum* _ppvar; Datum* _thread;
    Node* _nd; double _v; int _iml, _cntml;
   _cntml = _ml->_nodecount;
   _thread = _ml->_thread;
@@ -498,11 +522,8 @@ static void _ode_matsol(_NrnThread* _nt, _Memb_list* _ml, int _type) {
    nrn_update_ion_pointer(_CaL_sym, _ppvar, 2, 3);
  }
 
-static void initmodel() {
-  int _i; double _save;_ninits++;
- _save = t;
- t = 0.0;
-{
+static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {
+  int _i; double _save;{
   G = G0;
   NRa = NRa0;
   NFa = NFa0;
@@ -516,18 +537,21 @@ static void initmodel() {
   cera = cera0;
   ca = ca0;
  {
+   t_ = 0.0 ;
+   dir = 0.0 ;
    }
-  _sav_indep = t; t = _save;
-
+ 
 }
 }
 
 static void nrn_init(_NrnThread* _nt, _Memb_list* _ml, int _type){
+double* _p; Datum* _ppvar; Datum* _thread;
 Node *_nd; double _v; int* _ni; int _iml, _cntml;
 #if CACHEVEC
     _ni = _ml->_nodeindices;
 #endif
 _cntml = _ml->_nodecount;
+_thread = _ml->_thread;
 for (_iml = 0; _iml < _cntml; ++_iml) {
  _p = _ml->_data[_iml]; _ppvar = _ml->_pdata[_iml];
 #if CACHEVEC
@@ -543,19 +567,22 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
   iCaPQ = _ion_iCaPQ;
   iCaT = _ion_iCaT;
   iCaL = _ion_iCaL;
- initmodel();
-}}
+ initmodel(_p, _ppvar, _thread, _nt);
+}
+}
 
-static double _nrn_current(double _v){double _current=0.;v=_v;{
+static double _nrn_current(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt, double _v){double _current=0.;v=_v;{
 } return _current;
 }
 
-static void nrn_cur(_NrnThread* _nt, _Memb_list* _ml, int _type){
+static void nrn_cur(_NrnThread* _nt, _Memb_list* _ml, int _type) {
+double* _p; Datum* _ppvar; Datum* _thread;
 Node *_nd; int* _ni; double _rhs, _v; int _iml, _cntml;
 #if CACHEVEC
     _ni = _ml->_nodeindices;
 #endif
 _cntml = _ml->_nodecount;
+_thread = _ml->_thread;
 for (_iml = 0; _iml < _cntml; ++_iml) {
  _p = _ml->_data[_iml]; _ppvar = _ml->_pdata[_iml];
 #if CACHEVEC
@@ -568,14 +595,18 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
     _v = NODEV(_nd);
   }
  
-}}
+}
+ 
+}
 
-static void nrn_jacob(_NrnThread* _nt, _Memb_list* _ml, int _type){
+static void nrn_jacob(_NrnThread* _nt, _Memb_list* _ml, int _type) {
+double* _p; Datum* _ppvar; Datum* _thread;
 Node *_nd; int* _ni; int _iml, _cntml;
 #if CACHEVEC
     _ni = _ml->_nodeindices;
 #endif
 _cntml = _ml->_nodecount;
+_thread = _ml->_thread;
 for (_iml = 0; _iml < _cntml; ++_iml) {
  _p = _ml->_data[_iml];
 #if CACHEVEC
@@ -588,14 +619,18 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
 	NODED(_nd) += _g;
   }
  
-}}
+}
+ 
+}
 
-static void nrn_state(_NrnThread* _nt, _Memb_list* _ml, int _type){
+static void nrn_state(_NrnThread* _nt, _Memb_list* _ml, int _type) {
+double* _p; Datum* _ppvar; Datum* _thread;
 Node *_nd; double _v = 0.0; int* _ni; int _iml, _cntml;
 #if CACHEVEC
     _ni = _ml->_nodeindices;
 #endif
 _cntml = _ml->_nodecount;
+_thread = _ml->_thread;
 for (_iml = 0; _iml < _cntml; ++_iml) {
  _p = _ml->_data[_iml]; _ppvar = _ml->_pdata[_iml];
  _nd = _ml->_nodelist[_iml];
@@ -613,20 +648,33 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
   iCaPQ = _ion_iCaPQ;
   iCaT = _ion_iCaT;
   iCaL = _ion_iCaL;
- { error =  states();
- if(error){fprintf(stderr,"at line 90 in file Alpha_Glucagon.mod:\nSOLVE states METHOD cnexp\n"); nrn_complain(_p); abort_run(error);}
- } {
-   JPQ = - alpha * iCaPQ / vmdpq ;
-   JTa = - alpha * iCaT / vcella ;
-   JLa = - alpha * iCaL / vcella ;
-   Jera = Jleaka - Jsercaa ;
-   rm2a = ( 1.0 - knockoutda ) * ra / ( 1.0 + exp ( - ( Som - sombara ) / ssom ) ) + knockoutda * rako ;
+ {   states(_p, _ppvar, _thread, _nt);
+  } {
+   if ( t_ > 2.0 ) {
+     dir = 1.0 ;
+     }
+   else if ( t_  == 0.0 ) {
+     dir = 0.0 ;
+     }
+   if ( dir  == 0.0 ) {
+     t_ = t_ + 1.0 ;
+     }
+   else {
+     t_ = t_ - 1.0 ;
+     }
+   JPQ = - alphaa * iCaPQ / vmdpq ;
+   JTa = - alphaa * iCaT / vcella ;
+   JLa = - alphaa * iCaL / vcella ;
+   rm2a = ( 1.0 - knockoutda ) * ra / ( 1.0 + exp ( - ( Sst - sombara ) / ssom ) ) + knockoutda * rako ;
    r2a = r20a * ca / ( ca + kp2a ) ;
    r3a = GlucFacta * r30a * ca / ( ca + kpa ) ;
    Jsercaa = ksercaa * ca ;
    Jleaka = pleaka * ( cera - ca ) ;
+   Jera = Jleaka - Jsercaa ;
    Jmema = JTa + JLa + fVpqa * Ba * ( cmdpqa - ca ) - kpmcaa * ca ;
    JGS = tmsb * u3a * NRa * 0.0000988 ;
+   cinfa = 1.0 / ( 1.0 + exp ( - ( cera - caerbara ) / ssoca ) ) ;
+   isoca = gsocbara * cinfa * ( v - vsoca ) ;
    }
 }}
 
@@ -634,7 +682,8 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
 
 static void terminal(){}
 
-static void _initlists() {
+static void _initlists(){
+ double _x; double* _p = &_x;
  int _i; static int _first = 1;
   if (!_first) return;
  _slist1[0] = &(ca) - _p;  _dlist1[0] = &(Dca) - _p;
@@ -652,6 +701,10 @@ static void _initlists() {
 _first = 0;
 }
 
+#if defined(__cplusplus)
+} /* extern "C" */
+#endif
+
 #if NMODL_TEXT
 static const char* nmodl_filename = "/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Mechanisms/Alpha_Glucagon.mod";
 static const char* nmodl_file_text = 
@@ -660,16 +713,18 @@ static const char* nmodl_file_text =
   "USEION CaPQ READ iCaPQ\n"
   "USEION CaT READ iCaT\n"
   "USEION CaL READ iCaL\n"
-  "POINTER Som\n"
-  "RANGE iCaPQ, iCaT, iCaL, alpha, Ba, fcyta, fVpqa, tmsb, fmda, vcella, vmdpq, kpmcaa, ksercaa, pleaka, fera, sigmava, fmda, k1a, km1a, r1a, rm1a, r20a, r30a, rm3a, u1a, u2a, u3a, kpa, kp2a, GlucFacta, knockoutda, ra, sombara, rako, ssom, fa, vc, S \n"
-  "RANGE JPQ, JTa, JLa, Jera, rm2a, r2a, r3a, Jsercaa, Jleaka, Jmema, JGS\n"
+  "RANGE alphaa, Ba, fcyta, fVpqa, tmsb, vcella, vmdpq, kpmcaa, ksercaa, pleaka, fera, sigmava, fmda, k1a, km1a, r1a, rm1a, r20a, r30a, rm3a, u1a, u2a, u3a, kpa, kp2a, GlucFacta, knockoutda, ra, sombara, rako, ssom, fa, vc, caerbara, ssoca, vsoca, gsocbara, G_init \n"
+  "RANGE iCaPQ, iCaT, iCaL, JPQ, JTa, JLa, Jera, rm2a, r2a, r3a, Jsercaa, Jleaka, Jmema, JGS, cinfa, isoca\n"
+  "RANGE Sst, Ins\n"
+  "RANGE t_, dir\n"
   "}\n"
   "\n"
   "PARAMETER{\n"
-  "iCaPQ\n"
-  "iCaT\n"
-  "iCaL\n"
-  "alpha \n"
+  ": hormone secretion variables\n"
+  "t_\n"
+  "dir\n"
+  "Ins\n"
+  "alphaa \n"
   "Ba \n"
   "fcyta \n"
   "fVpqa \n"
@@ -702,11 +757,17 @@ static const char* nmodl_file_text =
   "ssom \n"
   "fa \n"
   "vc \n"
-  "Som\n"
-  "v\n"
+  "caerbara \n"
+  "ssoca \n"
+  "gsocbara\n"
+  "vsoca \n"
+  "G_init\n"
   "}\n"
   "\n"
   "ASSIGNED{\n"
+  "iCaPQ\n"
+  "iCaT\n"
+  "iCaL\n"
   "JPQ\n"
   "JTa\n"
   "JLa\n"
@@ -718,6 +779,10 @@ static const char* nmodl_file_text =
   "Jleaka \n"
   "Jmema \n"
   "JGS \n"
+  "cinfa\n"
+  "isoca\n"
+  "Sst\n"
+  "v\n"
   "}\n"
   "\n"
   "STATE{\n"
@@ -736,21 +801,37 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "INITIAL{\n"
+  "t_ = 0\n"
+  "dir = 0\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"
-  "JPQ = -alpha*iCaPQ / vmdpq\n"
-  "JTa = -alpha*iCaT/vcella\n"
-  "JLa = -alpha*iCaL/vcella\n"
-  "Jera = Jleaka - Jsercaa\n"
-  "rm2a=(1-knockoutda)*ra/(1+exp(-(Som-sombara)/ssom))+knockoutda*rako :Delta inhibiting alpha by Sst increasing the rate of depriming of G granules.\n"
+  "if (t_ > 2){\n"
+  "dir = 1\n"
+  "}\n"
+  "else if (t_ == 0){\n"
+  "dir = 0\n"
+  "}\n"
+  "if (dir == 0){\n"
+  "t_ = t_ + 1\n"
+  "}\n"
+  "else{\n"
+  "t_ = t_ - 1\n"
+  "}\n"
+  "JPQ = -alphaa*iCaPQ / vmdpq\n"
+  "JTa = -alphaa*iCaT/vcella\n"
+  "JLa = -alphaa*iCaL/vcella\n"
+  "rm2a=(1-knockoutda)*ra/(1+exp(-(Sst-sombara)/ssom))+knockoutda*rako :Delta inhibiting alphaa by Sst increasing the rate of depriming of G granules.\n"
   "SOLVE states METHOD cnexp\n"
   "r2a = r20a*ca/(ca+kp2a)\n"
   "r3a = GlucFacta*r30a*ca/(ca+kpa)\n"
   "Jsercaa = ksercaa*ca\n"
   "Jleaka = pleaka*(cera - ca)\n"
+  "Jera = Jleaka - Jsercaa\n"
   "Jmema = JTa+JLa+fVpqa*Ba*(cmdpqa-ca)-kpmcaa*ca\n"
   "JGS = tmsb*u3a*NRa*0.0000988\n"
+  "cinfa = 1/(1 + exp(-(cera - caerbara)/ssoca))\n"
+  "isoca = gsocbara * cinfa * (v - vsoca)\n"
   "}\n"
   "\n"
   "DERIVATIVE states{\n"
@@ -765,7 +846,7 @@ static const char* nmodl_file_text =
   "N6a' = tmsb*(r3a + rm2a*N5a - (rm3a + r2a)*N6a)\n"
   "NFa' = tmsb*(u1a*N4a - u2a*NFa)\n"
   "NRa' = tmsb*(u2a*NFa - u3a*NRa)\n"
-  "G' = JGS/vc-fa*G\n"
+  "G' = JGS/vc-fa*G_init\n"
   "}\n"
   ;
 #endif

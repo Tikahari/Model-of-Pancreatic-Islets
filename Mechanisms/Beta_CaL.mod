@@ -33,17 +33,6 @@ dCaL
 }
 
 INITIAL{
-dCaL = 0.001
-f1CaL = 0.1
-f2CaL = 0.7
-gmCaL = 2700
-kdCaL = 8
-kfCaL = 8
-tf1CaL = 6.8
-tf2CaL = 65
-VdCaL = -15
-VfCaL = -25
-tdCaL = 0.41
 }
 
 BREAKPOINT{

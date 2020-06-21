@@ -8,9 +8,11 @@ v = []
 rec = {}
 header = []
 
+
 # two sections with appropriate mechanisms and connection object
 d = h.Section()
 d.insert('send')
+
 # d.insert('D_CaL')
 # d.insert('D_CaPQ')
 a = h.Section()
@@ -18,12 +20,12 @@ a.insert('receive')
 
 # following lines are most important
 syn = h.A_Conn(a(0))
-nc = h.NetCon(d(1)._ref_som_send,h.A_Conn(a(0)), 2, 3, 4)
-nc.threshold = 0
+nc = h.NetCon(d(1)._ref_som_send,syn, 2, 0, 6)
 # record netcon variables
 rec_nc = h.Vector()
 nc.record(rec_nc)
 
+h.setpointer(a(0.5)._ref_som_receive, "Sst", syn)
 
 # header.append('netcon_Sst')
 # rec['netcon_Sst'] = []
@@ -74,7 +76,7 @@ h.continuerun(5000)
 head.append('netcon')
 rec['netcon'] = []
 rec['netcon'].append(rec_nc)
-print('recorded NetCon', rec_nc[0])
+# print('recorded NetCon', rec_nc[0])
 
 with open('data/'+sys.argv[1],'w') as file:
     writer = csv.writer(file,quoting = csv.QUOTE_NONE,escapechar=' ')

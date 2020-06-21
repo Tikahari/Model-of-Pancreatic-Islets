@@ -2,7 +2,7 @@ NEURON{
 SUFFIX D_Na
 USEION Na WRITE iNa, eNa VALENCE 1
 RANGE gNa, vNam, vNah, sNam, sNah, tNah1, tNah2
-RANGE mNa_inf, hNa_inf, tauNam, tauNah, iNa
+RANGE mNa_inf, hNa_inf, tauNam, tauNah
 }
 
 PARAMETER{   
@@ -31,7 +31,6 @@ hNa
 }
 
 INITIAL{
-eNa = -70
 }
 
 BREAKPOINT{

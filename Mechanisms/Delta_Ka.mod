@@ -3,7 +3,7 @@ SUFFIX D_Ka
 USEION Ka WRITE iKa VALENCE 1
 USEION K WRITE eK VALENCE 1
 RANGE gKa, vKam, sKam, vKah, sKah, tauKam, tKah1, tKah2 
-RANGE mKa_inf, hKa_inf, tauKah, iKa
+RANGE mKa_inf, hKa_inf, tauKah
 }
 
 PARAMETER{   
@@ -32,7 +32,6 @@ hKa
 }
 
 INITIAL{
-eK = -75
 }
 
 BREAKPOINT{

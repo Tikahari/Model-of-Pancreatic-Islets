@@ -3,7 +3,7 @@ SUFFIX D_CaL
 USEION CaL WRITE iCaL VALENCE 2
 USEION Ca WRITE eCa VALENCE 2
 RANGE sCaLm, sCaLh, vCaLm, vCaLh, tCaLh1, tCaLh2, gCaL
-RANGE mCaL_inf, hCaL_inf, tauCaLm, tauCaLh, iCaL
+RANGE mCaL_inf, hCaL_inf, tauCaLm, tauCaLh
 }
 
 PARAMETER{   
@@ -14,7 +14,6 @@ vCaLh
 tCaLh1
 tCaLh2
 gCaL
-
 }
 
 ASSIGNED{
@@ -33,7 +32,6 @@ hCaL
 }
 
 INITIAL{
-eCa = 65
 }
 
 BREAKPOINT{

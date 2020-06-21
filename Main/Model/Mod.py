@@ -17,7 +17,7 @@ def getTokens(line):
             key = key[:-1]
     return {key: val}
         
-def writeMod(init, mod):
+def writeMod(ini, mod):
     types = ['Alpha', 'Beta', 'Delta']
     typ = ''
     for i in types:
@@ -25,7 +25,7 @@ def writeMod(init, mod):
             typ = i
     config = configparser.ConfigParser()
     config.optionxform = str
-    config.read(init)
+    config.read(ini)
     filer = open(mod, 'r')
     lines = filer.readlines()
     st = ''
@@ -45,8 +45,11 @@ def writeMod(init, mod):
                 # print(i)
                 count += 1
                 # if so, set line appropriately
+                print('Mod.writeMod(ini, mod) ini =', init, 'mod =', mod, 'variable to write is', i)
                 if(i.strip() in config[typ]):
                     new += i.strip() + ' = ' + str(config[typ][i.strip()]) + '\n'
+                else:
+                    new += line
             continue
         # begin when 'INITIAL' keyword is reached
         if 'INITIAL' in line:

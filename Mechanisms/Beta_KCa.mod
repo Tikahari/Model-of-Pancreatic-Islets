@@ -22,9 +22,6 @@ iKCa
 }
 
 INITIAL{
-gmKCa = 150
-KKCa = 0.2
-dKCa = 0.1
 }
 
 BREAKPOINT{

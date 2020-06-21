@@ -2,7 +2,7 @@ NEURON{
 SUFFIX A_CaL
 USEION CaL WRITE iCaL VALENCE 2
 USEION Ca WRITE eCa VALENCE 2
-RANGE iCaL, mCaL_inf, hCaL_inf, tau_mCaL, tau_hCaL
+RANGE mCaL_inf, hCaL_inf, tau_mCaL, tau_hCaL
 RANGE gCaL
 }
 
@@ -26,7 +26,6 @@ hCaL
 }
 
 INITIAL{
-eCa = 60
 }
 
 BREAKPOINT{

@@ -3,7 +3,7 @@ SUFFIX D_CaPQ
 USEION CaPQ WRITE iCaPQ VALENCE 2
 USEION Ca READ eCa
 RANGE gCaPQ, mCaPQ, hCaPQ, vCaPQm, sCaPQm, vCaPQh, sCaPQh, tCaPQh1, tCaPQh2  
-RANGE mCaPQ_inf, hCaPQ_inf, tauCaPQm, tauCaPQh, iCaPQ
+RANGE mCaPQ_inf, hCaPQ_inf, tauCaPQm, tauCaPQh
 }
 
 PARAMETER{
@@ -32,7 +32,6 @@ hCaPQ
 }
 
 INITIAL{
-eCa = 65
 }
 
 BREAKPOINT{

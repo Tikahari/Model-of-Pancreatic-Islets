@@ -218,7 +218,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
 	int _vectorized = 1;
   _initlists();
  	ion_reg("CaPQ", 2.0);
- 	ion_reg("Ca", 2.0);
+ 	ion_reg("Ca", -10000.);
  	_CaPQ_sym = hoc_lookup("CaPQ_ion");
  	_Ca_sym = hoc_lookup("Ca_ion");
  	register_mech(_mechanism, nrn_alloc,nrn_cur, nrn_jacob, nrn_state, nrn_init, hoc_nrnpointerindex, 1);
@@ -337,7 +337,6 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
    scapqh = - 5.0 ;
    tcapqh1 = 60.0 ;
    tcapqh2 = 51.0 ;
-   eCa = 65.0 ;
    }
  
 }
@@ -494,9 +493,9 @@ static const char* nmodl_file_text =
   "NEURON{\n"
   "SUFFIX A_CaPQ\n"
   "USEION CaPQ WRITE iCaPQ VALENCE 2\n"
-  "USEION Ca READ eCa VALENCE 2\n"
+  "USEION Ca READ eCa \n"
   "RANGE gcapq, vcapqm, scapqm, vcapqh, scapqh, tcapqh1, tcapqh2\n"
-  "RANGE iCaPQ, mcapqinf, hcapqinf, taucapqm, taucapqh\n"
+  "RANGE mcapqinf, hcapqinf, taucapqm, taucapqh\n"
   "}\n"
   "\n"
   "PARAMETER{\n"
@@ -534,7 +533,6 @@ static const char* nmodl_file_text =
   "scapqh = -5\n"
   "tcapqh1 = 60\n"
   "tcapqh2 = 51\n"
-  "eCa = 65\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"

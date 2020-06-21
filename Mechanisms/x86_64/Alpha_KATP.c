@@ -46,9 +46,9 @@ extern double hoc_Exp(double);
 #define knockoutba _p[0]
 #define ka1 _p[1]
 #define gKATPbara _p[2]
-#define iKATP _p[3]
-#define EffI _p[4]
-#define gKATP _p[5]
+#define EffI _p[3]
+#define gKATP _p[4]
+#define iKATP _p[5]
 #define eK _p[6]
 #define DiKATP _p[7]
 #define _g _p[8]
@@ -135,6 +135,8 @@ static void  nrn_jacob(_NrnThread*, _Memb_list*, int);
  "ka1_A_KATP",
  "gKATPbara_A_KATP",
  0,
+ "EffI_A_KATP",
+ "gKATP_A_KATP",
  0,
  "iKATP_A_KATP",
  0,
@@ -332,7 +334,7 @@ static const char* nmodl_file_text =
   "USEION KATP WRITE iKATP VALENCE 1\n"
   "USEION K READ eK\n"
   "RANGE knockoutba, ka1, gKATPbara\n"
-  "RANGE EffIa, gKATPa, iKATPa\n"
+  "RANGE EffI, gKATP\n"
   "POINTER Ins\n"
   "}\n"
   "\n"
@@ -359,6 +361,7 @@ static const char* nmodl_file_text =
   "\n"
   ": B cell modifies G secretion by increasing KATPa chan activity, so conductance of gKATPa\n"
   ": chans depends on concentration of I \n"
+  "\n"
   "BREAKPOINT{\n"
   "EffI = (1 - knockoutba) * ((0.015/(1 + exp((-Ins + 1500)/200))) + ka1) + knockoutba * ka1\n"
   "gKATP = gKATPbara * EffI\n"

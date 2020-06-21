@@ -347,19 +347,6 @@ static void initmodel() {
   dKCaB = dKCaB0;
   fKCaB = fKCaB0;
  {
-   dKCaB = 0.1 ;
-   hdk = 2.0 ;
-   gmKCaB = 25000.0 ;
-   kCaBK = 1.5 ;
-   kdKCaB = 30.0 ;
-   kfKCaB = 9.2 ;
-   fKCaB = 0.1 ;
-   tdKCaB = 1.9 ;
-   tfKCaB = 22.6 ;
-   VfKCaB = 30.0 ;
-   VBKo = 0.1 ;
-   eK = - 75.0 ;
-   kshift = 18.0 ;
    }
   _sav_indep = t; t = _save;
 
@@ -477,7 +464,7 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
  v=_v;
 {
  { error =  states();
- if(error){fprintf(stderr,"at line 64 in file Beta_BK.mod:\nSOLVE states METHOD cnexp\n"); nrn_complain(_p); abort_run(error);}
+ if(error){fprintf(stderr,"at line 50 in file Beta_BK.mod:\nSOLVE states METHOD cnexp\n"); nrn_complain(_p); abort_run(error);}
  }   _ion_eK = eK;
 }}
 
@@ -500,7 +487,6 @@ static const char* nmodl_file_text =
   "SUFFIX B_BK\n"
   "USEION BK WRITE iBK VALENCE 1\n"
   "USEION K WRITE eK VALENCE 1\n"
-  ":USEION Cac READ Caci\n"
   ":USEION Ca READ eCa\n"
   "POINTER Cac\n"
   ":USEION Vm READ Vmi\n"
@@ -539,19 +525,6 @@ static const char* nmodl_file_text =
   "\n"
   "\n"
   "INITIAL{\n"
-  "dKCaB = 0.1\n"
-  "hdk = 2\n"
-  "gmKCaB = 25000\n"
-  "kCaBK = 1.5\n"
-  "kdKCaB = 30\n"
-  "kfKCaB = 9.2\n"
-  "fKCaB = 0.1\n"
-  "tdKCaB = 1.9\n"
-  "tfKCaB = 22.6\n"
-  "VfKCaB = 30\n"
-  "VBKo = 0.1\n"
-  "eK = -75\n"
-  "kshift = 18\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"

@@ -312,10 +312,6 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
   iCaL = iCaL0;
   mCaL = mCaL0;
  {
-   eCa = 65.0 ;
-   gCaL = 0.7 ;
-   mCaL = 0.1293341713632475 ;
-   hCaL = 0.8127842536675057 ;
    }
  
 }
@@ -473,7 +469,7 @@ static const char* nmodl_file_text =
   "SUFFIX A_CaL\n"
   "USEION CaL WRITE iCaL VALENCE 2\n"
   "USEION Ca WRITE eCa VALENCE 2\n"
-  "RANGE iCaL, mCaL_inf, hCaL_inf, tau_mCaL, tau_hCaL\n"
+  "RANGE mCaL_inf, hCaL_inf, tau_mCaL, tau_hCaL\n"
   "RANGE gCaL\n"
   "}\n"
   "\n"
@@ -497,10 +493,6 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "INITIAL{\n"
-  "eCa = 65\n"
-  "gCaL = 0.7\n"
-  "mCaL = 0.1293341713632475\n"
-  "hCaL = 0.8127842536675057\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"

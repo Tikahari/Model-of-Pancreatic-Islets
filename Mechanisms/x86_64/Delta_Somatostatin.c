@@ -44,63 +44,67 @@ extern double hoc_Exp(double);
  
 #define t _nt->_t
 #define dt _nt->_dt
-#define tmsb _p[0]
-#define con _p[1]
-#define alpha _p[2]
-#define vmdl _p[3]
-#define vmdPQ _p[4]
-#define fVl _p[5]
-#define B _p[6]
-#define fVPQ _p[7]
-#define kpmca _p[8]
-#define kserca _p[9]
-#define pleak _p[10]
-#define vCaPQm _p[11]
-#define sCaPQm _p[12]
-#define vCaPQh _p[13]
-#define sCaPQh _p[14]
-#define tCaPQh1 _p[15]
-#define tCaPQh2 _p[16]
-#define tausom _p[17]
-#define bas _p[18]
-#define fcyt _p[19]
-#define fmd _p[20]
-#define fer _p[21]
-#define sigmav _p[22]
-#define vc _p[23]
-#define f _p[24]
-#define Sst_init _p[25]
-#define iCaL _p[26]
-#define iCaPQ _p[27]
-#define JL _p[28]
-#define JPQ _p[29]
-#define Jserca _p[30]
-#define Jer _p[31]
-#define mCaPQ_inf _p[32]
-#define hCaPQ_inf _p[33]
-#define tauCaPQm _p[34]
-#define tauCaPQh _p[35]
-#define Jmem _p[36]
-#define y _p[37]
-#define Jleak _p[38]
-#define som _p[39]
-#define JSS _p[40]
-#define mCaPQ _p[41]
-#define hCaPQ _p[42]
-#define c _p[43]
-#define cmdl _p[44]
-#define cmdPQ _p[45]
-#define cer _p[46]
-#define Sst _p[47]
-#define DmCaPQ _p[48]
-#define DhCaPQ _p[49]
-#define Dc _p[50]
-#define Dcmdl _p[51]
-#define DcmdPQ _p[52]
-#define Dcer _p[53]
-#define DSst _p[54]
-#define v _p[55]
-#define _g _p[56]
+#define t_ _p[0]
+#define dir _p[1]
+#define Ins _p[2]
+#define G _p[3]
+#define tmsb _p[4]
+#define con _p[5]
+#define alpha _p[6]
+#define vmdl _p[7]
+#define vmdPQ _p[8]
+#define fVl _p[9]
+#define B _p[10]
+#define fVPQ _p[11]
+#define kpmca _p[12]
+#define kserca _p[13]
+#define pleak _p[14]
+#define vCaPQm _p[15]
+#define sCaPQm _p[16]
+#define vCaPQh _p[17]
+#define sCaPQh _p[18]
+#define tCaPQh1 _p[19]
+#define tCaPQh2 _p[20]
+#define tausom _p[21]
+#define bas _p[22]
+#define fcyt _p[23]
+#define fmd _p[24]
+#define fer _p[25]
+#define sigmav _p[26]
+#define vc _p[27]
+#define f _p[28]
+#define Sst_init _p[29]
+#define iCaL _p[30]
+#define iCaPQ _p[31]
+#define JL _p[32]
+#define JPQ _p[33]
+#define Jserca _p[34]
+#define Jer _p[35]
+#define mCaPQ_inf _p[36]
+#define hCaPQ_inf _p[37]
+#define tauCaPQm _p[38]
+#define tauCaPQh _p[39]
+#define Jmem _p[40]
+#define y _p[41]
+#define Jleak _p[42]
+#define som _p[43]
+#define JSS _p[44]
+#define mCaPQ _p[45]
+#define hCaPQ _p[46]
+#define c _p[47]
+#define cmdl _p[48]
+#define cmdPQ _p[49]
+#define cer _p[50]
+#define Sst _p[51]
+#define DmCaPQ _p[52]
+#define DhCaPQ _p[53]
+#define Dc _p[54]
+#define Dcmdl _p[55]
+#define DcmdPQ _p[56]
+#define Dcer _p[57]
+#define DSst _p[58]
+#define v _p[59]
+#define _g _p[60]
 #define _ion_iCaL	*_ppvar[0]._pval
 #define _ion_iCaPQ	*_ppvar[1]._pval
  
@@ -193,6 +197,10 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  static const char *_mechanism[] = {
  "7.7.0",
 "D_Somatostatin",
+ "t__D_Somatostatin",
+ "dir_D_Somatostatin",
+ "Ins_D_Somatostatin",
+ "G_D_Somatostatin",
  "tmsb_D_Somatostatin",
  "con_D_Somatostatin",
  "alpha_D_Somatostatin",
@@ -253,8 +261,12 @@ extern Prop* need_memb(Symbol*);
 static void nrn_alloc(Prop* _prop) {
 	Prop *prop_ion;
 	double *_p; Datum *_ppvar;
- 	_p = nrn_prop_data_alloc(_mechtype, 57, _prop);
+ 	_p = nrn_prop_data_alloc(_mechtype, 61, _prop);
  	/*initialize range parameters*/
+ 	t_ = 0;
+ 	dir = 0;
+ 	Ins = 0;
+ 	G = 0;
  	tmsb = 0;
  	con = 0;
  	alpha = 0;
@@ -282,7 +294,7 @@ static void nrn_alloc(Prop* _prop) {
  	f = 0;
  	Sst_init = 0;
  	_prop->param = _p;
- 	_prop->param_size = 57;
+ 	_prop->param_size = 61;
  	_ppvar = nrn_prop_datum_alloc(_mechtype, 3, _prop);
  	_prop->dparam = _ppvar;
  	/*connect ionic variables to this model*/
@@ -320,7 +332,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
   hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
 #endif
-  hoc_register_prop_size(_mechtype, 57, 3);
+  hoc_register_prop_size(_mechtype, 61, 3);
   hoc_register_dparam_semantics(_mechtype, 0, "CaL_ion");
   hoc_register_dparam_semantics(_mechtype, 1, "CaPQ_ion");
   hoc_register_dparam_semantics(_mechtype, 2, "cvodeieq");
@@ -438,38 +450,8 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
   hCaPQ = hCaPQ0;
   mCaPQ = mCaPQ0;
  {
-   tmsb = 0.001 ;
-   con = 0.00000000594 ;
-   alpha = 5.18e-15 ;
-   vmdl = 2.12e-15 ;
-   vmdPQ = 1.41e-15 ;
-   fVl = 0.00340 ;
-   B = 1.0 ;
-   cmdl = 19.82903375122306 ;
-   c = 0.3051356309084454 ;
-   fVPQ = 0.00226 ;
-   cmdPQ = 27.93917378868966 ;
-   kpmca = 0.3 ;
-   kserca = 0.4 ;
-   pleak = 0.0003 ;
-   cer = 413.8135591677398 ;
-   mCaPQ = 0.5089033026581684 ;
-   hCaPQ = 0.6672499701175263 ;
-   vCaPQm = - 15.0 ;
-   sCaPQm = 10.0 ;
-   vCaPQh = - 33.0 ;
-   sCaPQh = - 5.0 ;
-   tCaPQh1 = 60.0 ;
-   tCaPQh2 = 51.0 ;
-   tausom = 2000.0 ;
-   bas = 0.0009 ;
-   fcyt = 0.01 ;
-   fmd = 0.01 ;
-   fer = 0.01 ;
-   sigmav = 31.0 ;
-   vc = 1e-13 ;
-   f = 0.003 ;
-   v = - 16.26895428994972 ;
+   t_ = 0.0 ;
+   dir = 0.0 ;
    }
  
 }
@@ -579,6 +561,18 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
   iCaPQ = _ion_iCaPQ;
  {   states(_p, _ppvar, _thread, _nt);
   } {
+   if ( t_ > 2.0 ) {
+     dir = 1.0 ;
+     }
+   else if ( t_  == 0.0 ) {
+     dir = 0.0 ;
+     }
+   if ( dir  == 0.0 ) {
+     t_ = t_ + 1.0 ;
+     }
+   else {
+     t_ = t_ - 1.0 ;
+     }
    JL = - alpha * iCaL / vmdl ;
    JPQ = - alpha * iCaPQ / vmdPQ ;
    Jserca = kserca * c ;
@@ -590,6 +584,7 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
    Jmem = fVl * B * ( cmdl - c ) + fVPQ * B * ( cmdPQ - c ) - kpmca * c ;
    y = pow ( cmdPQ / 200.0 , 4.0 ) / ( pow ( 0.2 , 4.0 ) + pow ( cmdPQ / 200.0 , 4.0 ) ) ;
    Jleak = pleak * ( cer - c ) ;
+   Jer = ( Jleak - Jserca ) ;
    som = ( 200.0 * mCaPQ * hCaPQ * y / tausom ) + bas ;
    JSS = tmsb * som * con ;
    }
@@ -626,9 +621,16 @@ static const char* nmodl_file_text =
   "USEION CaPQ READ iCaPQ\n"
   "RANGE iCaL, iCaPQ, tmsb, con, alpha, vmdl, vmdPQ, fVl, B, fVPQ, kpmca, kserca, pleak, vCaPQm, sCaPQm, vCaPQh, sCaPQh, tCaPQh1, tCaPQh2, tausom, bas, fcyt, fmd, fer, sigmav, vc, f, Sst_init \n"
   "RANGE JL, JPQ, Jserca, Jer, mCaPQ_inf, hCaPQ_inf, tauCaPQm, tauCaPQh, Jmem, y, Jleak, som, JSS \n"
+  "RANGE Ins, G\n"
+  "RANGE t_, dir\n"
   "}\n"
   "\n"
-  "PARAMETER{   \n"
+  "PARAMETER{  \n"
+  ": hormone secretion variables\n"
+  "t_ \n"
+  "dir\n"
+  "Ins\n"
+  "G\n"
   "tmsb\n"
   "con\n"
   "alpha \n"
@@ -687,41 +689,23 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "INITIAL{\n"
-  "tmsb = 0.001\n"
-  "con = 0.00000000594\n"
-  "alpha = 5.18e-15\n"
-  "vmdl = 2.12e-15\n"
-  "vmdPQ = 1.41e-15\n"
-  "fVl = 0.00340\n"
-  "B = 1\n"
-  "cmdl = 19.82903375122306\n"
-  "c = 0.3051356309084454\n"
-  "fVPQ = 0.00226\n"
-  "cmdPQ = 27.93917378868966\n"
-  "kpmca = 0.3\n"
-  "kserca = 0.4\n"
-  "pleak = 0.0003\n"
-  "cer = 413.8135591677398\n"
-  "mCaPQ = 0.5089033026581684\n"
-  "hCaPQ = 0.6672499701175263\n"
-  "vCaPQm = -15\n"
-  "sCaPQm = 10\n"
-  "vCaPQh = -33\n"
-  "sCaPQh = -5\n"
-  "tCaPQh1 = 60\n"
-  "tCaPQh2 = 51\n"
-  "tausom = 2000\n"
-  "bas = 0.0009\n"
-  "fcyt = 0.01\n"
-  "fmd = 0.01\n"
-  "fer = 0.01\n"
-  "sigmav = 31\n"
-  "vc = 1e-13\n"
-  "f = 0.003\n"
-  "v = -16.26895428994972\n"
+  "t_ = 0\n"
+  "dir = 0\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"
+  "if (t_ > 2){\n"
+  "dir = 1\n"
+  "}\n"
+  "else if (t_ == 0){\n"
+  "dir = 0\n"
+  "}\n"
+  "if (dir == 0){\n"
+  "t_ = t_ + 1\n"
+  "}\n"
+  "else{\n"
+  "t_ = t_ - 1\n"
+  "}\n"
   "JL = -alpha * iCaL/vmdl\n"
   "JPQ = -alpha * iCaPQ/vmdPQ\n"
   "Jserca = kserca * c\n"
@@ -734,6 +718,7 @@ static const char* nmodl_file_text =
   "Jmem = fVl * B * (cmdl - c) + fVPQ * B * (cmdPQ - c) - kpmca * c\n"
   "y = pow(cmdPQ/200,4)/(pow(0.2,4) + pow(cmdPQ/200,4))\n"
   "Jleak = pleak * (cer - c)\n"
+  "Jer = (Jleak - Jserca)\n"
   "som = (200 * mCaPQ * hCaPQ * y/tausom) + bas\n"
   "JSS = tmsb * som * con\n"
   "}\n"

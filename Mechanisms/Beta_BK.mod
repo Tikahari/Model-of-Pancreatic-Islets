@@ -40,19 +40,6 @@ fKCaB
 
 
 INITIAL{
-dKCaB = 0.1
-hdk = 2
-gmKCaB = 25000
-kCaBK = 1.5
-kdKCaB = 30
-kfKCaB = 9.2
-fKCaB = 0.1
-tdKCaB = 1.9
-tfKCaB = 22.6
-VfKCaB = 30
-VBKo = 0.1
-eK = -75
-kshift = 18
 }
 
 BREAKPOINT{

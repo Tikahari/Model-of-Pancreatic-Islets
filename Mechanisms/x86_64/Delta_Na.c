@@ -326,7 +326,6 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
   iNa = iNa0;
   mNa = mNa0;
  {
-   eNa = - 70.0 ;
    }
  
 }
@@ -484,7 +483,7 @@ static const char* nmodl_file_text =
   "SUFFIX D_Na\n"
   "USEION Na WRITE iNa, eNa VALENCE 1\n"
   "RANGE gNa, vNam, vNah, sNam, sNah, tNah1, tNah2\n"
-  "RANGE mNa_inf, hNa_inf, tauNam, tauNah, iNa\n"
+  "RANGE mNa_inf, hNa_inf, tauNam, tauNah\n"
   "}\n"
   "\n"
   "PARAMETER{   \n"
@@ -513,7 +512,6 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "INITIAL{\n"
-  "eNa = -70\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"

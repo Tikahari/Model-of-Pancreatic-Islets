@@ -7,7 +7,7 @@ SUFFIX D_GABA
 NONSPECIFIC_CURRENT iGABA
 RANGE knockoutbd, vGABA 
 RANGE gGABAbar, EffId, iGABA
-:POINTER Ins
+POINTER Ins
 }
 
 PARAMETER{   
@@ -24,8 +24,6 @@ v : This is the voltage when I run h.initial.....
 }
 
 INITIAL{
-knockoutbd = 0
-vGABA = 0
 }
 
 : B cells stim D cells. In both rat and human islets it has been shown that Sst coreleased with

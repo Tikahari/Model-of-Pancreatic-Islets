@@ -1,8 +1,8 @@
 NEURON{
 SUFFIX A_CaT
 USEION CaT WRITE iCaT VALENCE 2
-USEION Ca READ eCa
-RANGE iCaT, mCaT_inf, hCaT_inf, tau_mCaT, tau_hCaT
+USEION Ca READ eCa 
+RANGE mCaT_inf, hCaT_inf, tau_mCaT, tau_hCaT
 RANGE gCaT
 }
 

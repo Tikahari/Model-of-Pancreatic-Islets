@@ -3,12 +3,8 @@ NEURON{
     RANGE som
 }
 
-INITIAL{
-    som = 1
-}
-
-STATE{
-    som
+ASSIGNED{
+som
 }
 
 BREAKPOINT{

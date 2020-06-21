@@ -94,6 +94,8 @@ extern void hoc_reg_nmodl_filename(int, const char*);
  0, 0
 };
  /* declare global and static user variables */
+#define dir dir_send
+ double dir = 0;
  /* some parameters have upper and lower limits */
  static HocParmLimits _hoc_parm_limits[] = {
  0,0,0
@@ -105,6 +107,7 @@ extern void hoc_reg_nmodl_filename(int, const char*);
  static double v = 0;
  /* connect global user variables to hoc */
  static DoubScal hoc_scdoub[] = {
+ "dir_send", &dir_send,
  0,0
 };
  static DoubVec hoc_vdoub[] = {
@@ -174,6 +177,7 @@ static void initmodel() {
   som = som0;
  {
    som = 1.0 ;
+   dir = 0.0 ;
    }
 
 }
@@ -265,11 +269,22 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
  v=_v;
 {
  {
-   som = som + 1.0 ;
    
 /*VERBATIM*/
 //printf("send\n");
- }
+ if ( som > 2.0 ) {
+     dir = 1.0 ;
+     }
+   else if ( som < 2.0 ) {
+     dir = 0.0 ;
+     }
+   if ( dir  == 0.0 ) {
+     som = som + 1.0 ;
+     }
+   else if ( dir  == 1.0 ) {
+     som = som - 1.0 ;
+     }
+   }
 }}
 
 }
@@ -286,20 +301,39 @@ _first = 0;
 static const char* nmodl_filename = "/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Con/simple/testSend.mod";
 static const char* nmodl_file_text = 
   "NEURON{\n"
-  "    SUFFIX send\n"
-  "    RANGE som\n"
+  "SUFFIX send\n"
+  "RANGE som\n"
   "}\n"
+  "\n"
+  "PARAMETER{\n"
+  "dir\n"
+  "}\n"
+  "\n"
   "INITIAL{\n"
-  "    som = 1\n"
+  "som = 1\n"
+  "dir = 0\n"
   "}\n"
+  "\n"
   "STATE{\n"
-  "    som\n"
+  "som\n"
   "}\n"
+  "\n"
   "BREAKPOINT{\n"
-  "som = som + 1\n"
   "VERBATIM\n"
   "//printf(\"send\\n\");\n"
   "ENDVERBATIM\n"
+  "if(som > 2){\n"
+  "dir = 1\n"
+  "}\n"
+  "else if (som < 2){\n"
+  "dir = 0\n"
+  "}\n"
+  "if(dir == 0){\n"
+  "som = som + 1\n"
+  "}\n"
+  "else if (dir == 1){\n"
+  "som = som - 1\n"
+  "}\n"
   "}\n"
   ;
 #endif

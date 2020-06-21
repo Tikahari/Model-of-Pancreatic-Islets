@@ -15,11 +15,16 @@ RANGE topa3, bottom3, weight4, topa4, bottom4, weight5, topa5, bottom5, weight6,
 RANGE weight8, topa8, bottom8, weight9, topa9, bottom9, weight10, topa10, bottom10, weight11, topa11, bottom11, weight12 
 RANGE topa12, bottom12, weight13, topa13, bottom13, weight14, topa14, bottom14, weight15, topa15, topb, bottom15, weight16 
 RANGE topa16, bottom16, pfk, pfk_ms, r20, ampfactor, r3, r2, rm2b, mod_cmd, JIS 
-:POINTER G
-:POINTER Sst
+RANGE G, Sst
+RANGE t_, dir
 }
 
 PARAMETER{   
+: hormone secretion variables
+t_
+dir
+G
+Sst
 vmd 
 vcell 
 alpha 
@@ -124,8 +129,6 @@ Ins_init
 }
 
 ASSIGNED{
-G
-Sst
 minf
 iCa 
 iCaL 
@@ -239,125 +242,23 @@ Ins
 }
 
 INITIAL{
-vmd = 4.2e-3
-vcell = 1.15
-alpha = 5.18e-6
-B = 1
-cmd = 0.4188629403487558
-c = 0.0630015242008439
-kpmca = 0.2
-cbas = 0.05
-kserca2b = 0.01
-kserca3 = 0.1
-per = 0.0002
-cer = 81.57023672312617
-phigk = 0.3
-g6p = 244.936858732948
-KGPDH = 0.0005
-kappa = 0.001
-Jgk = 0.4
-fbp = 0.08283840527865462
-ADPm = 13.53015038508978
-fcyt = 0.01
-delta = 3.9/53.2 : There is an exclamation point before the delta in the model link. idk why
-p23 = 0.01
-cam = 0.01102007399722167
-p24 = 0.016
-psim = 151.1015153147079
-p21 = 0.04
-p22 = 1.1
-fer = 0.01
-sigmav = 30
-fmd = 0.01
-lambda = 0.06
-VmaxPFK = 5
-weight1 = 1
-topa1 = 0
-bottom1 = 1
-atot = 2500
-adp = 1913.096601466651
-k4 = 150
-k3 = 50000
-f43 = 20
-k2 = 1
-f42 = 20
-f23 = 0.2
-amp = 500
-k1 = 30
-f41 = 20
-f13 = 0.02
-gamma = 0.001
-p19 = 0.35
-Amtot = 15
-p20 = 2
-FRT = 96480/(310.16*8315)
-p16 = 35
-p13 = 10
-p14 = 190
-p15 = 8.5
-fmito = 0.01
-p8 = 7
-NADHm = 0.02908310367935971
-p9 = 0.1
-p10 = 177
-p11 = 5
-p17 = 0.002
-p18 = -0.03
-Cmito = 1.8
-p1 = 400
-p2 = 1
-p3 = 0.01
-NADmtot = 10
-Jgpdh_bas = 0.0005
-p4 = 0.6
-p5 = 0.1
-p6 = 177
-p7 = 5
-vm = -6
-sm = 10
-vCa = 25
-raL = 0.5
-khyd = 0.00005
-JhydSS = 0.00005
-taua = 5
-tmsb = 0.001
-u1 = 2000
-u2 = 3
-u3 = 0.02
-N1 = 4.627586868810905
-N2 = 0.2262327588817945
-N3 = 0.003661670524646639
-N4 = 2.595179480355916e-06
-N5 = 7.762125378310579
-N6 = 274.1666227230976
-NF = 0.00172689211245988
-NR = 0.3002686554719045
-gthresh = 40
-Kp2 = 2.3
-Kp = 2.3
-r30 = 1.205
-factor = 14
-amplify = 1
-bas_r3 = 0.032
-rm3 = 0.0001
-rb = 0.002
-knockoutdb = 0
-sombarb = 50
-ssomb = 15
-r1 = 0.6
-rm1 = 1
-km1 = 100
-bas_cmd = 0.06935
-max_cmd = 32
-cmdp = 4
-kcmd = 3
-exo_k1 = 20
-vc = 1e-13
-fb = 2000
-v = -71.33779976819424
+t_ = 0
+dir = 0
 }
 
 BREAKPOINT{
+if (t_ > 2){
+dir = 1
+}
+else if (t_ == 0){
+dir = 0
+}
+if (dir == 0){
+t_ = t_ + 1
+}
+else{
+t_ = t_ - 1
+}
 minf = 1/(1 + exp((vm - v)/sm))
 iCa = gCa * nCa * minf * (v - vCa)
 iCaL = raL * iCa

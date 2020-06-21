@@ -224,7 +224,6 @@ static void initmodel() {
   eGIRK = eGIRK0;
   iGIRK = iGIRK0;
  {
-   knockoutda = 0.0 ;
    }
 
 }
@@ -254,8 +253,8 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
 
 static double _nrn_current(double _v){double _current=0.;v=_v;{ {
    gGIRKbar = ( 1.0 - knockoutda ) * 0.025 + knockoutda * gGIRKko ;
-   gGIRK = gGIRKbar * EffS ;
    EffS = 1.0 / ( 1.0 + exp ( - ( Sst - sombara2 ) / ssom2 ) ) ;
+   gGIRK = gGIRKbar * EffS ;
    iGIRK = gGIRKbar * EffS * ( v - eGIRK ) ;
    }
  _current += iGIRK;
@@ -340,8 +339,8 @@ static const char* nmodl_file_text =
   "NEURON{\n"
   "SUFFIX A_GIRK\n"
   "USEION GIRK WRITE iGIRK, eGIRK VALENCE 1\n"
-  "RANGE knockoutda, gGIRKko, sombara2, ssom2, S\n"
-  "RANGE gGIRKbar, gGIRK, EffS, iGIRK\n"
+  "RANGE knockoutda, gGIRKko, sombara2, ssom2\n"
+  "RANGE gGIRKbar, gGIRK, EffS\n"
   "POINTER Sst\n"
   "}\n"
   "\n"
@@ -366,13 +365,12 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "INITIAL{\n"
-  "knockoutda = 0\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"
   "gGIRKbar = (1 - knockoutda) * 0.025 + knockoutda * gGIRKko\n"
-  "gGIRK = gGIRKbar * EffS\n"
   "EffS = 1/(1 + exp(-(Sst - sombara2)/ssom2)) : Effect of Sst \n"
+  "gGIRK = gGIRKbar * EffS \n"
   "iGIRK = gGIRKbar * EffS * (v - eGIRK)\n"
   "}\n"
   "\n"

@@ -18,8 +18,6 @@ iPCa
 }
 
 INITIAL{
-PmCaP = 5600
-kCap = 0.3
 }
 
 BREAKPOINT{
