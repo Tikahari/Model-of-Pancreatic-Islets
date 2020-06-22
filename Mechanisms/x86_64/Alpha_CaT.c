@@ -310,6 +310,9 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
   iCaT = iCaT0;
   mCaT = mCaT0;
  {
+   gCaT = 0.4 ;
+   mCaT = 0.4633857551023612 ;
+   hCaT = 0.3735421388722815 ;
    }
  
 }
@@ -491,6 +494,9 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "INITIAL{\n"
+  "gCaT = 0.4\n"
+  "mCaT = 0.4633857551023612\n"
+  "hCaT = 0.3735421388722815\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"

@@ -313,6 +313,11 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
   iKa = iKa0;
   mKa = mKa0;
  {
+   gKa = 1.0 ;
+   mKa = 0.4001652246173745 ;
+   hKa = 0.1373195977592295 ;
+   tau_mKa = 0.1 ;
+   eK = - 75.0 ;
    }
  
 }
@@ -493,6 +498,11 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "INITIAL{\n"
+  "gKa = 1\n"
+  "mKa = 0.4001652246173745\n"
+  "hKa = 0.1373195977592295\n"
+  "tau_mKa = 0.1\n"
+  "eK = -75\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"

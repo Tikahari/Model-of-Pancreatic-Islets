@@ -32,6 +32,15 @@ hCaPQ
 }
 
 INITIAL{
+gCaPQ = 0.7
+mCaPQ = 0.5089033026581684
+hCaPQ = 0.6672499701175263
+vCaPQm = -15
+sCaPQm = 10
+vCaPQh = -33
+sCaPQh = -5
+tCaPQh1 = 60
+tCaPQh2 = 51
 }
 
 BREAKPOINT{

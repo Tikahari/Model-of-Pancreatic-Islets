@@ -328,6 +328,15 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
   iCaPQ = iCaPQ0;
   mCaPQ = mCaPQ0;
  {
+   gCaPQ = 0.7 ;
+   mCaPQ = 0.5089033026581684 ;
+   hCaPQ = 0.6672499701175263 ;
+   vCaPQm = - 15.0 ;
+   sCaPQm = 10.0 ;
+   vCaPQh = - 33.0 ;
+   sCaPQh = - 5.0 ;
+   tCaPQh1 = 60.0 ;
+   tCaPQh2 = 51.0 ;
    }
  
 }
@@ -515,6 +524,15 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "INITIAL{\n"
+  "gCaPQ = 0.7\n"
+  "mCaPQ = 0.5089033026581684\n"
+  "hCaPQ = 0.6672499701175263\n"
+  "vCaPQm = -15\n"
+  "sCaPQm = 10\n"
+  "vCaPQh = -33\n"
+  "sCaPQh = -5\n"
+  "tCaPQh1 = 60\n"
+  "tCaPQh2 = 51\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"

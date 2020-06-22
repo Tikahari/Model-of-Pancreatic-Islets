@@ -19,6 +19,7 @@ iKATP
 }
 
 INITIAL{
+gKATPbar = 0.29
 }
 
 BREAKPOINT{

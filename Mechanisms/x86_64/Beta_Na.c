@@ -322,6 +322,17 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
   dNa = dNa0;
   fNa = fNa0;
  {
+   gmNa = 10000.0 ;
+   dNa = 0.1 ;
+   VdNa = - 30.0 ;
+   kdNa = 10.0 ;
+   tdNa = 0.1 ;
+   tfNa = 0.5 ;
+   fNa = 0.1 ;
+   kNar = 0.0 ;
+   eNa = 70.0 ;
+   VfNa = - 42.0 ;
+   kfNa = 6.0 ;
    }
  
 }
@@ -504,6 +515,17 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "INITIAL{\n"
+  "gmNa = 10000\n"
+  "dNa = 0.1\n"
+  "VdNa = -30\n"
+  "kdNa = 10\n"
+  "tdNa = 0.1\n"
+  "tfNa = 0.5\n"
+  "fNa = 0.1\n"
+  "kNar = 0\n"
+  "eNa = 70\n"
+  "VfNa = -42\n"
+  "kfNa = 6\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"

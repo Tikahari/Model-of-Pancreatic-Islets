@@ -217,6 +217,9 @@ static void initmodel() {
   int _i; double _save;_ninits++;
 {
  {
+   gmKCa = 150.0 ;
+   KKCa = 0.2 ;
+   dKCa = 0.1 ;
    }
 
 }
@@ -349,6 +352,9 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "INITIAL{\n"
+  "gmKCa = 150\n"
+  "KKCa = 0.2\n"
+  "dKCa = 0.1\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"

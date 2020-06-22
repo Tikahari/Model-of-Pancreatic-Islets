@@ -29,6 +29,16 @@ fCaP
 }
 
 INITIAL{
+gmCaP = 1200
+dCaP = 0.1
+fCaP = 0.1
+VfCaP = -25
+VdCaP = -5
+tdCaP = 0.41
+tfCaP = 65
+kfCaP = 8
+kdCaP = 6
+iCaP = 0
 }
 
 BREAKPOINT{

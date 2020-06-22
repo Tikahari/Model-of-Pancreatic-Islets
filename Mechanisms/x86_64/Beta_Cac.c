@@ -337,6 +337,13 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
   Cac = Cac0;
   IntCa = IntCa0;
  {
+   IntCa = 0.0 ;
+   Cac = 0.25 ;
+   fi = 0.005 ;
+   F_ca = 96480.0 ;
+   Vi = 0.764 ;
+   ksg = 0.00001 ;
+   eCa = 100.0 ;
    }
  
 }
@@ -500,6 +507,13 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "INITIAL{\n"
+  "IntCa = 0\n"
+  "Cac = 0.25\n"
+  "fi = 0.005\n"
+  "F_ca = 96480\n"
+  "Vi = 0.764\n"
+  "ksg = 0.00001\n"
+  "eCa = 100\n"
   "}\n"
   "\n"
   "\n"

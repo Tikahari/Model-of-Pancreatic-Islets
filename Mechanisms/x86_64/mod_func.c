@@ -25,6 +25,7 @@ extern void _Beta_Insulin_reg(void);
 extern void _Beta_KATP_reg(void);
 extern void _Beta_KCa_reg(void);
 extern void _Beta_KDR_reg(void);
+extern void _Beta_L_reg(void);
 extern void _Beta_NaB_reg(void);
 extern void _Beta_Na_reg(void);
 extern void _Beta_PCa_reg(void);
@@ -67,6 +68,7 @@ void modl_reg(){
     fprintf(stderr," Beta_KATP.mod");
     fprintf(stderr," Beta_KCa.mod");
     fprintf(stderr," Beta_KDR.mod");
+    fprintf(stderr," Beta_L.mod");
     fprintf(stderr," Beta_NaB.mod");
     fprintf(stderr," Beta_Na.mod");
     fprintf(stderr," Beta_PCa.mod");
@@ -106,6 +108,7 @@ void modl_reg(){
   _Beta_KATP_reg();
   _Beta_KCa_reg();
   _Beta_KDR_reg();
+  _Beta_L_reg();
   _Beta_NaB_reg();
   _Beta_Na_reg();
   _Beta_PCa_reg();

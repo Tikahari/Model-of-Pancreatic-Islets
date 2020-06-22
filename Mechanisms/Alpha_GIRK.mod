@@ -29,6 +29,11 @@ eGIRK
 }
 
 INITIAL{
+eGIRK = -80
+knockoutda = 0
+gGIRKko = 0
+sombara2 = 35
+ssom2 = 10
 }
 
 BREAKPOINT{

@@ -331,6 +331,17 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
   f2CaL = f2CaL0;
   f1CaL = f1CaL0;
  {
+   dCaL = 0.001 ;
+   f1CaL = 0.1 ;
+   f2CaL = 0.7 ;
+   gmCaL = 2700.0 ;
+   kdCaL = 8.0 ;
+   kfCaL = 8.0 ;
+   tf1CaL = 6.8 ;
+   tf2CaL = 65.0 ;
+   VdCaL = - 15.0 ;
+   VfCaL = - 25.0 ;
+   tdCaL = 0.41 ;
    }
  
 }
@@ -519,6 +530,17 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "INITIAL{\n"
+  "dCaL = 0.001\n"
+  "f1CaL = 0.1\n"
+  "f2CaL = 0.7\n"
+  "gmCaL = 2700\n"
+  "kdCaL = 8\n"
+  "kfCaL = 8\n"
+  "tf1CaL = 6.8\n"
+  "tf2CaL = 65\n"
+  "VdCaL = -15\n"
+  "VfCaL = -25\n"
+  "tdCaL = 0.41\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"

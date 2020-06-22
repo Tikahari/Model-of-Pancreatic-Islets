@@ -324,6 +324,15 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
   dKhe = dKhe0;
   fKhe = fKhe0;
  {
+   dKhe = 0.1 ;
+   fKhe = 0.1 ;
+   gmKhe = 200.0 ;
+   kdhe = 10.0 ;
+   kfhe = 17.5 ;
+   tdKhe = 100.0 ;
+   tfKhe = 50.0 ;
+   Vdhe = - 30.0 ;
+   Vfhe = - 42.0 ;
    }
  
 }
@@ -506,6 +515,15 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "INITIAL{\n"
+  "dKhe = 0.1\n"
+  "fKhe = 0.1\n"
+  "gmKhe = 200\n"
+  "kdhe = 10\n"
+  "kfhe = 17.5\n"
+  "tdKhe = 100\n"
+  "tfKhe = 50\n"
+  "Vdhe = -30\n"
+  "Vfhe = -42\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"

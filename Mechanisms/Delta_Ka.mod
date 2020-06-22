@@ -32,6 +32,17 @@ hKa
 }
 
 INITIAL{
+eK = -75
+gKa = 0.5
+vKam = -45
+sKam = 10
+vKah = -68
+sKah = -10
+tauKam = 0.1
+tKah1 = 60
+tKah2 = 5
+mKa = 0.9480884005315277
+hKa = 0.02771925786328598
 }
 
 BREAKPOINT{

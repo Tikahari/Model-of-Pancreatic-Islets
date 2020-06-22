@@ -25,6 +25,10 @@ mKdr
 }
 
 INITIAL{
+vKdrm = -25
+sKdrm = 23
+gKdr = 7.5
+mKdr = 0.5717652452166768
 }
 
 BREAKPOINT{

@@ -220,6 +220,9 @@ static void initmodel() {
 {
   iKATP = iKATP0;
  {
+   knockoutba = 0.0 ;
+   ka1 = 0.1 ;
+   gKATPbara = 3.0 ;
    }
 
 }
@@ -357,6 +360,9 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "INITIAL{\n"
+  "knockoutba = 0\n"
+  "ka1 = 0.1\n"
+  "gKATPbara = 3\n"
   "}\n"
   "\n"
   ": B cell modifies G secretion by increasing KATPa chan activity, so conductance of gKATPa\n"

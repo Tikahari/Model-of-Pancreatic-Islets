@@ -23,6 +23,13 @@ eCa
 }
 
 INITIAL{
+IntCa = 0
+Cac = 0.25
+fi = 0.005
+F_ca = 96480
+Vi = 0.764
+ksg = 0.00001
+eCa = 100
 }
 
 

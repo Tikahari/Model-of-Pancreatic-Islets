@@ -2,16 +2,17 @@ NEURON{
 SUFFIX D_Somatostatin
 USEION CaL READ iCaL
 USEION CaPQ READ iCaPQ
-RANGE iCaL, iCaPQ, tmsb, con, alpha, vmdl, vmdPQ, fVl, B, fVPQ, kpmca, kserca, pleak, vCaPQm, sCaPQm, vCaPQh, sCaPQh, tCaPQh1, tCaPQh2, tausom, bas, fcyt, fmd, fer, sigmav, vc, f, Sst_init 
+RANGE iCaL, iCaPQ, tmsb, con, alpha, vmdl, vmdPQ, fVl, B, fVPQ, kpmca, kserca, pleak, vCaPQm, sCaPQm, vCaPQh, sCaPQh, tCaPQh1, tCaPQh2, tausom, bas, fcyt, fmd, fer, sigmav, vc, f, Sst
 RANGE JL, JPQ, Jserca, Jer, mCaPQ_inf, hCaPQ_inf, tauCaPQm, tauCaPQh, Jmem, y, Jleak, som, JSS 
 RANGE Ins, G
-RANGE t_, dir
+RANGE t_, dir, temp
 }
 
 PARAMETER{  
 : hormone secretion variables
 t_ 
 dir
+temp
 Ins
 G
 tmsb
@@ -39,7 +40,6 @@ fer
 sigmav 
 vc 
 f 
-Sst_init
 }
 
 ASSIGNED{
@@ -74,6 +74,40 @@ Sst
 INITIAL{
 t_ = 0
 dir = 0
+temp = 0
+tmsb = 0.001
+con = 0.00000000594
+alpha = 5.18e-15
+vmdl = 2.12e-15
+vmdPQ = 1.41e-15
+fVl = 0.00340
+B = 1
+cmdl = 19.82903375122306
+c = 0.3051356309084454
+fVPQ = 0.00226
+cmdPQ = 27.93917378868966
+kpmca = 0.3
+kserca = 0.4
+pleak = 0.0003
+cer = 413.8135591677398
+mCaPQ = 0.5089033026581684
+hCaPQ = 0.6672499701175263
+vCaPQm = -15
+sCaPQm = 10
+vCaPQh = -33
+sCaPQh = -5
+tCaPQh1 = 60
+tCaPQh2 = 51
+tausom = 2000
+bas = 0.0009
+fcyt = 0.01
+fmd = 0.01
+fer = 0.01
+sigmav = 31
+vc = 1e-13
+f = 0.003
+Sst = 18.71318922819339
+v = -16.26895428994972
 }
 
 BREAKPOINT{
@@ -113,5 +147,5 @@ c' = fcyt * (Jmem + Jer)
 cmdl' = fmd * JL - fmd * B * (cmdl - c)
 cmdPQ' = fmd * JPQ - fmd * B * (cmdPQ-c)
 cer' = -fer * sigmav * Jer
-Sst' = JSS/vc - f * Sst_init
+Sst' = JSS/vc - f * Sst
 }

@@ -46,109 +46,109 @@ extern double hoc_Exp(double);
 #define dt _nt->_dt
 #define t_ _p[0]
 #define dir _p[1]
-#define G _p[2]
-#define Sst _p[3]
-#define vmd _p[4]
-#define vcell _p[5]
-#define alpha _p[6]
-#define B _p[7]
-#define kpmca _p[8]
-#define cbas _p[9]
-#define kserca2b _p[10]
-#define kserca3 _p[11]
-#define per _p[12]
-#define phigk _p[13]
-#define KGPDH _p[14]
-#define kappa _p[15]
-#define Jgk _p[16]
-#define fcyt _p[17]
-#define delta _p[18]
-#define p23 _p[19]
-#define p24 _p[20]
-#define psim _p[21]
-#define p21 _p[22]
-#define p22 _p[23]
-#define fer _p[24]
-#define sigmav _p[25]
-#define fmd _p[26]
-#define lambda _p[27]
-#define VmaxPFK _p[28]
-#define weight1 _p[29]
-#define topa1 _p[30]
-#define bottom1 _p[31]
-#define atot _p[32]
-#define k4 _p[33]
-#define k3 _p[34]
-#define f43 _p[35]
-#define k2 _p[36]
-#define f42 _p[37]
-#define f23 _p[38]
-#define amp _p[39]
-#define k1 _p[40]
-#define f41 _p[41]
-#define f13 _p[42]
-#define gamma _p[43]
-#define p19 _p[44]
-#define Amtot _p[45]
-#define p20 _p[46]
-#define FRT _p[47]
-#define p16 _p[48]
-#define p13 _p[49]
-#define p14 _p[50]
-#define p15 _p[51]
-#define fmito _p[52]
-#define p8 _p[53]
-#define p9 _p[54]
-#define p10 _p[55]
-#define p11 _p[56]
-#define p17 _p[57]
-#define p18 _p[58]
-#define Cmito _p[59]
-#define p1 _p[60]
-#define p2 _p[61]
-#define p3 _p[62]
-#define NADmtot _p[63]
-#define Jgpdh_bas _p[64]
-#define p4 _p[65]
-#define p5 _p[66]
-#define p6 _p[67]
-#define p7 _p[68]
-#define vm _p[69]
-#define sm _p[70]
-#define gCa _p[71]
-#define nCa _p[72]
-#define vCa _p[73]
-#define raL _p[74]
-#define khyd _p[75]
-#define JhydSS _p[76]
-#define taua _p[77]
-#define tmsb _p[78]
-#define u1 _p[79]
-#define u2 _p[80]
-#define u3 _p[81]
-#define gthresh _p[82]
-#define Kp2 _p[83]
-#define Kp _p[84]
-#define r30 _p[85]
-#define factor _p[86]
-#define amplify _p[87]
-#define bas_r3 _p[88]
-#define rm3 _p[89]
-#define rb _p[90]
-#define knockoutdb _p[91]
-#define sombarb _p[92]
-#define ssomb _p[93]
-#define r1 _p[94]
-#define rm1 _p[95]
-#define km1 _p[96]
-#define bas_cmd _p[97]
-#define max_cmd _p[98]
-#define cmdp _p[99]
-#define kcmd _p[100]
-#define exo_k1 _p[101]
-#define vc _p[102]
-#define fb _p[103]
-#define Ins_init _p[104]
+#define temp _p[2]
+#define G _p[3]
+#define Sst _p[4]
+#define vmd _p[5]
+#define vcell _p[6]
+#define alpha _p[7]
+#define B _p[8]
+#define kpmca _p[9]
+#define cbas _p[10]
+#define kserca2b _p[11]
+#define kserca3 _p[12]
+#define per _p[13]
+#define phigk _p[14]
+#define KGPDH _p[15]
+#define kappa _p[16]
+#define Jgk _p[17]
+#define fcyt _p[18]
+#define delta _p[19]
+#define p23 _p[20]
+#define p24 _p[21]
+#define psim _p[22]
+#define p21 _p[23]
+#define p22 _p[24]
+#define fer _p[25]
+#define sigmav _p[26]
+#define fmd _p[27]
+#define lambda _p[28]
+#define VmaxPFK _p[29]
+#define weight1 _p[30]
+#define topa1 _p[31]
+#define bottom1 _p[32]
+#define atot _p[33]
+#define k4 _p[34]
+#define k3 _p[35]
+#define f43 _p[36]
+#define k2 _p[37]
+#define f42 _p[38]
+#define f23 _p[39]
+#define amp _p[40]
+#define k1 _p[41]
+#define f41 _p[42]
+#define f13 _p[43]
+#define gamma _p[44]
+#define p19 _p[45]
+#define Amtot _p[46]
+#define p20 _p[47]
+#define FRT _p[48]
+#define p16 _p[49]
+#define p13 _p[50]
+#define p14 _p[51]
+#define p15 _p[52]
+#define fmito _p[53]
+#define p8 _p[54]
+#define p9 _p[55]
+#define p10 _p[56]
+#define p11 _p[57]
+#define p17 _p[58]
+#define p18 _p[59]
+#define Cmito _p[60]
+#define p1 _p[61]
+#define p2 _p[62]
+#define p3 _p[63]
+#define NADmtot _p[64]
+#define Jgpdh_bas _p[65]
+#define p4 _p[66]
+#define p5 _p[67]
+#define p6 _p[68]
+#define p7 _p[69]
+#define vm _p[70]
+#define sm _p[71]
+#define gCa _p[72]
+#define nCa _p[73]
+#define vCa _p[74]
+#define raL _p[75]
+#define khyd _p[76]
+#define JhydSS _p[77]
+#define taua _p[78]
+#define tmsb _p[79]
+#define u1 _p[80]
+#define u2 _p[81]
+#define u3 _p[82]
+#define gthresh _p[83]
+#define Kp2 _p[84]
+#define Kp _p[85]
+#define r30 _p[86]
+#define factor _p[87]
+#define amplify _p[88]
+#define bas_r3 _p[89]
+#define rm3 _p[90]
+#define rb _p[91]
+#define knockoutdb _p[92]
+#define sombarb _p[93]
+#define ssomb _p[94]
+#define r1 _p[95]
+#define rm1 _p[96]
+#define km1 _p[97]
+#define bas_cmd _p[98]
+#define max_cmd _p[99]
+#define cmdp _p[100]
+#define kcmd _p[101]
+#define exo_k1 _p[102]
+#define vc _p[103]
+#define fb _p[104]
 #define minf _p[105]
 #define iCa _p[106]
 #define iCaL _p[107]
@@ -380,6 +380,7 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
 "B_Insulin",
  "t__B_Insulin",
  "dir_B_Insulin",
+ "temp_B_Insulin",
  "G_B_Insulin",
  "Sst_B_Insulin",
  "vmd_B_Insulin",
@@ -482,7 +483,6 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  "exo_k1_B_Insulin",
  "vc_B_Insulin",
  "fb_B_Insulin",
- "Ins_init_B_Insulin",
  0,
  "minf_B_Insulin",
  "iCa_B_Insulin",
@@ -603,6 +603,7 @@ static void nrn_alloc(Prop* _prop) {
  	/*initialize range parameters*/
  	t_ = 0;
  	dir = 0;
+ 	temp = 0;
  	G = 0;
  	Sst = 0;
  	vmd = 0;
@@ -705,7 +706,6 @@ static void nrn_alloc(Prop* _prop) {
  	exo_k1 = 0;
  	vc = 0;
  	fb = 0;
- 	Ins_init = 0;
  	_prop->param = _p;
  	_prop->param_size = 232;
  	_ppvar = nrn_prop_datum_alloc(_mechtype, 1, _prop);
@@ -777,7 +777,7 @@ static int _ode_spec1(_threadargsproto_);
    DN6 = tmsb * ( r3 + rm2b * N5 - ( rm3 + r2 ) * N6 ) ;
    DNF = tmsb * ( u1 * N4 - u2 * NF ) ;
    DNR = tmsb * ( u2 * NF - u3 * NR ) ;
-   DIns = JIS / vc - fb * Ins_init ;
+   DIns = JIS / vc - fb * Ins ;
    }
  return _reset;
 }
@@ -800,7 +800,7 @@ static int _ode_spec1(_threadargsproto_);
  DN6 = DN6  / (1. - dt*( ( tmsb )*( ( ( - ( ( rm3 + r2 ) )*( 1.0 ) ) ) ) )) ;
  DNF = DNF  / (1. - dt*( ( tmsb )*( ( ( - ( u2 )*( 1.0 ) ) ) ) )) ;
  DNR = DNR  / (1. - dt*( ( tmsb )*( ( ( - ( u3 )*( 1.0 ) ) ) ) )) ;
- DIns = DIns  / (1. - dt*( 0.0 )) ;
+ DIns = DIns  / (1. - dt*( ( - ( fb )*( 1.0 ) ) )) ;
   return 0;
 }
  /*END CVODE*/
@@ -823,7 +823,7 @@ static int _ode_spec1(_threadargsproto_);
     N6 = N6 + (1. - exp(dt*(( tmsb )*( ( ( - ( ( rm3 + r2 ) )*( 1.0 ) ) ) ))))*(- ( ( tmsb )*( ( r3 + ( rm2b )*( N5 ) ) ) ) / ( ( tmsb )*( ( ( - ( ( rm3 + r2 ) )*( 1.0 ) ) ) ) ) - N6) ;
     NF = NF + (1. - exp(dt*(( tmsb )*( ( ( - ( u2 )*( 1.0 ) ) ) ))))*(- ( ( tmsb )*( ( ( u1 )*( N4 ) ) ) ) / ( ( tmsb )*( ( ( - ( u2 )*( 1.0 ) ) ) ) ) - NF) ;
     NR = NR + (1. - exp(dt*(( tmsb )*( ( ( - ( u3 )*( 1.0 ) ) ) ))))*(- ( ( tmsb )*( ( ( u2 )*( NF ) ) ) ) / ( ( tmsb )*( ( ( - ( u3 )*( 1.0 ) ) ) ) ) - NR) ;
-    Ins = Ins - dt*(- ( ( JIS ) / vc - ( fb )*( Ins_init ) ) ) ;
+    Ins = Ins + (1. - exp(dt*(( - ( fb )*( 1.0 ) ))))*(- ( ( JIS ) / vc ) / ( ( - ( fb )*( 1.0 ) ) ) - Ins) ;
    }
   return 0;
 }
@@ -892,6 +892,124 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
  {
    t_ = 0.0 ;
    dir = 0.0 ;
+   temp = 0.0 ;
+   vmd = 4.2e-3 ;
+   vcell = 1.15 ;
+   alpha = 5.18e-6 ;
+   B = 1.0 ;
+   cmd = 0.4188629403487558 ;
+   c = 0.0630015242008439 ;
+   kpmca = 0.2 ;
+   cbas = 0.05 ;
+   kserca2b = 0.01 ;
+   kserca3 = 0.1 ;
+   per = 0.0002 ;
+   cer = 81.57023672312617 ;
+   phigk = 0.3 ;
+   g6p = 244.936858732948 ;
+   KGPDH = 0.0005 ;
+   kappa = 0.001 ;
+   Jgk = 0.4 ;
+   fbp = 0.08283840527865462 ;
+   ADPm = 13.53015038508978 ;
+   fcyt = 0.01 ;
+   delta = 3.9 / 53.2 ;
+   p23 = 0.01 ;
+   cam = 0.01102007399722167 ;
+   p24 = 0.016 ;
+   psim = 151.1015153147079 ;
+   p21 = 0.04 ;
+   p22 = 1.1 ;
+   fer = 0.01 ;
+   sigmav = 30.0 ;
+   fmd = 0.01 ;
+   lambda = 0.06 ;
+   VmaxPFK = 5.0 ;
+   weight1 = 1.0 ;
+   topa1 = 0.0 ;
+   bottom1 = 1.0 ;
+   atot = 2500.0 ;
+   adp = 1913.096601466651 ;
+   k4 = 150.0 ;
+   k3 = 50000.0 ;
+   f43 = 20.0 ;
+   k2 = 1.0 ;
+   f42 = 20.0 ;
+   f23 = 0.2 ;
+   amp = 500.0 ;
+   k1 = 30.0 ;
+   f41 = 20.0 ;
+   f13 = 0.02 ;
+   gamma = 0.001 ;
+   p19 = 0.35 ;
+   Amtot = 15.0 ;
+   p20 = 2.0 ;
+   FRT = 96480.0 / ( 310.16 * 8315.0 ) ;
+   p16 = 35.0 ;
+   p13 = 10.0 ;
+   p14 = 190.0 ;
+   p15 = 8.5 ;
+   fmito = 0.01 ;
+   p8 = 7.0 ;
+   NADHm = 0.02908310367935971 ;
+   p9 = 0.1 ;
+   p10 = 177.0 ;
+   p11 = 5.0 ;
+   p17 = 0.002 ;
+   p18 = - 0.03 ;
+   Cmito = 1.8 ;
+   p1 = 400.0 ;
+   p2 = 1.0 ;
+   p3 = 0.01 ;
+   NADmtot = 10.0 ;
+   Jgpdh_bas = 0.0005 ;
+   p4 = 0.6 ;
+   p5 = 0.1 ;
+   p6 = 177.0 ;
+   p7 = 5.0 ;
+   vm = - 6.0 ;
+   sm = 10.0 ;
+   vCa = 25.0 ;
+   raL = 0.5 ;
+   khyd = 0.00005 ;
+   JhydSS = 0.00005 ;
+   taua = 5.0 ;
+   tmsb = 0.001 ;
+   u1 = 2000.0 ;
+   u2 = 3.0 ;
+   u3 = 0.02 ;
+   N1 = 4.627586868810905 ;
+   N2 = 0.2262327588817945 ;
+   N3 = 0.003661670524646639 ;
+   N4 = 2.595179480355916e-06 ;
+   N5 = 7.762125378310579 ;
+   N6 = 274.1666227230976 ;
+   NF = 0.00172689211245988 ;
+   NR = 0.3002686554719045 ;
+   gthresh = 40.0 ;
+   Kp2 = 2.3 ;
+   Kp = 2.3 ;
+   r30 = 1.205 ;
+   factor = 14.0 ;
+   amplify = 1.0 ;
+   bas_r3 = 0.032 ;
+   rm3 = 0.0001 ;
+   rb = 0.002 ;
+   knockoutdb = 0.0 ;
+   sombarb = 50.0 ;
+   ssomb = 15.0 ;
+   r1 = 0.6 ;
+   rm1 = 1.0 ;
+   km1 = 100.0 ;
+   bas_cmd = 0.06935 ;
+   max_cmd = 32.0 ;
+   cmdp = 4.0 ;
+   kcmd = 3.0 ;
+   exo_k1 = 20.0 ;
+   vc = 1e-13 ;
+   fb = 2000.0 ;
+   Ins = 48.04298494148047 ;
+   v = - 71.33779976819424 ;
    }
  
 }
@@ -1149,7 +1267,7 @@ static const char* nmodl_file_text =
   "RANGE f23, amp, k1, f41, f13, gamma, p19, Amtot, p20, FRT, p16, p13, p14, p15, fmito, p8, p9, p10, p11, p17, p18 \n"
   "RANGE Cmito, p1, p2, p3, NADmtot, Jgpdh_bas, p4, p5, p6, p7, vm, sm, gCa, nCa, vCa, raL, khyd, JhydSS, taua, tmsb \n"
   "RANGE u1, u2, u3, gthresh, Kp2, Kp, r30, factor, amplify, bas_r3, rm3, rb, knockoutdb, sombarb, ssomb, r1, rm1, km1\n"
-  "RANGE bas_cmd, max_cmd, cmdp, kcmd, exo_k1, vc, fb, Ins_init : End of parameters\n"
+  "RANGE bas_cmd, max_cmd, cmdp, kcmd, exo_k1, vc, fb, Ins : End of parameters\n"
   "RANGE minf, iCa, iCaL, iCaR, vmdcyt, JL, JR, Jmem, Jserca, Jleak, Jer, f6p, Jgpdh, Jgk_ms, JNaCa, Juni, Jmito, ATPm \n"
   "RANGE RATm, JANT, b2, JF1F0, JHatp, MM2, JHres, JHleak, NADm, JPDH, MM1, JO, atp, Jhyd, weight2, topa2, bottom2, weight3 \n"
   "RANGE topa3, bottom3, weight4, topa4, bottom4, weight5, topa5, bottom5, weight6, topa6, bottom6, weight7, topa7, bottom7 \n"
@@ -1157,13 +1275,14 @@ static const char* nmodl_file_text =
   "RANGE topa12, bottom12, weight13, topa13, bottom13, weight14, topa14, bottom14, weight15, topa15, topb, bottom15, weight16 \n"
   "RANGE topa16, bottom16, pfk, pfk_ms, r20, ampfactor, r3, r2, rm2b, mod_cmd, JIS \n"
   "RANGE G, Sst\n"
-  "RANGE t_, dir\n"
+  "RANGE t_, dir, temp\n"
   "}\n"
   "\n"
   "PARAMETER{   \n"
   ": hormone secretion variables\n"
   "t_\n"
   "dir\n"
+  "temp\n"
   "G\n"
   "Sst\n"
   "vmd \n"
@@ -1266,7 +1385,6 @@ static const char* nmodl_file_text =
   "exo_k1 \n"
   "vc \n"
   "fb \n"
-  "Ins_init \n"
   "}\n"
   "\n"
   "ASSIGNED{\n"
@@ -1385,6 +1503,124 @@ static const char* nmodl_file_text =
   "INITIAL{\n"
   "t_ = 0\n"
   "dir = 0\n"
+  "temp = 0\n"
+  "vmd = 4.2e-3\n"
+  "vcell = 1.15\n"
+  "alpha = 5.18e-6\n"
+  "B = 1\n"
+  "cmd = 0.4188629403487558\n"
+  "c = 0.0630015242008439\n"
+  "kpmca = 0.2\n"
+  "cbas = 0.05\n"
+  "kserca2b = 0.01\n"
+  "kserca3 = 0.1\n"
+  "per = 0.0002\n"
+  "cer = 81.57023672312617\n"
+  "phigk = 0.3\n"
+  "g6p = 244.936858732948\n"
+  "KGPDH = 0.0005\n"
+  "kappa = 0.001\n"
+  "Jgk = 0.4\n"
+  "fbp = 0.08283840527865462\n"
+  "ADPm = 13.53015038508978\n"
+  "fcyt = 0.01\n"
+  "delta = 3.9/53.2 : There is an exclamation point before the delta in the model link. idk why\n"
+  "p23 = 0.01\n"
+  "cam = 0.01102007399722167\n"
+  "p24 = 0.016\n"
+  "psim = 151.1015153147079\n"
+  "p21 = 0.04\n"
+  "p22 = 1.1\n"
+  "fer = 0.01\n"
+  "sigmav = 30\n"
+  "fmd = 0.01\n"
+  "lambda = 0.06\n"
+  "VmaxPFK = 5\n"
+  "weight1 = 1\n"
+  "topa1 = 0\n"
+  "bottom1 = 1\n"
+  "atot = 2500\n"
+  "adp = 1913.096601466651\n"
+  "k4 = 150\n"
+  "k3 = 50000\n"
+  "f43 = 20\n"
+  "k2 = 1\n"
+  "f42 = 20\n"
+  "f23 = 0.2\n"
+  "amp = 500\n"
+  "k1 = 30\n"
+  "f41 = 20\n"
+  "f13 = 0.02\n"
+  "gamma = 0.001\n"
+  "p19 = 0.35\n"
+  "Amtot = 15\n"
+  "p20 = 2\n"
+  "FRT = 96480/(310.16*8315)\n"
+  "p16 = 35\n"
+  "p13 = 10\n"
+  "p14 = 190\n"
+  "p15 = 8.5\n"
+  "fmito = 0.01\n"
+  "p8 = 7\n"
+  "NADHm = 0.02908310367935971\n"
+  "p9 = 0.1\n"
+  "p10 = 177\n"
+  "p11 = 5\n"
+  "p17 = 0.002\n"
+  "p18 = -0.03\n"
+  "Cmito = 1.8\n"
+  "p1 = 400\n"
+  "p2 = 1\n"
+  "p3 = 0.01\n"
+  "NADmtot = 10\n"
+  "Jgpdh_bas = 0.0005\n"
+  "p4 = 0.6\n"
+  "p5 = 0.1\n"
+  "p6 = 177\n"
+  "p7 = 5\n"
+  "vm = -6\n"
+  "sm = 10\n"
+  "vCa = 25\n"
+  "raL = 0.5\n"
+  "khyd = 0.00005\n"
+  "JhydSS = 0.00005\n"
+  "taua = 5\n"
+  "tmsb = 0.001\n"
+  "u1 = 2000\n"
+  "u2 = 3\n"
+  "u3 = 0.02\n"
+  "N1 = 4.627586868810905\n"
+  "N2 = 0.2262327588817945\n"
+  "N3 = 0.003661670524646639\n"
+  "N4 = 2.595179480355916e-06\n"
+  "N5 = 7.762125378310579\n"
+  "N6 = 274.1666227230976\n"
+  "NF = 0.00172689211245988\n"
+  "NR = 0.3002686554719045\n"
+  "gthresh = 40\n"
+  "Kp2 = 2.3\n"
+  "Kp = 2.3\n"
+  "r30 = 1.205\n"
+  "factor = 14\n"
+  "amplify = 1\n"
+  "bas_r3 = 0.032\n"
+  "rm3 = 0.0001\n"
+  "rb = 0.002\n"
+  "knockoutdb = 0\n"
+  "sombarb = 50\n"
+  "ssomb = 15\n"
+  "r1 = 0.6\n"
+  "rm1 = 1\n"
+  "km1 = 100\n"
+  "bas_cmd = 0.06935\n"
+  "max_cmd = 32\n"
+  "cmdp = 4\n"
+  "kcmd = 3\n"
+  "exo_k1 = 20\n"
+  "vc = 1e-13\n"
+  "fb = 2000\n"
+  "Ins = 48.04298494148047\n"
+  "v = -71.33779976819424\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"
@@ -1512,7 +1748,7 @@ static const char* nmodl_file_text =
   "N6' = tmsb * (r3 + rm2b * N5 - (rm3 + r2) * N6)\n"
   "NF' = tmsb * (u1 * N4 - u2 * NF)\n"
   "NR' = tmsb * (u2 * NF - u3 * NR)\n"
-  "Ins' = JIS/vc - fb * Ins_init\n"
+  "Ins' = JIS/vc - fb * Ins\n"
   "}\n"
   "\n"
   ;

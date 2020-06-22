@@ -204,6 +204,8 @@ static void initmodel() {
   int _i; double _save;_ninits++;
 {
  {
+   PmCaP = 5600.0 ;
+   kCap = 0.3 ;
    }
 
 }
@@ -329,6 +331,8 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "INITIAL{\n"
+  "PmCaP = 5600\n"
+  "kCap = 0.3\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"

@@ -226,6 +226,12 @@ static void _modl_cleanup(){ _match_recurse=1;}
 static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {
   int _i; double _save;{
  {
+   gmKATP = 65000.0 ;
+   ATP = 3600.0 ;
+   ADPf = 15.0 ;
+   kdd = 17.0 ;
+   ktt = 50.0 ;
+   ktd = 26.0 ;
    }
 
 }
@@ -376,6 +382,12 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "INITIAL{\n"
+  "gmKATP = 65000\n"
+  "ATP = 3600\n"
+  "ADPf = 15.0\n"
+  "kdd = 17\n"
+  "ktt = 50\n"
+  "ktd = 26\n"
   "}\n"
   "\n"
   "BREAKPOINT{             \n"

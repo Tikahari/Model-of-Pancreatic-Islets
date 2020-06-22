@@ -1,5 +1,5 @@
 NEURON{
-SUFFIX D_L
+SUFFIX B_L
 USEION L WRITE iL, eL VALENCE 1
 RANGE gL
 }
@@ -19,7 +19,7 @@ iL
 
 INITIAL{
 eL = -20
-gL = 0
+gL = 0.2
 }
 
 BREAKPOINT{

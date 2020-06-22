@@ -46,34 +46,34 @@ extern double hoc_Exp(double);
 #define dt _nt->_dt
 #define t_ _p[0]
 #define dir _p[1]
-#define Ins _p[2]
-#define G _p[3]
-#define tmsb _p[4]
-#define con _p[5]
-#define alpha _p[6]
-#define vmdl _p[7]
-#define vmdPQ _p[8]
-#define fVl _p[9]
-#define B _p[10]
-#define fVPQ _p[11]
-#define kpmca _p[12]
-#define kserca _p[13]
-#define pleak _p[14]
-#define vCaPQm _p[15]
-#define sCaPQm _p[16]
-#define vCaPQh _p[17]
-#define sCaPQh _p[18]
-#define tCaPQh1 _p[19]
-#define tCaPQh2 _p[20]
-#define tausom _p[21]
-#define bas _p[22]
-#define fcyt _p[23]
-#define fmd _p[24]
-#define fer _p[25]
-#define sigmav _p[26]
-#define vc _p[27]
-#define f _p[28]
-#define Sst_init _p[29]
+#define temp _p[2]
+#define Ins _p[3]
+#define G _p[4]
+#define tmsb _p[5]
+#define con _p[6]
+#define alpha _p[7]
+#define vmdl _p[8]
+#define vmdPQ _p[9]
+#define fVl _p[10]
+#define B _p[11]
+#define fVPQ _p[12]
+#define kpmca _p[13]
+#define kserca _p[14]
+#define pleak _p[15]
+#define vCaPQm _p[16]
+#define sCaPQm _p[17]
+#define vCaPQh _p[18]
+#define sCaPQh _p[19]
+#define tCaPQh1 _p[20]
+#define tCaPQh2 _p[21]
+#define tausom _p[22]
+#define bas _p[23]
+#define fcyt _p[24]
+#define fmd _p[25]
+#define fer _p[26]
+#define sigmav _p[27]
+#define vc _p[28]
+#define f _p[29]
 #define iCaL _p[30]
 #define iCaPQ _p[31]
 #define JL _p[32]
@@ -199,6 +199,7 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
 "D_Somatostatin",
  "t__D_Somatostatin",
  "dir_D_Somatostatin",
+ "temp_D_Somatostatin",
  "Ins_D_Somatostatin",
  "G_D_Somatostatin",
  "tmsb_D_Somatostatin",
@@ -226,7 +227,6 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  "sigmav_D_Somatostatin",
  "vc_D_Somatostatin",
  "f_D_Somatostatin",
- "Sst_init_D_Somatostatin",
  0,
  "iCaL_D_Somatostatin",
  "iCaPQ_D_Somatostatin",
@@ -265,6 +265,7 @@ static void nrn_alloc(Prop* _prop) {
  	/*initialize range parameters*/
  	t_ = 0;
  	dir = 0;
+ 	temp = 0;
  	Ins = 0;
  	G = 0;
  	tmsb = 0;
@@ -292,7 +293,6 @@ static void nrn_alloc(Prop* _prop) {
  	sigmav = 0;
  	vc = 0;
  	f = 0;
- 	Sst_init = 0;
  	_prop->param = _p;
  	_prop->param_size = 61;
  	_ppvar = nrn_prop_datum_alloc(_mechtype, 3, _prop);
@@ -364,7 +364,7 @@ static int _ode_spec1(_threadargsproto_);
    Dcmdl = fmd * JL - fmd * B * ( cmdl - c ) ;
    DcmdPQ = fmd * JPQ - fmd * B * ( cmdPQ - c ) ;
    Dcer = - fer * sigmav * Jer ;
-   DSst = JSS / vc - f * Sst_init ;
+   DSst = JSS / vc - f * Sst ;
    }
  return _reset;
 }
@@ -375,7 +375,7 @@ static int _ode_spec1(_threadargsproto_);
  Dcmdl = Dcmdl  / (1. - dt*( ( - ( fmd * B )*( ( 1.0 ) ) ) )) ;
  DcmdPQ = DcmdPQ  / (1. - dt*( ( - ( fmd * B )*( ( 1.0 ) ) ) )) ;
  Dcer = Dcer  / (1. - dt*( 0.0 )) ;
- DSst = DSst  / (1. - dt*( 0.0 )) ;
+ DSst = DSst  / (1. - dt*( ( - ( f )*( 1.0 ) ) )) ;
   return 0;
 }
  /*END CVODE*/
@@ -386,7 +386,7 @@ static int _ode_spec1(_threadargsproto_);
     cmdl = cmdl + (1. - exp(dt*(( - ( fmd * B )*( ( 1.0 ) ) ))))*(- ( ( fmd )*( JL ) - ( ( fmd )*( B ) )*( ( ( - c ) ) ) ) / ( ( - ( ( fmd )*( B ) )*( ( 1.0 ) ) ) ) - cmdl) ;
     cmdPQ = cmdPQ + (1. - exp(dt*(( - ( fmd * B )*( ( 1.0 ) ) ))))*(- ( ( fmd )*( JPQ ) - ( ( fmd )*( B ) )*( ( ( - c ) ) ) ) / ( ( - ( ( fmd )*( B ) )*( ( 1.0 ) ) ) ) - cmdPQ) ;
     cer = cer - dt*(- ( ( ( - fer )*( sigmav ) )*( Jer ) ) ) ;
-    Sst = Sst - dt*(- ( ( JSS ) / vc - ( f )*( Sst_init ) ) ) ;
+    Sst = Sst + (1. - exp(dt*(( - ( f )*( 1.0 ) ))))*(- ( ( JSS ) / vc ) / ( ( - ( f )*( 1.0 ) ) ) - Sst) ;
    }
   return 0;
 }
@@ -452,6 +452,40 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
  {
    t_ = 0.0 ;
    dir = 0.0 ;
+   temp = 0.0 ;
+   tmsb = 0.001 ;
+   con = 0.00000000594 ;
+   alpha = 5.18e-15 ;
+   vmdl = 2.12e-15 ;
+   vmdPQ = 1.41e-15 ;
+   fVl = 0.00340 ;
+   B = 1.0 ;
+   cmdl = 19.82903375122306 ;
+   c = 0.3051356309084454 ;
+   fVPQ = 0.00226 ;
+   cmdPQ = 27.93917378868966 ;
+   kpmca = 0.3 ;
+   kserca = 0.4 ;
+   pleak = 0.0003 ;
+   cer = 413.8135591677398 ;
+   mCaPQ = 0.5089033026581684 ;
+   hCaPQ = 0.6672499701175263 ;
+   vCaPQm = - 15.0 ;
+   sCaPQm = 10.0 ;
+   vCaPQh = - 33.0 ;
+   sCaPQh = - 5.0 ;
+   tCaPQh1 = 60.0 ;
+   tCaPQh2 = 51.0 ;
+   tausom = 2000.0 ;
+   bas = 0.0009 ;
+   fcyt = 0.01 ;
+   fmd = 0.01 ;
+   fer = 0.01 ;
+   sigmav = 31.0 ;
+   vc = 1e-13 ;
+   f = 0.003 ;
+   Sst = 18.71318922819339 ;
+   v = - 16.26895428994972 ;
    }
  
 }
@@ -619,16 +653,17 @@ static const char* nmodl_file_text =
   "SUFFIX D_Somatostatin\n"
   "USEION CaL READ iCaL\n"
   "USEION CaPQ READ iCaPQ\n"
-  "RANGE iCaL, iCaPQ, tmsb, con, alpha, vmdl, vmdPQ, fVl, B, fVPQ, kpmca, kserca, pleak, vCaPQm, sCaPQm, vCaPQh, sCaPQh, tCaPQh1, tCaPQh2, tausom, bas, fcyt, fmd, fer, sigmav, vc, f, Sst_init \n"
+  "RANGE iCaL, iCaPQ, tmsb, con, alpha, vmdl, vmdPQ, fVl, B, fVPQ, kpmca, kserca, pleak, vCaPQm, sCaPQm, vCaPQh, sCaPQh, tCaPQh1, tCaPQh2, tausom, bas, fcyt, fmd, fer, sigmav, vc, f, Sst\n"
   "RANGE JL, JPQ, Jserca, Jer, mCaPQ_inf, hCaPQ_inf, tauCaPQm, tauCaPQh, Jmem, y, Jleak, som, JSS \n"
   "RANGE Ins, G\n"
-  "RANGE t_, dir\n"
+  "RANGE t_, dir, temp\n"
   "}\n"
   "\n"
   "PARAMETER{  \n"
   ": hormone secretion variables\n"
   "t_ \n"
   "dir\n"
+  "temp\n"
   "Ins\n"
   "G\n"
   "tmsb\n"
@@ -656,7 +691,6 @@ static const char* nmodl_file_text =
   "sigmav \n"
   "vc \n"
   "f \n"
-  "Sst_init\n"
   "}\n"
   "\n"
   "ASSIGNED{\n"
@@ -691,6 +725,40 @@ static const char* nmodl_file_text =
   "INITIAL{\n"
   "t_ = 0\n"
   "dir = 0\n"
+  "temp = 0\n"
+  "tmsb = 0.001\n"
+  "con = 0.00000000594\n"
+  "alpha = 5.18e-15\n"
+  "vmdl = 2.12e-15\n"
+  "vmdPQ = 1.41e-15\n"
+  "fVl = 0.00340\n"
+  "B = 1\n"
+  "cmdl = 19.82903375122306\n"
+  "c = 0.3051356309084454\n"
+  "fVPQ = 0.00226\n"
+  "cmdPQ = 27.93917378868966\n"
+  "kpmca = 0.3\n"
+  "kserca = 0.4\n"
+  "pleak = 0.0003\n"
+  "cer = 413.8135591677398\n"
+  "mCaPQ = 0.5089033026581684\n"
+  "hCaPQ = 0.6672499701175263\n"
+  "vCaPQm = -15\n"
+  "sCaPQm = 10\n"
+  "vCaPQh = -33\n"
+  "sCaPQh = -5\n"
+  "tCaPQh1 = 60\n"
+  "tCaPQh2 = 51\n"
+  "tausom = 2000\n"
+  "bas = 0.0009\n"
+  "fcyt = 0.01\n"
+  "fmd = 0.01\n"
+  "fer = 0.01\n"
+  "sigmav = 31\n"
+  "vc = 1e-13\n"
+  "f = 0.003\n"
+  "Sst = 18.71318922819339\n"
+  "v = -16.26895428994972\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"
@@ -730,7 +798,7 @@ static const char* nmodl_file_text =
   "cmdl' = fmd * JL - fmd * B * (cmdl - c)\n"
   "cmdPQ' = fmd * JPQ - fmd * B * (cmdPQ-c)\n"
   "cer' = -fer * sigmav * Jer\n"
-  "Sst' = JSS/vc - f * Sst_init\n"
+  "Sst' = JSS/vc - f * Sst\n"
   "}\n"
   ;
 #endif

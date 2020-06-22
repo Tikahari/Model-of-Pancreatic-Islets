@@ -308,6 +308,10 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
   iNa = iNa0;
   mNa = mNa0;
  {
+   eNa = 70.0 ;
+   gNa = 11.0 ;
+   mNa = 0.007938786735335676 ;
+   hNa = 0.2498175179717122 ;
    }
  
 }
@@ -488,6 +492,10 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "INITIAL{\n"
+  "eNa = 70\n"
+  "gNa = 11\n"
+  "mNa = 0.007938786735335676\n"
+  "hNa = 0.2498175179717122\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"

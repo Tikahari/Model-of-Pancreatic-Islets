@@ -347,6 +347,16 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
   dCaP = dCaP0;
   fCaP = fCaP0;
  {
+   gmCaP = 1200.0 ;
+   dCaP = 0.1 ;
+   fCaP = 0.1 ;
+   VfCaP = - 25.0 ;
+   VdCaP = - 5.0 ;
+   tdCaP = 0.41 ;
+   tfCaP = 65.0 ;
+   kfCaP = 8.0 ;
+   kdCaP = 6.0 ;
+   iCaP = 0.0 ;
    }
  
 }
@@ -529,6 +539,16 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "INITIAL{\n"
+  "gmCaP = 1200\n"
+  "dCaP = 0.1\n"
+  "fCaP = 0.1\n"
+  "VfCaP = -25\n"
+  "VdCaP = -5\n"
+  "tdCaP = 0.41\n"
+  "tfCaP = 65\n"
+  "kfCaP = 8\n"
+  "kdCaP = 6\n"
+  "iCaP = 0\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"

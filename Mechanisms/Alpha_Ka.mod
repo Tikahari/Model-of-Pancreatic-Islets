@@ -26,6 +26,11 @@ hKa
 }
 
 INITIAL{
+gKa = 1
+mKa = 0.4001652246173745
+hKa = 0.1373195977592295
+tau_mKa = 0.1
+eK = -75
 }
 
 BREAKPOINT{

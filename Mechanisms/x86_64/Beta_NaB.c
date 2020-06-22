@@ -205,6 +205,7 @@ static void _modl_cleanup(){ _match_recurse=1;}
 static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {
   int _i; double _save;{
  {
+   gBNa = 10.0 ;
    }
 
 }
@@ -346,6 +347,7 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "INITIAL{\n"
+  "gBNa = 10.0\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"

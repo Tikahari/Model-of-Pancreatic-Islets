@@ -31,6 +31,16 @@ hNa
 }
 
 INITIAL{
+eNa = 70
+gNa = 5
+vNam = -30
+vNah = -52
+sNam = 4
+sNah = -8
+tNah1 = 120
+tNah2 = 0.5
+mNa = 0.9737137320580179
+hNa = 0.006777955247303555
 }
 
 BREAKPOINT{

@@ -26,6 +26,9 @@ iKATP
 }
 
 INITIAL{
+knockoutba = 0
+ka1 = 0.1
+gKATPbara = 3
 }
 
 : B cell modifies G secretion by increasing KATPa chan activity, so conductance of gKATPa

@@ -304,6 +304,10 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
   iKdr = iKdr0;
   mKdr = mKdr0;
  {
+   vKdrm = - 25.0 ;
+   sKdrm = 23.0 ;
+   gKdr = 7.5 ;
+   mKdr = 0.5717652452166768 ;
    }
  
 }
@@ -481,6 +485,10 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "INITIAL{\n"
+  "vKdrm = -25\n"
+  "sKdrm = 23\n"
+  "gKdr = 7.5\n"
+  "mKdr = 0.5717652452166768\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"

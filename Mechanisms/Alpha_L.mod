@@ -18,6 +18,8 @@ iL
 }
 
 INITIAL{
+eL = -20
+gL = 0.2
 }
 
 BREAKPOINT{

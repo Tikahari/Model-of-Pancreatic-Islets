@@ -149,52 +149,63 @@ nc = {'AB': [], 'BA': [], 'AD': [], 'DA': [], 'BD': [], 'DB': []}
 
 # Delta to Alpha
 print('connect delta to alpha')
-# syn = h.A_Syn(a(0))
-# nc['DA'].append(h.NetCon(d(1)._ref_t__D_Somatostatin, syn, 2, 0, 6, sec=d))
+syn = h.A_Syn(a(0))
+nc['DA'].append(h.NetCon(d(1)._ref_t__D_Somatostatin, syn, 2, 0, 6, sec=d))
 # define pointers
-# h.setpointer(d(1)._ref_som_D_Somatostatin, "Sst_send", syn)
-# h.setpointer(a(0)._ref_Sst_A_Glucagon, "Sst_receive", syn)
+h.setpointer(d(1)._ref_som_D_Somatostatin, "Sst_send", syn)
+h.setpointer(a(0)._ref_Sst_A_Glucagon, "Sst_receive", syn)
+h.setpointer(d(1)._ref_temp_D_Somatostatin, "Ins_send", syn)
+h.setpointer(d(1)._ref_temp_D_Somatostatin, "Ins_receive", syn)
 
-# # Beta to Alpha
-# print('connect beta to alpha')
-# syn = h.A_Syn(a(0))
-# nc['BA'].append(h.NetCon(b(1)._ref_t__B_Insulin, syn, 2, 0, 6, sec=b))
-# # set pointers
-# h.setpointer(b(1)._ref_Ins_B_Insulin, "Ins_send", syn)
-# h.setpointer(a(0)._ref_Ins_A_Glucagon, "Ins_receive", syn)  
+# Beta to Alpha
+print('connect beta to alpha')
+syn = h.A_Syn(a(0))
+nc['BA'].append(h.NetCon(b(1)._ref_t__B_Insulin, syn, 2, 0, 6, sec=b))
+# set pointers
+h.setpointer(b(1)._ref_Ins_B_Insulin, "Ins_send", syn)
+h.setpointer(a(0)._ref_Ins_A_Glucagon, "Ins_receive", syn)  
+h.setpointer(b(1)._ref_temp_B_Insulin, "Sst_send", syn)
+h.setpointer(b(1)._ref_temp_B_Insulin, "Sst_receive", syn)
 
-# # Alpha to Beta
-# print('connect alpha to beta')
-# syn = h.B_Syn(b(0))
-# nc['AB'].append(h.NetCon(a(1)._ref_t__A_Glucagon, syn, 2, 0, 6, sec=a))
-# # set pointers
-# h.setpointer(a(1)._ref_G_A_Glucagon, "Gluc_send", syn)
-# h.setpointer(b(0)._ref_G_B_Insulin, "Gluc_receive", syn)        
+# Alpha to Beta
+print('connect alpha to beta')
+syn = h.B_Syn(b(0))
+nc['AB'].append(h.NetCon(a(1)._ref_t__A_Glucagon, syn, 2, 0, 6, sec=a))
+# set pointers
+h.setpointer(a(1)._ref_G_A_Glucagon, "Gluc_send", syn)
+h.setpointer(b(0)._ref_G_B_Insulin, "Gluc_receive", syn)        
+h.setpointer(a(1)._ref_temp_A_Glucagon, "Sst_send", syn)
+h.setpointer(a(1)._ref_temp_A_Glucagon, "Sst_receive", syn)
 
-# # Delta to Beta
-# print('connect delta to beta')
-# syn = h.B_Syn(b(0))
-# nc['DB'].append(h.NetCon(d(1)._ref_t__D_Somatostatin, syn, 2, 0, 6, sec=d))
-# # set pointers
-# h.setpointer(d(1)._ref_Sst_D_Somatostatin, "Sst_send", syn)
-# h.setpointer(b(0)._ref_Sst_B_Insulin, "Sst_receive", syn)     
+# Delta to Beta
+print('connect delta to beta')
+syn = h.B_Syn(b(0))
+nc['DB'].append(h.NetCon(d(1)._ref_t__D_Somatostatin, syn, 2, 0, 6, sec=d))
+# set pointers
+h.setpointer(d(1)._ref_Sst_D_Somatostatin, "Sst_send", syn)
+h.setpointer(b(0)._ref_Sst_B_Insulin, "Sst_receive", syn)     
+h.setpointer(d(1)._ref_temp_D_Somatostatin, "Gluc_send", syn)
+h.setpointer(d(1)._ref_temp_D_Somatostatin, "Gluc_receive", syn)
 
-# # Alpha to Delta
-# print('connect alpha to delta')
-# syn = h.D_Syn(d(0))
-# nc['AD'].append(h.NetCon(a(1)._ref_t__A_Glucagon, syn, 2, 0, 6, sec=a))
-# # set pointers
-# h.setpointer(a(1)._ref_G_A_Glucagon, "Gluc_send", syn)
-# h.setpointer(d(0)._ref_G_D_Somatostatin, "Gluc_receive", syn)
+# Alpha to Delta
+print('connect alpha to delta')
+syn = h.D_Syn(d(0))
+nc['AD'].append(h.NetCon(a(1)._ref_t__A_Glucagon, syn, 2, 0, 6, sec=a))
+# set pointers
+h.setpointer(a(1)._ref_G_A_Glucagon, "Gluc_send", syn)
+h.setpointer(d(0)._ref_G_D_Somatostatin, "Gluc_receive", syn)
+h.setpointer(a(1)._ref_temp_A_Glucagon, "Ins_send", syn)
+h.setpointer(a(1)._ref_temp_A_Glucagon, "Ins_receive", syn)
 
-# # Beta to Delta
-# print('connect beta to delta')
-# syn = h.D_Syn(d(0))
-# nc['BD'].append(h.NetCon(b(1)._ref_t__B_Insulin, syn, 2, 0, 6, sec=b))
-# # set pointers
-# h.setpointer(b(1)._ref_Ins_B_Insulin, "Ins_send", syn)
-# h.setpointer(d(0)._ref_Ins_D_Somatostatin, "Ins_receive", syn) 
-
+# Beta to Delta
+print('connect beta to delta')
+syn = h.D_Syn(d(0))
+nc['BD'].append(h.NetCon(b(1)._ref_t__B_Insulin, syn, 2, 0, 6, sec=b))
+# set pointers
+h.setpointer(b(1)._ref_Ins_B_Insulin, "Ins_send", syn)
+h.setpointer(d(0)._ref_Ins_D_Somatostatin, "Ins_receive", syn) 
+h.setpointer(b(1)._ref_temp_B_Insulin, "Gluc_send", syn)
+h.setpointer(b(1)._ref_temp_B_Insulin, "Gluc_receive", syn)
 
 # fix header / record voltage of every segment for each cell type
 
@@ -235,11 +246,13 @@ headd.extend(headerd)
 headd.append(tempd)
 
 t = h.Vector().record(h._ref_t)
+print('initialize')
 h.finitialize()
+print('simulate')
 h.continuerun(2500)
 
 # Write results to 3 csv's. One for each cell type
-
+print('write data')
 # Alpha
 with open('data/watts_Alpha.csv','w') as file:
     writer = csv.writer(file,quoting = csv.QUOTE_NONE,escapechar=' ')

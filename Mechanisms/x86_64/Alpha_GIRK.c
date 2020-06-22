@@ -224,6 +224,11 @@ static void initmodel() {
   eGIRK = eGIRK0;
   iGIRK = iGIRK0;
  {
+   eGIRK = - 80.0 ;
+   knockoutda = 0.0 ;
+   gGIRKko = 0.0 ;
+   sombara2 = 35.0 ;
+   ssom2 = 10.0 ;
    }
 
 }
@@ -365,6 +370,11 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "INITIAL{\n"
+  "eGIRK = -80\n"
+  "knockoutda = 0\n"
+  "gGIRKko = 0\n"
+  "sombara2 = 35\n"
+  "ssom2 = 10\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"

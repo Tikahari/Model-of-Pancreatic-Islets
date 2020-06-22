@@ -32,6 +32,16 @@ hCaL
 }
 
 INITIAL{
+eCa = 65
+gCaL = 0.7
+mCaL = 0.8218051702003508
+hCaL = 0.6672499701175263
+sCaLm = 10
+sCaLh = -5
+vCaLm = -30
+vCaLh = -33
+tCaLh1 = 60
+tCaLh2 = 51
 }
 
 BREAKPOINT{

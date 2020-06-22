@@ -46,45 +46,45 @@ extern double hoc_Exp(double);
 #define dt _nt->_dt
 #define t_ _p[0]
 #define dir _p[1]
-#define Ins _p[2]
-#define alphaa _p[3]
-#define Ba _p[4]
-#define fcyta _p[5]
-#define fVpqa _p[6]
-#define tmsb _p[7]
-#define vcella _p[8]
-#define vmdpq _p[9]
-#define kpmcaa _p[10]
-#define ksercaa _p[11]
-#define pleaka _p[12]
-#define fera _p[13]
-#define sigmava _p[14]
-#define fmda _p[15]
-#define k1a _p[16]
-#define km1a _p[17]
-#define r1a _p[18]
-#define rm1a _p[19]
-#define r20a _p[20]
-#define r30a _p[21]
-#define rm3a _p[22]
-#define u1a _p[23]
-#define u2a _p[24]
-#define u3a _p[25]
-#define kpa _p[26]
-#define kp2a _p[27]
-#define GlucFacta _p[28]
-#define knockoutda _p[29]
-#define ra _p[30]
-#define sombara _p[31]
-#define rako _p[32]
-#define ssom _p[33]
-#define fa _p[34]
-#define vc _p[35]
-#define caerbara _p[36]
-#define ssoca _p[37]
-#define gsocbara _p[38]
-#define vsoca _p[39]
-#define G_init _p[40]
+#define temp _p[2]
+#define Ins _p[3]
+#define alphaa _p[4]
+#define Ba _p[5]
+#define fcyta _p[6]
+#define fVpqa _p[7]
+#define tmsb _p[8]
+#define vcella _p[9]
+#define vmdpq _p[10]
+#define kpmcaa _p[11]
+#define ksercaa _p[12]
+#define pleaka _p[13]
+#define fera _p[14]
+#define sigmava _p[15]
+#define fmda _p[16]
+#define k1a _p[17]
+#define km1a _p[18]
+#define r1a _p[19]
+#define rm1a _p[20]
+#define r20a _p[21]
+#define r30a _p[22]
+#define rm3a _p[23]
+#define u1a _p[24]
+#define u2a _p[25]
+#define u3a _p[26]
+#define kpa _p[27]
+#define kp2a _p[28]
+#define GlucFacta _p[29]
+#define knockoutda _p[30]
+#define ra _p[31]
+#define sombara _p[32]
+#define rako _p[33]
+#define ssom _p[34]
+#define fa _p[35]
+#define vc _p[36]
+#define caerbara _p[37]
+#define ssoca _p[38]
+#define gsocbara _p[39]
+#define vsoca _p[40]
 #define iCaPQ _p[41]
 #define iCaT _p[42]
 #define iCaL _p[43]
@@ -228,6 +228,7 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
 "A_Glucagon",
  "t__A_Glucagon",
  "dir_A_Glucagon",
+ "temp_A_Glucagon",
  "Ins_A_Glucagon",
  "alphaa_A_Glucagon",
  "Ba_A_Glucagon",
@@ -266,7 +267,6 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  "ssoca_A_Glucagon",
  "gsocbara_A_Glucagon",
  "vsoca_A_Glucagon",
- "G_init_A_Glucagon",
  0,
  "iCaPQ_A_Glucagon",
  "iCaT_A_Glucagon",
@@ -313,6 +313,7 @@ static void nrn_alloc(Prop* _prop) {
  	/*initialize range parameters*/
  	t_ = 0;
  	dir = 0;
+ 	temp = 0;
  	Ins = 0;
  	alphaa = 0;
  	Ba = 0;
@@ -351,7 +352,6 @@ static void nrn_alloc(Prop* _prop) {
  	ssoca = 0;
  	gsocbara = 0;
  	vsoca = 0;
- 	G_init = 0;
  	_prop->param = _p;
  	_prop->param_size = 84;
  	_ppvar = nrn_prop_datum_alloc(_mechtype, 4, _prop);
@@ -433,7 +433,7 @@ static int _ode_spec1(_threadargsproto_);
    DN6a = tmsb * ( r3a + rm2a * N5a - ( rm3a + r2a ) * N6a ) ;
    DNFa = tmsb * ( u1a * N4a - u2a * NFa ) ;
    DNRa = tmsb * ( u2a * NFa - u3a * NRa ) ;
-   DG = JGS / vc - fa * G_init ;
+   DG = JGS / vc - fa * G ;
    }
  return _reset;
 }
@@ -449,7 +449,7 @@ static int _ode_spec1(_threadargsproto_);
  DN6a = DN6a  / (1. - dt*( ( tmsb )*( ( ( - ( ( rm3a + r2a ) )*( 1.0 ) ) ) ) )) ;
  DNFa = DNFa  / (1. - dt*( ( tmsb )*( ( ( - ( u2a )*( 1.0 ) ) ) ) )) ;
  DNRa = DNRa  / (1. - dt*( ( tmsb )*( ( ( - ( u3a )*( 1.0 ) ) ) ) )) ;
- DG = DG  / (1. - dt*( 0.0 )) ;
+ DG = DG  / (1. - dt*( ( - ( fa )*( 1.0 ) ) )) ;
   return 0;
 }
  /*END CVODE*/
@@ -465,7 +465,7 @@ static int _ode_spec1(_threadargsproto_);
     N6a = N6a + (1. - exp(dt*(( tmsb )*( ( ( - ( ( rm3a + r2a ) )*( 1.0 ) ) ) ))))*(- ( ( tmsb )*( ( r3a + ( rm2a )*( N5a ) ) ) ) / ( ( tmsb )*( ( ( - ( ( rm3a + r2a ) )*( 1.0 ) ) ) ) ) - N6a) ;
     NFa = NFa + (1. - exp(dt*(( tmsb )*( ( ( - ( u2a )*( 1.0 ) ) ) ))))*(- ( ( tmsb )*( ( ( u1a )*( N4a ) ) ) ) / ( ( tmsb )*( ( ( - ( u2a )*( 1.0 ) ) ) ) ) - NFa) ;
     NRa = NRa + (1. - exp(dt*(( tmsb )*( ( ( - ( u3a )*( 1.0 ) ) ) ))))*(- ( ( tmsb )*( ( ( u2a )*( NFa ) ) ) ) / ( ( tmsb )*( ( ( - ( u3a )*( 1.0 ) ) ) ) ) - NRa) ;
-    G = G - dt*(- ( ( JGS ) / vc - ( fa )*( G_init ) ) ) ;
+    G = G + (1. - exp(dt*(( - ( fa )*( 1.0 ) ))))*(- ( ( JGS ) / vc ) / ( ( - ( fa )*( 1.0 ) ) ) - G) ;
    }
   return 0;
 }
@@ -539,6 +539,56 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
  {
    t_ = 0.0 ;
    dir = 0.0 ;
+   temp = 0.0 ;
+   alphaa = 5.18e-15 ;
+   Ba = 1.0 ;
+   fcyta = 0.01 ;
+   fVpqa = 0.00226 ;
+   tmsb = 0.001 ;
+   vcella = 0.624e-12 ;
+   vmdpq = 1.41e-15 ;
+   cmdpqa = 11.51299890826233 ;
+   ca = 0.3449148387259899 ;
+   kpmcaa = 0.3 ;
+   ksercaa = 0.05 ;
+   pleaka = 0.0003 ;
+   cera = 58.71698724650182 ;
+   N1a = 1.057203539612775e-05 ;
+   N2a = 2.113947666062938e-05 ;
+   N3a = 2.388848788981755e-05 ;
+   N4a = 2.391806975716259e-06 ;
+   N5a = 0.008850176609826538 ;
+   N6a = 12.69715161782077 ;
+   NFa = 0.001724142875712899 ;
+   NRa = 0.1927364884362762 ;
+   fera = 0.01 ;
+   sigmava = 31.0 ;
+   fmda = 0.01 ;
+   k1a = 20.0 ;
+   km1a = 100.0 ;
+   r1a = 0.6 ;
+   rm1a = 1.0 ;
+   r20a = 0.006 ;
+   r30a = 1.205 ;
+   rm3a = 0.0001 ;
+   u1a = 2000.0 ;
+   u2a = 3.0 ;
+   u3a = 0.025 ;
+   kpa = 2.3 ;
+   kp2a = 2.3 ;
+   GlucFacta = 0.05 ;
+   knockoutda = 0.0 ;
+   ra = 4.5 ;
+   sombara = 50.0 ;
+   rako = 0.001 ;
+   ssom = 15.0 ;
+   fa = 150.0 ;
+   vc = 1e-13 ;
+   caerbara = 70.0 ;
+   ssoca = - 20.0 ;
+   vsoca = 0.0 ;
+   gsocbara = 0.025 ;
+   v = - 49.03736299581227 ;
    }
  
 }
@@ -713,16 +763,17 @@ static const char* nmodl_file_text =
   "USEION CaPQ READ iCaPQ\n"
   "USEION CaT READ iCaT\n"
   "USEION CaL READ iCaL\n"
-  "RANGE alphaa, Ba, fcyta, fVpqa, tmsb, vcella, vmdpq, kpmcaa, ksercaa, pleaka, fera, sigmava, fmda, k1a, km1a, r1a, rm1a, r20a, r30a, rm3a, u1a, u2a, u3a, kpa, kp2a, GlucFacta, knockoutda, ra, sombara, rako, ssom, fa, vc, caerbara, ssoca, vsoca, gsocbara, G_init \n"
+  "RANGE alphaa, Ba, fcyta, fVpqa, tmsb, vcella, vmdpq, kpmcaa, ksercaa, pleaka, fera, sigmava, fmda, k1a, km1a, r1a, rm1a, r20a, r30a, rm3a, u1a, u2a, u3a, kpa, kp2a, GlucFacta, knockoutda, ra, sombara, rako, ssom, fa, vc, caerbara, ssoca, vsoca, gsocbara, G \n"
   "RANGE iCaPQ, iCaT, iCaL, JPQ, JTa, JLa, Jera, rm2a, r2a, r3a, Jsercaa, Jleaka, Jmema, JGS, cinfa, isoca\n"
   "RANGE Sst, Ins\n"
-  "RANGE t_, dir\n"
+  "RANGE t_, dir, temp\n"
   "}\n"
   "\n"
   "PARAMETER{\n"
   ": hormone secretion variables\n"
   "t_\n"
   "dir\n"
+  "temp\n"
   "Ins\n"
   "alphaa \n"
   "Ba \n"
@@ -761,7 +812,6 @@ static const char* nmodl_file_text =
   "ssoca \n"
   "gsocbara\n"
   "vsoca \n"
-  "G_init\n"
   "}\n"
   "\n"
   "ASSIGNED{\n"
@@ -803,6 +853,56 @@ static const char* nmodl_file_text =
   "INITIAL{\n"
   "t_ = 0\n"
   "dir = 0\n"
+  "temp = 0\n"
+  "alphaa = 5.18e-15\n"
+  "Ba = 1\n"
+  "fcyta = 0.01\n"
+  "fVpqa = 0.00226\n"
+  "tmsb = 0.001\n"
+  "vcella = 0.624e-12\n"
+  "vmdpq = 1.41e-15\n"
+  "cmdpqa = 11.51299890826233\n"
+  "ca = 0.3449148387259899\n"
+  "kpmcaa = 0.3\n"
+  "ksercaa = 0.05\n"
+  "pleaka = 0.0003\n"
+  "cera = 58.71698724650182\n"
+  "N1a = 1.057203539612775e-05\n"
+  "N2a = 2.113947666062938e-05\n"
+  "N3a = 2.388848788981755e-05\n"
+  "N4a = 2.391806975716259e-06\n"
+  "N5a = 0.008850176609826538\n"
+  "N6a = 12.69715161782077\n"
+  "NFa = 0.001724142875712899\n"
+  "NRa = 0.1927364884362762\n"
+  "fera = 0.01\n"
+  "sigmava = 31\n"
+  "fmda = 0.01\n"
+  "k1a = 20\n"
+  "km1a = 100\n"
+  "r1a = 0.6\n"
+  "rm1a = 1\n"
+  "r20a = 0.006\n"
+  "r30a = 1.205\n"
+  "rm3a = 0.0001\n"
+  "u1a = 2000\n"
+  "u2a = 3\n"
+  "u3a = 0.025\n"
+  "kpa = 2.3\n"
+  "kp2a = 2.3\n"
+  "GlucFacta = 0.05\n"
+  "knockoutda = 0\n"
+  "ra = 4.5\n"
+  "sombara = 50\n"
+  "rako = 0.001\n"
+  "ssom = 15\n"
+  "fa = 150\n"
+  "vc = 1e-13\n"
+  "caerbara = 70\n"
+  "ssoca = -20\n"
+  "vsoca = 0\n"
+  "gsocbara = 0.025\n"
+  "v = -49.03736299581227\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"
@@ -846,7 +946,7 @@ static const char* nmodl_file_text =
   "N6a' = tmsb*(r3a + rm2a*N5a - (rm3a + r2a)*N6a)\n"
   "NFa' = tmsb*(u1a*N4a - u2a*NFa)\n"
   "NRa' = tmsb*(u2a*NFa - u3a*NRa)\n"
-  "G' = JGS/vc-fa*G_init\n"
+  "G' = JGS/vc-fa*G\n"
   "}\n"
   ;
 #endif
