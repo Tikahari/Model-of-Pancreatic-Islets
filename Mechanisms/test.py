@@ -98,12 +98,11 @@ mp = {'Alpha': a, "Beta": b, "Delta": d}
 for i in pointers:
     for j in pointers[i]:
         for k in pointers[i][j]:
-            print('i', i, 'j', j, 'k', k)
             for seg in mp[i]:
                 temp = k.split('_')
                 point_to = i[0].upper() + "_"+j
                 point_from = "_ref_"+temp[0]+"_" + i[0].upper() + "_"+temp[2]
-                print('point from', point_from, "point to", point_to, "temp[0]", temp[0])
+                print('create pointer which points from', point_from, 'to', temp[0], 'in', point_to)
                 from_ = getattr(seg, point_from)
                 to_ = getattr(seg, point_to)
                 h.setpointer(from_, temp[0], to_)
@@ -150,7 +149,10 @@ nc = {'AB': [], 'BA': [], 'AD': [], 'DA': [], 'BD': [], 'DB': []}
 # Delta to Alpha
 print('connect delta to alpha')
 syn = h.A_Syn(a(0))
-nc['DA'].append(h.NetCon(d(1)._ref_t__D_Somatostatin, syn, 2, 0, 6, sec=d))
+nc_temp = h.NetCon(d(1)._ref_t__D_Somatostatin, syn, 2, 0, 6, sec=d)
+nc_record = h.Vector()
+nc_temp.record(nc_record)
+nc['DA'].append(nc_record)
 # define pointers
 h.setpointer(d(1)._ref_som_D_Somatostatin, "Sst_send", syn)
 h.setpointer(a(0)._ref_Sst_A_Glucagon, "Sst_receive", syn)
@@ -160,7 +162,10 @@ h.setpointer(d(1)._ref_temp_D_Somatostatin, "Ins_receive", syn)
 # Beta to Alpha
 print('connect beta to alpha')
 syn = h.A_Syn(a(0))
-nc['BA'].append(h.NetCon(b(1)._ref_t__B_Insulin, syn, 2, 0, 6, sec=b))
+nc_temp = h.NetCon(b(1)._ref_t__B_Insulin, syn, 2, 0, 6, sec=b)
+nc_record = h.Vector()
+nc_temp.record(nc_record)
+nc['BA'].append(nc_record)
 # set pointers
 h.setpointer(b(1)._ref_Ins_B_Insulin, "Ins_send", syn)
 h.setpointer(a(0)._ref_Ins_A_Glucagon, "Ins_receive", syn)  
@@ -170,7 +175,10 @@ h.setpointer(b(1)._ref_temp_B_Insulin, "Sst_receive", syn)
 # Alpha to Beta
 print('connect alpha to beta')
 syn = h.B_Syn(b(0))
-nc['AB'].append(h.NetCon(a(1)._ref_t__A_Glucagon, syn, 2, 0, 6, sec=a))
+nc_temp = h.NetCon(a(1)._ref_t__A_Glucagon, syn, 2, 0, 6, sec=a)
+nc_record = h.Vector()
+nc_temp.record(nc_record)
+nc['AB'].append(nc_record)
 # set pointers
 h.setpointer(a(1)._ref_G_A_Glucagon, "Gluc_send", syn)
 h.setpointer(b(0)._ref_G_B_Insulin, "Gluc_receive", syn)        
@@ -180,7 +188,10 @@ h.setpointer(a(1)._ref_temp_A_Glucagon, "Sst_receive", syn)
 # Delta to Beta
 print('connect delta to beta')
 syn = h.B_Syn(b(0))
-nc['DB'].append(h.NetCon(d(1)._ref_t__D_Somatostatin, syn, 2, 0, 6, sec=d))
+nc_temp = h.NetCon(d(1)._ref_t__D_Somatostatin, syn, 2, 0, 6, sec=d)
+nc_record = h.Vector()
+nc_temp.record(nc_record)
+nc['DB'].append(nc_record)
 # set pointers
 h.setpointer(d(1)._ref_Sst_D_Somatostatin, "Sst_send", syn)
 h.setpointer(b(0)._ref_Sst_B_Insulin, "Sst_receive", syn)     
@@ -190,7 +201,10 @@ h.setpointer(d(1)._ref_temp_D_Somatostatin, "Gluc_receive", syn)
 # Alpha to Delta
 print('connect alpha to delta')
 syn = h.D_Syn(d(0))
-nc['AD'].append(h.NetCon(a(1)._ref_t__A_Glucagon, syn, 2, 0, 6, sec=a))
+nc_temp = h.NetCon(a(1)._ref_t__A_Glucagon, syn, 2, 0, 6, sec=a)
+nc_record = h.Vector()
+nc_temp.record(nc_record)
+nc['AD'].append(nc_record)
 # set pointers
 h.setpointer(a(1)._ref_G_A_Glucagon, "Gluc_send", syn)
 h.setpointer(d(0)._ref_G_D_Somatostatin, "Gluc_receive", syn)
@@ -200,7 +214,10 @@ h.setpointer(a(1)._ref_temp_A_Glucagon, "Ins_receive", syn)
 # Beta to Delta
 print('connect beta to delta')
 syn = h.D_Syn(d(0))
-nc['BD'].append(h.NetCon(b(1)._ref_t__B_Insulin, syn, 2, 0, 6, sec=b))
+nc_temp = h.NetCon(b(1)._ref_t__B_Insulin, syn, 2, 0, 6, sec=b)
+nc_record = h.Vector()
+nc_temp.record(nc_record)
+nc['BD'].append(nc_record)
 # set pointers
 h.setpointer(b(1)._ref_Ins_B_Insulin, "Ins_send", syn)
 h.setpointer(d(0)._ref_Ins_D_Somatostatin, "Ins_receive", syn) 
@@ -289,3 +306,19 @@ with open('data/watts_Delta.csv','w') as file:
         # print(len(rec), len(out), len(header))
         writer.writerow(out)
 
+# Netcon
+m = 0
+for i in nc:
+    if len(nc[i][0]) > m:
+        m = len(nc[i][0])
+headnet = ['DA', 'BA', 'AB', 'DB', 'AD', 'BD']
+
+with open('data/netcon.csv', 'w') as file:
+    writer = csv.writer(file,quoting = csv.QUOTE_NONE,escapechar=' ')
+    writer.writerow(headnet)
+    for i in range(m):
+        out = []
+        for j in nc:
+            if len(nc[j][0]) > i:
+                out.append(nc[j][0][i])
+        writer.writerow(out)

@@ -79,13 +79,13 @@ class Space:
     def RandomSetup(self):
         c = 0
         while c < self.d:
-            typ = self.getCell(random.random())
             # x/y/z coordinates
             pos = random.sample(range(0, self.d), 3)
             # check if cell exists
             if(self.cs[pos[0]][pos[1]][pos[2]] == None):
                 continue
             # if position is vacant, add cell to space
+            typ = self.getCell(random.random(), x, y, z)
             cell = Cell.Cell(c, pos[0], pos[1], pos[2], typ)
             self.cs[pos[0]][pos[1]][pos[2]] = cell
             # store type and position
@@ -140,8 +140,11 @@ class Space:
             if i.type == 'A' and j.type == 'D':
                 print('Space.connectCell(self, i) i =', i, 'Connecting delta cell to alpha cell: cell ids', j, i)
                 # set netcon object
-                self.nc['DA'].append(Islet.neuron.h.NetCon(j.cell(1)._ref_t__D_Somatostatin, syn, 2, 0, 6, sec=j.cell))
-                # define pointers
+                nc_temp = Islet.neuron.h.NetCon(j.cell(1)._ref_t__D_Somatostatin, syn, 2, 0, 6, sec=j.cell)
+                nc_record = Islet.neuron.h.Vector()
+                nc_temp.record(nc_record)
+                self.nc['DA'].append(nc_record)
+                # set pointers
                 Islet.neuron.h.setpointer(j.cell(1)._ref_som_D_Somatostatin, "Sst_send", syn)
                 # Islet.neuron.h.setpointer(j.cell(1)._ref_Ins_B_Insulin, "Ins_send", syn)
                 Islet.neuron.h.setpointer(i.cell(0)._ref_Sst_A_Glucagon, "Sst_receive", syn)
@@ -149,7 +152,10 @@ class Space:
             elif i.type == 'D' and j.type == 'A':
                 print('Space.connectCell(self, i) i =', i, 'Connecting alpha cell to delta cell: cell ids', j, i)
                 # set netcon object
-                self.nc['AD'].append(Islet.neuron.h.NetCon(j.cell(1)._ref_t__A_Glucagon, syn, 2, 0, 6, sec=j.cell))
+                nc_temp = Islet.neuron.h.NetCon(j.cell(1)._ref_t__A_Glucagon, syn, 2, 0, 6, sec=j.cell)
+                nc_record = Islet.neuron.h.Vector()
+                nc_temp.record(nc_record)
+                self.nc['AD'].append(nc_record)
                 # set pointers
                 Islet.neuron.h.setpointer(j.cell(1)._ref_G_A_Glucagon, "Gluc_send", syn)
                 # Islet.neuron.h.setpointer(j.cell(1)._ref_Ins_B_Insulin, "Ins_send", syn)
@@ -157,25 +163,41 @@ class Space:
                 # Islet.neuron.h.setpointer(j.cell(1)._ref_Sst_A_KATP, "Ins_receive", syn)                   
             elif i.type == 'A' and j.type == 'B':
                 print('Space.connectCell(self, i) i =', i, 'Connecting beta cell to alpha cell: cell ids', j, i)
-                self.nc['BA'].append(Islet.neuron.h.NetCon(j.cell(1)._ref_t__B_Insulin, syn, 2, 0, 6, sec=j.cell))
+                # set netcon object
+                nc_temp = Islet.neuron.h.NetCon(j.cell(1)._ref_t__B_Insulin, syn, 2, 0, 6, sec=j.cell)
+                nc_record = Islet.neuron.h.Vector()
+                nc_temp.record(nc_record)
+                self.nc['BA'].append(nc_record)
                 # set pointers
                 Islet.neuron.h.setpointer(j.cell(1)._ref_Ins_B_Insulin, "Ins_send", syn)
                 Islet.neuron.h.setpointer(i.cell(0)._ref_Ins_A_Glucagon, "Ins_receive", syn)  
             elif i.type == 'B' and j.type == 'A':
                 print('Space.connectCell(self, i) i =', i, 'Connecting alpha cell to delta cell: cell ids', j, i)
-                self.nc['AB'].append(Islet.neuron.h.NetCon(j.cell(1)._ref_t__A_Glucagon, syn, 2, 0, 6, sec=j.cell))
+                # set netcon object
+                nc_temp = Islet.neuron.h.NetCon(j.cell(1)._ref_t__A_Glucagon, syn, 2, 0, 6, sec=j.cell)
+                nc_record = Islet.neuron.h.Vector()
+                nc_temp.record(nc_record)
+                self.nc['AB'].append(nc_record)
                 # set pointers
                 Islet.neuron.h.setpointer(j.cell(1)._ref_G_A_Glucagon, "Gluc_send", syn)
                 Islet.neuron.h.setpointer(i.cell(0)._ref_G_B_Insulin, "Gluc_receive", syn)                    
             elif i.type == 'B' and j.type == 'D':
                 print('Space.connectCell(self, i) i =', i, 'Connecting delta cell to beta cell: cell ids', j, i)
-                self.nc['DB'].append(Islet.neuron.h.NetCon(j.cell(1)._ref_t__D_Somatostatin, syn, 2, 0, 6, sec=j.cell))
+                # set netcon object
+                nc_temp = Islet.neuron.h.NetCon(j.cell(1)._ref_t__D_Somatostatin, syn, 2, 0, 6, sec=j.cell)
+                nc_record = Islet.neuron.h.Vector()
+                nc_temp.record(nc_record)
+                self.nc['DB'].append(nc_record)
                 # set pointers
                 Islet.neuron.h.setpointer(j.cell(1)._ref_Sst_D_Somatostatin, "Sst_send", syn)
                 Islet.neuron.h.setpointer(i.cell(0)._ref_Sst_B_Insulin, "Sst_receive", syn)                       
             elif i.type == 'D' and j.type == 'B': 
                 print('Space.connectCell(self, i) i =', i, 'Connecting beta cell to delta cell: cell ids', j, i)
-                self.nc['BD'].append(Islet.neuron.h.NetCon(j.cell(1)._ref_t__B_Insulin, syn, 2, 0, 6, sec=j.cell))
+                # set netcon object
+                nc_temp = Islet.neuron.h.NetCon(j.cell(1)._ref_t__B_Insulin, syn, 2, 0, 6, sec=j.cell)
+                nc_record = Islet.neuron.h.Vector()
+                nc_temp.record(nc_record)
+                self.nc['BD'].append(nc_record)
                 # set pointers
                 Islet.neuron.h.setpointer(j.cell(1)._ref_Ins_B_Insulin, "Ins_send", syn)
                 Islet.neuron.h.setpointer(i.cell(0)._ref_Ins_D_Somatostatin, "Ins_receive", syn) 
