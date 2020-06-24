@@ -200,7 +200,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_register_dparam_semantics(_mechtype, 2, "GIRK_ion");
   hoc_register_dparam_semantics(_mechtype, 3, "pointer");
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
- 	ivoc_help("help ?1 A_GIRK /ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Mechanisms/x86_64/Alpha_GIRK.mod\n");
+ 	ivoc_help("help ?1 A_GIRK /ufrc/lamb/robert727/Model-of-Pancreatic-Islets/Mechanisms/x86_64/Alpha_GIRK.mod\n");
  hoc_register_limits(_mechtype, _hoc_parm_limits);
  hoc_register_units(_mechtype, _hoc_parm_units);
  }
@@ -337,7 +337,7 @@ _first = 0;
 }
 
 #if NMODL_TEXT
-static const char* nmodl_filename = "/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Mechanisms/Alpha_GIRK.mod";
+static const char* nmodl_filename = "/ufrc/lamb/robert727/Model-of-Pancreatic-Islets/Mechanisms/Alpha_GIRK.mod";
 static const char* nmodl_file_text = 
   ": Sst inhibits G secretion by reducing cAMP, which primarily reduces exocytosis but also through\n"
   ": act. of G protein-coupled inward rect potass (GIRK) chans\n"

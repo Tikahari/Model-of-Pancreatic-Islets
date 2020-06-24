@@ -245,6 +245,8 @@ INITIAL{
 t_ = 0
 dir = 0
 temp = 0
+gCa = 7
+nCa = 590
 vmd = 4.2e-3
 vcell = 1.15
 alpha = 5.18e-6

@@ -154,7 +154,7 @@ nc_record = h.Vector()
 nc_temp.record(nc_record)
 nc['DA'].append(nc_record)
 # define pointers
-h.setpointer(d(1)._ref_som_D_Somatostatin, "Sst_send", syn)
+h.setpointer(d(1)._ref_Sst_D_Somatostatin, "Sst_send", syn)
 h.setpointer(a(0)._ref_Sst_A_Glucagon, "Sst_receive", syn)
 h.setpointer(d(1)._ref_temp_D_Somatostatin, "Ins_send", syn)
 h.setpointer(d(1)._ref_temp_D_Somatostatin, "Ins_receive", syn)

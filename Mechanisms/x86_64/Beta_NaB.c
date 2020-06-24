@@ -184,7 +184,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_register_dparam_semantics(_mechtype, 1, "NaB_ion");
   hoc_register_dparam_semantics(_mechtype, 2, "Na_ion");
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
- 	ivoc_help("help ?1 B_NaB /ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Mechanisms/x86_64/Beta_NaB.mod\n");
+ 	ivoc_help("help ?1 B_NaB /ufrc/lamb/robert727/Model-of-Pancreatic-Islets/Mechanisms/x86_64/Beta_NaB.mod\n");
  hoc_register_limits(_mechtype, _hoc_parm_limits);
  hoc_register_units(_mechtype, _hoc_parm_units);
  }
@@ -327,7 +327,7 @@ _first = 0;
 #endif
 
 #if NMODL_TEXT
-static const char* nmodl_filename = "/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Mechanisms/Beta_NaB.mod";
+static const char* nmodl_filename = "/ufrc/lamb/robert727/Model-of-Pancreatic-Islets/Mechanisms/Beta_NaB.mod";
 static const char* nmodl_file_text = 
   "NEURON{\n"
   "SUFFIX B_NaB \n"

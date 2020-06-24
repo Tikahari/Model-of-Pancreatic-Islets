@@ -171,7 +171,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_register_prop_size(_mechtype, 6, 1);
   hoc_register_dparam_semantics(_mechtype, 0, "pointer");
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
- 	ivoc_help("help ?1 D_GABA /ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Mechanisms/x86_64/Delta_GABA.mod\n");
+ 	ivoc_help("help ?1 D_GABA /ufrc/lamb/robert727/Model-of-Pancreatic-Islets/Mechanisms/x86_64/Delta_GABA.mod\n");
  hoc_register_limits(_mechtype, _hoc_parm_limits);
  hoc_register_units(_mechtype, _hoc_parm_units);
  }
@@ -290,7 +290,7 @@ _first = 0;
 }
 
 #if NMODL_TEXT
-static const char* nmodl_filename = "/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Mechanisms/Delta_GABA.mod";
+static const char* nmodl_filename = "/ufrc/lamb/robert727/Model-of-Pancreatic-Islets/Mechanisms/Delta_GABA.mod";
 static const char* nmodl_file_text = 
   ": iGABA declared as nonspecific because that means it will be reckoned in charge balance eqs but not to ionic concentrations. \n"
   ": In the bad model vGABA is 0 in every sim, gGABAbar only changes in one sim. \n"
