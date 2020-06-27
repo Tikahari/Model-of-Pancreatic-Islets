@@ -342,7 +342,7 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
    fi = 0.005 ;
    F_ca = 96480.0 ;
    Vi = 0.764 ;
-   ksg = 0.00001 ;
+   ksg = 1e-05 ;
    eCa = 100.0 ;
    }
  
@@ -512,7 +512,7 @@ static const char* nmodl_file_text =
   "fi = 0.005\n"
   "F_ca = 96480\n"
   "Vi = 0.764\n"
-  "ksg = 0.00001\n"
+  "ksg = 1e-05\n"
   "eCa = 100\n"
   "}\n"
   "\n"

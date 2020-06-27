@@ -1,0 +1,26 @@
+/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run
+c27b-s1.ufhpc
+Sat Jun 27 13:54:58 EDT 2020
+rm: cannot remove ‘x86_64/’: No such file or directory
+cp: cannot create regular file ‘./Beta_KCa.mod’: File exists
+rm: cannot remove ‘Alpha_Ka.mod’: No such file or directory
+rm: cannot remove ‘Alpha_KATP.mod’: No such file or directory
+rm: cannot remove ‘Alpha_KDR.mod’: No such file or directory
+rm: cannot remove ‘Alpha_L.mod’: No such file or directory
+rm: cannot remove ‘Alpha_Na.mod’: No such file or directory
+rm: cannot remove ‘Alpha_Syn.mod’: No such file or directory
+rm: cannot remove ‘Beta_BK.mod’: No such file or directory
+rm: cannot remove ‘Beta_Cac.mod’: No such file or directory
+rm: cannot remove ‘Beta_CaL.mod’: No such file or directory
+rm: cannot remove ‘Beta_Insulin.mod’: No such file or directory
+rm: cannot remove ‘Beta_KATP.mod’: No such file or directory
+rm: cannot remove ‘Beta_KCa.mod’: No such file or directory
+rm: cannot remove ‘Beta_L.mod’: No such file or directory
+rm: cannot remove ‘Beta_NaB.mod’: No such file or directory
+rm: cannot remove ‘Beta_Na.mod’: No such file or directory
+rm: cannot remove ‘Beta_Syn.mod’: No such file or directory
+rm: cannot remove ‘Beta_V.mod’: No such file or directory
+rm: cannot remove ‘Delta_CaL.mod’: No such file or directory
+rm: cannot remove ‘Delta_CaPQ.mod’: No such file or directory
+rm: cannot remove ‘Delta_GABA.mod’: No such file or directory
+rm: cannot remove ‘Delta_Syn.mod’: No such file or directory

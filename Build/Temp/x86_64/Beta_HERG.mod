@@ -1,1 +1,0 @@
-../Beta_HERG.mod

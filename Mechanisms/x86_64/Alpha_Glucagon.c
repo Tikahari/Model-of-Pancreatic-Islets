@@ -47,61 +47,61 @@ extern double hoc_Exp(double);
 #define t_ _p[0]
 #define dir _p[1]
 #define temp _p[2]
-#define Ins _p[3]
-#define alphaa _p[4]
-#define Ba _p[5]
-#define fcyta _p[6]
-#define fVpqa _p[7]
-#define tmsb _p[8]
-#define vcella _p[9]
-#define vmdpq _p[10]
-#define kpmcaa _p[11]
-#define ksercaa _p[12]
-#define pleaka _p[13]
-#define fera _p[14]
-#define sigmava _p[15]
-#define fmda _p[16]
-#define k1a _p[17]
-#define km1a _p[18]
-#define r1a _p[19]
-#define rm1a _p[20]
-#define r20a _p[21]
-#define r30a _p[22]
-#define rm3a _p[23]
-#define u1a _p[24]
-#define u2a _p[25]
-#define u3a _p[26]
-#define kpa _p[27]
-#define kp2a _p[28]
-#define GlucFacta _p[29]
-#define knockoutda _p[30]
-#define ra _p[31]
-#define sombara _p[32]
-#define rako _p[33]
-#define ssom _p[34]
-#define fa _p[35]
-#define vc _p[36]
-#define caerbara _p[37]
-#define ssoca _p[38]
-#define gsocbara _p[39]
-#define vsoca _p[40]
-#define iCaPQ _p[41]
-#define iCaT _p[42]
-#define iCaL _p[43]
-#define JPQ _p[44]
-#define JTa _p[45]
-#define JLa _p[46]
-#define Jera _p[47]
-#define rm2a _p[48]
-#define r2a _p[49]
-#define r3a _p[50]
-#define Jsercaa _p[51]
-#define Jleaka _p[52]
-#define Jmema _p[53]
-#define JGS _p[54]
-#define cinfa _p[55]
-#define isoca _p[56]
-#define Sst _p[57]
+#define Sst _p[3]
+#define Ins _p[4]
+#define alphaa _p[5]
+#define Ba _p[6]
+#define fcyta _p[7]
+#define fVpqa _p[8]
+#define tmsb _p[9]
+#define vcella _p[10]
+#define vmdpq _p[11]
+#define kpmcaa _p[12]
+#define ksercaa _p[13]
+#define pleaka _p[14]
+#define fera _p[15]
+#define sigmava _p[16]
+#define fmda _p[17]
+#define k1a _p[18]
+#define km1a _p[19]
+#define r1a _p[20]
+#define rm1a _p[21]
+#define r20a _p[22]
+#define r30a _p[23]
+#define rm3a _p[24]
+#define u1a _p[25]
+#define u2a _p[26]
+#define u3a _p[27]
+#define kpa _p[28]
+#define kp2a _p[29]
+#define GlucFacta _p[30]
+#define knockoutda _p[31]
+#define ra _p[32]
+#define sombara _p[33]
+#define rako _p[34]
+#define ssom _p[35]
+#define fa _p[36]
+#define vc _p[37]
+#define caerbara _p[38]
+#define ssoca _p[39]
+#define gsocbara _p[40]
+#define vsoca _p[41]
+#define iCaPQ _p[42]
+#define iCaT _p[43]
+#define iCaL _p[44]
+#define JPQ _p[45]
+#define JTa _p[46]
+#define JLa _p[47]
+#define Jera _p[48]
+#define rm2a _p[49]
+#define r2a _p[50]
+#define r3a _p[51]
+#define Jsercaa _p[52]
+#define Jleaka _p[53]
+#define Jmema _p[54]
+#define JGS _p[55]
+#define cinfa _p[56]
+#define isoca _p[57]
 #define ca _p[58]
 #define cera _p[59]
 #define cmdpqa _p[60]
@@ -229,6 +229,7 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  "t__A_Glucagon",
  "dir_A_Glucagon",
  "temp_A_Glucagon",
+ "Sst_A_Glucagon",
  "Ins_A_Glucagon",
  "alphaa_A_Glucagon",
  "Ba_A_Glucagon",
@@ -284,7 +285,6 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  "JGS_A_Glucagon",
  "cinfa_A_Glucagon",
  "isoca_A_Glucagon",
- "Sst_A_Glucagon",
  0,
  "ca_A_Glucagon",
  "cera_A_Glucagon",
@@ -314,6 +314,7 @@ static void nrn_alloc(Prop* _prop) {
  	t_ = 0;
  	dir = 0;
  	temp = 0;
+ 	Sst = 0;
  	Ins = 0;
  	alphaa = 0;
  	Ba = 0;
@@ -774,6 +775,7 @@ static const char* nmodl_file_text =
   "t_\n"
   "dir\n"
   "temp\n"
+  "Sst\n"
   "Ins\n"
   "alphaa \n"
   "Ba \n"
@@ -831,7 +833,6 @@ static const char* nmodl_file_text =
   "JGS \n"
   "cinfa\n"
   "isoca\n"
-  "Sst\n"
   "v\n"
   "}\n"
   "\n"

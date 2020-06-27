@@ -2,13 +2,18 @@
 import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib import patches as mpatches
+import configparser
 import random
 import math
+import ast
 import sys
 import pickle
 import csv
-import Islet
 import Cell
+import os
+import re
+import datetime
+import Islet
 
 center_prob = 1
 
@@ -49,10 +54,10 @@ class Probability:
 
 # 3D matrix and accompanying operations that represent the spatial relationship between cells
 class Space:
-    def __init__(self, cell_p, cell_s, dimen):
+    def __init__(self, cell_p, config, dimen):
         # probability alpha/beta/delta
         self.cell_type = cell_p
-        self.cell_s = cell_s
+        self.config = config
         self.d = dimen
         self.setup()
     def setup(self):
@@ -109,25 +114,58 @@ class Space:
                         continue
                     typ = self.getCell(random.random(), i, j, k)
                     # if position is vacant, add cell to space
+                    # write configuration file
+                    types = {'A': 'Alpha', 'B': 'Beta', 'D': 'Delta'}
+                    # with open('../../Configuration/Values/Template_' + Islet.env['gid'][2] + '/' + types[typ][0].lower() + '_' + str(c) + '.ini', 'w') as ini:
+                    #     ini.write('[' + types[typ] + ']\n')
+                    #     for z in self.config[types[typ]]:
+                    #         if(type(self.config[types[typ]][z]) is list):
+                    #             val = random.random() * (self.config[types[typ]][z][0] - self.config[types[typ]][z][1]) + self.config[types[typ]][z][0]
+                    #         else:
+                    #             val = self.config[types[typ]][z]
+                    #         print(str(datetime.datetime.now()) + '\tSpace.RadialSetup(self) Write to configuration file: instance', Islet.env['gid'], 'Write initialization file:', z + ' = ' + str(val), 'cell type', types[typ], 'cell number', c)
+                    #         ini.write(z + ' = ' + str(val) + '\n')
+                    # create cell
                     cell = Cell.Cell(c, i, j, k, typ)
-                    print('Space.RadialSetup(self) Added cell to islet: id', cell)
+                    print(str(datetime.datetime.now()) + '\tSpace.RadialSetup(self) Added cell to islet: id', cell)
                     self.cs[i][j][k] = cell
                     # store type and position
                     self.cpos.append([typ, i, j, k])
                     self.csize.append(cell.diam)
-                    self.connectCell(self.cs[i][j][k])
                     c += 1
                     k += 1
                 j += 1
                 k = 0
             i += 1
             j = 0
+    def configSetup(self, id):
+        print(str(datetime.datetime.now()) + '\tSpace.configSetup(self, config) config=', id, 'Create islet instance')
+        Islet.env['gid'] = id
+        for i in os.listdir('../../Configuration/Values/Islet_'+id):
+            # with open('../../Configuration/Values/Islet_'+ id + '/' + i, 'r'):
+            config = configparser.ConfigParser()
+            config = configparser.ConfigParser(allow_no_value= True)
+            config.optionxform = str
+            config.read('../../Configuration/Values/Islet_'+ id + '/' + i)
+            for a in config:
+                # get cell number
+                cnum = re.split('_|\.', i)
+                cnum = cnum[1]
+                if 'position' in config[a]:
+                    pos = ast.literal_eval(config[a]['position'])
+                    print(str(datetime.datetime.now()) + '\tSpace.configSetup(self, id) id =', id, 'Set up islet from configuration file: configuration file', i, 'cell type', a, 'id', cnum, 'position', pos)
+                    cell = Cell.Cell(cnum, pos[0], pos[1], pos[2], i[0].upper(), True)
+                    self.cs[pos[0]][pos[1]][pos[2]] = cell
+                    # store type and position
+                    self.cpos.append([i[0].upper(), pos[0], pos[1], pos[2]])
+                    self.csize.append(cell.diam)
+                    self.connectCell(cell)                    
     def connectCell(self, i):
         self.nc = {'AB': [], 'BA': [], 'AD': [], 'DA': [], 'BD': [], 'DB': []}
         # connect all cells to all other cells using NetCon object and synapse
         temp = np.array(self.cs)
         temp = temp.flatten()
-        print('Space.connectCell(self, i) i =', i, ': Added cells', temp, 'number of added cells', len(temp))
+        print(str(datetime.datetime.now()) + '\tSpace.connectCell(self, i) i =', i, ': Added cells', temp, 'number of added cells', len(temp))
         if i.type == 'A':
             syn = Islet.neuron.h.A_Syn(i.cell(0))
         elif i.type == 'B':
@@ -138,7 +176,7 @@ class Space:
             if j is None or i.type == j.type:
                 continue
             if i.type == 'A' and j.type == 'D':
-                print('Space.connectCell(self, i) i =', i, 'Connecting delta cell to alpha cell: cell ids', j, i)
+                print(str(datetime.datetime.now()) + '\tSpace.connectCell(self, i) i =', i, 'Connecting delta cell to alpha cell: cell ids', j, i)
                 # set netcon object
                 nc_temp = Islet.neuron.h.NetCon(j.cell(1)._ref_t__D_Somatostatin, syn, 2, 0, 6, sec=j.cell)
                 nc_record = Islet.neuron.h.Vector()
@@ -146,11 +184,11 @@ class Space:
                 self.nc['DA'].append(nc_record)
                 # set pointers
                 Islet.neuron.h.setpointer(j.cell(1)._ref_som_D_Somatostatin, "Sst_send", syn)
-                # Islet.neuron.h.setpointer(j.cell(1)._ref_Ins_B_Insulin, "Ins_send", syn)
+                Islet.neuron.h.setpointer(j.cell(1)._ref_temp_D_Somatostatin, "Ins_send", syn)
                 Islet.neuron.h.setpointer(i.cell(0)._ref_Sst_A_Glucagon, "Sst_receive", syn)
-                # Islet.neuron.h.setpointer(j.cell(1)._ref_Sst_A_KATP, "Ins_receive", syn)
+                Islet.neuron.h.setpointer(i.cell(0)._ref_Ins_A_Glucagon, "Ins_receive", syn)
             elif i.type == 'D' and j.type == 'A':
-                print('Space.connectCell(self, i) i =', i, 'Connecting alpha cell to delta cell: cell ids', j, i)
+                print(str(datetime.datetime.now()) + '\tSpace.connectCell(self, i) i =', i, 'Connecting alpha cell to delta cell: cell ids', j, i)
                 # set netcon object
                 nc_temp = Islet.neuron.h.NetCon(j.cell(1)._ref_t__A_Glucagon, syn, 2, 0, 6, sec=j.cell)
                 nc_record = Islet.neuron.h.Vector()
@@ -158,11 +196,11 @@ class Space:
                 self.nc['AD'].append(nc_record)
                 # set pointers
                 Islet.neuron.h.setpointer(j.cell(1)._ref_G_A_Glucagon, "Gluc_send", syn)
-                # Islet.neuron.h.setpointer(j.cell(1)._ref_Ins_B_Insulin, "Ins_send", syn)
+                Islet.neuron.h.setpointer(j.cell(1)._ref_temp_A_Glucagon, "Ins_send", syn)
                 Islet.neuron.h.setpointer(i.cell(0)._ref_G_D_Somatostatin, "Gluc_receive", syn)
-                # Islet.neuron.h.setpointer(j.cell(1)._ref_Sst_A_KATP, "Ins_receive", syn)                   
+                Islet.neuron.h.setpointer(i.cell(0)._ref_Ins_D_Somatostatin, "Ins_receive", syn)                   
             elif i.type == 'A' and j.type == 'B':
-                print('Space.connectCell(self, i) i =', i, 'Connecting beta cell to alpha cell: cell ids', j, i)
+                print(str(datetime.datetime.now()) + '\tSpace.connectCell(self, i) i =', i, 'Connecting beta cell to alpha cell: cell ids', j, i)
                 # set netcon object
                 nc_temp = Islet.neuron.h.NetCon(j.cell(1)._ref_t__B_Insulin, syn, 2, 0, 6, sec=j.cell)
                 nc_record = Islet.neuron.h.Vector()
@@ -170,9 +208,11 @@ class Space:
                 self.nc['BA'].append(nc_record)
                 # set pointers
                 Islet.neuron.h.setpointer(j.cell(1)._ref_Ins_B_Insulin, "Ins_send", syn)
-                Islet.neuron.h.setpointer(i.cell(0)._ref_Ins_A_Glucagon, "Ins_receive", syn)  
+                Islet.neuron.h.setpointer(j.cell(1)._ref_temp_B_Insulin, "Sst_send", syn)
+                Islet.neuron.h.setpointer(i.cell(0)._ref_Ins_A_Glucagon, "Ins_receive", syn)
+                Islet.neuron.h.setpointer(i.cell(0)._ref_Sst_A_Glucagon, "Sst_receive", syn)  
             elif i.type == 'B' and j.type == 'A':
-                print('Space.connectCell(self, i) i =', i, 'Connecting alpha cell to delta cell: cell ids', j, i)
+                print(str(datetime.datetime.now()) + '\tSpace.connectCell(self, i) i =', i, 'Connecting alpha cell to delta cell: cell ids', j, i)
                 # set netcon object
                 nc_temp = Islet.neuron.h.NetCon(j.cell(1)._ref_t__A_Glucagon, syn, 2, 0, 6, sec=j.cell)
                 nc_record = Islet.neuron.h.Vector()
@@ -180,9 +220,11 @@ class Space:
                 self.nc['AB'].append(nc_record)
                 # set pointers
                 Islet.neuron.h.setpointer(j.cell(1)._ref_G_A_Glucagon, "Gluc_send", syn)
-                Islet.neuron.h.setpointer(i.cell(0)._ref_G_B_Insulin, "Gluc_receive", syn)                    
+                Islet.neuron.h.setpointer(j.cell(1)._ref_temp_A_Glucagon, "Sst_send", syn)
+                Islet.neuron.h.setpointer(i.cell(0)._ref_G_B_Insulin, "Gluc_receive", syn)
+                Islet.neuron.h.setpointer(i.cell(0)._ref_Sst_B_Insulin, "Sst_receive", syn)                    
             elif i.type == 'B' and j.type == 'D':
-                print('Space.connectCell(self, i) i =', i, 'Connecting delta cell to beta cell: cell ids', j, i)
+                print(str(datetime.datetime.now()) + '\tSpace.connectCell(self, i) i =', i, 'Connecting delta cell to beta cell: cell ids', j, i)
                 # set netcon object
                 nc_temp = Islet.neuron.h.NetCon(j.cell(1)._ref_t__D_Somatostatin, syn, 2, 0, 6, sec=j.cell)
                 nc_record = Islet.neuron.h.Vector()
@@ -190,9 +232,11 @@ class Space:
                 self.nc['DB'].append(nc_record)
                 # set pointers
                 Islet.neuron.h.setpointer(j.cell(1)._ref_Sst_D_Somatostatin, "Sst_send", syn)
-                Islet.neuron.h.setpointer(i.cell(0)._ref_Sst_B_Insulin, "Sst_receive", syn)                       
+                Islet.neuron.h.setpointer(j.cell(1)._ref_temp_D_Somatostatin, "Gluc_send", syn)
+                Islet.neuron.h.setpointer(i.cell(0)._ref_Sst_B_Insulin, "Sst_receive", syn)
+                Islet.neuron.h.setpointer(i.cell(0)._ref_G_B_Insulin, "Gluc_send", syn)                       
             elif i.type == 'D' and j.type == 'B': 
-                print('Space.connectCell(self, i) i =', i, 'Connecting beta cell to delta cell: cell ids', j, i)
+                print(str(datetime.datetime.now()) + '\tSpace.connectCell(self, i) i =', i, 'Connecting beta cell to delta cell: cell ids', j, i)
                 # set netcon object
                 nc_temp = Islet.neuron.h.NetCon(j.cell(1)._ref_t__B_Insulin, syn, 2, 0, 6, sec=j.cell)
                 nc_record = Islet.neuron.h.Vector()
@@ -200,9 +244,11 @@ class Space:
                 self.nc['BD'].append(nc_record)
                 # set pointers
                 Islet.neuron.h.setpointer(j.cell(1)._ref_Ins_B_Insulin, "Ins_send", syn)
+                Islet.neuron.h.setpointer(j.cell(1)._ref_temp_B_Insulin, "Gluc_send", syn)
                 Islet.neuron.h.setpointer(i.cell(0)._ref_Ins_D_Somatostatin, "Ins_receive", syn) 
+                Islet.neuron.h.setpointer(i.cell(0)._ref_G_D_Somatostatin, "Gluc_receive", syn)
     def plot(self):
-        print('Space.plot(self) Plotting:')
+        print(str(datetime.datetime.now()) + '\tSpace.plot(self) Plotting:')
         x = {'A': [], 'B': [], 'D': []}
         y = {'A': [], 'B': [], 'D': []}
         z = {'A': [], 'B': [], 'D': []}
@@ -231,29 +277,35 @@ class Space:
         pickle.dump(dat, f_dat)
         plt.show()
     def writeDataOrientation(self):
-        prob = ''
-        siz = ''
-        c = [0, ['A', 'B', 'D']]
-        cells_p = ['Probability_Alpha', 'Probability_Beta', 'Probability_Delta']
-        cells_s = ['Size_Alpha', 'Size_Beta', 'Size_Delta']
-        for i in range(len(self.cell_type)):
-            x = self.cell_type[i]*100 - c[0]
-            c[0] += x
-            prob += cells_p[i] + ' = ' + str(x) + '\n'
-            siz += cells_s[i] + ' = ' + str(self.cell_s[c[1][i]]) + '\n'
-        config = '[Config]\n'+\
-        'dimensions='+str(self.d)+'\n'+prob+siz
-        data = '[Data]\n'
-        print('Space.writeDataOrientation(self): Number of cells', len(self.cpos))
-        for i in self.cpos:
-            data += str(i[0])+' '+str(i[1])+' '+str(i[2])+' '+str(i[3])+'\n'
-        # write to text    
-        file = open(Islet.env['output'] + '/orientation/' + Islet.env['gid'] + '.txt', 'w')
-        file.write(config)
-        file.write(data)
-        file.close()
+        # write template orientations
+        sc = 3
+        for z in range(sc):
+            prob = ''
+            siz = ''
+            c = [0, ['A', 'B', 'D']]
+            cells_p = ['Probability_Alpha', 'Probability_Beta', 'Probability_Delta']
+            cells_s = ['Size_Alpha', 'Size_Beta', 'Size_Delta']
+            for i in range(len(self.cell_type)):
+                x = self.cell_type[i]*100 - c[0]
+                c[0] += x
+                prob += cells_p[i] + ' = ' + str(x) + '\n'
+                # siz += cells_s[i] + ' = ' + str(self.cell_s[c[1][i]]) + '\n'
+            config = '[Config]\n'+\
+            'dimensions='+str(self.d)+'\n'+prob+siz
+            data = '[Data]\n'
+            print(str(datetime.datetime.now()) + '\tSpace.writeDataOrientation(self): Number of cells', len(self.cpos))
+            id = 0
+            for i in self.cpos:
+                data += str(i[0]).lower() + '_' + str(id) + ' = [' + str(i[1])+', '+str(i[2])+', '+str(i[3])+']\n'
+                id += 1
+            # write to text    
+            os.system('mkdir ' + Islet.env['ini'] + '/Values/Template_' + str(z))
+            file = open(Islet.env['ini'] + '/Values/Template_' + str(z) + '/config.txt', 'w')
+            file.write(config)
+            file.write(data)
+            file.close()
     def writeDataPhysiology(self):
-        print('Space.writeDataPhysiology(self): Number of columns in 3d matrix of cells', len(self.cs), 'number of rows in x direction', len(self.cs[0]), 'number of rows in y direction', len(self.cs[0][0]))
+        print(str(datetime.datetime.now()) + '\tSpace.writeDataPhysiology(self): Number of columns in 3d matrix of cells', len(self.cs), 'number of rows in x direction', len(self.cs[0]), 'number of rows in y direction', len(self.cs[0][0]))
         header = ['Time', 'ID']
         data = []
         types = {'A': [False, 0], 'B': [False, 0], 'D': [False, 0]}
@@ -269,13 +321,12 @@ class Space:
                             types[self.cs[i][j][k].type][0] = True
                             types[self.cs[i][j][k].type][1] = index
                             index += len(self.cs[i][j][k].header)
-                            print('Space.writeDataPhysiology(self) Added elements of ', self.cs[i][j][k].type, 'cell to header: length', len(self.cs[i][j][k].rec['VC0'][0]), 'at index', index, ': for cell type', self.cs[i][j][k].type, 'types now', types[self.cs[i][j][k].type])
-                            print(types[self.cs[i][j][k].type])
+                            print(str(datetime.datetime.now()) + '\tSpace.writeDataPhysiology(self) Added elements of ', self.cs[i][j][k].type, 'cell to header: length', len(self.cs[i][j][k].rec['VC0'][0]), 'at index', index, ': for cell type', self.cs[i][j][k].type, 'types now', types[self.cs[i][j][k].type])
                             header.extend(self.cs[i][j][k].header)
                         # get time
                         if self.cs[i][j][k].id == 0:
                             t = self.cs[i][j][k].t
-                            print('Space.writeDataPhysiology(self) Obtained reference to time variable: length', len(t))
+                            print(str(datetime.datetime.now()) + '\tSpace.writeDataPhysiology(self) Obtained reference to time variable: length', len(t))
         # write to csv
         with open(Islet.env['output'] + '/physiology/' + Islet.env['gid'] + '.csv','w+') as file:
             writer = csv.writer(file,quoting = csv.QUOTE_NONE,escapechar=' ')
@@ -287,21 +338,21 @@ class Space:
                         if self.cs[i][j][k] is not None:
                             temp = []
                             temp.extend([t, str(self.cs[i][j][k].type) + str(self.cs[i][j][k].id)])
-                            print('Space.writeDataPhysiology(self) Added initial elements of data matrix: elements', temp)
+                            print(str(datetime.datetime.now()) + '\tSpace.writeDataPhysiology(self) Added initial elements of data matrix: elements', temp)
                             # add nothing if not appropriate cell type
                             for q in range(types[self.cs[i][j][k].type][1]):
                                 temp.append(-1)
-                            print('Space.writeDataPhysiology(self) Added "filler" elements to data matrix to set data at offset corresponding to header: elements', len(temp))
+                            print(str(datetime.datetime.now()) + '\tSpace.writeDataPhysiology(self) Added "filler" elements to data matrix to set data at offset corresponding to header: elements', len(temp))
                             for q in self.cs[i][j][k].rec:
                                 temp.extend(self.cs[i][j][k].rec[q][0])
-                            print('Space.writeDataPhysiology(self) Added rest of data to data matrix: length of matrix', len(temp))
+                            print(str(datetime.datetime.now()) + '\tSpace.writeDataPhysiology(self) Added rest of data to data matrix: length of matrix', len(temp))
                             # data.append(temp)
-                            # print('extend data', len(data))
+                            # print(str(datetime.datetime.now()) + 'extend data', len(data))
                             for i in range(len(t)):
                                 writer.writerow(temp)
-                                print('Space.writeDataPhysiology(self) Wrote row of csv: row number', i)
+                                print(str(datetime.datetime.now()) + '\tSpace.writeDataPhysiology(self) Wrote row of csv: row number', i)
     def getCell(self, r, x, y, z):
-        print('Space.getCell(self, r, x, y, z) r =', r, 'x =', x, 'y =', y, 'z =', 'Probability of alpha/beta at this x/y/z position', self.ps[x][y][z])
+        print(str(datetime.datetime.now()) + '\tSpace.getCell(self, r, x, y, z) r =', r, 'x =', x, 'y =', y, 'z =', z, 'Probability of alpha/beta at this x/y/z position', self.ps[x][y][z])
         if r <= self.ps[x][y][z][0]:
             return 'A'
         elif r <= self.ps[x][y][z][1]:

@@ -1,1 +1,0 @@
-../Beta_KDR.mod

@@ -482,7 +482,7 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
    fmd = 0.01 ;
    fer = 0.01 ;
    sigmav = 31.0 ;
-   vc = 1e-13 ;
+   vc = 1e-8 ;
    f = 0.003 ;
    Sst = 18.71318922819339 ;
    v = - 16.26895428994972 ;
@@ -755,7 +755,7 @@ static const char* nmodl_file_text =
   "fmd = 0.01\n"
   "fer = 0.01\n"
   "sigmav = 31\n"
-  "vc = 1e-13\n"
+  "vc = 1e-8\n"
   "f = 0.003\n"
   "Sst = 18.71318922819339\n"
   "v = -16.26895428994972\n"

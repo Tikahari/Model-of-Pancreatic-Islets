@@ -22,6 +22,6 @@ NET_RECEIVE(weight){
 Sst_receive = Sst_receive + Sst_send*weight
 Ins_receive = Ins_receive + Ins_send*weight
 VERBATIM
-//printf("net receive called\n");
+//printf("alpha net receive called\n");
 ENDVERBATIM
 }

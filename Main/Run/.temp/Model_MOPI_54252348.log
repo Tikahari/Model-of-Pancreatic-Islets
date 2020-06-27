@@ -1,0 +1,19 @@
+/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run
+c30a-s1.ufhpc
+Sat Jun 27 13:54:58 EDT 2020
+rm: cannot remove ‘x86_64/’: No such file or directory
+rm: cannot remove ‘Alpha_CaT.mod’: No such file or directory
+rm: cannot remove ‘Alpha_GIRK.mod’: No such file or directory
+rm: cannot remove ‘Alpha_Glucagon.mod’: No such file or directory
+rm: cannot remove ‘Beta_CaP.mod’: No such file or directory
+rm: cannot remove ‘Beta_CaT.mod’: No such file or directory
+rm: cannot remove ‘Beta_HERG.mod’: No such file or directory
+rm: cannot remove ‘Beta_Ins.mod’: No such file or directory
+rm: cannot remove ‘Beta_KDR.mod’: No such file or directory
+rm: cannot remove ‘Beta_PCa.mod’: No such file or directory
+rm: cannot remove ‘Delta_Ka.mod’: No such file or directory
+rm: cannot remove ‘Delta_KATP.mod’: No such file or directory
+rm: cannot remove ‘Delta_Kdr.mod’: No such file or directory
+rm: cannot remove ‘Delta_L.mod’: No such file or directory
+rm: cannot remove ‘Delta_Na.mod’: No such file or directory
+rm: cannot remove ‘Delta_Somatostatin.mod’: No such file or directory
