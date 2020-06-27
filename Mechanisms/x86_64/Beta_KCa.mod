@@ -1,1 +1,0 @@
-../Beta_KCa.mod
