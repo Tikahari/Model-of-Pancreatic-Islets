@@ -1,7 +1,7 @@
 NEURON{
 SUFFIX B_CaP
 USEION CaP WRITE iCaP VALENCE 2
-USEION Ca READ eCa
+:USEION Ca READ eCa
 USEION Vm READ Vmi
 RANGE gmCaP, dCaP, fCaP, VfCaP, VdCaP, tdCaP, tfCaP, kfCaP, kdCaP, eCa
 RANGE dCaPi, fCaPi, iCaP 
@@ -16,14 +16,14 @@ tfCaP
 kfCaP
 kdCaP
 eCa
-v
-Vmi  
 }
 
 ASSIGNED{
 dCaPi
 fCaPi
 iCaP  
+v
+Vmi  
 }
 
 STATE{
@@ -41,7 +41,8 @@ tdCaP = 0.41
 tfCaP = 65
 kfCaP = 8
 kdCaP = 6
-iCaP = 0
+:iCaP = 0
+eCa = 100
 }
 
 BREAKPOINT{

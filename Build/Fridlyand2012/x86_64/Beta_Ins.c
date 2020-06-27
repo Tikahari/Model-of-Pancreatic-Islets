@@ -224,7 +224,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
  	hoc_register_cvode(_mechtype, _ode_count, _ode_map, _ode_spec, _ode_matsol);
  	hoc_register_tolerance(_mechtype, _hoc_state_tol, &_atollist);
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
- 	ivoc_help("help ?1 B_Ins /ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Fridlyand2012/x86_64/Beta_Ins.mod\n");
+ 	ivoc_help("help ?1 B_Ins /ufrc/lamb/robert727/Model-of-Pancreatic-Islets/Build/Fridlyand2012/x86_64/Beta_Ins.mod\n");
  hoc_register_limits(_mechtype, _hoc_parm_limits);
  hoc_register_units(_mechtype, _hoc_parm_units);
  }
@@ -415,7 +415,7 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
 {
   iCaP = _ion_iCaP;
  { error =  states();
- if(error){fprintf(stderr,"at line 51 in file Beta_Ins.mod:\nSOLVE states METHOD cnexp\n"); nrn_complain(_p); abort_run(error);}
+ if(error){fprintf(stderr,"at line 50 in file Beta_Ins.mod:\nSOLVE states METHOD cnexp\n"); nrn_complain(_p); abort_run(error);}
  } {
    fiCa = ( Cac * Cac / ( ( KiCa * KiCa ) + ( Cac * Cac ) ) ) ;
    fsi = ( - ( kci * fiCa * iCaP / F_ins ) + kre ) ;
@@ -435,7 +435,7 @@ _first = 0;
 }
 
 #if NMODL_TEXT
-static const char* nmodl_filename = "/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Fridlyand2012/Beta_Ins.mod";
+static const char* nmodl_filename = "/ufrc/lamb/robert727/Model-of-Pancreatic-Islets/Build/Fridlyand2012/Beta_Ins.mod";
 static const char* nmodl_file_text = 
   "NEURON{\n"
   "SUFFIX B_Ins\n"
@@ -455,16 +455,15 @@ static const char* nmodl_file_text =
   "KiCa\n"
   "kre\n"
   "ksi\n"
-  "iCaP\n"
   "Caci\n"
-  "Cac\n"
-  "\n"
   "}\n"
   "\n"
   "ASSIGNED{\n"
   "fsi\n"
   "IS\n"
   "fiCa\n"
+  "Cac\n"
+  "iCaP\n"
   "}\n"
   "\n"
   "STATE{\n"

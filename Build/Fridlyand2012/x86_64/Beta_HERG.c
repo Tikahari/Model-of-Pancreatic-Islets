@@ -51,12 +51,12 @@ extern double hoc_Exp(double);
 #define tfKhe _p[4]
 #define Vdhe _p[5]
 #define Vfhe _p[6]
-#define dKhei _p[7]
-#define fKhei _p[8]
-#define iHERG _p[9]
-#define dKhe _p[10]
-#define fKhe _p[11]
-#define eK _p[12]
+#define eK _p[7]
+#define dKhei _p[8]
+#define fKhei _p[9]
+#define iHERG _p[10]
+#define dKhe _p[11]
+#define fKhe _p[12]
 #define Vmi _p[13]
 #define DdKhe _p[14]
 #define DfKhe _p[15]
@@ -64,8 +64,7 @@ extern double hoc_Exp(double);
 #define _g _p[17]
 #define _ion_iHERG	*_ppvar[0]._pval
 #define _ion_diHERGdv	*_ppvar[1]._pval
-#define _ion_eK	*_ppvar[2]._pval
-#define _ion_Vmi	*_ppvar[3]._pval
+#define _ion_Vmi	*_ppvar[2]._pval
  
 #if MAC
 #if !defined(v)
@@ -145,7 +144,7 @@ static void _ode_map(int, double**, double**, double*, Datum*, double*, int);
 static void _ode_spec(_NrnThread*, _Memb_list*, int);
 static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  
-#define _cvode_ieq _ppvar[4]._i
+#define _cvode_ieq _ppvar[3]._i
  static void _ode_matsol_instance1(_threadargsproto_);
  /* connect range variables in _p that hoc is supposed to know about */
  static const char *_mechanism[] = {
@@ -158,6 +157,7 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  "tfKhe_B_HERG",
  "Vdhe_B_HERG",
  "Vfhe_B_HERG",
+ "eK_B_HERG",
  0,
  "dKhei_B_HERG",
  "fKhei_B_HERG",
@@ -168,7 +168,6 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  0,
  0};
  static Symbol* _HERG_sym;
- static Symbol* _K_sym;
  static Symbol* _Vm_sym;
  
 extern Prop* need_memb(Symbol*);
@@ -185,20 +184,18 @@ static void nrn_alloc(Prop* _prop) {
  	tfKhe = 0;
  	Vdhe = 0;
  	Vfhe = 0;
+ 	eK = 0;
  	_prop->param = _p;
  	_prop->param_size = 18;
- 	_ppvar = nrn_prop_datum_alloc(_mechtype, 5, _prop);
+ 	_ppvar = nrn_prop_datum_alloc(_mechtype, 4, _prop);
  	_prop->dparam = _ppvar;
  	/*connect ionic variables to this model*/
  prop_ion = need_memb(_HERG_sym);
  	_ppvar[0]._pval = &prop_ion->param[3]; /* iHERG */
  	_ppvar[1]._pval = &prop_ion->param[4]; /* _ion_diHERGdv */
- prop_ion = need_memb(_K_sym);
- nrn_promote(prop_ion, 0, 1);
- 	_ppvar[2]._pval = &prop_ion->param[0]; /* eK */
  prop_ion = need_memb(_Vm_sym);
  nrn_promote(prop_ion, 1, 0);
- 	_ppvar[3]._pval = &prop_ion->param[1]; /* Vmi */
+ 	_ppvar[2]._pval = &prop_ion->param[1]; /* Vmi */
  
 }
  static void _initlists();
@@ -218,10 +215,8 @@ extern void _cvode_abstol( Symbol**, double*, int);
 	int _vectorized = 1;
   _initlists();
  	ion_reg("HERG", 1.0);
- 	ion_reg("K", -10000.);
  	ion_reg("Vm", -10000.);
  	_HERG_sym = hoc_lookup("HERG_ion");
- 	_K_sym = hoc_lookup("K_ion");
  	_Vm_sym = hoc_lookup("Vm_ion");
  	register_mech(_mechanism, nrn_alloc,nrn_cur, nrn_jacob, nrn_state, nrn_init, hoc_nrnpointerindex, 1);
  _mechtype = nrn_get_mechtype(_mechanism[1]);
@@ -231,16 +226,15 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
   hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
 #endif
-  hoc_register_prop_size(_mechtype, 18, 5);
+  hoc_register_prop_size(_mechtype, 18, 4);
   hoc_register_dparam_semantics(_mechtype, 0, "HERG_ion");
   hoc_register_dparam_semantics(_mechtype, 1, "HERG_ion");
-  hoc_register_dparam_semantics(_mechtype, 2, "K_ion");
-  hoc_register_dparam_semantics(_mechtype, 3, "Vm_ion");
-  hoc_register_dparam_semantics(_mechtype, 4, "cvodeieq");
+  hoc_register_dparam_semantics(_mechtype, 2, "Vm_ion");
+  hoc_register_dparam_semantics(_mechtype, 3, "cvodeieq");
  	hoc_register_cvode(_mechtype, _ode_count, _ode_map, _ode_spec, _ode_matsol);
  	hoc_register_tolerance(_mechtype, _hoc_state_tol, &_atollist);
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
- 	ivoc_help("help ?1 B_HERG /ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Fridlyand2012/x86_64/Beta_HERG.mod\n");
+ 	ivoc_help("help ?1 B_HERG /ufrc/lamb/robert727/Model-of-Pancreatic-Islets/Build/Fridlyand2012/x86_64/Beta_HERG.mod\n");
  hoc_register_limits(_mechtype, _hoc_parm_limits);
  hoc_register_units(_mechtype, _hoc_parm_units);
  }
@@ -288,7 +282,6 @@ static void _ode_spec(_NrnThread* _nt, _Memb_list* _ml, int _type) {
     _p = _ml->_data[_iml]; _ppvar = _ml->_pdata[_iml];
     _nd = _ml->_nodelist[_iml];
     v = NODEV(_nd);
-  eK = _ion_eK;
   Vmi = _ion_Vmi;
      _ode_spec1 (_p, _ppvar, _thread, _nt);
   }}
@@ -316,7 +309,6 @@ static void _ode_matsol(_NrnThread* _nt, _Memb_list* _ml, int _type) {
     _p = _ml->_data[_iml]; _ppvar = _ml->_pdata[_iml];
     _nd = _ml->_nodelist[_iml];
     v = NODEV(_nd);
-  eK = _ion_eK;
   Vmi = _ion_Vmi;
  _ode_matsol_instance1(_threadargs_);
  }}
@@ -324,8 +316,7 @@ static void _ode_matsol(_NrnThread* _nt, _Memb_list* _ml, int _type) {
  static void _update_ion_pointer(Datum* _ppvar) {
    nrn_update_ion_pointer(_HERG_sym, _ppvar, 0, 3);
    nrn_update_ion_pointer(_HERG_sym, _ppvar, 1, 4);
-   nrn_update_ion_pointer(_K_sym, _ppvar, 2, 0);
-   nrn_update_ion_pointer(_Vm_sym, _ppvar, 3, 1);
+   nrn_update_ion_pointer(_Vm_sym, _ppvar, 2, 1);
  }
 
 static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {
@@ -342,6 +333,7 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
    tfKhe = 50.0 ;
    Vdhe = - 30.0 ;
    Vfhe = - 42.0 ;
+   eK = - 75.0 ;
    }
  
 }
@@ -367,7 +359,6 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
     _v = NODEV(_nd);
   }
  v = _v;
-  eK = _ion_eK;
   Vmi = _ion_Vmi;
  initmodel(_p, _ppvar, _thread, _nt);
  }
@@ -402,7 +393,6 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
     _nd = _ml->_nodelist[_iml];
     _v = NODEV(_nd);
   }
-  eK = _ion_eK;
   Vmi = _ion_Vmi;
  _g = _nrn_current(_p, _ppvar, _thread, _nt, _v + .001);
  	{ double _diHERG;
@@ -471,7 +461,6 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
   }
  v=_v;
 {
-  eK = _ion_eK;
   Vmi = _ion_Vmi;
  {   states(_p, _ppvar, _thread, _nt);
   } }}
@@ -494,12 +483,12 @@ _first = 0;
 #endif
 
 #if NMODL_TEXT
-static const char* nmodl_filename = "/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Fridlyand2012/Beta_HERG.mod";
+static const char* nmodl_filename = "/ufrc/lamb/robert727/Model-of-Pancreatic-Islets/Build/Fridlyand2012/Beta_HERG.mod";
 static const char* nmodl_file_text = 
   "NEURON{\n"
   "SUFFIX B_HERG\n"
   "USEION HERG WRITE iHERG VALENCE 1\n"
-  "USEION K READ eK\n"
+  ":USEION K READ eK\n"
   "USEION Vm READ Vmi\n"
   "RANGE gmKhe, kdhe, kfhe, tdKhe, tfKhe, Vdhe, Vfhe, eK\n"
   "RANGE dKhei, fKhei, iHERG\n"
@@ -514,14 +503,14 @@ static const char* nmodl_file_text =
   "Vdhe\n"
   "Vfhe\n"
   "eK\n"
-  "v\n"
-  "Vmi\n"
   "}\n"
   "\n"
   "ASSIGNED{\n"
   "dKhei  \n"
   "fKhei  \n"
   "iHERG\n"
+  "v\n"
+  "Vmi\n"
   "}\n"
   "\n"
   "STATE{\n"
@@ -539,6 +528,7 @@ static const char* nmodl_file_text =
   "tfKhe = 50\n"
   "Vdhe = -30\n"
   "Vfhe = -42\n"
+  "eK = -75\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"

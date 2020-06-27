@@ -51,14 +51,14 @@ extern double hoc_Exp(double);
 #define tf2CaL _p[4]
 #define VdCaL _p[5]
 #define VfCaL _p[6]
-#define dCaLi _p[7]
-#define fCaLi _p[8]
-#define iCaL _p[9]
-#define tdCaL _p[10]
-#define f1CaL _p[11]
-#define f2CaL _p[12]
-#define dCaL _p[13]
-#define eCa _p[14]
+#define eCa _p[7]
+#define dCaLi _p[8]
+#define fCaLi _p[9]
+#define iCaL _p[10]
+#define tdCaL _p[11]
+#define f1CaL _p[12]
+#define f2CaL _p[13]
+#define dCaL _p[14]
 #define Vmi _p[15]
 #define Df1CaL _p[16]
 #define Df2CaL _p[17]
@@ -67,8 +67,7 @@ extern double hoc_Exp(double);
 #define _g _p[20]
 #define _ion_iCaL	*_ppvar[0]._pval
 #define _ion_diCaLdv	*_ppvar[1]._pval
-#define _ion_eCa	*_ppvar[2]._pval
-#define _ion_Vmi	*_ppvar[3]._pval
+#define _ion_Vmi	*_ppvar[2]._pval
  
 #if MAC
 #if !defined(v)
@@ -149,7 +148,7 @@ static void _ode_map(int, double**, double**, double*, Datum*, double*, int);
 static void _ode_spec(_NrnThread*, _Memb_list*, int);
 static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  
-#define _cvode_ieq _ppvar[4]._i
+#define _cvode_ieq _ppvar[3]._i
  static void _ode_matsol_instance1(_threadargsproto_);
  /* connect range variables in _p that hoc is supposed to know about */
  static const char *_mechanism[] = {
@@ -162,6 +161,7 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  "tf2CaL_B_CaL",
  "VdCaL_B_CaL",
  "VfCaL_B_CaL",
+ "eCa_B_CaL",
  0,
  "dCaLi_B_CaL",
  "fCaLi_B_CaL",
@@ -174,7 +174,6 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  0,
  0};
  static Symbol* _CaL_sym;
- static Symbol* _Ca_sym;
  static Symbol* _Vm_sym;
  
 extern Prop* need_memb(Symbol*);
@@ -191,20 +190,18 @@ static void nrn_alloc(Prop* _prop) {
  	tf2CaL = 0;
  	VdCaL = 0;
  	VfCaL = 0;
+ 	eCa = 0;
  	_prop->param = _p;
  	_prop->param_size = 21;
- 	_ppvar = nrn_prop_datum_alloc(_mechtype, 5, _prop);
+ 	_ppvar = nrn_prop_datum_alloc(_mechtype, 4, _prop);
  	_prop->dparam = _ppvar;
  	/*connect ionic variables to this model*/
  prop_ion = need_memb(_CaL_sym);
  	_ppvar[0]._pval = &prop_ion->param[3]; /* iCaL */
  	_ppvar[1]._pval = &prop_ion->param[4]; /* _ion_diCaLdv */
- prop_ion = need_memb(_Ca_sym);
- nrn_promote(prop_ion, 0, 1);
- 	_ppvar[2]._pval = &prop_ion->param[0]; /* eCa */
  prop_ion = need_memb(_Vm_sym);
  nrn_promote(prop_ion, 1, 0);
- 	_ppvar[3]._pval = &prop_ion->param[1]; /* Vmi */
+ 	_ppvar[2]._pval = &prop_ion->param[1]; /* Vmi */
  
 }
  static void _initlists();
@@ -224,10 +221,8 @@ extern void _cvode_abstol( Symbol**, double*, int);
 	int _vectorized = 1;
   _initlists();
  	ion_reg("CaL", 2.0);
- 	ion_reg("Ca", -10000.);
  	ion_reg("Vm", -10000.);
  	_CaL_sym = hoc_lookup("CaL_ion");
- 	_Ca_sym = hoc_lookup("Ca_ion");
  	_Vm_sym = hoc_lookup("Vm_ion");
  	register_mech(_mechanism, nrn_alloc,nrn_cur, nrn_jacob, nrn_state, nrn_init, hoc_nrnpointerindex, 1);
  _mechtype = nrn_get_mechtype(_mechanism[1]);
@@ -237,16 +232,15 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
   hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
 #endif
-  hoc_register_prop_size(_mechtype, 21, 5);
+  hoc_register_prop_size(_mechtype, 21, 4);
   hoc_register_dparam_semantics(_mechtype, 0, "CaL_ion");
   hoc_register_dparam_semantics(_mechtype, 1, "CaL_ion");
-  hoc_register_dparam_semantics(_mechtype, 2, "Ca_ion");
-  hoc_register_dparam_semantics(_mechtype, 3, "Vm_ion");
-  hoc_register_dparam_semantics(_mechtype, 4, "cvodeieq");
+  hoc_register_dparam_semantics(_mechtype, 2, "Vm_ion");
+  hoc_register_dparam_semantics(_mechtype, 3, "cvodeieq");
  	hoc_register_cvode(_mechtype, _ode_count, _ode_map, _ode_spec, _ode_matsol);
  	hoc_register_tolerance(_mechtype, _hoc_state_tol, &_atollist);
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
- 	ivoc_help("help ?1 B_CaL /ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Fridlyand2012/x86_64/Beta_CaL.mod\n");
+ 	ivoc_help("help ?1 B_CaL /ufrc/lamb/robert727/Model-of-Pancreatic-Islets/Build/Fridlyand2012/x86_64/Beta_CaL.mod\n");
  hoc_register_limits(_mechtype, _hoc_parm_limits);
  hoc_register_units(_mechtype, _hoc_parm_units);
  }
@@ -297,7 +291,6 @@ static void _ode_spec(_NrnThread* _nt, _Memb_list* _ml, int _type) {
     _p = _ml->_data[_iml]; _ppvar = _ml->_pdata[_iml];
     _nd = _ml->_nodelist[_iml];
     v = NODEV(_nd);
-  eCa = _ion_eCa;
   Vmi = _ion_Vmi;
      _ode_spec1 (_p, _ppvar, _thread, _nt);
   }}
@@ -325,7 +318,6 @@ static void _ode_matsol(_NrnThread* _nt, _Memb_list* _ml, int _type) {
     _p = _ml->_data[_iml]; _ppvar = _ml->_pdata[_iml];
     _nd = _ml->_nodelist[_iml];
     v = NODEV(_nd);
-  eCa = _ion_eCa;
   Vmi = _ion_Vmi;
  _ode_matsol_instance1(_threadargs_);
  }}
@@ -333,8 +325,7 @@ static void _ode_matsol(_NrnThread* _nt, _Memb_list* _ml, int _type) {
  static void _update_ion_pointer(Datum* _ppvar) {
    nrn_update_ion_pointer(_CaL_sym, _ppvar, 0, 3);
    nrn_update_ion_pointer(_CaL_sym, _ppvar, 1, 4);
-   nrn_update_ion_pointer(_Ca_sym, _ppvar, 2, 0);
-   nrn_update_ion_pointer(_Vm_sym, _ppvar, 3, 1);
+   nrn_update_ion_pointer(_Vm_sym, _ppvar, 2, 1);
  }
 
 static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {
@@ -354,6 +345,7 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
    VdCaL = - 15.0 ;
    VfCaL = - 25.0 ;
    tdCaL = 0.41 ;
+   eCa = 100.0 ;
    }
  
 }
@@ -379,7 +371,6 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
     _v = NODEV(_nd);
   }
  v = _v;
-  eCa = _ion_eCa;
   Vmi = _ion_Vmi;
  initmodel(_p, _ppvar, _thread, _nt);
  }
@@ -415,7 +406,6 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
     _nd = _ml->_nodelist[_iml];
     _v = NODEV(_nd);
   }
-  eCa = _ion_eCa;
   Vmi = _ion_Vmi;
  _g = _nrn_current(_p, _ppvar, _thread, _nt, _v + .001);
  	{ double _diCaL;
@@ -484,7 +474,6 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
   }
  v=_v;
 {
-  eCa = _ion_eCa;
   Vmi = _ion_Vmi;
  {   states(_p, _ppvar, _thread, _nt);
   } }}
@@ -508,15 +497,15 @@ _first = 0;
 #endif
 
 #if NMODL_TEXT
-static const char* nmodl_filename = "/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Fridlyand2012/Beta_CaL.mod";
+static const char* nmodl_filename = "/ufrc/lamb/robert727/Model-of-Pancreatic-Islets/Build/Fridlyand2012/Beta_CaL.mod";
 static const char* nmodl_file_text = 
   "NEURON{\n"
   "SUFFIX B_CaL\n"
   "USEION CaL WRITE iCaL VALENCE 2\n"
-  "USEION Ca READ eCa\n"
+  ":USEION CaL READ eCaL\n"
   "USEION Vm READ Vmi\n"
-  "RANGE dCaL, f1CaL, f2CaL , gmCaL, kdCaL , kfCaL , tf1CaL, tf2CaL, VdCaL, VfCaL, eCa\n"
-  "RANGE dCaLi, fCaLi, iCaL, tdCaL\n"
+  "RANGE dCaL, f1CaL, f2CaL , gmCaL, kdCaL , kfCaL , tf1CaL, tf2CaL, VdCaL, VfCaL\n"
+  "RANGE dCaLi, fCaLi, iCaL, tdCaL, eCa\n"
   "}\n"
   "\n"
   "PARAMETER{ \n"
@@ -528,8 +517,6 @@ static const char* nmodl_file_text =
   "VdCaL\n"
   "VfCaL \n"
   "eCa\n"
-  "v\n"
-  "Vmi\n"
   "}\n"
   "\n"
   "ASSIGNED{\n"
@@ -537,6 +524,8 @@ static const char* nmodl_file_text =
   "fCaLi \n"
   "iCaL    \n"
   "tdCaL\n"
+  "Vmi\n"
+  "v\n"
   "}\n"
   "\n"
   "STATE{\n"
@@ -557,6 +546,7 @@ static const char* nmodl_file_text =
   "VdCaL = -15\n"
   "VfCaL = -25\n"
   "tdCaL = 0.41\n"
+  "eCa = 100\n"
   "}\n"
   "\n"
   "BREAKPOINT{\n"

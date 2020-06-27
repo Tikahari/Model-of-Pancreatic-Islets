@@ -16,16 +16,15 @@ kci
 KiCa
 kre
 ksi
-iCaP
 Caci
-Cac
-
 }
 
 ASSIGNED{
 fsi
 IS
 fiCa
+Cac
+iCaP
 }
 
 STATE{

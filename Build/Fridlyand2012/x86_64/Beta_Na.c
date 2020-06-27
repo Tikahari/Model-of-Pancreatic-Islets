@@ -52,12 +52,12 @@ extern double hoc_Exp(double);
 #define kNar _p[5]
 #define VfNa _p[6]
 #define kfNa _p[7]
-#define fNai _p[8]
-#define dNai _p[9]
-#define iNa _p[10]
-#define dNa _p[11]
-#define fNa _p[12]
-#define eNa _p[13]
+#define eN _p[8]
+#define fNai _p[9]
+#define dNai _p[10]
+#define iNa _p[11]
+#define dNa _p[12]
+#define fNa _p[13]
 #define Vmi _p[14]
 #define DdNa _p[15]
 #define DfNa _p[16]
@@ -65,8 +65,7 @@ extern double hoc_Exp(double);
 #define _g _p[18]
 #define _ion_iNa	*_ppvar[0]._pval
 #define _ion_diNadv	*_ppvar[1]._pval
-#define _ion_eNa	*_ppvar[2]._pval
-#define _ion_Vmi	*_ppvar[3]._pval
+#define _ion_Vmi	*_ppvar[2]._pval
  
 #if MAC
 #if !defined(v)
@@ -146,7 +145,7 @@ static void _ode_map(int, double**, double**, double*, Datum*, double*, int);
 static void _ode_spec(_NrnThread*, _Memb_list*, int);
 static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  
-#define _cvode_ieq _ppvar[4]._i
+#define _cvode_ieq _ppvar[3]._i
  static void _ode_matsol_instance1(_threadargsproto_);
  /* connect range variables in _p that hoc is supposed to know about */
  static const char *_mechanism[] = {
@@ -160,6 +159,7 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  "kNar_B_Na",
  "VfNa_B_Na",
  "kfNa_B_Na",
+ "eN_B_Na",
  0,
  "fNai_B_Na",
  "dNai_B_Na",
@@ -187,19 +187,18 @@ static void nrn_alloc(Prop* _prop) {
  	kNar = 0;
  	VfNa = 0;
  	kfNa = 0;
+ 	eN = 0;
  	_prop->param = _p;
  	_prop->param_size = 19;
- 	_ppvar = nrn_prop_datum_alloc(_mechtype, 5, _prop);
+ 	_ppvar = nrn_prop_datum_alloc(_mechtype, 4, _prop);
  	_prop->dparam = _ppvar;
  	/*connect ionic variables to this model*/
  prop_ion = need_memb(_Na_sym);
- nrn_promote(prop_ion, 0, 3);
  	_ppvar[0]._pval = &prop_ion->param[3]; /* iNa */
  	_ppvar[1]._pval = &prop_ion->param[4]; /* _ion_diNadv */
- 	_ppvar[2]._pval = &prop_ion->param[0]; /* eNa */
  prop_ion = need_memb(_Vm_sym);
  nrn_promote(prop_ion, 1, 0);
- 	_ppvar[3]._pval = &prop_ion->param[1]; /* Vmi */
+ 	_ppvar[2]._pval = &prop_ion->param[1]; /* Vmi */
  
 }
  static void _initlists();
@@ -230,16 +229,15 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
   hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
 #endif
-  hoc_register_prop_size(_mechtype, 19, 5);
+  hoc_register_prop_size(_mechtype, 19, 4);
   hoc_register_dparam_semantics(_mechtype, 0, "Na_ion");
   hoc_register_dparam_semantics(_mechtype, 1, "Na_ion");
-  hoc_register_dparam_semantics(_mechtype, 2, "Na_ion");
-  hoc_register_dparam_semantics(_mechtype, 3, "Vm_ion");
-  hoc_register_dparam_semantics(_mechtype, 4, "cvodeieq");
+  hoc_register_dparam_semantics(_mechtype, 2, "Vm_ion");
+  hoc_register_dparam_semantics(_mechtype, 3, "cvodeieq");
  	hoc_register_cvode(_mechtype, _ode_count, _ode_map, _ode_spec, _ode_matsol);
  	hoc_register_tolerance(_mechtype, _hoc_state_tol, &_atollist);
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
- 	ivoc_help("help ?1 B_Na /ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Fridlyand2012/x86_64/Beta_Na.mod\n");
+ 	ivoc_help("help ?1 B_Na /ufrc/lamb/robert727/Model-of-Pancreatic-Islets/Build/Fridlyand2012/x86_64/Beta_Na.mod\n");
  hoc_register_limits(_mechtype, _hoc_parm_limits);
  hoc_register_units(_mechtype, _hoc_parm_units);
  }
@@ -289,8 +287,7 @@ static void _ode_spec(_NrnThread* _nt, _Memb_list* _ml, int _type) {
     v = NODEV(_nd);
   Vmi = _ion_Vmi;
      _ode_spec1 (_p, _ppvar, _thread, _nt);
-   _ion_eNa = eNa;
- }}
+  }}
  
 static void _ode_map(int _ieq, double** _pv, double** _pvdot, double* _pp, Datum* _ppd, double* _atol, int _type) { 
 	double* _p; Datum* _ppvar;
@@ -322,8 +319,7 @@ static void _ode_matsol(_NrnThread* _nt, _Memb_list* _ml, int _type) {
  static void _update_ion_pointer(Datum* _ppvar) {
    nrn_update_ion_pointer(_Na_sym, _ppvar, 0, 3);
    nrn_update_ion_pointer(_Na_sym, _ppvar, 1, 4);
-   nrn_update_ion_pointer(_Na_sym, _ppvar, 2, 0);
-   nrn_update_ion_pointer(_Vm_sym, _ppvar, 3, 1);
+   nrn_update_ion_pointer(_Vm_sym, _ppvar, 2, 1);
  }
 
 static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {
@@ -339,7 +335,7 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
    tfNa = 0.5 ;
    fNa = 0.1 ;
    kNar = 0.0 ;
-   eNa = 70.0 ;
+   eN = 70.0 ;
    VfNa = - 42.0 ;
    kfNa = 6.0 ;
    }
@@ -369,14 +365,13 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
  v = _v;
   Vmi = _ion_Vmi;
  initmodel(_p, _ppvar, _thread, _nt);
-   _ion_eNa = eNa;
-}
+ }
 }
 
 static double _nrn_current(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt, double _v){double _current=0.;v=_v;{ {
    fNai = ( 1.0 / ( 1.0 + exp ( - ( ( VfNa - v ) / kfNa ) ) ) ) ;
    dNai = ( 1.0 / ( 1.0 + exp ( ( ( VdNa - v ) / kdNa ) ) ) ) ;
-   iNa = ( gmNa * ( ( pow ( dNa , 3.0 ) * fNa ) + kNar ) * ( v - eNa ) ) ;
+   iNa = ( gmNa * ( ( pow ( dNa , 3.0 ) * fNa ) + kNar ) * ( v - eN ) ) ;
    }
  _current += iNa;
 
@@ -411,7 +406,6 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
  	}
  _g = (_g - _rhs)/.001;
   _ion_iNa += iNa ;
-  _ion_eNa = eNa;
 #if CACHEVEC
   if (use_cachevec) {
 	VEC_RHS(_ni[_iml]) -= _rhs;
@@ -473,8 +467,7 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
 {
   Vmi = _ion_Vmi;
  {   states(_p, _ppvar, _thread, _nt);
-  }   _ion_eNa = eNa;
-}}
+  } }}
 
 }
 
@@ -494,13 +487,14 @@ _first = 0;
 #endif
 
 #if NMODL_TEXT
-static const char* nmodl_filename = "/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Fridlyand2012/Beta_Na.mod";
+static const char* nmodl_filename = "/ufrc/lamb/robert727/Model-of-Pancreatic-Islets/Build/Fridlyand2012/Beta_Na.mod";
 static const char* nmodl_file_text = 
   "NEURON{\n"
   "SUFFIX B_Na \n"
-  "USEION Na WRITE iNa, eNa VALENCE 1\n"
+  "USEION Na WRITE iNa VALENCE 1\n"
+  ":eNa \n"
   "USEION Vm READ Vmi\n"
-  "RANGE gmNa, VdNa, kdNa, tdNa, fNa, kNar, eNa, VfNa, kfNa\n"
+  "RANGE gmNa, VdNa, kdNa, tdNa, fNa, kNar, eN, VfNa, kfNa\n"
   "RANGE dNai, iNa, fNai, tfNa\n"
   "}\n"
   "\n"
@@ -513,15 +507,15 @@ static const char* nmodl_file_text =
   "kNar\n"
   "VfNa\n"
   "kfNa\n"
-  "eNa\n"
-  "v\n"
-  "Vmi\n"
+  "eN\n"
   "}\n"
   "\n"
   "ASSIGNED{\n"
   "fNai\n"
   "dNai\n"
   "iNa\n"
+  "v\n"
+  "Vmi\n"
   "}\n"
   "\n"
   "STATE{\n"
@@ -538,7 +532,7 @@ static const char* nmodl_file_text =
   "tfNa = 0.5\n"
   "fNa = 0.1\n"
   "kNar = 0\n"
-  "eNa = 70\n"
+  "eN = 70\n"
   "VfNa = -42\n"
   "kfNa = 6\n"
   "}\n"
@@ -546,7 +540,7 @@ static const char* nmodl_file_text =
   "BREAKPOINT{\n"
   "fNai = (1.0 / (1.0 + exp( - ((VfNa - v) / kfNa))))\n"
   "dNai = (1.0 / (1.0 + exp(((VdNa - v) / kdNa))))                \n"
-  "iNa = (gmNa * ((pow(dNa,3.0) * fNa) + kNar) * (v - eNa))                \n"
+  "iNa = (gmNa * ((pow(dNa,3.0) * fNa) + kNar) * (v - eN))                \n"
   "SOLVE states METHOD cnexp\n"
   "}\n"
   "\n"

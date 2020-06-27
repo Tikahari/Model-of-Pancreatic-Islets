@@ -1,7 +1,7 @@
 NEURON{
 SUFFIX B_HERG
 USEION HERG WRITE iHERG VALENCE 1
-USEION K READ eK
+:USEION K READ eK
 USEION Vm READ Vmi
 RANGE gmKhe, kdhe, kfhe, tdKhe, tfKhe, Vdhe, Vfhe, eK
 RANGE dKhei, fKhei, iHERG
@@ -16,14 +16,14 @@ tfKhe
 Vdhe
 Vfhe
 eK
-v
-Vmi
 }
 
 ASSIGNED{
 dKhei  
 fKhei  
 iHERG
+v
+Vmi
 }
 
 STATE{
@@ -41,6 +41,7 @@ tdKhe = 100
 tfKhe = 50
 Vdhe = -30
 Vfhe = -42
+eK = -75
 }
 
 BREAKPOINT{

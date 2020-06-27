@@ -56,16 +56,14 @@ extern double hoc_Exp(double);
 #define iCaT _p[9]
 #define iCaP _p[10]
 #define iPCa _p[11]
-#define eCa _p[12]
-#define DCac _p[13]
-#define DIntCa _p[14]
-#define v _p[15]
-#define _g _p[16]
-#define _ion_eCa	*_ppvar[0]._pval
-#define _ion_iCaL	*_ppvar[1]._pval
-#define _ion_iCaT	*_ppvar[2]._pval
-#define _ion_iCaP	*_ppvar[3]._pval
-#define _ion_iPCa	*_ppvar[4]._pval
+#define DCac _p[12]
+#define DIntCa _p[13]
+#define v _p[14]
+#define _g _p[15]
+#define _ion_iCaL	*_ppvar[0]._pval
+#define _ion_iCaT	*_ppvar[1]._pval
+#define _ion_iCaP	*_ppvar[2]._pval
+#define _ion_iPCa	*_ppvar[3]._pval
  
 #if MAC
 #if !defined(v)
@@ -145,7 +143,7 @@ static void _ode_map(int, double**, double**, double*, Datum*, double*, int);
 static void _ode_spec(_NrnThread*, _Memb_list*, int);
 static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  
-#define _cvode_ieq _ppvar[5]._i
+#define _cvode_ieq _ppvar[4]._i
  static void _ode_matsol_instance1(_threadargsproto_);
  /* connect range variables in _p that hoc is supposed to know about */
  static const char *_mechanism[] = {
@@ -163,7 +161,6 @@ static void _ode_matsol(_NrnThread*, _Memb_list*, int);
  "IntCa_B_Cac",
  0,
  0};
- static Symbol* _Ca_sym;
  static Symbol* _CaL_sym;
  static Symbol* _CaT_sym;
  static Symbol* _CaP_sym;
@@ -174,28 +171,25 @@ extern Prop* need_memb(Symbol*);
 static void nrn_alloc(Prop* _prop) {
 	Prop *prop_ion;
 	double *_p; Datum *_ppvar;
- 	_p = nrn_prop_data_alloc(_mechtype, 17, _prop);
+ 	_p = nrn_prop_data_alloc(_mechtype, 16, _prop);
  	/*initialize range parameters*/
  	fi = 0;
  	F_ca = 0;
  	Vi = 0;
  	ksg = 0;
  	_prop->param = _p;
- 	_prop->param_size = 17;
- 	_ppvar = nrn_prop_datum_alloc(_mechtype, 6, _prop);
+ 	_prop->param_size = 16;
+ 	_ppvar = nrn_prop_datum_alloc(_mechtype, 5, _prop);
  	_prop->dparam = _ppvar;
  	/*connect ionic variables to this model*/
- prop_ion = need_memb(_Ca_sym);
- nrn_promote(prop_ion, 0, 3);
- 	_ppvar[0]._pval = &prop_ion->param[0]; /* eCa */
  prop_ion = need_memb(_CaL_sym);
- 	_ppvar[1]._pval = &prop_ion->param[3]; /* iCaL */
+ 	_ppvar[0]._pval = &prop_ion->param[3]; /* iCaL */
  prop_ion = need_memb(_CaT_sym);
- 	_ppvar[2]._pval = &prop_ion->param[3]; /* iCaT */
+ 	_ppvar[1]._pval = &prop_ion->param[3]; /* iCaT */
  prop_ion = need_memb(_CaP_sym);
- 	_ppvar[3]._pval = &prop_ion->param[3]; /* iCaP */
+ 	_ppvar[2]._pval = &prop_ion->param[3]; /* iCaP */
  prop_ion = need_memb(_PCa_sym);
- 	_ppvar[4]._pval = &prop_ion->param[3]; /* iPCa */
+ 	_ppvar[3]._pval = &prop_ion->param[3]; /* iPCa */
  
 }
  static void _initlists();
@@ -214,12 +208,10 @@ extern void _cvode_abstol( Symbol**, double*, int);
  void _Beta_Cac_reg() {
 	int _vectorized = 1;
   _initlists();
- 	ion_reg("Ca", 2.0);
  	ion_reg("CaL", -10000.);
  	ion_reg("CaT", -10000.);
  	ion_reg("CaP", -10000.);
  	ion_reg("PCa", -10000.);
- 	_Ca_sym = hoc_lookup("Ca_ion");
  	_CaL_sym = hoc_lookup("CaL_ion");
  	_CaT_sym = hoc_lookup("CaT_ion");
  	_CaP_sym = hoc_lookup("CaP_ion");
@@ -232,17 +224,16 @@ extern void _cvode_abstol( Symbol**, double*, int);
   hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
   hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
 #endif
-  hoc_register_prop_size(_mechtype, 17, 6);
-  hoc_register_dparam_semantics(_mechtype, 0, "Ca_ion");
-  hoc_register_dparam_semantics(_mechtype, 1, "CaL_ion");
-  hoc_register_dparam_semantics(_mechtype, 2, "CaT_ion");
-  hoc_register_dparam_semantics(_mechtype, 3, "CaP_ion");
-  hoc_register_dparam_semantics(_mechtype, 4, "PCa_ion");
-  hoc_register_dparam_semantics(_mechtype, 5, "cvodeieq");
+  hoc_register_prop_size(_mechtype, 16, 5);
+  hoc_register_dparam_semantics(_mechtype, 0, "CaL_ion");
+  hoc_register_dparam_semantics(_mechtype, 1, "CaT_ion");
+  hoc_register_dparam_semantics(_mechtype, 2, "CaP_ion");
+  hoc_register_dparam_semantics(_mechtype, 3, "PCa_ion");
+  hoc_register_dparam_semantics(_mechtype, 4, "cvodeieq");
  	hoc_register_cvode(_mechtype, _ode_count, _ode_map, _ode_spec, _ode_matsol);
  	hoc_register_tolerance(_mechtype, _hoc_state_tol, &_atollist);
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
- 	ivoc_help("help ?1 B_Cac /ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Fridlyand2012/x86_64/Beta_Cac.mod\n");
+ 	ivoc_help("help ?1 B_Cac /ufrc/lamb/robert727/Model-of-Pancreatic-Islets/Build/Fridlyand2012/x86_64/Beta_Cac.mod\n");
  hoc_register_limits(_mechtype, _hoc_parm_limits);
  hoc_register_units(_mechtype, _hoc_parm_units);
  }
@@ -295,7 +286,6 @@ static void _ode_spec(_NrnThread* _nt, _Memb_list* _ml, int _type) {
   iCaP = _ion_iCaP;
   iPCa = _ion_iPCa;
      _ode_spec1 (_p, _ppvar, _thread, _nt);
-  _ion_eCa = eCa;
  }}
  
 static void _ode_map(int _ieq, double** _pv, double** _pvdot, double* _pp, Datum* _ppd, double* _atol, int _type) { 
@@ -329,11 +319,10 @@ static void _ode_matsol(_NrnThread* _nt, _Memb_list* _ml, int _type) {
  }}
  extern void nrn_update_ion_pointer(Symbol*, Datum*, int, int);
  static void _update_ion_pointer(Datum* _ppvar) {
-   nrn_update_ion_pointer(_Ca_sym, _ppvar, 0, 0);
-   nrn_update_ion_pointer(_CaL_sym, _ppvar, 1, 3);
-   nrn_update_ion_pointer(_CaT_sym, _ppvar, 2, 3);
-   nrn_update_ion_pointer(_CaP_sym, _ppvar, 3, 3);
-   nrn_update_ion_pointer(_PCa_sym, _ppvar, 4, 3);
+   nrn_update_ion_pointer(_CaL_sym, _ppvar, 0, 3);
+   nrn_update_ion_pointer(_CaT_sym, _ppvar, 1, 3);
+   nrn_update_ion_pointer(_CaP_sym, _ppvar, 2, 3);
+   nrn_update_ion_pointer(_PCa_sym, _ppvar, 3, 3);
  }
 
 static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {
@@ -347,7 +336,6 @@ static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt
    F_ca = 96480.0 ;
    Vi = 0.764 ;
    ksg = 0.00001 ;
-   eCa = 100.0 ;
    }
  
 }
@@ -378,7 +366,6 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
   iCaP = _ion_iCaP;
   iPCa = _ion_iPCa;
  initmodel(_p, _ppvar, _thread, _nt);
-  _ion_eCa = eCa;
 }
 }
 
@@ -465,7 +452,6 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
    Caci = Cac ;
    IntCai = IntCa ;
    }
-  _ion_eCa = eCa;
 }}
 
 }
@@ -486,13 +472,12 @@ _first = 0;
 #endif
 
 #if NMODL_TEXT
-static const char* nmodl_filename = "/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Fridlyand2012/Beta_Cac.mod";
+static const char* nmodl_filename = "/ufrc/lamb/robert727/Model-of-Pancreatic-Islets/Build/Fridlyand2012/Beta_Cac.mod";
 static const char* nmodl_file_text = 
   "NEURON{\n"
   "SUFFIX B_Cac \n"
   ":USEION Cac WRITE Caci VALENCE 2\n"
   ":USEION IntCa WRITE IntCai VALENCE 1\n"
-  "USEION Ca WRITE eCa VALENCE 2\n"
   "USEION CaL READ iCaL\n"
   "USEION CaT READ iCaT\n"
   "USEION CaP READ iCaP\n"
@@ -505,11 +490,15 @@ static const char* nmodl_file_text =
   "F_ca\n"
   "Vi\n"
   "ksg\n"
+  "}\n"
+  "\n"
+  "ASSIGNED{\n"
+  "Caci\n"
+  "IntCai\n"
   "iCaL\n"
   "iCaT\n"
   "iCaP\n"
   "iPCa\n"
-  "eCa\n"
   "}\n"
   "\n"
   "INITIAL{\n"
@@ -519,7 +508,6 @@ static const char* nmodl_file_text =
   "F_ca = 96480\n"
   "Vi = 0.764\n"
   "ksg = 0.00001\n"
-  "eCa = 100\n"
   "}\n"
   "\n"
   "\n"
@@ -528,10 +516,6 @@ static const char* nmodl_file_text =
   "IntCa\n"
   "}\n"
   "\n"
-  "ASSIGNED{\n"
-  "Caci\n"
-  "IntCai\n"
-  "}\n"
   "\n"
   "BREAKPOINT{\n"
   "Caci = Cac\n"
