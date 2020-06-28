@@ -54,11 +54,12 @@ class Probability:
 
 # 3D matrix and accompanying operations that represent the spatial relationship between cells
 class Space:
-    def __init__(self, cell_p, config, dimen):
+    def __init__(self, cell_p, config, dimen, compile=False):
         # probability alpha/beta/delta
         self.cell_type = cell_p
         self.config = config
         self.d = dimen
+        self.compile = compile
         self.setup()
     def setup(self):
         # distribution for beta cells, 
@@ -81,7 +82,7 @@ class Space:
                 for k in range(self.d):
                     self.ps[i][j][k] = self.dist.getProbability(i,j,k)
     # fill islet randomly
-    def RandomSetup(self):
+    def randomSetup(self):
         c = 0
         while c < self.d:
             # x/y/z coordinates
@@ -100,7 +101,7 @@ class Space:
             c += 1
         return
     # fill islet radially
-    def RadialSetup(self):
+    def radialSetup(self):
         # radius = self.d /4
         i = 0
         j = 0
@@ -116,7 +117,7 @@ class Space:
                     # if position is vacant, add cell to space
                     # write configuration file
                     types = {'A': 'Alpha', 'B': 'Beta', 'D': 'Delta'}
-                    # with open('../../Configuration/Values/Template_' + Islet.env['gid'][2] + '/' + types[typ][0].lower() + '_' + str(c) + '.ini', 'w') as ini:
+                    # with open(Islet.env['config'] + 'Values/Template_' + Islet.env['gid'][2] + '/' + types[typ][0].lower() + '_' + str(c) + '.ini', 'w') as ini:
                     #     ini.write('[' + types[typ] + ']\n')
                     #     for z in self.config[types[typ]]:
                     #         if(type(self.config[types[typ]][z]) is list):
@@ -141,25 +142,29 @@ class Space:
     def configSetup(self, id):
         print(str(datetime.datetime.now()) + '\tSpace.configSetup(self, config) config=', id, 'Create islet instance')
         Islet.env['gid'] = id
-        for i in os.listdir('../../Configuration/Values/Islet_'+id):
-            # with open('../../Configuration/Values/Islet_'+ id + '/' + i, 'r'):
+        owd = Islet.env['wd']
+        for i in os.listdir(Islet.env['config'] + 'Values/Islet_'+id):
             config = configparser.ConfigParser()
             config = configparser.ConfigParser(allow_no_value= True)
             config.optionxform = str
-            config.read('../../Configuration/Values/Islet_'+ id + '/' + i)
+            config.read(Islet.env['config'] + 'Values/Islet_'+ id + '/' + i)
             for a in config:
                 # get cell number
                 cnum = re.split('_|\.', i)
                 cnum = cnum[1]
                 if 'position' in config[a]:
                     pos = ast.literal_eval(config[a]['position'])
-                    print(str(datetime.datetime.now()) + '\tSpace.configSetup(self, id) id =', id, 'Set up islet from configuration file: configuration file', i, 'cell type', a, 'id', cnum, 'position', pos)
-                    cell = Cell.Cell(cnum, pos[0], pos[1], pos[2], i[0].upper(), True)
+                    Islet.env['wd'] = owd + i.split('.')[0] + '/'
+                    print(str(datetime.datetime.now()) + '\tSpace.configSetup(self, id) id =', id, 'Set up cell from configuration file: configuration file', i, 'cell type', a, 'id', cnum, 'position', pos, 'wd', Islet.env['wd'])
+                    cell = Cell.Cell(cnum, pos[0], pos[1], pos[2], i[0].upper(), True, self.compile)
                     self.cs[pos[0]][pos[1]][pos[2]] = cell
                     # store type and position
                     self.cpos.append([i[0].upper(), pos[0], pos[1], pos[2]])
                     self.csize.append(cell.diam)
-                    self.connectCell(cell)                    
+                    # do not connect cells when writing/compiling mod files
+                    # if not self.compile:
+                        # self.connectCell(cell)  
+            Islet.env['wd'] = owd                  
     def connectCell(self, i):
         self.nc = {'AB': [], 'BA': [], 'AD': [], 'DA': [], 'BD': [], 'DB': []}
         # connect all cells to all other cells using NetCon object and synapse
@@ -183,6 +188,7 @@ class Space:
                 nc_temp.record(nc_record)
                 self.nc['DA'].append(nc_record)
                 # set pointers
+                # to = getattr(j.cell(1), '_ref_som_D_Somatostatin', j.cell.id)
                 Islet.neuron.h.setpointer(j.cell(1)._ref_som_D_Somatostatin, "Sst_send", syn)
                 Islet.neuron.h.setpointer(j.cell(1)._ref_temp_D_Somatostatin, "Ins_send", syn)
                 Islet.neuron.h.setpointer(i.cell(0)._ref_Sst_A_Glucagon, "Sst_receive", syn)
@@ -299,8 +305,8 @@ class Space:
                 data += str(i[0]).lower() + '_' + str(id) + ' = [' + str(i[1])+', '+str(i[2])+', '+str(i[3])+']\n'
                 id += 1
             # write to text    
-            os.system('mkdir ' + Islet.env['ini'] + '/Values/Template_' + str(z))
-            file = open(Islet.env['ini'] + '/Values/Template_' + str(z) + '/config.txt', 'w')
+            os.system('mkdir -p ' + Islet.env['config'] + 'Values/Template_' + str(z))
+            file = open(Islet.env['config'] + 'Values/Template_' + str(z) + '/config.txt', 'w')
             file.write(config)
             file.write(data)
             file.close()
@@ -328,7 +334,7 @@ class Space:
                             t = self.cs[i][j][k].t
                             print(str(datetime.datetime.now()) + '\tSpace.writeDataPhysiology(self) Obtained reference to time variable: length', len(t))
         # write to csv
-        with open(Islet.env['output'] + '/physiology/' + Islet.env['gid'] + '.csv','w+') as file:
+        with open(Islet.env['output'] + '/Islet_' + Islet.env['gid'] + '.csv','w+') as file:
             writer = csv.writer(file,quoting = csv.QUOTE_NONE,escapechar=' ')
             writer.writerow(header)
             # get data and header

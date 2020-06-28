@@ -1,8 +1,8 @@
 NEURON{
 SUFFIX B_CaP
-USEION CaP WRITE iCaP VALENCE 2
-USEION Ca READ eCa
-USEION Vm READ Vmi
+USEION CaP WRITE iCaP, eCaP VALENCE 2
+:USEION Ca READ eCa
+:USEION Vm READ Vmi
 RANGE gmCaP, dCaP, fCaP, VfCaP, VdCaP, tdCaP, tfCaP, kfCaP, kdCaP, eCa
 RANGE dCaPi, fCaPi, iCaP 
 }
@@ -15,7 +15,7 @@ tdCaP
 tfCaP
 kfCaP
 kdCaP
-eCa
+eCaP
 v
 Vmi  
 }
@@ -42,12 +42,13 @@ tfCaP = 65
 kfCaP = 8
 kdCaP = 6
 iCaP = 0
+eCaP = 100
 }
 
 BREAKPOINT{
 dCaPi = (1.0 / (1.0 + exp(((VdCaP - v) / kdCaP))))                
 fCaPi =  (1.0 / (1.0 + exp(((v - VfCaP) / kfCaP))))                
-iCaP = (gmCaP * dCaP * fCaP * (v - eCa))                
+iCaP = (gmCaP * dCaP * fCaP * (v - eCaP))                
 SOLVE states METHOD cnexp
 }
 
