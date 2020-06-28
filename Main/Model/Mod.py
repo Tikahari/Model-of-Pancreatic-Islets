@@ -1,6 +1,7 @@
 """Handles writing of initial block of mod file according to corresponding ini file (i.e. Beta.ini, Beta_KATP.mod)"""
 import configparser
 import sys
+import datetime
 
 def getTokens(line):
     key = ""
@@ -45,7 +46,7 @@ def writeMod(ini, mod):
                 # print(i)
                 count += 1
                 # if so, set line appropriately
-                print('Mod.writeMod(ini, mod) ini =', init, 'mod =', mod, 'variable to write is', i)
+                print(str(datetime.datetime.now()) + '\tMod.writeMod(ini, mod) ini =', ini, 'mod =', mod, 'variable to write is', i)
                 if(i.strip() in config[typ]):
                     new += i.strip() + ' = ' + str(config[typ][i.strip()]) + '\n'
                 else:

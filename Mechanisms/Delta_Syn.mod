@@ -22,6 +22,6 @@ NET_RECEIVE(weight){
 Ins_receive = Ins_receive + Ins_send*weight
 Gluc_receive = Gluc_receive + Gluc_send*weight
 VERBATIM
-//printf("net receive called\n");
+//printf("delta net receive called\n");
 ENDVERBATIM
 }
