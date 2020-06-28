@@ -17,6 +17,8 @@ eNaB
 
 ASSIGNED{
 iNaB
+v
+Vmi
 }
 
 INITIAL{

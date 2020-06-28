@@ -16,14 +16,14 @@ tfKhe
 Vdhe
 Vfhe
 eK
-v
-Vmi
 }
 
 ASSIGNED{
 dKhei  
 fKhei  
 iHERG
+v
+Vmi
 }
 
 STATE{

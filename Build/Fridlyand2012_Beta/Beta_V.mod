@@ -18,6 +18,9 @@ RANGE Cm, Vreal
 PARAMETER{
 Cm
 Vreal
+}
+
+ASSIGNED{
 iCaL
 iCaP
 iCaT

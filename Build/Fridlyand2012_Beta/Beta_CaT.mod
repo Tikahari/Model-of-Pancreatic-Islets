@@ -16,14 +16,14 @@ tdCaT
 tfCaT 
 VdCaT
 VfCaT 
-v
-Vmi
 }
 
 ASSIGNED{
 dCaTi
 fCaTi 
 iCaT 
+v
+Vmi
 }
 
 STATE{

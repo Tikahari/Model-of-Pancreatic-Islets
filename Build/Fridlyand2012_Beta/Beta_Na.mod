@@ -15,15 +15,15 @@ tfNa
 kNar
 VfNa
 kfNa
-eNa
-v
-Vmi
+eN
 }
 
 ASSIGNED{
 fNai
 dNai
 iNa
+v
+Vmi
 }
 
 STATE{
@@ -40,7 +40,7 @@ tdNa = 0.1
 tfNa = 0.5
 fNa = 0.1
 kNar = 0
-eNa = 70
+eN = 70
 VfNa = -42
 kfNa = 6
 }
@@ -48,7 +48,7 @@ kfNa = 6
 BREAKPOINT{
 fNai = (1.0 / (1.0 + exp( - ((VfNa - v) / kfNa))))
 dNai = (1.0 / (1.0 + exp(((VdNa - v) / kdNa))))                
-iNa = (gmNa * ((pow(dNa,3.0) * fNa) + kNar) * (v - eNa))                
+iNa = (gmNa * ((pow(dNa,3.0) * fNa) + kNar) * (v - eN))                
 SOLVE states METHOD cnexp
 }
 

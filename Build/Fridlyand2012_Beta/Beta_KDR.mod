@@ -21,6 +21,8 @@ eKDR
 ASSIGNED{
 dKri
 iKDR
+v
+Vmi
 }
 
 STATE{

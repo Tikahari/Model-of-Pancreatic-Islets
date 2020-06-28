@@ -24,6 +24,8 @@ ASSIGNED{
 dCaPi
 fCaPi
 iCaP  
+v
+Vmi  
 }
 
 STATE{

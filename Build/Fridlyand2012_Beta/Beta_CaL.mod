@@ -25,6 +25,8 @@ dCaLi
 fCaLi 
 iCaL    
 tdCaL
+Vmi
+v
 }
 
 STATE{

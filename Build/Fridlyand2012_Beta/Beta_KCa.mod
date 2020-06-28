@@ -23,6 +23,8 @@ eKCa
 ASSIGNED{
 dKCa
 iKCa
+v
+Vmi
 }
 
 INITIAL{
