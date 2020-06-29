@@ -3,6 +3,7 @@ import configparser
 import sys
 import datetime
 import re
+import os
 
 def getTokens(line):
     key = ""
@@ -49,7 +50,7 @@ def writeMod(ini, mod):
                 # if so, set line appropriately
                 if(i.strip() in config[typ]):
                     new += i.strip() + ' = ' + str(config[typ][i.strip()]) + '\n'
-                    print(str(datetime.datetime.now()) + '\tMod.writeMod(ini, mod) ini =', ini, 'mod =', mod, 'variable to write is', i, 'value',  str(config[typ][i.strip()]))
+                    print(str(datetime.datetime.now()) + '\tMod.writeMod Write mod from ini: ini', ini, 'mod', mod, 'variable to write', i, 'value',  str(config[typ][i.strip()]))
                 else:
                     new += line
             continue
@@ -64,6 +65,10 @@ def writeMod(ini, mod):
     filew = open(mod, 'w')
     filew.write(new)
     filew.close()
+    # rename files so all mechanisms for all cells can exist in same folder without overwrite
+    new = mod.split('.mod')[0]
+    new += re.split('_|\.', ini)[len(re.split('_|\.', ini)) - 2] + '.mod'
+    os.system('mv ' + mod + ' ' + new)
 if __name__ == '__main__':
     # test
     writeMod(sys.argv[1], sys.argv[2])
