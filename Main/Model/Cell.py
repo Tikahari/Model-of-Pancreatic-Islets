@@ -3,15 +3,18 @@ import configparser
 import ast
 import random
 import datetime
+import os
+import re
 import Islet
 import Mod
 
 class Cell:
-    def __init__(self, id, x, y, z, typ, setup=False):
+    def __init__(self, id, x, y, z, typ, setup=False, writeMod=False):
         self.id = id
         self.type = typ
         [self.x, self.y, self.z] = [x, y, z]
         self.cell = Islet.neuron.h.Section(name = str(self.type) + str(self.id))
+        self.write = writeMod
         self.diam = 1
         # add mechanisms + record on configSetup but not radialSetup
         if setup:
@@ -25,31 +28,35 @@ class Cell:
         self.pointers = {}
         # get properties from ini
         self.readData()
-        self.addMechanisms()
-        self.setPointers()
-        self.record()
+        if not self.write:
+            # dll = Islet.env['wd']
+            # print(str(datetime.datetime.now()) + '\tCells.setup(self) Load mechanisms: path', dll)
+            # ret = Islet.neuron.load_mechanisms(dll)
+            # print('return return return is ', ret, 'wd',Islet.env['wd'])
+            self.addMechanisms()
+            self.setPointers()
+            self.record()
     def readData(self):
         # set up mechanisms according to parameters for cell type
-        # set initialization file
-        if Islet.env['gid'] == "":
-            ini = 'super.ini'
-        else:
-            ini = Islet.env['gid']+'.ini'
         # read mechanism configuration
         config = configparser.ConfigParser(allow_no_value= True)
         config.optionxform = str
-        config.read(Islet.env['ini'] + '/Mechanisms/super.ini')
+        config.read(Islet.env['config'] + '/Mechanisms/Islet_' + Islet.env['rid'] + '_' + Islet.env['gid'] + '/' + self.type.lower() + '_' + str(self.id) + '.ini')
         types = {'A':'Alpha', 'B': 'Beta', 'D':'Delta'}
         # print(str(datetime.datetime.now())+ '\tself type', self.type)
         for i in config[types[self.type]]:
-            print(str(datetime.datetime.now()) + '\tCells.readData(self) Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism', i, 'cell type', self.type, types[self.type])
+            print(str(datetime.datetime.now()) + '\tCells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism', i, 'cell type', self.type, types[self.type])
             self.mechs.append(i)
             if config[types[self.type]][i] is not None:
                 self.pointers[i] = ast.literal_eval(config[types[self.type]][i])
-            Mod.writeMod(Islet.env['ini'] + '/Values/Islet_' + Islet.env['gid'] + '/' + self.type.lower() + '_' + str(self.id) + '.ini', Islet.env['mech'] + types[self.type] + '_' + i + '.mod')
+            # only write mod files when those mod files will be compiled
+            if self.write:
+                print(str(datetime.datetime.now()) + '\tCells.readData Write mod file: cell', self.cell)
+                modname = re.split('1|2|3|4|5|6|7|8|9|0', i)[0]
+                Mod.writeMod(Islet.env['config'] + 'Values/Islet_' + Islet.env['rid'] + '_' + Islet.env['gid'] + '/' + self.type.lower() + '_' + str(self.id) + '.ini', Islet.env['wd'] + types[self.type] + '_' + modname + '.mod')
     def addMechanisms(self):
         for i in self.mechs:
-            print(str(datetime.datetime.now()) + '\tCells.addMechanisms(self) Adding mechanisms: cell type', self.type, 'mechanism', i)
+            print(str(datetime.datetime.now()) + '\tCells.addMechanisms Adding mechanisms: cell type', self.type, 'mechanism', i, 'cwd', os.getcwd())
             self.cell.insert(self.type+'_'+i)
     def setPointers(self):
         for i in self.pointers:
@@ -58,13 +65,12 @@ class Cell:
                     temp = j.split('_')
                     point_to = self.type+"_"+i
                     point_from = "_ref_"+temp[0]+"_"+self.type+"_"+temp[2]
-                    print(str(datetime.datetime.now()) + '\tCells.setPointers(self) Setting pointers: point from', point_from, 'to', point_to, 'with pointer name', temp[0])
+                    print(str(datetime.datetime.now()) + '\tCells.setPointers Setting pointers: point from', point_from, 'to', point_to, 'with pointer name', temp[0])
                     from_ = getattr(k, point_from)
                     to_ = getattr(k, point_to)
                     Islet.neuron.h.setpointer(from_, temp[0], to_)
     def record(self):
-        a = self.cell
-        # print(str(datetime.datetime.now()) + '\tCell.record(self) Add recording variables: recording variables', a.psection())
+        # print(str(datetime.datetime.now()) + '\tCell.record(self) Add recording variables: recording variables', self.cell.psection())
         for i in self.cell.psection()['density_mechs']:
             for j in self.cell.psection()['density_mechs'][i]:
                 self.header.append(i+'_'+j)
@@ -84,12 +90,10 @@ class Cell:
             count += 1
         self.header.append(temp)
         #only first cell will record time
-        if self.id == 0:
+        if int(self.id) == 0:
             self.t = Islet.neuron.h.Vector().record(Islet.neuron.h._ref_t)
     def __repr__(self):
         return '{}{}'.format(self.type, self.id)
 if __name__ == '__main__':
     # test
     cell = Cell(0, 1, 2, 3, 'A')
-    
-# self.diam = random.randint(matIslet.neuron.h.floor(sizes[self.typ]-sizes[self.typ]*random.random()/10), matIslet.neuron.h.ceil(sizes[self.typ]+sizes[self.typ]*random.random()*10))

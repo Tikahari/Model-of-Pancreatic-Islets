@@ -5,7 +5,8 @@ USEION BK WRITE iBK VALENCE 1
 :USEION Cac READ Caci
 :USEION Ca READ eCa
 POINTER Cac
-USEION Vm READ Vmi
+:USEION Vm READ Vmi
+
 RANGE hdk, gmKCaB, kCaBK, kdKCaB, kfKCaB, tdKCaB, tfKCaB, VfKCaB, VBKo, eK, kshift
 RANGE dKCaBi, fKCaBi, VdKCaB, iBK
 }
@@ -56,7 +57,7 @@ VfKCaB = 30
 VBKo = 0.1
 eK = -75
 kshift = 18
-:eCa = 100
+eCa = 100
 }
 
 BREAKPOINT{

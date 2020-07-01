@@ -1,15 +1,18 @@
 NEURON{
 SUFFIX B_NaB 
-USEION NaB WRITE iNaB VALENCE 1
+USEION NaB WRITE iNaB, eNaB VALENCE 1
 :USEION Na READ eNa
-USEION Vm READ Vmi
-RANGE gBNa, eN
+:USEION Vm READ Vmi
+RANGE gBNa, eNa, eNaB
 RANGE iNaB
 }
 
 PARAMETER{
 gBNa
-eN
+eNa
+v
+Vmi
+eNaB
 }
 
 ASSIGNED{
@@ -20,9 +23,9 @@ Vmi
 
 INITIAL{
 gBNa = 10.0
-eN = 70
+eNaB = 70
 }
 
 BREAKPOINT{
-iNaB =  (gBNa * (v - eN))                
+iNaB =  (gBNa * (v - eNaB))                
 }

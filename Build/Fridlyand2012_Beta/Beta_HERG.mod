@@ -2,7 +2,7 @@ NEURON{
 SUFFIX B_HERG
 USEION HERG WRITE iHERG VALENCE 1
 :USEION K READ eK
-USEION Vm READ Vmi
+:USEION Vm READ Vmi
 RANGE gmKhe, kdhe, kfhe, tdKhe, tfKhe, Vdhe, Vfhe, eK
 RANGE dKhei, fKhei, iHERG
 }

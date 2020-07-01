@@ -2,42 +2,56 @@
 import os
 import csv
 import datetime
+import numpy as np
 import Space
 import neuron
 import neuron.gui
-import importlib
+
 # path to initialization file, mechanisms, output, and generation identifier
-env = {'ini': "/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/", 'mech': "/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Mechanisms/", 'output':"/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Outputs/", 'gid': "1_0"}
+path = "/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/"
+env = {'config': path + "Configuration/", 'gid': "1_0", 'mech': path + "Mechanisms/", 'output': path + "Outputs/", 'rid': "0", 'wd': path + "Main/Run/" }
 
 class Islet:
-    def __init__(self, probabilities, config, n, id=-1):
-        self.id = id
+    def __init__(self, probabilities, config, n, id=-1, compile=False):
         # path to initialization file, mechanisms, output, and generation identifier
         self.env = env
-        self.setFolder()
-        print(str(datetime.datetime.now()) + '\tIslet.init(self, probabilities, config, n) Set up spatial relationships in islet')
-        self.space = Space.Space(probabilities, config, n)
-    def setFolder(self):
-        os.system('rm -r x86_64/')
-        os.system('module load intel/2019')
-        os.system('module load openmpi')
-        os.system('cp ' + env['mech'] + '*mod .; nrnivmodl *mod > compile 2>&1')
-        # os.system('cp -r' + env['mech'] + '/x86_64/{.,}* x86_64; cp -r ' + env['mech'] + '/x86_64/.libs* x86_64')
-        os.system('rm *mod')
+        self.id = id
+        self.n = n
+        if compile:
+            print(str(datetime.datetime.now()) + '\tIslet.init Compile mod files: wd', self.env['wd'])
+            self.space = Space.Space(probabilities, config, n, compile)
+            self.space.configSetup(self.id)
+        else:
+            dll = self.env['wd'] + '.r/'
+            print(str(datetime.datetime.now()) + '\tIslet.init  Load mechanisms: path', dll)
+            ret = neuron.load_mechanisms(dll)
+            print('properly loaded', ret)
+            print(str(datetime.datetime.now()) + '\tIslet.init Normal islet setup (no compile)')
+            self.space = Space.Space(probabilities, config, n)
     def run(self):
+        print(str(datetime.datetime.now()) + '\tIslet.run Run islet instance')
         self.space.configSetup(self.id)
-        self.t = neuron.h.Vector().record(neuron.h._ref_t)
+        temp_sec = None
+        temp_cs = np.array(self.space.cs)
+        temp_cs = temp_cs.flatten()
+        for i in temp_cs:
+            if i is not None:
+                temp_sec = i
+                break
+        self.t = neuron.h.Vector().record(neuron.h._ref_t, sec=temp_sec.cell)
+        print(str(datetime.datetime.now()) + '\tIslet.run Initialize neuron mechanisms: cwd', os.getcwd())
         neuron.h.finitialize()
-        print(str(datetime.datetime.now()) + '\tIslet.run(self) Run simulation')
-        neuron.h.continuerun(5000)
-        print(str(datetime.datetime.now()) + '\tIslet.run(self) Write data')
+        print(str(datetime.datetime.now()) + '\tIslet.run Run simulation')
+        neuron.h.continuerun(50)
+        print(str(datetime.datetime.now()) + '\tIslet.run Write data')
         self.space.writeDataPhysiology()
+        # self.space.plot()
     def clean(self):
         os.system('rm -r x86_64')
-    def spatialConfig(self):
-        print(str(datetime.datetime.now()) + '\tIslet.spatialConfig(self, probabilities, config, n) Enter radial setup')
-        self.space.RadialSetup()
-        self.space.writeDataOrientation()
+    def spatialConfig(self, temp):
+        print(str(datetime.datetime.now()) + '\tIslet.spatialConfig Enter radial setup')
+        self.space.radialSetup()
+        self.space.writeDataOrientation(temp)
 if __name__ == '__main__':
     #test
     # cell sizes

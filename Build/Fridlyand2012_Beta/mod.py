@@ -42,6 +42,8 @@ def writeMod(init, mod):
                 # if so, set line appropriately
                 if(i.strip() in config['Beta']):
                     new += i.strip() + ' = ' + str(config['Beta'][i.strip()]) + '\n'
+                else:
+                    new += line
             continue
         # begin when 'INITIAL' keyword is reached
         if 'INITIAL' in line:
