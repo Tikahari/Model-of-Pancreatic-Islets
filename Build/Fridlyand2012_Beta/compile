@@ -1,8 +1,4 @@
-<<<<<<< HEAD:Build/Fridlyand2012/compile
-/ufrc/lamb/robert727/Model-of-Pancreatic-Islets/Build/Fridlyand2012
-=======
-/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Build/Fridlyand2012_Beta
->>>>>>> 8618a4f1cbcffb99efab7300f72dca121d258116:Build/Fridlyand2012_Beta/compile
+/ufrc/lamb/robert727/Model-of-Pancreatic-Islets/Build/Fridlyand2012_Beta
 Beta_BK.mod Beta_Cac.mod Beta_CaL.mod Beta_CaP.mod Beta_CaT.mod Beta_HERG.mod Beta_Ins.mod Beta_KATP.mod Beta_KCa.mod Beta_KDR.mod Beta_NaB.mod Beta_Na.mod Beta_PCa.mod Beta_V.mod
 Beta_BK.mod Beta_Cac.mod Beta_CaL.mod Beta_CaP.mod Beta_CaT.mod Beta_HERG.mod Beta_Ins.mod Beta_KATP.mod Beta_KCa.mod Beta_KDR.mod Beta_NaB.mod Beta_Na.mod Beta_PCa.mod Beta_V.mod
 "/apps/neuron/7.7.2/share/nrn/libtool" --tag=CC --mode=compile mpicc -DHAVE_CONFIG_H  -I. -I.. -I"/apps/neuron/7.7.2/include/nrn" -I"/apps/neuron/7.7.2/lib"      -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /apps/neuron/7.7.2/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/neuron_1579770231422/work=/usr/local/src/conda/neuron-7.7.2 -fdebug-prefix-map=/apps/neuron/7.7.2=/usr/local/src/conda-prefix -c -o mod_func.lo mod_func.c
