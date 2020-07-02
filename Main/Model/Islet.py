@@ -42,7 +42,7 @@ class Islet:
         print(str(datetime.datetime.now()) + '\tIslet.run Initialize neuron mechanisms: cwd', os.getcwd())
         neuron.h.finitialize()
         print(str(datetime.datetime.now()) + '\tIslet.run Run simulation')
-        neuron.h.continuerun(50)
+        neuron.h.continuerun(5000)
         print(str(datetime.datetime.now()) + '\tIslet.run Write data')
         self.space.writeDataPhysiology()
         # self.space.plot()

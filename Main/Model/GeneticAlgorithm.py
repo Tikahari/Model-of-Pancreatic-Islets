@@ -14,9 +14,9 @@ run = 0
 # number of unique spatial configurations
 sc = 3
 # islets per generation
-pop = 5
+pop = 12
 # size of islets
-size = 2
+size = 5
 # max number of generations
 glimit = 100
 # fitness cutoff (average increase for last 3 generations)
@@ -161,7 +161,12 @@ class GA:
         while c < glimit:
             # check if all models finished
             self.spinLock()
-            # breed
+            # breed all islets
+            print('working directory breed', Islet.env['wd'])
+            for i in os.listdir(Islet.env['wd']):
+                # compress data
+                os.system('tar -zcvf ' + i + '.tar.gz ' + i)
+                self.breed(i)
             # mutate
             # dispatch
             self.generations[c] = []
@@ -197,6 +202,11 @@ class GA:
             # check status every 5 minutes
             time.sleep(3)
     def breed(self, path):
+        scores = {}
+        for i in os.listdir(path):
+            scores[i] = -1
+            print('i is', i)
+            # os.system('rm -r ' + i)
         f = pickle.load('')
     def mutate(self):
         return

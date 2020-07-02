@@ -9,6 +9,7 @@ import Islet
 
 class Model:
     def __init__(self, gid, run, alpha, beta, n):
+        print(str(datetime.datetime.now()) + '\tModel.init')
         self.gid = gid
         self.db = Islet.env['wd'] + 'run_' + run + '.db'
         # set environment variables
