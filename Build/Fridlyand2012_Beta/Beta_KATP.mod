@@ -20,10 +20,7 @@ ASSIGNED{
 MgADP             
 OKATP
 iKATP 
-<<<<<<< HEAD
-=======
 v
->>>>>>> cdea09c47750ec9d5344172d40f74bfed4f872e6
 }
 
 INITIAL{

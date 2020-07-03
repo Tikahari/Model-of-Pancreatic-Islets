@@ -87,4 +87,4 @@ with open('data/'+sys.argv[1],'w') as file:
             out.append(rec[q][0][i])
         # print(len(rec), len(out), len(header))
         writer.writerow(out)
-print(str(datetime.datetime.now()) + '\tcomplete')
+print(str(datetime.datetime.now()) + '\tcompleted')
