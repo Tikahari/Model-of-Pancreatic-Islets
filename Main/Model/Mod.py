@@ -60,11 +60,11 @@ def writeMod(ini, mod):
         new += line
         if 'SUFFIX' in line:
             # add cell id# to end of mechanism name so it can be uniquely identified and added for every islet run
-            new = new[:len(new)-1] + re.split('_|\.', ini)[len(re.split('_|\.', ini)) - 2] + '\n'
+            new = new[:len(new)-1].strip() + re.split('_|\.', ini)[len(re.split('_|\.', ini)) - 2] + '\n'
     filer.close()
     filew = open(mod, 'w')
     filew.write(new)
-    filew.close()
+#    filew.close()
     # rename files so all mechanisms for all cells can exist in same folder without overwrite
     new = mod.split('.mod')[0]
     new += re.split('_|\.', ini)[len(re.split('_|\.', ini)) - 2] + '.mod'

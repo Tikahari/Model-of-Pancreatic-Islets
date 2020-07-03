@@ -3,7 +3,7 @@
 #SBATCH --account=lamb
 #SBATCH --qos=lamb-b
 #SBATCH --time=2:00:00
-#SBATCH --mem=64GB
+#SBATCH --mem=128GB
 #SBATCH --ntasks=1
 #SBATCH --output=/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Model_MOPI_$Run_$Generation_%j.log
 

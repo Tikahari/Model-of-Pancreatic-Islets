@@ -14,14 +14,15 @@ run = 0
 # number of unique spatial configurations
 sc = 3
 # islets per generation
-pop = 5
+pop = 12
 # size of islets
-size = 2
+size = 5
 # max number of generations
 glimit = 100
 # fitness cutoff (average increase for last 3 generations)
 flimit = 100
-
+# path to experimental data
+data = []
 
 # variables for islet
 # cell sizes
@@ -34,9 +35,37 @@ class GA:
         # relevant info about all generations
         self.generations = {0: []}
         self.scores = []
+        self.readData()
         self.setDatabase()
         self.setOrientation()
         self.run()
+    def readData(self):
+        data = np.genfromtxt('data_1.csv', delimiter=',', skip_header=10,skip_footer=10, names=['t', 'Vp'])
+        # Determine Nyquist frequency/sampling rate
+        sf = 1
+        nyq = sf/2
+        # Set bands
+        low = 500
+        high = 9000
+        low = low/nyq
+        high = high/nyq
+
+        # Calculate coefficients
+        b, a = butter(2, 0.5)
+        print(b, a)
+        # Filter signal
+        filtered_data = lfilter(b, a, data['Vp'])
+        # Find peaks
+        p, _ = find_peaks(data['Vp'])
+        # Calculate prominence
+        prominence = peak_prominences(data['Vp'], p)
+        print('prominences', prominence)
+        print(_, p)
+        plt.plot(filtered_data)
+        plt.plot(data['Vp'])
+        plt.plot(p, data['Vp'][p], "x")
+        # plt.savefig()
+        pickle.dump()
     def setDatabase(self):
         Islet.env['rid'] = str(run)
         conn = sqlite3.connect(Islet.env['wd'] + 'run_' + str(run) + '.db')
@@ -161,7 +190,12 @@ class GA:
         while c < glimit:
             # check if all models finished
             self.spinLock()
-            # breed
+            # breed all islets
+            print('working directory breed', Islet.env['wd'])
+            for i in os.listdir(Islet.env['wd']):
+                # compress data
+                os.system('tar -zcvf ' + i + '.tar.gz ' + i)
+                self.breed(i)
             # mutate
             # dispatch
             self.generations[c] = []
@@ -197,6 +231,11 @@ class GA:
             # check status every 5 minutes
             time.sleep(3)
     def breed(self, path):
+        scores = {}
+        for i in os.listdir(path):
+            scores[i] = -1
+            print('i is', i)
+            # os.system('rm -r ' + i)
         f = pickle.load('')
     def mutate(self):
         return

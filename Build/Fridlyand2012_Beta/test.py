@@ -5,6 +5,8 @@ import mod
 import os
 import sys
 import ast
+import datetime
+
 # read mechanism configuration (mech.ini)
 config = configparser.ConfigParser(allow_no_value= True)
 config.optionxform = str
@@ -24,15 +26,16 @@ t = []
 v = []
 rec = {}
 header = []
-print('creating section')
+
+print(str(datetime.datetime.now()) + '\tcreating section')
 # create section and add all mechanisms
 from neuron import h, gui
 a = h.Section()
 for i in mechs:
     a.insert('B_'+i)
 # simulation parameter
-a.cm = 9990
-print('setting pointers')
+a.cm = 9990000
+print(str(datetime.datetime.now()) + '\tsetting pointers')
 # set pointers
 for i in pointers:
     for j in pointers[i]:
@@ -40,14 +43,14 @@ for i in pointers:
             temp = j.split('_')
             point_to = "B_"+i
             point_from = "_ref_"+temp[0]+"_B_"+temp[2]
-            # print('point from', point_from, "point to", point_to)
+            print(str(datetime.datetime.now()) + '\t' + point_to, "points to", point_from)
             from_ = getattr(k, point_from)
             to_ = getattr(k, point_to)
             h.setpointer(from_, temp[2], to_)
 
 # a.nseg = 5
 # record mechanisms
-print('setting recording variables')
+print(str(datetime.datetime.now()) + '\tsetting recording variables')
 for i in a.psection()['density_mechs']:
     for j in a.psection()['density_mechs'][i]:
         header.append(i+'_'+j)
@@ -71,10 +74,10 @@ head.extend(header)
 head.append(temp)
 
 t = h.Vector().record(h._ref_t)
-print('running simulation')
+print(str(datetime.datetime.now()) + '\trunning simulation')
 h.finitialize(-62)
 h.continuerun(5000)
-print('writing data')
+print(str(datetime.datetime.now()) + '\twriting data')
 with open('data/'+sys.argv[1],'w') as file:
     writer = csv.writer(file,quoting = csv.QUOTE_NONE,escapechar=' ')
     writer.writerow(head)
@@ -84,3 +87,4 @@ with open('data/'+sys.argv[1],'w') as file:
             out.append(rec[q][0][i])
         # print(len(rec), len(out), len(header))
         writer.writerow(out)
+print(str(datetime.datetime.now()) + '\tcomplete')
