@@ -323,7 +323,6 @@ class Space:
                     if self.cs[i][j][k] is not None and int(self.cs[i][j][k].id) == 0:
                             t = self.cs[i][j][k].t
                             print(str(datetime.datetime.now()) + '\tSpace.writeDataPhysiology Obtained reference to time variable: length', len(t))
-        print('t', len(t))
         for i in range(len(self.cs)):
                 for j in range(len(self.cs[i])):
                     for k in range(len(self.cs[i][j])):
@@ -331,26 +330,24 @@ class Space:
                             # get header
                             header = ['Time']
                             header.extend(self.cs[i][j][k].header)
-                            print('header', len(header))
                             # write to csv
                             with open(Islet.env['output'] + 'Islet_' + Islet.env['rid'] + '_' + Islet.env['gid'] + '/' + self.cs[i][j][k].type.lower() + '_' + self.cs[i][j][k].id + '.csv','w+') as file:
                                 writer = csv.writer(file, quoting = csv.QUOTE_NONE,escapechar=' ')
                                 writer.writerow(header)
                                 for z in range(len(t)):
-                                    data = [t[i]]
+                                    data = [t[z]]
                                     for q in self.cs[i][j][k].rec:
                                         data.append(self.cs[i][j][k].rec[q][0][z])
-                                    print('data', len(data))
                                     writer.writerow(data)
                             print(str(datetime.datetime.now()) + '\tSpace.writeDataPhysiology Wrote data: cell', self.cs[i][j][k], 'islet Islet_' + Islet.env['gid'], 'path', Islet.env['output'] + 'Islet_' + Islet.env['rid'] + '_' + Islet.env['gid'] + '/' + self.cs[i][j][k].type.lower() + '_' + self.cs[i][j][k].id + '.csv')
     def getCell(self, r, x, y, z):
-        print(str(datetime.datetime.now()) + '\tSpace.getCell r =', r, 'x =', x, 'y =', y, 'z =', z, 'Probability of alpha/beta at this x/y/z position', self.ps[x][y][z])
-        if r <= self.ps[x][y][z][0]:
-            return 'A'
-        elif r <= self.ps[x][y][z][1]:
-            return 'B'
-        return 'D'
-
+        # print(str(datetime.datetime.now()) + '\tSpace.getCell r =', r, 'x =', x, 'y =', y, 'z =', z, 'Probability of alpha/beta at this x/y/z position', self.ps[x][y][z])
+        # if r <= self.ps[x][y][z][0]:
+        #     return 'A'
+        # elif r <= self.ps[x][y][z][1]:
+        #     return 'B'
+        # return 'D'
+        return 'B'
 if __name__ == '__main__':
     # cell sizes
     sizes = {'A': 10, 'B': 10, 'D': 10}

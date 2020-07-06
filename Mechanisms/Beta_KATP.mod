@@ -24,7 +24,7 @@ v
 }
 
 INITIAL{
-gmKATP = 65000
+gmKATP = 45000
 ATP = 3600
 ADPf = 15.0
 kdd = 17

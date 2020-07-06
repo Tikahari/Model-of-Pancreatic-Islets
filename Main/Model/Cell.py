@@ -58,6 +58,7 @@ class Cell:
         for i in self.mechs:
             print(str(datetime.datetime.now()) + '\tCells.addMechanisms Adding mechanisms: cell type', self.type, 'mechanism', i, 'cwd', os.getcwd())
             self.cell.insert(self.type+'_'+i)
+        self.cell.cm = 9990000
     def setPointers(self):
         for i in self.pointers:
             for j in self.pointers[i]:
@@ -89,9 +90,7 @@ class Cell:
             self.rec[temp].append(Islet.neuron.h.Vector().record(i._ref_v))
             count += 1
         self.header.append(temp)
-        #only first cell will record time
-        if int(self.id) == 0:
-            self.t = Islet.neuron.h.Vector().record(Islet.neuron.h._ref_t)
+        self.t = Islet.neuron.h.Vector().record(Islet.neuron.h._ref_t)
     def __repr__(self):
         return '{}{}'.format(self.type, self.id)
 if __name__ == '__main__':

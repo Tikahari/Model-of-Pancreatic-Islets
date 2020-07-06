@@ -1,65 +1,77 @@
-from neuron import h, gui
+from neuron import h, rxd
+from neuron.rxd import v
+# from neuron.units import mV, s 
+from matplotlib import pyplot
 import sys
-import csv
+import csv 
+h.load_file('stdrun.hoc')
 
-# variables to store data
+# create a couple of cells 
+cell1 = h.Section('cell1')
+cell1.pt3dclear()
+cell1.pt3dadd(-20,0,0,10)
+cell1.pt3dadd(-10,0,0,10)
+cell1.insert('receive')
+
+cell2 = h.Section('cell2')
+cell2.pt3dclear()
+cell2.pt3dadd(0,0,0,10)
+cell2.pt3dadd(10,0,0,10)
+cell2.insert('send')
+
+# Where?
+# the intracellular spaces
+cyt = rxd.Region(h.allsec(), name='cyt', nrn_region='i')
+
+# plasma membrane 
+mem = rxd.Region(h.allsec(), name='mem', geometry=rxd.membrane)
+
+# the extracellular space
+ecs = rxd.Extracellular(-35, -15, -15, 35, 15, 15, dx=10, volume_fraction=0.2, tortuosity=1.6)
+
+# Who?
+glucagon = rxd.Species([cyt, ecs], name='glucagon', d=1.0, initial=16)
+gcyt = glucagon[cyt]
+gecs = glucagon[ecs]
+
+# interaction between intracellular and extracellular glucagon
+R = 1e3
+U = 1e5
+rrate = R*gcyt      # release rate [molecules per square micron per ms]
+urate = U*gecs      # uptake rate [molecules per square micron per ms]
+glucagon_release = rxd.MultiCompartmentReaction(gcyt, gecs, rrate, urate,
+                                                membrane=mem, 
+                                                custom_dynamics=True)
+
+
+# record the concentrations in the cells
+t_vec = h.Vector()
+t_vec.record(h._ref_t)
+gl_cell1 = h.Vector().record(cell1(0.5)._ref_glucagoni)
+gl_ecs = h.Vector().record(gecs.node_by_location(0,0,0)._ref_concentration)
+gl_cell2 = h.Vector().record(cell2(0.5)._ref_glucagoni)
+
+# variables to store data cell 1
 t = []
 v = []
 rec = {}
 header = []
 
-
-# two sections with appropriate mechanisms and connection object
-d = h.Section()
-d.insert('send')
-
-# d.insert('D_CaL')
-# d.insert('D_CaPQ')
-a = h.Section()
-a.insert('receive')
-
-# following lines are most important
-syn = h.A_Conn(a(0))
-nc = h.NetCon(d(1)._ref_som_send,syn, 2, 0, 6)
-# record netcon variables
-rec_nc = h.Vector()
-nc.record(rec_nc)
-
-h.setpointer(a(0.5)._ref_som_receive, "Sst", syn)
-
-# header.append('netcon_Sst')
-# rec['netcon_Sst'] = []
-# rec['netcon_Sst'].append(h.Vector().record(nc.Sst))
-# header.append('netcon_w')
-# rec['netcon_w'] = []
-# rec['netcon_w'].append(h.Vector().record(nc.w))
-
-# record mechanisms alpha
-for i in a.psection()['density_mechs']:
-    for j in a.psection()['density_mechs'][i]:
-        header.append(i+'_'+j)
-        rec[str(i+'_'+j)] = []
+# record mechanisms cell1
+for i in cell1.psection()['density_mechs']:
+    for j in cell1.psection()['density_mechs'][i]:
+        header.append(j+'_'+i)
+        rec[str(j+'_'+i)] = []
         # record variables of every mechanism in every segment
-        for k in a:
+        for k in cell1:
             v.append(h.Vector().record(k._ref_v))
             mechRecord = getattr(k, '_ref_'+j+'_'+i)
-            rec[str(i+'_'+j)].append(h.Vector().record(mechRecord))
-            
-# record mechanisms delta
-for i in d.psection()['density_mechs']:
-    for j in d.psection()['density_mechs'][i]:
-        header.append(i+'_'+j)
-        rec[str(i+'_'+j)] = []
-        # record variables of every mechanism in every segment
-        for k in d:
-            v.append(h.Vector().record(k._ref_v))
-            mechRecord = getattr(k, '_ref_'+j+'_'+i)
-            rec[str(i+'_'+j)].append(h.Vector().record(mechRecord))
+            rec[str(j+'_'+i)].append(h.Vector().record(mechRecord))
 
 # fix header / record voltage of every segment
 head = ['Time']
 count = 0
-for i in a:
+for i in cell1:
     temp = 'VC'+str(count)
     # ease writing to csv by keeping same format even though it is not necessary
     rec[temp] = []
@@ -68,23 +80,73 @@ for i in a:
 head.extend(header)
 head.append(temp)
 
+
+# variables to store data
+t2 = []
+v2 = []
+rec2 = {}
+header2 = []
+
+# record mechanisms cell1
+for i in cell2.psection()['density_mechs']:
+    for j in cell2.psection()['density_mechs'][i]:
+        header2.append(j+'_'+i)
+        rec2[str(j+'_'+i)] = []
+        # record variables of every mechanism in every segment
+        for k in cell2:
+            v2.append(h.Vector().record(k._ref_v))
+            mechRecord2 = getattr(k, '_ref_'+j+'_'+i)
+            rec2[str(j+'_'+i)].append(h.Vector().record(mechRecord2))
+
+# fix header / record voltage of every segment
+head2 = ['Time']
+count = 0
+for i in cell2:
+    temp = 'VC'+str(count)
+    # ease writing to csv by keeping same format even though it is not necessary
+    rec2[temp] = []
+    rec2[temp].append(h.Vector().record(i._ref_v))
+    count += 1
+head2.extend(header2)
+head2.append(temp)
+
+
+
 t = h.Vector().record(h._ref_t)
 h.finitialize(-62)
-h.continuerun(5000)
+h.continuerun(1000)
 
-# add netcon info to output
-head.append('netcon')
-rec['netcon'] = []
-rec['netcon'].append(rec_nc)
-# print('recorded NetCon', rec_nc[0])
-
+# write data cell 1
 with open('data/'+sys.argv[1],'w') as file:
     writer = csv.writer(file,quoting = csv.QUOTE_NONE,escapechar=' ')
     writer.writerow(head)
     for i in range(len(t)):
         out = [t[i]]
         for q in rec:
-            if i < len(rec[q][0]):
-                out.append(rec[q][0][i])
+            out.append(rec[q][0][i])
         # print(len(rec), len(out), len(header))
         writer.writerow(out)
+
+# write data cell 2
+with open('data/'+sys.argv[2],'w') as file:
+    writer = csv.writer(file,quoting = csv.QUOTE_NONE,escapechar=' ')
+    writer.writerow(head2)
+    for i in range(len(t)):
+        out = [t[i]]
+        for q in rec2:
+            out.append(rec2[q][0][i])
+        # print(len(rec), len(out), len(header))
+        writer.writerow(out)
+
+
+
+fig = pyplot.figure(dpi=200)
+pyplot.plot(t_vec,gl_cell1, label='cell1')
+pyplot.plot(t_vec,gl_ecs, label='ecs')
+pyplot.plot(t_vec,gl_cell2, label='cell2')
+pyplot.legend(frameon=False)
+pyplot.xlabel('t (ms)')
+pyplot.ylabel('glucagon (mM)')
+pyplot.savefig("/tmp/300620_glucagon_example.png")
+pyplot.show()
+

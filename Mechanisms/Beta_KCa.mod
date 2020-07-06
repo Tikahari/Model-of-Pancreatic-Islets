@@ -1,38 +1,32 @@
 NEURON{
 SUFFIX B_KCa
 USEION KCa WRITE iKCa VALENCE 1
-USEION K READ ek
-RANGE 
-RANGE 
+POINTER Cac
+USEION K READ eK
+RANGE gmKCa, KKCa, eK
+RANGE dKCa, iKCa
 }
 
 PARAMETER{
-
+gmKCa
+KKCa
+Cac
+eK
 }
 
 ASSIGNED{
-ek
+dKCa
+iKCa
 v
 }
 
-STATE{
-iKCa
-}
-
 INITIAL{
-gKCa = 280
-kd = 0.5
-c = 0.0630015242008439  
-
+gmKCa = 150
+KKCa = 0.2
+dKCa = 0.1
 }
 
 BREAKPOINT{
-
-SOLVE states METHOD cnexp
-iKCa = gkca/(1+(kd/c)^2)*(v-ek)
-}
-
-DERIVATIVE states{
-c' = fcyt*(Jmem + Jer + delta*Jmito)
-
+dKCa = (pow(Cac,4.0) / (pow(KKCa,4.0) + pow(Cac,4.0)))                
+iKCa =  (gmKCa * dKCa * (v - eK))                
 }
