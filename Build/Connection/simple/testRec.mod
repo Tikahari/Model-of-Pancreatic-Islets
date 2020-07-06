@@ -1,8 +1,8 @@
 NEURON{
-    SUFFIX receive
-    RANGE som
-    USEION glucagon READ glucagoni, glucagono, iglucagon VALENCE 1
-    RANGE glucagoni, glucagono, iglucagon, gin, gout
+SUFFIX receive
+RANGE som
+USEION glucagon READ glucagoni, glucagono, iglucagon VALENCE 1
+RANGE glucagoni, glucagono, iglucagon, gin, gout
 }
 
 ASSIGNED{

@@ -142,7 +142,7 @@ class GA:
                         print(str(datetime.datetime.now()) + '\tGeneticAlgorithm.parentGen Write to configuration file: instance', Islet.env['gid'], 'Write initialization file:', z + ' = ' + str(val), 'cell type', types[j[0].upper()], 'file_v', file_v, 'file_m', file_m)
                         values.write(z + ' = ' + str(val) + '\n')
                     values.write('position = ' + config['Data'][j])
-                    # iterate through mechanisms and add cell id where appropriate
+                    # write mechanism initialization for this cell in islet
                     mech = ""
                     print(j)
                     num = str(j.split('_'))[1]

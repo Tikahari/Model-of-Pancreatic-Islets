@@ -1,6 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
 from scipy.signal import butter, lfilter, find_peaks, peak_prominences
+from scipy.stats import *
 import pickle
 import os
 import re
@@ -38,7 +39,7 @@ def readData(file):
     plt.plot(data['Vp'])
     plt.plot(p, data['Vp'][p], "x")
     fig.savefig(re.split('\.csv', file)[0] + '.png')
-    pickle.dump([_, p, prominence, data],open(re.split('\.csv', file)[0] + '.pl', 'wb'))
+    pickle.dump([p, prominence, data['Vp']],open(re.split('\.csv', file)[0] + '.pl', 'wb'))
 def readCell(cell):
     print(str(datetime.datetime.now()) + '\tread cell for', cell)
     data = np.genfromtxt(cell, delimiter=',', names=True)
@@ -71,14 +72,22 @@ def readCell(cell):
     plt.plot(data['VC0'])
     plt.plot(p, data['VC0'][p], "x")
     fig.savefig(re.split('\.csv', cell)[0] + '.png')
-    pickle.dump([_, p, prominence, data], open(re.split('.csv', cell)[0] + '.pl', 'wb'))
+    pickle.dump([p, prominence, data['VC0']], open(re.split('.csv', cell)[0] + '.pl', 'wb'))
 def scoreRun(file, cell):
     print(str(datetime.datetime.now()) + '\tscore run for', cell, 'with', file)
-    _, p, prominence, data = pickle.load(open(re.split('.csv', file)[0] + '.pl', 'rb'))
-    _2, p2, prominence2, data2 = pickle.load(open(re.split('.csv', cell)[0] + '.pl', 'rb'))
+    data_1 = pickle.load(open(re.split('.csv', file)[0] + '.pl', 'rb'))
+    data_2 = pickle.load(open(re.split('.csv', cell)[0] + '.pl', 'rb'))
+    for i, j in zip(data_1, data_2):
+        if len(i) > 0 and len(j) > 0:
+            getValue(i, j)
     # print('peaks', p, '\nprominence', prominence, '\npeak prop', _)
     # print('peaks2', p2, '\nprominence2', prominence2, '\npeak prop2', _2)
-
+def getValue(a, b):
+    tolerance = {'center': 0.2, 'spread': 0.1}
+    d1 = describe(a)
+    d2 = describe(b)
+    for i, j in zip(d1, d2):
+        print('d1, d2', i, j)
 def main():
     # read data
     data = 'data_1.csv'

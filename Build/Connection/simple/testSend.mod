@@ -24,6 +24,8 @@ som
 }
 
 BREAKPOINT{
+gin = glucagoni
+gout = glucagono
 VERBATIM
 //printf("send\n");
 ENDVERBATIM
