@@ -4,7 +4,7 @@ USEION Sst READ Ssti, Ssto WRITE iSst VALENCE 0
 NONSPECIFIC_CURRENT i
 USEION CaL READ iCaL
 USEION CaPQ READ iCaPQ
-RANGE iSst, iCaL, iCaPQ, tmsb, con, alpha, vmdl, vmdPQ, fVl, B, fVPQ, kpmca, kserca, pleak, vCaPQm, sCaPQm, vCaPQh, sCaPQh, tCaPQh1, tCaPQh2, tausom, bas, fcyt, fmd, fer, sigmav, vc, f 
+RANGE iSst, iCaL, iCaPQ, tmsb, con, alpha, vmdl, vmdPQ, fVl, B, fVPQ, kpmca, kserca, pleak, vCaPQm, sCaPQm, vCaPQh, sCaPQh, tCaPQh1, tCaPQh2, tausom, bas, fcyt, fmd, fer, sigmav, vc, f, Sst_init 
 RANGE JL, JPQ, Jserca, Jer, mCaPQ_inf, hCaPQ_inf, tauCaPQm, tauCaPQh, Jmem, y, Jleak, som
 }
 
@@ -34,6 +34,7 @@ fer
 sigmav 
 vc 
 f 
+Sst_init
 }
 
 ASSIGNED{
