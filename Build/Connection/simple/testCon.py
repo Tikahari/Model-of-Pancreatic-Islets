@@ -15,8 +15,8 @@ cell1.insert('receive')
 
 cell2 = h.Section('cell2')
 cell2.pt3dclear()
-cell2.pt3dadd(-10,0,0,15)
-cell2.pt3dadd(15,0,0,30)
+cell2.pt3dadd(30,0,0,15)
+cell2.pt3dadd(45,0,0,15)
 cell2.insert('send')
 
 # Where?
@@ -27,18 +27,20 @@ cyt = rxd.Region(h.allsec(), name='cyt', nrn_region='i')
 mem = rxd.Region(h.allsec(), name='mem', geometry=rxd.membrane)
 
 # the extracellular space
-ecs = rxd.Extracellular(-20, -5, -5, 15, 5, 5, dx=1, volume_fraction=0.2, tortuosity=1.6)
+ecs = rxd.Extracellular(-20, -5, -5, 45, 5, 5, dx=1, volume_fraction=0.2, tortuosity=1.6)
 
 # Who?
-glucagon = rxd.Species([cyt, ecs], name='glucagon', d=1.0, initial=16)
+glucagon = rxd.Species([cyt, ecs], name='glucagon', charge=1, d=1.0)
 gcyt = glucagon[cyt]
 gecs = glucagon[ecs]
+
+delta_param = rxd.Parameter(cyt, initial=lambda node: 1 if node.segment in cell2 else 0)
 
 # interaction between intracellular and extracellular glucagon
 R = 1e5
 U = 1e3
-rrate = R*gcyt      # release rate [molecules per square micron per ms]
-urate = U*gecs      # uptake rate [molecules per square micron per ms]
+rrate = R*gcyt     # release rate [molecules per square micron per ms]
+urate = U*gecs*delta_param[cyt]      # uptake rate [molecules per square micron per ms]
 glucagon_release = rxd.MultiCompartmentReaction(gcyt, gecs, rrate, urate,
                                                 membrane=mem, 
                                                 custom_dynamics=True)

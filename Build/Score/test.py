@@ -29,7 +29,7 @@ def readData(file):
     p, _ = find_peaks(data['Vp'])
     # Calculate prominence
     prominence = peak_prominences(data['Vp'], p)
-    # print('prominences', prominence)
+    print('prominences', prominence)
     # print(_, p)
     # plt.plot(filtered_data)
     fig = plt.figure()
@@ -61,7 +61,7 @@ def readCell(cell):
     p, _ = find_peaks(data['VC0'])
     # Calculate prominence
     prominence = peak_prominences(data['VC0'], p)
-    # print('prominences', prominence)
+    print('prominences', prominence)
     # print(_, p)
     # plt.plot(filtered_data)
     # print('max', max(data['VC0']))
@@ -83,11 +83,39 @@ def scoreRun(file, cell):
     # print('peaks', p, '\nprominence', prominence, '\npeak prop', _)
     # print('peaks2', p2, '\nprominence2', prominence2, '\npeak prop2', _2)
 def getValue(a, b):
-    tolerance = {'center': 0.2, 'spread': 0.1}
+    tolerance = {}
+    # 5 point penalty for every 10 points of variation
+    p = 0
+    for i in range(10):
+        tolerance[i/10] = p
+        p += 5
     d1 = describe(a)
     d2 = describe(b)
+    print('d1', d1)
+    print('d2', d2)
+    print('begin')
+    # counter, variance, mean
+    c = 0
+    v = -1
+    m = -1
+    a = []
     for i, j in zip(d1, d2):
-        print('d1, d2', i, j)
+        # get mean
+        if c == 2:
+            m = i
+        # get variance, z-scores
+        if c == 3:
+            v = i
+            tol = []
+            k = c - 2 * v
+            while k < c + 2 * v and k > c - 2 * v:
+                # z-score
+                z[k] = k / 2 * v
+                k += 1
+    # score based on tolerance/z-score
+    for i, j in zip(d1, d2):
+        print('d1, d2', i, j)     
+        c += 1
 def main():
     # read data
     data = 'data_1.csv'

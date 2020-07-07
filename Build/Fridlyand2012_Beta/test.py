@@ -29,7 +29,8 @@ header = []
 
 print(str(datetime.datetime.now()) + '\tcreating section')
 # create section and add all mechanisms
-from neuron import h, gui
+from neuron import h, rxd
+h.load_file('stdrun.hoc')
 a = h.Section()
 for i in mechs:
     a.insert('B_'+i)

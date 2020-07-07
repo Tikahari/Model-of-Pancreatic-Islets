@@ -14,9 +14,9 @@ alpha.pt3dclear()
 alpha.pt3dadd(-20,0,0,10)
 alpha.pt3dadd(-10,0,0,10)
 alpha.insert('A_GIRK')
-alpha.insert('D_Somatostatin')
-alpha.insert('D_CaL')
-alpha.insert('D_CaPQ')
+# alpha.insert('D_Somatostatin')
+# alpha.insert('D_CaL')
+# alpha.insert('D_CaPQ')
 
 delta = h.Section('delta')
 delta.pt3dclear()
@@ -46,6 +46,9 @@ delta_param = rxd.Parameter(cyt, initial=lambda node: 1.0 if node.segment.sec ==
 
 # production with a rate following Michaels Menton kinetics
 create_Sst = rxd.Rate(Sst_cyt, delta_param[cyt] * 1.0/(10.0 + Sst_cyt))
+
+# uptake
+# uptake_Sst = rxd.Rate(Sst_ecs, )
 
 # record the concentrations in the cells
 t_vec = h.Vector()

@@ -6,6 +6,7 @@ import mod
 import os
 import ast
 import datetime
+from matplotlib import pyplot
 
 # read mechanism configuration files for cell types (mech.ini files)
 config = configparser.ConfigParser(allow_no_value= True)
@@ -52,10 +53,13 @@ os.system('nrnivmodl *mod > compile 2>&1')
 
 
 # create a section for each cell type and add all corresponding mechanisms
-from neuron import h, gui
+from neuron import h, rxd
+h.load_file('stdrun.hoc')
 
 # Alpha cell
 a = h.Section()
+a.pt3dadd(-20,0,0,10)
+a.pt3dadd(-10,0,0,10)
 for i in mechsa:
     a.insert('A_'+i)
 # simulation parameter
@@ -63,6 +67,8 @@ a.cm = 9990
 
 # Beta cell
 b = h.Section()
+b.pt3dadd(30,0,0,15)
+b.pt3dadd(45,0,0,15)
 for i in mechsb:
     b.insert('B_'+i)
 # simulation parameter
@@ -70,6 +76,8 @@ b.cm = 9990
 
 # Delta cell
 d = h.Section()
+d.pt3dadd(0,0,0,15)
+d.pt3dadd(15,0,0,15)
 for i in mechsd:
     d.insert('D_'+i)
 # simulation parameter
@@ -94,7 +102,7 @@ vd = []
 recd = {}
 headerd = []
 
-print(str(datetime.datetime.now) + '\tset pointers')
+print(str(datetime.datetime.now()) + '\tset pointers')
 # set pointers
 mp = {'Alpha': a, "Beta": b, "Delta": d}
 for i in pointers:
@@ -110,7 +118,7 @@ for i in pointers:
                 h.setpointer(from_, temp[0], to_)
 
 
-str(datetime.datetime.now) + '\tset recording variables')
+print(str(datetime.datetime.now()) + '\tset recording variables')
 # Record mechanisms
 # Alpha
 for i in a.psection()['density_mechs']:
@@ -145,86 +153,47 @@ for i in d.psection()['density_mechs']:
             mechRecordd = getattr(k, '_ref_'+j+'_'+i)
             recd[str(i+'_'+j)].append(h.Vector().record(mechRecordd))
 
-# connect cells
-nc = {'AB': [], 'BA': [], 'AD': [], 'DA': [], 'BD': [], 'DB': []}
+# set up rxd
+# the intracellular spaces
+cyt = rxd.Region(h.allsec(), name='cyt', nrn_region='i')
 
-# # Delta to Alpha
-# print('connect delta to alpha')
-# syn = h.A_Syn(a(0))
-# nc_temp = h.NetCon(d(1)._ref_t__D_Somatostatin, syn, 2, 0, 6, sec=d)
-# nc_record = h.Vector()
-# nc_temp.record(nc_record)
-# nc['DA'].append(nc_record)
-# # define pointers
-# h.setpointer(d(1)._ref_Sst_D_Somatostatin, "Sst_send", syn)
-# h.setpointer(a(0)._ref_Sst_A_Glucagon, "Sst_receive", syn)
-# h.setpointer(d(1)._ref_temp_D_Somatostatin, "Ins_send", syn)
-# h.setpointer(d(1)._ref_temp_D_Somatostatin, "Ins_receive", syn)
+# plasma membrane 
+mem = rxd.Region(h.allsec(), name='mem', geometry=rxd.membrane)
 
-# Beta to Alpha
-print(str(datetime.datetime.now) + '\tconnect beta to alpha')
-syn = h.A_Syn(a(0))
-nc_temp = h.NetCon(b(1)._ref_t__B_Insulin, syn, 2, 0, 6, sec=b)
-nc_record = h.Vector()
-nc_temp.record(nc_record)
-nc['BA'].append(nc_record)
-# set pointers
-h.setpointer(b(1)._ref_Ins_B_Insulin, "Ins_send", syn)
-h.setpointer(a(0)._ref_Ins_A_Glucagon, "Ins_receive", syn)  
-h.setpointer(b(1)._ref_temp_B_Insulin, "Sst_send", syn)
-h.setpointer(b(1)._ref_temp_B_Insulin, "Sst_receive", syn)
+# the extracellular space
+ecs = rxd.Extracellular(-20, -5, -5, 45, 5, 5, dx=1, volume_fraction=0.2, tortuosity=1.6)
 
-# Alpha to Beta
-print(str(datetime.datetime.now) + '\tconnect alpha to beta')
-syn = h.B_Syn(b(0))
-nc_temp = h.NetCon(a(1)._ref_t__A_Glucagon, syn, 2, 0, 6, sec=a)
-nc_record = h.Vector()
-nc_temp.record(nc_record)
-nc['AB'].append(nc_record)
-# set pointers
-h.setpointer(a(1)._ref_G_A_Glucagon, "Gluc_send", syn)
-h.setpointer(b(0)._ref_G_B_Insulin, "Gluc_receive", syn)        
-h.setpointer(a(1)._ref_temp_A_Glucagon, "Sst_send", syn)
-h.setpointer(a(1)._ref_temp_A_Glucagon, "Sst_receive", syn)
+# glucagon
+glucagon = rxd.Species([cyt, ecs], name='glucagon', charge=1, d=1.0)
+gcyt = glucagon[cyt]
+gecs = glucagon[ecs]
 
-# # Delta to Beta
-# print(str(datetime.datetime.now) + '\tconnect delta to beta')
-# syn = h.B_Syn(b(0))
-# nc_temp = h.NetCon(d(1)._ref_t__D_Somatostatin, syn, 2, 0, 6, sec=d)
-# nc_record = h.Vector()
-# nc_temp.record(nc_record)
-# nc['DB'].append(nc_record)
-# # set pointers
-# h.setpointer(d(1)._ref_Sst_D_Somatostatin, "Sst_send", syn)
-# h.setpointer(b(0)._ref_Sst_B_Insulin, "Sst_receive", syn)     
-# h.setpointer(d(1)._ref_temp_D_Somatostatin, "Gluc_send", syn)
-# h.setpointer(d(1)._ref_temp_D_Somatostatin, "Gluc_receive", syn)
+# somatostatin
+sst = rxd.Species([cyt, ecs], name='sst', charge=1, d=1.0)
+sstcyt = sst[cyt]
+sstecs = sst[ecs]
 
-# # Alpha to Delta
-# print(str(datetime.datetime.now) + '\tconnect alpha to delta')
-# syn = h.D_Syn(d(0))
-# nc_temp = h.NetCon(a(1)._ref_t__A_Glucagon, syn, 2, 0, 6, sec=a)
-# nc_record = h.Vector()
-# nc_temp.record(nc_record)
-# nc['AD'].append(nc_record)
-# # set pointers
-# h.setpointer(a(1)._ref_G_A_Glucagon, "Gluc_send", syn)
-# h.setpointer(d(0)._ref_G_D_Somatostatin, "Gluc_receive", syn)
-# h.setpointer(a(1)._ref_temp_A_Glucagon, "Ins_send", syn)
-# h.setpointer(a(1)._ref_temp_A_Glucagon, "Ins_receive", syn)
+# insulin
+insulin = rxd.Species([cyt, ecs], name='insulin', charge=1, d=1.0)
+inscyt = insulin[cyt]
+insecs = insulin[ecs]
 
-# # Beta to Delta
-# print(str(datetime.datetime.now) + '\tconnect beta to delta')
-# syn = h.D_Syn(d(0))
-# nc_temp = h.NetCon(b(1)._ref_t__B_Insulin, syn, 2, 0, 6, sec=b)
-# nc_record = h.Vector()
-# nc_temp.record(nc_record)
-# nc['BD'].append(nc_record)
-# # set pointers
-# h.setpointer(b(1)._ref_Ins_B_Insulin, "Ins_send", syn)
-# h.setpointer(d(0)._ref_Ins_D_Somatostatin, "Ins_receive", syn) 
-# h.setpointer(b(1)._ref_temp_B_Insulin, "Gluc_send", syn)
-# h.setpointer(b(1)._ref_temp_B_Insulin, "Gluc_receive", syn)
+# uptake and release
+# interaction between intracellular and extracellular glucagon
+R = 1e5
+U = 1e3
+rrate = R*gcyt     # release rate [molecules per square micron per ms]
+urate = U*gecs     # uptake rate [molecules per square micron per ms]
+glucagon_release = rxd.MultiCompartmentReaction(gcyt, gecs, rrate, urate,
+                                                membrane=mem, 
+                                                custom_dynamics=True)
+
+
+# record the concentrations in the cells
+t_vec = h.Vector()
+t_vec.record(h._ref_t)
+gl_cell1 = h.Vector().record(a(0.5)._ref_glucagoni)
+gl_ecs = h.Vector().record(gecs.node_by_location(0,0,0)._ref_concentration)
 
 # fix header / record voltage of every segment for each cell type
 
@@ -265,13 +234,25 @@ headd.extend(headerd)
 headd.append(tempd)
 
 t = h.Vector().record(h._ref_t)
-print(str(datetime.datetime.now) + '\tinitialize')
+print(str(datetime.datetime.now()) + '\tinitialize')
 h.finitialize()
-print(str(datetime.datetime.now) + '\tsimulate')
+print(str(datetime.datetime.now()) + '\tsimulate')
 h.continuerun(2500)
 
+print(str(datetime.datetime.now) + '\tplot')
+fig = pyplot.figure(dpi=200)
+pyplot.plot(t_vec,gl_cell1, label='cell1')
+pyplot.plot(t_vec,gl_ecs, label='ecs')
+# pyplot.plot(t_vec,gl_cell2, label='cell2')
+pyplot.legend(frameon=False)
+pyplot.xlabel('t (ms)')
+pyplot.ylabel('glucagon (mM)')
+pyplot.savefig("/tmp/300620_glucagon_example.png")
+pyplot.show()
+
+
 # Write results to 3 csv's. One for each cell type
-print(str(datetime.datetime.now) + '\twrite data')
+print(str(datetime.datetime.now()) + '\twrite data')
 # Alpha
 with open('data/watts_Alpha.csv','w') as file:
     writer = csv.writer(file,quoting = csv.QUOTE_NONE,escapechar=' ')
@@ -283,7 +264,7 @@ with open('data/watts_Alpha.csv','w') as file:
                 out.append(reca[q][0][i])
         # print(len(rec), len(out), len(header))
         writer.writerow(out)
-print(str(datetime.datetime.now) + '\twrote alpha')
+print(str(datetime.datetime.now()) + '\twrote alpha')
 # Beta
 with open('data/watts_Beta.csv','w') as file:
     writer = csv.writer(file,quoting = csv.QUOTE_NONE,escapechar=' ')
@@ -295,7 +276,7 @@ with open('data/watts_Beta.csv','w') as file:
                 out.append(recb[q][0][i])
         # print(len(rec), len(out), len(header))
         writer.writerow(out)
-str(datetime.datetime.now) + '\twrote beta')
+print(str(datetime.datetime.now()) + '\twrote beta')
 # Delta
 with open('data/watts_Delta.csv','w') as file:
     writer = csv.writer(file,quoting = csv.QUOTE_NONE,escapechar=' ')
@@ -307,22 +288,5 @@ with open('data/watts_Delta.csv','w') as file:
                 out.append(recd[q][0][i])
         # print(len(rec), len(out), len(header))
         writer.writerow(out)
-str(datetime.datetime.now) + '\twrote delta')
-# Netcon
-m = 0
-for i in nc:
-    if len(nc[i]) > 1 and len(nc[i][0]) > m:
-        m = len(nc[i][0])
-    print(m, 'm')
-headnet = ['DA', 'BA', 'AB', 'DB', 'AD', 'BD']
-
-with open('data/netcon.csv', 'w') as file:
-    writer = csv.writer(file,quoting = csv.QUOTE_NONE,escapechar=' ')
-    writer.writerow(headnet)
-    for i in range(m):
-        out = []
-        for j in nc:
-            if len(nc[j][0]) > i:
-                out.append(nc[j][0][i])
-        writer.writerow(out)
-print(str(datetime.datetime.now) + '\tcompleted')
+print(str(datetime.datetime.now()) + '\twrote delta')
+print(str(datetime.datetime.now()) + '\tcompleted')

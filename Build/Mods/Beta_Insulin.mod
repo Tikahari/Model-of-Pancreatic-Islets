@@ -1,8 +1,9 @@
 NEURON{
 SUFFIX B_Insulin
 :USEION Ca READ iCa
-:USEION Ca READ iCaL
-:USEION Ca READ iCaR
+:USEION CaL READ iCaL
+:USEION CaR READ iCaR
+USEION insulin READ insulini, insulino WRITE iinsulin VALENCE 1
 RANGE vmd, vcell, alpha, B, kpmca, cbas, kserca2b, kserca3, per, phigk, KGPDH, kappa, Jgk, fcyt, delta, p23 
 RANGE p24, psim, p21, p22, fer, sigmav, fmd, lambda, VmaxPFK, weight1, topa1, bottom1, atot, k4, k3, f43, k2, f42 
 RANGE f23, amp, k1, f41, f13, gamma, p19, Amtot, p20, FRT, p16, p13, p14, p15, fmito, p8, p9, p10, p11, p17, p18 
@@ -17,9 +18,14 @@ RANGE topa12, bottom12, weight13, topa13, bottom13, weight14, topa14, bottom14, 
 RANGE topa16, bottom16, pfk, pfk_ms, r20, ampfactor, r3, r2, rm2b, mod_cmd, JIS 
 RANGE G, Sst
 RANGE t_, dir, temp
+RANGE iin, iout
 }
 
 PARAMETER{   
+iin
+iout
+insulini
+insulino
 : hormone secretion variables
 t_
 dir
@@ -129,6 +135,7 @@ fb
 }
 
 ASSIGNED{
+iinsulin
 minf
 iCa 
 iCaL 
@@ -367,6 +374,8 @@ v = -71.33779976819424
 }
 
 BREAKPOINT{
+iin = insulini
+iout = insulino
 if (t_ > 2){
 dir = 1
 }
@@ -470,6 +479,7 @@ rm2b = (1 - knockoutdb) * rb/(1 + exp(-(Sst - sombarb)/ssomb)) + knockoutdb * 0.
 SOLVE states METHOD cnexp : Put equations that need to have ODE's solved to evaluate under here
 mod_cmd = bas_cmd + max_cmd * pow(cmd,cmdp)/(pow(cmd,cmdp) + pow(kcmd,cmdp))
 JIS = tmsb * u3 * NR * 0.0016
+iinsulin = Ins
 }
 
 DERIVATIVE states{

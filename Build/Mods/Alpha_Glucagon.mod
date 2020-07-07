@@ -3,13 +3,18 @@ SUFFIX A_Glucagon
 USEION CaPQ READ iCaPQ
 USEION CaT READ iCaT
 USEION CaL READ iCaL
+USEION glucagon READ glucagono WRITE glucagoni, iglucagon VALENCE 1
 RANGE alphaa, Ba, fcyta, fVpqa, tmsb, vcella, vmdpq, kpmcaa, ksercaa, pleaka, fera, sigmava, fmda, k1a, km1a, r1a, rm1a, r20a, r30a, rm3a, u1a, u2a, u3a, kpa, kp2a, GlucFacta, knockoutda, ra, sombara, rako, ssom, fa, vc, caerbara, ssoca, vsoca, gsocbara, G 
 RANGE iCaPQ, iCaT, iCaL, JPQ, JTa, JLa, Jera, rm2a, r2a, r3a, Jsercaa, Jleaka, Jmema, JGS, cinfa, isoca
 RANGE Sst, Ins
 RANGE t_, dir, temp
+RANGE gin, gout
 }
 
 PARAMETER{
+gout
+gin
+glucagono
 : hormone secretion variables
 t_
 dir
@@ -55,6 +60,7 @@ vsoca
 }
 
 ASSIGNED{
+iglucagon
 iCaPQ
 iCaT
 iCaL
@@ -76,6 +82,7 @@ v
 }
 
 STATE{
+glucagoni
 ca
 cera
 cmdpqa
@@ -144,9 +151,13 @@ vsoca = 0
 gsocbara = 0.025
 G = 31.73727470720019
 v = -49.03736299581227
+glucagoni = 31.73727470720019
 }
 
 BREAKPOINT{
+gin = glucagoni
+gout = glucagono
+iglucagon = G
 if (t_ > 2){
 dir = 1
 }
@@ -188,4 +199,5 @@ N6a' = tmsb*(r3a + rm2a*N5a - (rm3a + r2a)*N6a)
 NFa' = tmsb*(u1a*N4a - u2a*NFa)
 NRa' = tmsb*(u2a*NFa - u3a*NRa)
 G' = JGS/vc-fa*G
+glucagoni' = JGS/vc-fa*glucagoni
 }
