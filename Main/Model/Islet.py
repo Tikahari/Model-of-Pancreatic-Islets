@@ -13,6 +13,7 @@ env = {'config': path + "Configuration/", 'gid': "1_0", 'mech': path + "Mechanis
 
 class Islet:
     def __init__(self, probabilities, config, n, id=-1, compile=False):
+        """Initialize islet instance"""
         # path to initialization file, mechanisms, output, and generation identifier
         self.env = env
         self.id = id
@@ -29,6 +30,7 @@ class Islet:
             print(str(datetime.datetime.now()) + '\tIslet.init Normal islet setup (no compile)')
             self.space = Space.Space(probabilities, config, n)
     def run(self):
+        """Simulate and write data for this islet"""
         print(str(datetime.datetime.now()) + '\tIslet.run Run islet instance')
         self.space.configSetup(self.id)
         temp_sec = None
@@ -46,9 +48,8 @@ class Islet:
         print(str(datetime.datetime.now()) + '\tIslet.run Write data')
         self.space.writeDataPhysiology()
         # self.space.plot()
-    def clean(self):
-        os.system('rm -r x86_64')
     def spatialConfig(self, temp):
+        """Create templates/spatial configuration and write result, but do not create cells"""
         print(str(datetime.datetime.now()) + '\tIslet.spatialConfig Enter radial setup')
         self.space.radialSetup()
         self.space.writeDataOrientation(temp)

@@ -1,4 +1,4 @@
-"""Handles writing of initial block of mod file according to corresponding ini file (i.e. Beta.ini, Beta_KATP.mod)"""
+"""These functions handle writing of initial block of mod file according to corresponding ini file (i.e. Beta.ini, Beta_KATP.mod)"""
 import configparser
 import sys
 import datetime
@@ -6,6 +6,7 @@ import re
 import os
 
 def getTokens(line):
+    """Get variables and value within 'INITIAL' block of mod file"""
     key = ""
     val = ""
     tokens = {'{', "'", '\n', '}'}
@@ -21,6 +22,7 @@ def getTokens(line):
     return {key: val}
         
 def writeMod(ini, mod):
+    """Write 'INITIAL' block of mod file accoring to specified configuration file"""
     types = ['Alpha', 'Beta', 'Delta']
     typ = ''
     for i in types:

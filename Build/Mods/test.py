@@ -239,7 +239,7 @@ h.finitialize()
 print(str(datetime.datetime.now()) + '\tsimulate')
 h.continuerun(2500)
 
-print(str(datetime.datetime.now) + '\tplot')
+print(str(datetime.datetime.now()) + '\tplot')
 fig = pyplot.figure(dpi=200)
 pyplot.plot(t_vec,gl_cell1, label='cell1')
 pyplot.plot(t_vec,gl_ecs, label='ecs')

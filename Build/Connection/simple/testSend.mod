@@ -1,7 +1,7 @@
 NEURON{
 SUFFIX send
+USEION glucagon READ glucagono WRITE glucagoni, iglucagon VALENCE 1
 RANGE som
-USEION glucagon READ glucagoni, glucagono, iglucagon
 RANGE glucagoni, glucagono, iglucagon, gin, gout
 RANGE val
 }
@@ -30,6 +30,8 @@ som
 BREAKPOINT{
 gin = glucagoni
 gout = glucagono
+:iglucagon = iglucagon + 1
+glucagoni = 6
 som = som * 10
 val = val + 1
 }

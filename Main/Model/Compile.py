@@ -1,3 +1,4 @@
+"""This script will write to and compile mod files for each cell of the islet and prepare the appropriate folder for a simulation"""
 import datetime
 import sys
 import os

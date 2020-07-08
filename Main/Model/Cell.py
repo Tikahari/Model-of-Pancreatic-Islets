@@ -10,6 +10,7 @@ import Mod
 
 class Cell:
     def __init__(self, id, x, y, z, typ, setup=False, writeMod=False):
+        """Initialize NEURON section with relevant mechanisms and parameters"""
         self.id = id
         self.type = typ
         [self.x, self.y, self.z] = [x, y, z]
@@ -20,6 +21,7 @@ class Cell:
         if setup:
             self.setup()
     def setup(self):
+        """Set mechanisms, parameters, and recording variables"""
         # variables to store data
         self.v = []
         self.rec = {}
@@ -37,7 +39,7 @@ class Cell:
             self.setPointers()
             self.record()
     def readData(self):
-        # set up mechanisms according to parameters for cell type
+        """Read mechanisms and parameters for this cell from its configuration file"""
         # read mechanism configuration
         config = configparser.ConfigParser(allow_no_value= True)
         config.optionxform = str
@@ -55,11 +57,13 @@ class Cell:
                 modname = re.split('1|2|3|4|5|6|7|8|9|0', i)[0]
                 Mod.writeMod(Islet.env['config'] + 'Values/Islet_' + Islet.env['rid'] + '_' + Islet.env['gid'] + '/' + self.type.lower() + '_' + str(self.id) + '.ini', Islet.env['wd'] + types[self.type] + '_' + modname + '.mod')
     def addMechanisms(self):
+        """Add mechanism to section"""
         for i in self.mechs:
             print(str(datetime.datetime.now()) + '\tCells.addMechanisms Adding mechanisms: cell type', self.type, 'mechanism', i, 'cwd', os.getcwd())
             self.cell.insert(self.type+'_'+i)
         self.cell.cm = 9990000
     def setPointers(self):
+        """Set NEURON pointers"""
         for i in self.pointers:
             for j in self.pointers[i]:
                 for k in self.cell:
@@ -71,6 +75,7 @@ class Cell:
                     to_ = getattr(k, point_to)
                     Islet.neuron.h.setpointer(from_, temp[0], to_)
     def record(self):
+        """Set recording variables"""
         # print(str(datetime.datetime.now()) + '\tCell.record(self) Add recording variables: recording variables', self.cell.psection())
         for i in self.cell.psection()['density_mechs']:
             for j in self.cell.psection()['density_mechs'][i]:

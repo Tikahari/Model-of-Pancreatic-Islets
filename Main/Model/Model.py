@@ -1,3 +1,4 @@
+"""The 'Model' class will be used to configure and run a simulation for one islet. Instances are intended to be run in parallel and update a database file upon completion"""
 import pickle
 import configparser
 import ast
@@ -9,6 +10,7 @@ import Islet
 
 class Model:
     def __init__(self, gid, run, alpha, beta, n):
+        """Initialize model instance"""
         print(str(datetime.datetime.now()) + '\tModel.init')
         self.gid = gid
         self.db = Islet.env['wd'] + 'run_' + run + '.db'
@@ -22,11 +24,13 @@ class Model:
         # self.score()
         self.updateDatabase()
     def score(self):
+        """Score model"""
         print(str(datetime.datetime.now()) + '\tModel.score Score instance')
         dump = open(Islet.env['wd'] + 'Islet_' + self.gid + '.pl', 'wb')
         pickle.dump([1,1,1], dump)
         return [1,1,1]
     def updateDatabase(self):
+        """Update database so that GA is aware that this process has concluded"""
         print(str(datetime.datetime.now()) + '\tModel.updateDatabase Update database: islet', self.gid)
         conn = sqlite3.connect(self.db)
         c = conn.cursor()

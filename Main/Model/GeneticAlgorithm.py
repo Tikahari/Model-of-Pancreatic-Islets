@@ -1,3 +1,4 @@
+"""This is the main program. All relevant initialization details can be set here (the environment must be set in Islet.py, however)"""
 import configparser
 import ast
 import random
@@ -32,6 +33,7 @@ probabilities = [0.15, 0.75]
 
 class GA:
     def __init__(self):
+        """Initialize genetic algorithm"""
         # relevant info about all generations
         self.generations = {0: []}
         self.scores = []
@@ -40,6 +42,7 @@ class GA:
         self.setOrientation()
         self.run()
     def readData(self):
+        """Read reference data that will be used to score each islet and write the relevant data"""
         data = np.genfromtxt('data_1.csv', delimiter=',', skip_header=10,skip_footer=10, names=['t', 'Vp'])
         # Determine Nyquist frequency/sampling rate
         sf = 1
@@ -67,6 +70,7 @@ class GA:
         # plt.savefig()
         pickle.dump()
     def setDatabase(self):
+        """Set up multithreading with database file that will be updated by each thread upon completion"""
         Islet.env['rid'] = str(run)
         conn = sqlite3.connect(Islet.env['wd'] + 'run_' + str(run) + '.db')
         self.c = conn.cursor() 
@@ -84,7 +88,7 @@ class GA:
             self.c.execute("INSERT INTO COMPLETED(GENERATION) VALUES(" + str(i) + ")")
             conn.commit()
     def setOrientation(self):
-        # create template orientations
+        """Create template orientations which will determine the spatial configuration of each islet"""
         for i in range(sc):
             # create folder to write config files to and update Islet env variable
             os.system('mkdir -p ' + Islet.env['config'] + 'Values/Template_' + Islet.env['rid'] + '_' + str(i))
@@ -93,8 +97,8 @@ class GA:
             # generate islet with random size
             islet = Islet.Islet(probabilities, None, size)
             islet.spatialConfig(i)         
-    # configure parent generation (mod and initialization files)
     def parentGen(self):
+        """Create initial generation"""
         print(str(datetime.datetime.now()) + '\tGeneticAlgorithm.parentGen Creating generation: generation', len(self.generations))
         # read and store mechanisms and their initial values that will be written to mod files
         self.readInit()
@@ -167,6 +171,7 @@ class GA:
                                 mech += k
                     mechanisms.write(mech)
     def readInit(self):
+        """Read the 'super' initialization files which include all mechanisms and parameters of all cells of an islet"""
         print(str(datetime.datetime.now()) + '\tGeneticAlgorithm.readInit Read initialization file: path', Islet.env['config'] + '/Values/super.ini')
         config = configparser.ConfigParser()
         config = configparser.ConfigParser(allow_no_value = True)
@@ -182,6 +187,7 @@ class GA:
         with open(Islet.env['config'] + '/Mechanisms/super.ini') as f:
             self.mechs = f.readlines()
     def run(self):
+        """Main loop"""
         print(str(datetime.datetime.now()) + '\tRunning')
         # run first generation
         self.parentGen()
@@ -204,7 +210,7 @@ class GA:
             continue
         # os.system('sbatch --array=0-'+pop+' model.sh')
     def dispatch(self):
-        # set up model.sbatch script
+        """Setup and dispatch batch file which will run model instance"""
         f = open('Model.sbatch', 'r+')
         f1 = open('Model_temp.sbatch', 'w')
         lines = f.readlines()
@@ -222,6 +228,7 @@ class GA:
         os.system('squeue -u tikaharikhanal')
         # os.system('rm model_temp.sbatch')
     def spinLock(self):
+        """Check that all threads (model instances) have completed"""
         while True:
             self.c.execute('SELECT * FROM COMPLETED WHERE GENERATION = '+str(len(self.generations)))
             rows = self.c.fetchall()

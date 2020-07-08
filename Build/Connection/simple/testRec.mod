@@ -1,7 +1,7 @@
 NEURON{
 SUFFIX receive
 RANGE som
-USEION glucagon READ glucagono WRITE glucagoni, iglucagon VALENCE 1
+USEION glucagon READ glucagoni, glucagono, iglucagon
 RANGE glucagoni, glucagono, iglucagon, gin, gout
 }
 
@@ -21,7 +21,6 @@ glucagoni = 3
 BREAKPOINT{
 gin = glucagoni
 gout = glucagono
-iglucagon = iglucagon + 1
 VERBATIM
 //printf("receive\n");
 ENDVERBATIM
