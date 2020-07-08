@@ -14,7 +14,6 @@ RANGE gin, gout
 PARAMETER{
 gout
 gin
-glucagono
 : hormone secretion variables
 t_
 dir
@@ -61,6 +60,7 @@ vsoca
 
 ASSIGNED{
 iglucagon
+glucagono
 iCaPQ
 iCaT
 iCaL
