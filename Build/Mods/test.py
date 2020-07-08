@@ -8,6 +8,7 @@ import ast
 import datetime
 from matplotlib import pyplot
 
+
 # read mechanism configuration files for cell types (mech.ini files)
 config = configparser.ConfigParser(allow_no_value= True)
 config.optionxform = str
