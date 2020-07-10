@@ -5,10 +5,9 @@ import datetime
 import numpy as np
 import Space
 import neuron
-import neuron.gui
 
 # path to initialization file, mechanisms, output, and generation identifier
-path = "/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/"
+path = "/home/tk/Desktop/Model-of-Pancreatic-Islets/"
 env = {'config': path + "Configuration/", 'gid': "1_0", 'mech': path + "Mechanisms/", 'output': path + "Outputs/", 'rid': "0", 'wd': path + "Main/Run/" }
 
 class Islet:
@@ -18,6 +17,7 @@ class Islet:
         self.env = env
         self.id = id
         self.n = n
+        neuron.h.load_file('stdrun.hoc')
         if compile:
             print(str(datetime.datetime.now()) + '\tIslet.init Compile mod files: wd', self.env['wd'])
             self.space = Space.Space(probabilities, config, n, compile)

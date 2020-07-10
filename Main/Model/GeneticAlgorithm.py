@@ -24,13 +24,14 @@ glimit = 100
 # fitness cutoff (average increase for last 3 generations)
 flimit = 100
 # path to experimental data
-path = "/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/"
+path = "/home/tk/Desktop/Model-of-Pancreatic-Islets/"
 Islet.path = path
 data = [path + "Main/Run/data/fridlyand_VCell_vp.csv"]
+# loss function parameters
+mean = -40
+threshold = 20
+slope = 1
 
-# variables for islet
-# cell sizes
-sizes = {'A': 10, 'B': 10, 'D': 10}
 # default probability of cell (60% chance of b-cell, 30% of a-cell, 10% of d-cell)
 probabilities = [0.15, 0.75]
 
@@ -193,7 +194,7 @@ class GA:
         f1 = open('Model_temp.sbatch', 'w')
         lines = f.readlines()
         # replace tokens accordingly
-        tokens = {'$Generation': str(len(self.generations)), '$Run': str(run), '$Alpha_probability': str(probabilities[0]), '$Alpha_Beta_probability': str(probabilities[1]), '$Dimensions':str(size), '$Output': Islet.env['wd'] + 'GA_MOPI_' + str(run) + '_' + str(len(self.generations)) + '_%j.log'}
+        tokens = {'$Generation': str(len(self.generations)), '$Run': str(run), '$Alpha_probability': str(probabilities[0]), '$Alpha_Beta_probability': str(probabilities[1]), '$Dimensions':str(size), '$Output': Islet.env['wd'] + 'GA_MOPI_' + str(run) + '_' + str(len(self.generations)) + '_%j.log', '$Data': data, '$Mean': str(mean), '$Threshold': str(theshold), '$Slope': str(slope)}
         for i in lines:
             l = i
             for j in tokens:
