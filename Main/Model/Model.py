@@ -23,6 +23,7 @@ class Model:
         self.islet.run()
         # self.score()
         self.updateDatabase()
+        self.clean()
     def score(self):
         """Score model"""
         print(str(datetime.datetime.now()) + '\tModel.score Score instance')
@@ -39,5 +40,16 @@ class Model:
         c.execute('UPDATE COMPLETED SET ISLET_' + islet + ' = 1 WHERE GENERATION = ' + generation)
         conn.commit()
         c.close()
+    def clean(self):
+        """Compress and remove folders"""
+        print(str(datetime.datetime.now()) + '\tModel.clean Compress folders: output folder', Islet.env['output'] + 'Islet_' + Islet.env['rid'] + '_' + self.gid, 'run folder', Islet.env['wd'][:len(Islet.env['wd']-2)])
+        # output folder
+        os.system('tar -zcvf ' + Islet.env['output'] + 'Islet_' + Islet.env['rid'] + '_' + self.gid + '.tar.gz ' + Islet.env['output'] + 'Islet_' + Islet.env['rid'] + '_' + self.gid)
+        # run folder
+        os.system('tar -zcvf ' + Islet.env['wd'][:len(Islet.env['wd'])-2] + 'tar.gz ' + Islet.env['wd'])
+        print(str(datetime.datetime.now()) + '\tModel.clean compressed folders')
+        os.system('rm -r ' + Islet.env['output'] + 'Islet_' + Islet.env['rid'] + '_' + self.gid)
+        os.system('ls ' + Islet.env['wd'] + '..')
+        # os.system('rm -r ' + Islet.env['wd'])
 if __name__ == '__main__':
     Model(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])

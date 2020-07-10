@@ -1,11 +1,11 @@
 #!/bin/bash
 #SBATCH --job-name=Model_MOPI
-#SBATCH --account=lamb
-#SBATCH --qos=lamb-b
-#SBATCH --time=2:00:00
+#SBATCH --account=vabfmc
+#SBATCH --qos=vabfmc-b
+#SBATCH --time=12:00:00
 #SBATCH --mem=128GB
 #SBATCH --ntasks=1
-#SBATCH --output=/ufrc/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Model_MOPI_$Run_$Generation_%j.log
+#SBATCH --output=$Output
 
 pwd; hostname; date
 echo "Run islet $SLURM_ARRAY_TASK_ID for generation $Generation in run $Run"

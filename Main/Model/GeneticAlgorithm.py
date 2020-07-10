@@ -1,4 +1,4 @@
-"""This is the main program. All relevant initialization details can be set here (the environment must be set in Islet.py, however)"""
+"""This is the main program. All relevant initialization details can be set here (the path must be set in Islet.py, however)"""
 import configparser
 import ast
 import random
@@ -8,6 +8,7 @@ import pickle
 import time
 import datetime
 import sqlite3
+import numpy as np
 import Islet
 
 # run number
@@ -15,15 +16,17 @@ run = 0
 # number of unique spatial configurations
 sc = 3
 # islets per generation
-pop = 12
+pop = 6
 # size of islets
-size = 5
+size = 4
 # max number of generations
 glimit = 100
 # fitness cutoff (average increase for last 3 generations)
 flimit = 100
 # path to experimental data
-data = []
+path = "/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/"
+Islet.path = path
+data = [path + "Main/Run/data/fridlyand_VCell_vp.csv"]
 
 # variables for islet
 # cell sizes
@@ -43,31 +46,8 @@ class GA:
         self.run()
     def readData(self):
         """Read reference data that will be used to score each islet and write the relevant data"""
-        data = np.genfromtxt('data_1.csv', delimiter=',', skip_header=10,skip_footer=10, names=['t', 'Vp'])
-        # Determine Nyquist frequency/sampling rate
-        sf = 1
-        nyq = sf/2
-        # Set bands
-        low = 500
-        high = 9000
-        low = low/nyq
-        high = high/nyq
-
-        # Calculate coefficients
-        b, a = butter(2, 0.5)
-        print(b, a)
-        # Filter signal
-        filtered_data = lfilter(b, a, data['Vp'])
-        # Find peaks
-        p, _ = find_peaks(data['Vp'])
-        # Calculate prominence
-        prominence = peak_prominences(data['Vp'], p)
-        print('prominences', prominence)
-        print(_, p)
-        plt.plot(filtered_data)
-        plt.plot(data['Vp'])
-        plt.plot(p, data['Vp'][p], "x")
-        # plt.savefig()
+        data = np.genfromtxt(data, delimiter=',', skip_header=10,skip_footer=10, names=['t', 'Vp'])
+        sys.exit()
         pickle.dump()
     def setDatabase(self):
         """Set up multithreading with database file that will be updated by each thread upon completion"""
@@ -196,12 +176,10 @@ class GA:
         while c < glimit:
             # check if all models finished
             self.spinLock()
-            # breed all islets
             print('working directory breed', Islet.env['wd'])
             for i in os.listdir(Islet.env['wd']):
-                # compress data
-                os.system('tar -zcvf ' + i + '.tar.gz ' + i)
-                self.breed(i)
+                if os.path.isdir(Islet.env['wd'] + i):
+                    self.breed(Islet.env['wd'] + i)
             # mutate
             # dispatch
             self.generations[c] = []
@@ -215,7 +193,7 @@ class GA:
         f1 = open('Model_temp.sbatch', 'w')
         lines = f.readlines()
         # replace tokens accordingly
-        tokens = {'$Generation': str(len(self.generations)), '$Run': str(run), '$Alpha_probability': str(probabilities[0]), '$Alpha_Beta_probability': str(probabilities[1]), '$Dimensions':str(size)}
+        tokens = {'$Generation': str(len(self.generations)), '$Run': str(run), '$Alpha_probability': str(probabilities[0]), '$Alpha_Beta_probability': str(probabilities[1]), '$Dimensions':str(size), '$Output': Islet.env['wd'] + 'GA_MOPI_' + str(run) + '_' + str(len(self.generations)) + '_%j.log'}
         for i in lines:
             l = i
             for j in tokens:
@@ -232,7 +210,7 @@ class GA:
         while True:
             self.c.execute('SELECT * FROM COMPLETED WHERE GENERATION = '+str(len(self.generations)))
             rows = self.c.fetchall()
-            print(str(datetime.datetime.now()) + '\tGeneticAlgorithm.spinLock Check status of islet instances: status (1=completed)',  list(rows[0]), 'number completed', len([x for x in list(rows[0]) if x is not None])-1, 'generation', str(len(self.generations)), )
+            print(str(datetime.datetime.now()) + '\tGeneticAlgorithm.spinLock Check status of islet instances: status (1=completed)',  list(rows[0]), 'number completed', str(len([x for x in list(rows[0]) if x is not None])-1) + '/' +  str(len(list(rows[0]))-1), 'generation', str(len(self.generations)))
             if len([x for x in list(rows[0]) if x is not None]) == pop + 1:
                 break
             # check status every 5 minutes
@@ -241,9 +219,9 @@ class GA:
         scores = {}
         for i in os.listdir(path):
             scores[i] = -1
-            print('i is', i)
+            # print('i is', i)
             # os.system('rm -r ' + i)
-        f = pickle.load('')
+        # f = pickle.load('')
     def mutate(self):
         return
     def createGen(self):
