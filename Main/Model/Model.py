@@ -7,6 +7,7 @@ import os
 import sqlite3
 import datetime
 import Islet
+import Loss
 
 class Model:
     def __init__(self, gid, run, alpha, beta, n):
@@ -42,7 +43,7 @@ class Model:
         c.close()
     def clean(self):
         """Compress and remove folders"""
-        print(str(datetime.datetime.now()) + '\tModel.clean Compress folders: output folder', Islet.env['output'] + 'Islet_' + Islet.env['rid'] + '_' + self.gid, 'run folder', Islet.env['wd'][:len(Islet.env['wd']-2)])
+        print(str(datetime.datetime.now()) + '\tModel.clean Compress folders: output folder', Islet.env['output'] + 'Islet_' + Islet.env['rid'] + '_' + self.gid, 'run folder', Islet.env['wd'][:len(Islet.env['wd'])-2])
         # output folder
         os.system('tar -zcvf ' + Islet.env['output'] + 'Islet_' + Islet.env['rid'] + '_' + self.gid + '.tar.gz ' + Islet.env['output'] + 'Islet_' + Islet.env['rid'] + '_' + self.gid)
         # run folder

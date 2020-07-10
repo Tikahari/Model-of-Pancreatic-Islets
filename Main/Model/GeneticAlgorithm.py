@@ -40,13 +40,14 @@ class GA:
         # relevant info about all generations
         self.generations = {0: []}
         self.scores = []
-        self.readData()
+        # self.readData()
         self.setDatabase()
         self.setOrientation()
         self.run()
     def readData(self):
         """Read reference data that will be used to score each islet and write the relevant data"""
-        data = np.genfromtxt(data, delimiter=',', skip_header=10,skip_footer=10, names=['t', 'Vp'])
+        data = np.genfromtxt(self.data, delimiter=',', skip_header=10,skip_footer=10, names=['t', 'Vp'])
+
         sys.exit()
         pickle.dump()
     def setDatabase(self):
