@@ -12,6 +12,6 @@ echo "Run islet $SLURM_ARRAY_TASK_ID for generation $Generation in run $Run"
 ml neuron; ml intel/2019; ml openmpi
 
 python Compile.py $Generation_$SLURM_ARRAY_TASK_ID $Run $Dimensions
-python Model.py $Generation_$SLURM_ARRAY_TASK_ID $Run $Alpha_probability $Alpha_Beta_probability $Dimensions
+python Model.py $Generation_$SLURM_ARRAY_TASK_ID $Run $Alpha_probability $Alpha_Beta_probability $Dimensions $Data $Mean $Threshold $Slope
 
 date

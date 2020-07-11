@@ -144,16 +144,21 @@ class Space:
         print(str(datetime.datetime.now()) + '\tSpace.configSetup Create islet instance: id', id)
         Islet.env['gid'] = id
         owd = Islet.env['wd']
+        print('here', owd)
         for i in os.listdir(Islet.env['wd']):
+            print('here 1', i)
             config = configparser.ConfigParser()
             config = configparser.ConfigParser(allow_no_value= True)
             config.optionxform = str
             config.read(Islet.env['config'] + 'Values/Islet_'+ Islet.env['rid'] + '_' + id + '/' + i + '.ini')
+            print('file', Islet.env['config'] + 'Values/Islet_'+ Islet.env['rid'] + '_' + id + '/' + i + '.ini')
             for a in config:
+                print('here 2', a)
                 # get cell number
                 cnum = re.split('_|\.', i)
                 cnum = cnum[1]
                 if 'position' in config[a]:
+                    print('here 3')
                     pos = ast.literal_eval(config[a]['position'])
                     Islet.env['wd'] = owd + i.split('.')[0] + '/'
                     print(str(datetime.datetime.now()) + '\tSpace.configSetup Set up cell from configuration file: configuration file', i, 'cell type', a, 'id', cnum, 'position', pos, 'wd', Islet.env['wd'])
