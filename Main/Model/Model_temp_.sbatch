@@ -10,7 +10,7 @@
 pwd; hostname; date
 echo "Run islet 1 for generation 1 in run 0"
 ml neuron; ml intel/2019; ml openmpi
-python Compile.py 1_4 0 4
-python Model.py 1_3 0 0.15 0.75 4 /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/data/fridlyand_VCell_vp.csv -40 20 1
+python Compile.py 1_0 0 4
+python Model.py 1_0 0 0.15 0.75 4 /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/data/fridlyand_VCell_vp.csv -40 20 1
 
 date
