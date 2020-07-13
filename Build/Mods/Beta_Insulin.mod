@@ -1,9 +1,10 @@
 NEURON{
 SUFFIX B_Insulin
-:USEION Ca READ iCa
 :USEION CaL READ iCaL
 :USEION CaR READ iCaR
-USEION insulin READ insulini, insulino WRITE iinsulin VALENCE 1
+USEION insulin READ insulini, insulino WRITE iinsulin VALENCE 0
+USEION glucagon READ glucagoni
+USEION sst READ ssti
 RANGE vmd, vcell, alpha, B, kpmca, cbas, kserca2b, kserca3, per, phigk, KGPDH, kappa, Jgk, fcyt, delta, p23 
 RANGE p24, psim, p21, p22, fer, sigmav, fmd, lambda, VmaxPFK, weight1, topa1, bottom1, atot, k4, k3, f43, k2, f42 
 RANGE f23, amp, k1, f41, f13, gamma, p19, Amtot, p20, FRT, p16, p13, p14, p15, fmito, p8, p9, p10, p11, p17, p18 
@@ -17,19 +18,13 @@ RANGE weight8, topa8, bottom8, weight9, topa9, bottom9, weight10, topa10, bottom
 RANGE topa12, bottom12, weight13, topa13, bottom13, weight14, topa14, bottom14, weight15, topa15, topb, bottom15, weight16 
 RANGE topa16, bottom16, pfk, pfk_ms, r20, ampfactor, r3, r2, rm2b, mod_cmd, JIS 
 RANGE G, Sst
-RANGE t_, dir, temp
-RANGE iin, iout
+RANGE inin, inout, iin
 }
 
 PARAMETER{   
+inin
+inout
 iin
-iout
-insulini
-insulino
-: hormone secretion variables
-t_
-dir
-temp
 G
 Sst
 vmd 
@@ -136,6 +131,8 @@ fb
 
 ASSIGNED{
 iinsulin
+insulini
+insulino
 minf
 iCa 
 iCaL 
@@ -222,7 +219,9 @@ r3
 r2 
 rm2b 
 mod_cmd 
-JIS 
+JIS
+glucagoni
+ssti
 v : This is the voltage when I run h.initial.....
 }
 
@@ -249,9 +248,6 @@ Ins
 }
 
 INITIAL{
-t_ = 0
-dir = 0
-temp = 0
 gCa = 7
 nCa = 590
 vmd = 4.2e-3
@@ -374,20 +370,12 @@ v = -71.33779976819424
 }
 
 BREAKPOINT{
-iin = insulini
-iout = insulino
-if (t_ > 2){
-dir = 1
-}
-else if (t_ == 0){
-dir = 0
-}
-if (dir == 0){
-t_ = t_ + 1
-}
-else{
-t_ = t_ - 1
-}
+inin = insulini
+inout = insulino
+iin = iinsulin
+Sst = ssti
+G = glucagoni
+iinsulin = - (JIS/vc - fb * Ins)
 minf = 1/(1 + exp((vm - v)/sm))
 iCa = gCa * nCa * minf * (v - vCa)
 iCaL = raL * iCa
@@ -471,15 +459,14 @@ topa16 = topa15 + weight16
 bottom16 = bottom15 + weight16
 pfk = (lambda * VmaxPFK * topa16 + VmaxPFK * topb)/bottom16
 pfk_ms = kappa * pfk 
-r20 = 0.004/(1 + exp(-G + gthresh)) + 0.006 : Alpha stimulating beta
+r20 = 0.004/(1 + exp(-glucagoni + gthresh)) + 0.006 : Alpha stimulating beta
 ampfactor = factor * pow(JO,2)
 r3 = bas_r3 + amplify * ampfactor * r30 *c/(c + Kp)
 r2 = r20 * c/(c + Kp2)
-rm2b = (1 - knockoutdb) * rb/(1 + exp(-(Sst - sombarb)/ssomb)) + knockoutdb * 0.001
+rm2b = (1 - knockoutdb) * rb/(1 + exp(-(ssti - sombarb)/ssomb)) + knockoutdb * 0.001
 SOLVE states METHOD cnexp : Put equations that need to have ODE's solved to evaluate under here
 mod_cmd = bas_cmd + max_cmd * pow(cmd,cmdp)/(pow(cmd,cmdp) + pow(kcmd,cmdp))
 JIS = tmsb * u3 * NR * 0.0016
-iinsulin = Ins
 }
 
 DERIVATIVE states{

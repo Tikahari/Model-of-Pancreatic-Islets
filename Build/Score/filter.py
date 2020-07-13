@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # frequency is the number of times a wave repeats a second
-frequency = [25, 30, 50]
+frequency = [15, 30, 35]
 num_samples = 300
  
 # The sampling rate of the analog to digital convert

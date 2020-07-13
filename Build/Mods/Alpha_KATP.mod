@@ -1,7 +1,6 @@
 NEURON{
 SUFFIX A_KATP
-USEION KATP WRITE iKATP VALENCE 1
-USEION K READ eK
+USEION KATP WRITE iKATP, eKATP VALENCE 1
 RANGE knockoutba, ka1, gKATPbara
 RANGE EffI, gKATP
 POINTER Ins
@@ -17,7 +16,7 @@ ASSIGNED{
 EffI
 gKATP
 Ins
-eK
+eKATP
 v
 }
 
@@ -26,6 +25,7 @@ iKATP
 }
 
 INITIAL{
+eKATP = -75
 knockoutba = 0
 ka1 = 0.1
 gKATPbara = 3
@@ -37,5 +37,5 @@ gKATPbara = 3
 BREAKPOINT{
 EffI = (1 - knockoutba) * ((0.015/(1 + exp((-Ins + 1500)/200))) + ka1) + knockoutba * ka1
 gKATP = gKATPbara * EffI
-iKATP = gKATP*(v - eK)
+iKATP = gKATP*(v - eKATP)
 }

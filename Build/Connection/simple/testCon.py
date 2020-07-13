@@ -30,17 +30,17 @@ mem = rxd.Region(h.allsec(), name='mem', geometry=rxd.membrane)
 ecs = rxd.Extracellular(-20, -5, -5, 45, 5, 5, dx=1, volume_fraction=0.2, tortuosity=1.6)
 
 # Who?
-glucagon = rxd.Species([cyt, ecs], name='glucagon', charge=1, d=1.0)
+glucagon = rxd.Species([cyt, ecs], name='glucagon', charge=1, d=1.0, initial=15)
 gcyt = glucagon[cyt]
 gecs = glucagon[ecs]
 
 delta_param = rxd.Parameter(cyt, initial=lambda node: 1 if node.segment in cell2 else 0)
 
 # interaction between intracellular and extracellular glucagon
-R = 1e5
-U = 1e3
+R = 1e3
+U = 1e5
 rrate = R*gcyt     # release rate [molecules per square micron per ms]
-urate = U*gecs*delta_param[cyt]      # uptake rate [molecules per square micron per ms]
+urate = U*gecs     # uptake rate [molecules per square micron per ms]
 glucagon_release = rxd.MultiCompartmentReaction(gcyt, gecs, rrate, urate,
                                                 membrane=mem, 
                                                 custom_dynamics=True)
@@ -83,13 +83,13 @@ head.extend(header)
 head.append(temp)
 
 
-# variables to store data
+# variables to store data cell 2
 t2 = []
 v2 = []
 rec2 = {}
 header2 = []
 
-# record mechanisms cell1
+# record mechanisms cell2
 for i in cell2.psection()['density_mechs']:
     for j in cell2.psection()['density_mechs'][i]:
         header2.append(j+'_'+i)

@@ -1,7 +1,7 @@
 NEURON{
 SUFFIX D_KATP
-USEION KATP WRITE iKATP VALENCE 1
-USEION K READ eK
+USEION KATP WRITE iKATP, eKATP VALENCE 1
+:USEION K READ eK
 RANGE gKATPbar
 }
 
@@ -10,7 +10,7 @@ gKATPbar
 }
 
 ASSIGNED{
-eK
+eKATP
 v : This is the voltage when I run h.initial.....
 }
 
@@ -19,9 +19,10 @@ iKATP
 }
 
 INITIAL{
+eKATP = -75
 gKATPbar = 0.29
 }
 
 BREAKPOINT{
-iKATP = gKATPbar * (v - eK)
+iKATP = gKATPbar * (v - eKATP)
 }

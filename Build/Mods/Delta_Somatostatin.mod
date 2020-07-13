@@ -2,23 +2,19 @@ NEURON{
 SUFFIX D_Somatostatin
 USEION CaL READ iCaL
 USEION CaPQ READ iCaPQ
-USEION sst READ ssti, ssto WRITE isst VALENCE 1
+USEION sst READ ssto, ssti WRITE isst VALENCE 0
+USEION insulin READ insulini
+USEION glucagon READ glucagoni
 RANGE iCaL, iCaPQ, tmsb, con, alpha, vmdl, vmdPQ, fVl, B, fVPQ, kpmca, kserca, pleak, vCaPQm, sCaPQm, vCaPQh, sCaPQh, tCaPQh1, tCaPQh2, tausom, bas, fcyt, fmd, fer, sigmav, vc, f, Sst
 RANGE JL, JPQ, Jserca, Jer, mCaPQ_inf, hCaPQ_inf, tauCaPQm, tauCaPQh, Jmem, y, Jleak, som, JSS 
 RANGE Ins, G
-RANGE t_, dir, temp
-RANGE sstin, sstout
+RANGE sstin, sstout, ist
 }
 
 PARAMETER{ 
 sstin
 sstout
-ssti
-ssto 
-: hormone secretion variables
-t_ 
-dir
-temp
+ist
 Ins
 G
 tmsb
@@ -50,6 +46,8 @@ f
 
 ASSIGNED{
 isst
+ssti
+ssto
 iCaL
 iCaPQ
 JL 
@@ -64,11 +62,14 @@ Jmem
 y 
 Jleak 
 som 
-JSS 
+JSS
+insulini
+glucagoni
 v : This is the voltage when I run h.initial.....
 }
 
 STATE{
+:ssti
 mCaPQ
 hCaPQ
 c
@@ -79,9 +80,6 @@ Sst
 }
 
 INITIAL{
-t_ = 0
-dir = 0
-temp = 0
 tmsb = 0.001
 con = 0.00000000594
 alpha = 5.18e-15
@@ -114,24 +112,17 @@ sigmav = 31
 vc = 1e-8
 f = 0.003
 Sst = 18.71318922819339
+ssti = 18.71318922819339
 v = -16.26895428994972
 }
 
 BREAKPOINT{
 sstin = ssti
 sstout = ssto
-if (t_ > 2){
-dir = 1
-}
-else if (t_ == 0){
-dir = 0
-}
-if (dir == 0){
-t_ = t_ + 1
-}
-else{
-t_ = t_ - 1
-}
+ist = isst
+Ins = insulini
+G = glucagoni
+isst =  tmsb * som * con * 100000000
 JL = -alpha * iCaL/vmdl
 JPQ = -alpha * iCaPQ/vmdPQ
 Jserca = kserca * c
@@ -147,7 +138,6 @@ Jleak = pleak * (cer - c)
 Jer = (Jleak - Jserca)
 som = (200 * mCaPQ * hCaPQ * y/tausom) + bas
 JSS = tmsb * som * con
-isst = Sst
 }
 
 DERIVATIVE states{
@@ -158,4 +148,5 @@ cmdl' = fmd * JL - fmd * B * (cmdl - c)
 cmdPQ' = fmd * JPQ - fmd * B * (cmdPQ-c)
 cer' = -fer * sigmav * Jer
 Sst' = JSS/vc - f * Sst
+:ssti' = (JSS - f * ssti)
 }

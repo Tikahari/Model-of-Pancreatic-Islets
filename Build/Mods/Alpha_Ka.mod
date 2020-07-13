@@ -1,7 +1,6 @@
 NEURON{
 SUFFIX A_Ka
-USEION Ka WRITE iKa VALENCE 1
-USEION K WRITE eK VALENCE 1
+USEION Ka WRITE iKa, eKa VALENCE 1
 RANGE mKa_inf, hKa_inf, tau_hKa
 RANGE gKa, tau_mKa
 }
@@ -20,7 +19,7 @@ v
 
 STATE{
 iKa
-eK
+eKa
 mKa
 hKa
 }
@@ -30,7 +29,7 @@ gKa = 1
 mKa = 0.4001652246173745
 hKa = 0.1373195977592295
 tau_mKa = 0.1
-eK = -75
+eKa = -75
 }
 
 BREAKPOINT{
@@ -38,7 +37,7 @@ mKa_inf = 1/(1 + exp((-(v + 45))/10))
 hKa_inf = 1/(1 + exp((-(v + 68))/10))
 tau_hKa = (60/(exp((-(v - 5))/20) + exp((v - 5)/20))) + 5
 SOLVE states METHOD cnexp
-iKa = gKa * mKa * hKa*(v - eK)
+iKa = gKa * mKa * hKa*(v - eKa)
 }
 
 DERIVATIVE states{

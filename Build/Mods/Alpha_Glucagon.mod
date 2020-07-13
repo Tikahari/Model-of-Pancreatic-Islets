@@ -3,22 +3,21 @@ SUFFIX A_Glucagon
 USEION CaPQ READ iCaPQ
 USEION CaT READ iCaT
 USEION CaL READ iCaL
-USEION glucagon READ glucagono WRITE glucagoni, iglucagon VALENCE 1
+USEION glucagon READ glucagono, glucagoni WRITE iglucagon VALENCE 0
+USEION sst READ ssti
+USEION insulin READ insulini
 RANGE alphaa, Ba, fcyta, fVpqa, tmsb, vcella, vmdpq, kpmcaa, ksercaa, pleaka, fera, sigmava, fmda, k1a, km1a, r1a, rm1a, r20a, r30a, rm3a, u1a, u2a, u3a, kpa, kp2a, GlucFacta, knockoutda, ra, sombara, rako, ssom, fa, vc, caerbara, ssoca, vsoca, gsocbara, G 
 RANGE iCaPQ, iCaT, iCaL, JPQ, JTa, JLa, Jera, rm2a, r2a, r3a, Jsercaa, Jleaka, Jmema, JGS, cinfa, isoca
-RANGE Sst, Ins
-RANGE t_, dir, temp
-RANGE gin, gout
+RANGE Ins, Sst
+RANGE gin, gout, igl
 }
 
 PARAMETER{
 gout
 gin
-: hormone secretion variables
-t_
-dir
-temp
+igl
 Ins
+Sst
 alphaa 
 Ba 
 fcyta 
@@ -61,6 +60,7 @@ vsoca
 ASSIGNED{
 iglucagon
 glucagono
+glucagoni
 iCaPQ
 iCaT
 iCaL
@@ -77,12 +77,14 @@ Jmema
 JGS 
 cinfa
 isoca
-Sst
+insulini
+ssti
 v
 }
 
 STATE{
-glucagoni
+:glucagoni
+:iglucagon
 ca
 cera
 cmdpqa
@@ -98,9 +100,6 @@ G
 }
 
 INITIAL{
-t_ = 0
-dir = 0
-temp = 0
 alphaa = 5.18e-15
 Ba = 1
 fcyta = 0.01
@@ -151,29 +150,20 @@ vsoca = 0
 gsocbara = 0.025
 G = 31.73727470720019
 v = -49.03736299581227
-glucagoni = 31.73727470720019
+:glucagoni = 31.73727470720019
 }
 
 BREAKPOINT{
 gin = glucagoni
 gout = glucagono
-iglucagon = G
-if (t_ > 2){
-dir = 1
-}
-else if (t_ == 0){
-dir = 0
-}
-if (dir == 0){
-t_ = t_ + 1
-}
-else{
-t_ = t_ - 1
-}
+igl = iglucagon
+Sst = ssti
+Ins = insulini
+iglucagon = -(tmsb*u3a*NRa*0.0000988) *100000
 JPQ = -alphaa*iCaPQ / vmdpq
 JTa = -alphaa*iCaT/vcella
 JLa = -alphaa*iCaL/vcella
-rm2a=(1-knockoutda)*ra/(1+exp(-(Sst-sombara)/ssom))+knockoutda*rako :Delta inhibiting alphaa by Sst increasing the rate of depriming of G granules.
+rm2a=(1-knockoutda)*ra/(1+exp(-(ssti-sombara)/ssom))+knockoutda*rako :Delta inhibiting alphaa by Sst increasing the rate of depriming of G granules.
 SOLVE states METHOD cnexp
 r2a = r20a*ca/(ca+kp2a)
 r3a = GlucFacta*r30a*ca/(ca+kpa)
@@ -198,6 +188,7 @@ N5a' = tmsb*(rm1a*N1a - (r1a + rm2a)*N5a + r2a*N6a)
 N6a' = tmsb*(r3a + rm2a*N5a - (rm3a + r2a)*N6a)
 NFa' = tmsb*(u1a*N4a - u2a*NFa)
 NRa' = tmsb*(u2a*NFa - u3a*NRa)
-G' = JGS/vc-fa*G
-glucagoni' = JGS/vc-fa*glucagoni
+G' = JGS-fa*G
+:iglucagon' = (JGS/vc-fa*iglucagon)
+:glucagoni' = 0
 }

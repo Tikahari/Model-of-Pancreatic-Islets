@@ -227,5 +227,6 @@ class GA:
         return
     def createGen(self):
         return
+
 GA()
 

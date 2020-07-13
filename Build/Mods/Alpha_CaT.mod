@@ -1,7 +1,7 @@
 NEURON{
 SUFFIX A_CaT
-USEION CaT WRITE iCaT VALENCE 2
-USEION Ca READ eCa 
+USEION CaT WRITE iCaT, eCaT VALENCE 2
+:USEION Ca READ eCa 
 RANGE mCaT_inf, hCaT_inf, tau_mCaT, tau_hCaT
 RANGE gCaT
 }
@@ -15,7 +15,7 @@ mCaT_inf
 hCaT_inf
 tau_mCaT
 tau_hCaT
-eCa
+eCaT
 v
 }
 
@@ -26,6 +26,7 @@ hCaT
 }
 
 INITIAL{
+eCaT = 65
 gCaT = 0.4
 mCaT = 0.4633857551023612
 hCaT = 0.3735421388722815
@@ -37,7 +38,7 @@ hCaT_inf = 1/(1 + exp((-(v + 52))/(-5)))
 tau_mCaT = (15/(exp((-(v + 50))/12) + exp((v + 50)/12))) 
 tau_hCaT = (20/(exp((-(v + 50))/15) + exp((v + 50)/15))) + 5
 SOLVE states METHOD cnexp
-iCaT = gCaT * pow(mCaT,3) * hCaT*(v - eCa)
+iCaT = gCaT * pow(mCaT,3) * hCaT*(v - eCaT)
 }
 
 DERIVATIVE states{

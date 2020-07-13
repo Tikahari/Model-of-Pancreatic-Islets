@@ -11,19 +11,26 @@ def readData(file):
     print(str(datetime.datetime.now()) + '\tread data for', file)
     data = np.genfromtxt(file, delimiter=',', names=True)
 
-    # Determine Nyquist frequency/sampling rate
-    sf = 1
-    nyq = sf/2
-    # Set bands
-    low = 500
-    high = 9000
-    low = low/nyq
-    high = high/nyq
+    # Nyquist frequency
+    nyq = sampling_rate / 2
 
-    # Calculate coefficients
-    b, a = butter(2, 0.5)
-    # Filter signal
-    filtered_data = lfilter(b, a, data['Vp'])
+    # width of transition band
+    width = 0.01
+
+    # The desired attenuation in the stop band, in dB.
+    ripple_db = 20.0
+
+    # Compute the order and Kaiser parameter for the FIR filter.
+    N, beta = kaiserord(ripple_db, width)
+
+    # The cutoff frequency of the filter.
+    cutoff_hz = 6.0
+
+    # Use firwin with a Kaiser window to create a lowpass FIR filter.
+    taps = firwin(N, cutoff_hz/nyq, window=('kaiser', beta))
+    # print('coefficients', taps)
+    w, h = freqz(taps, worN=100)
+    
     # Find peaks
     p, _ = find_peaks(data['Vp'])
     # print(str(datetime.datetime.now()) + '\tpeaks', p, len(p))
