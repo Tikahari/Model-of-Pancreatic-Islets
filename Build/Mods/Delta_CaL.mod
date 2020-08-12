@@ -1,6 +1,6 @@
 NEURON{
 SUFFIX D_CaL
-USEION CaL WRITE iCaL, eCaL VALENCE 2
+USEION CaL WRITE iCaL, eCaL VALENCE 1
 RANGE sCaLm, sCaLh, vCaLm, vCaLh, tCaLh1, tCaLh2, gCaL
 RANGE mCaL_inf, hCaL_inf, tauCaLm, tauCaLh
 }

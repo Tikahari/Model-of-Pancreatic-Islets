@@ -1,6 +1,7 @@
 NEURON{
 SUFFIX A_KDR
 USEION Kdr WRITE iKdr, eKdr VALENCE 1
+:NONSPECIFIC_CURRENT i
 RANGE gkdr, vkdrm, skdrm
 RANGE mkdrinf, taukdrm
 }
@@ -16,6 +17,7 @@ mkdrinf
 taukdrm
 eKdr
 v
+i
 }
 
 STATE{
@@ -34,8 +36,9 @@ skdrm = 23
 BREAKPOINT{
 mkdrinf = 1/(1+exp(-(v-vkdrm)/skdrm))
 taukdrm = (1.5/(exp(-(v+10)/25)+exp((v+10)/25)))+15
-SOLVE states METHOD cnexp
 iKdr = gkdr*pow(mkdr,4)*(v-eKdr)
+:i = -iKdr
+SOLVE states METHOD cnexp
 }
 
 DERIVATIVE states{

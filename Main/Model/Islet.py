@@ -7,7 +7,7 @@ import Space
 import neuron
 
 # path to initialization file, mechanisms, output, and generation identifier
-path = "/home/tk/Desktop/Model-of-Pancreatic-Islets/"
+path = "/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/"
 env = {'config': path + "Configuration/", 'gid': "1_0", 'mech': path + "Mechanisms/", 'output': path + "Outputs/", 'rid': "0", 'wd': path + "Main/Run/" }
 
 class Islet:
@@ -18,30 +18,23 @@ class Islet:
         self.id = id
         self.n = n
         neuron.h.load_file('stdrun.hoc')
+        print('wd is', self.env['wd'])
+        # when compile option is set, cell instances will be made
         if compile:
             print(str(datetime.datetime.now()) + '\tIslet.init Compile mod files: wd', self.env['wd'])
             self.space = Space.Space(probabilities, config, n, compile)
             self.space.configSetup(self.id)
         else:
             dll = self.env['wd'] + '.r/'
-            print(str(datetime.datetime.now()) + '\tIslet.init  Load mechanisms: path', dll)
             ret = neuron.load_mechanisms(dll)
-            print('properly loaded', ret)
+            print(str(datetime.datetime.now()) + '\tIslet.init  Load mechanisms: path', dll, ret)
             print(str(datetime.datetime.now()) + '\tIslet.init Normal islet setup (no compile)')
             self.space = Space.Space(probabilities, config, n)
     def run(self):
         """Simulate and write data for this islet"""
         print(str(datetime.datetime.now()) + '\tIslet.run Run islet instance')
         self.space.configSetup(self.id)
-        temp_sec = None
-        temp_cs = np.array(self.space.cs)
-        temp_cs = temp_cs.flatten()
-        for i in temp_cs:
-            if i is not None:
-                temp_sec = i
-                break
-        self.t = neuron.h.Vector().record(neuron.h._ref_t, sec=temp_sec.cell)
-        print(str(datetime.datetime.now()) + '\tIslet.run Initialize neuron mechanisms: cwd', os.getcwd())
+        print(str(datetime.datetime.now()) + '\tIslet.run Initialize neuron mechanisms: path', os.getcwd())
         neuron.h.finitialize()
         print(str(datetime.datetime.now()) + '\tIslet.run Run simulation')
         neuron.h.continuerun(5000)
@@ -54,13 +47,18 @@ class Islet:
         self.space.radialSetup()
         self.space.writeDataOrientation(temp)
 if __name__ == '__main__':
-    #test
-    # cell sizes
-    sizes = {'A': 10, 'B': 10, 'D': 10}
+    # test
+    # python Islet.py
+    # run id
+    r_id = '0'
+    # Islet id
+    i_id = '1_0'
     # dimension of islets (will determine size of box that will enclose islet)
-    n = 3
+    n = 5
     # default probability of cell (60% chance of b-cell, 30% of a-cell, 10% of d-cell)
     probabilities = [0.15, 0.75]
-    islet = Islet(probabilities, sizes, n)
+    # set environment
+    env['wd'] += 'Islet_' + r_id + '_' + i_id + '/'
+    islet = Islet(probabilities, None, n, i_id)
     islet.run()
-    islet.clean()
+    # islet.clean()

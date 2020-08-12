@@ -15,7 +15,8 @@ class Cell:
         self.type = typ
         [self.x, self.y, self.z] = [x, y, z]
         self.cell = Islet.neuron.h.Section(name = str(self.type) + str(self.id))
-        self.write = writeMod
+        self.compile = writeMod
+        # for plotting
         self.diam = 1
         # add mechanisms + record on configSetup but not radialSetup
         if setup:
@@ -30,20 +31,20 @@ class Cell:
         self.pointers = {}
         # get properties from ini
         self.readData()
-        if not self.write:
-            # dll = Islet.env['wd']
-            # print(str(datetime.datetime.now()) + '\tCells.setup(self) Load mechanisms: path', dll)
-            # ret = Islet.neuron.load_mechanisms(dll)
-            # print('return return return is ', ret, 'wd',Islet.env['wd'])
+        if not self.compile:
+            print(str(datetime.datetime.now()) + '\tCells.setup Do not compile/Do run')
             self.addMechanisms()
             self.setPointers()
             self.record()
     def readData(self):
         """Read mechanisms and parameters for this cell from its configuration file"""
+        ini_path = Islet.env['config'] + 'Values/Islet_' + Islet.env['rid'] + '_' + Islet.env['gid'] + '/' + self.type.lower() + '_' + str(self.id) + '.ini'
+        config_path = Islet.env['config'] + '/Mechanisms/Islet_' + Islet.env['rid'] + '_' + Islet.env['gid'] + '/' + self.type.lower() + '_' + str(self.id) + '.ini'
+        print(str(datetime.datetime.now()) + '\tCells.readData Reading from configuration: configuration file', config_path)
         # read mechanism configuration
         config = configparser.ConfigParser(allow_no_value= True)
         config.optionxform = str
-        config.read(Islet.env['config'] + '/Mechanisms/Islet_' + Islet.env['rid'] + '_' + Islet.env['gid'] + '/' + self.type.lower() + '_' + str(self.id) + '.ini')
+        config.read(config_path)
         types = {'A':'Alpha', 'B': 'Beta', 'D':'Delta'}
         # print(str(datetime.datetime.now())+ '\tself type', self.type)
         for i in config[types[self.type]]:
@@ -52,10 +53,11 @@ class Cell:
             if config[types[self.type]][i] is not None:
                 self.pointers[i] = ast.literal_eval(config[types[self.type]][i])
             # only write mod files when those mod files will be compiled
-            if self.write:
+            if self.compile:
                 print(str(datetime.datetime.now()) + '\tCells.readData Write mod file: cell', self.cell)
                 modname = re.split('1|2|3|4|5|6|7|8|9|0', i)[0]
-                Mod.writeMod(Islet.env['config'] + 'Values/Islet_' + Islet.env['rid'] + '_' + Islet.env['gid'] + '/' + self.type.lower() + '_' + str(self.id) + '.ini', Islet.env['wd'] + types[self.type] + '_' + modname + '.mod')
+                mod_path = Islet.env['wd'] + types[self.type] + '_' + modname + '.mod'
+                Mod.writeMod(ini_path, mod_path)
     def addMechanisms(self):
         """Add mechanism to section"""
         for i in self.mechs:
@@ -76,7 +78,7 @@ class Cell:
                     Islet.neuron.h.setpointer(from_, temp[0], to_)
     def record(self):
         """Set recording variables"""
-        # print(str(datetime.datetime.now()) + '\tCell.record(self) Add recording variables: recording variables', self.cell.psection())
+        print(str(datetime.datetime.now()) + '\tCell.record(self) Add recording variables')
         for i in self.cell.psection()['density_mechs']:
             for j in self.cell.psection()['density_mechs'][i]:
                 self.header.append(i+'_'+j)
@@ -100,4 +102,16 @@ class Cell:
         return '{}{}'.format(self.type, self.id)
 if __name__ == '__main__':
     # test
-    cell = Cell(0, 1, 2, 3, 'A')
+    # python Cells.py
+    # run id
+    r_id = '0'
+    # Islet id
+    i_id = '1_0'
+    # set environment
+    Islet.env['wd'] += 'Islet_' + r_id + '_' + i_id + '/'
+    Islet.env['rid'] = r_id
+    Islet.env['gid'] = i_id
+    dll = Islet.env['wd'] + '.r/'
+    ret = Islet.neuron.load_mechanisms(dll)
+    print(str(datetime.datetime.now()) + '\tCells.py Load mechanisms: path', dll, ret)
+    cell = Cell(0, 1, 2, 3, 'B', True)

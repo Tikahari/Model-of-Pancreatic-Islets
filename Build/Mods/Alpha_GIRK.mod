@@ -3,6 +3,7 @@
 NEURON{
 SUFFIX A_GIRK
 USEION GIRK WRITE iGIRK, eGIRK VALENCE 1
+:NONSPECIFIC_CURRENT i
 RANGE knockoutda, gGIRKko, sombara2, ssom2
 RANGE gGIRKbar, gGIRK, EffS
 POINTER Sst
@@ -21,6 +22,7 @@ gGIRK
 EffS
 Sst
 v
+i
 }
 
 STATE{
@@ -38,8 +40,10 @@ ssom2 = 10
 
 BREAKPOINT{
 gGIRKbar = (1 - knockoutda) * 0.025 + knockoutda * gGIRKko
-EffS = 1/(1 + exp(-(Sst - sombara2)/ssom2)) : Effect of Sst 
+:EffS = 1/(1 + exp(-(Sst - sombara2)/ssom2)) : Effect of Sst 
+EffS = 1/(1 + exp(-(0 - sombara2)/ssom2)) : Effect of Sst 
 gGIRK = gGIRKbar * EffS 
 iGIRK = gGIRKbar * EffS * (v - eGIRK)
+:i = -iGIRK
 }
 

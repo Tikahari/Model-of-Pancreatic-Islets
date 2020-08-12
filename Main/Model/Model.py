@@ -1,4 +1,4 @@
-"""The 'Model' class will be used to configure and run a simulation for one islet. Instances are intended to be run in parallel and update a database file upon completion"""
+"""The 'Model' object will be used to configure and run a simulation for one islet. Instances are intended to be run in parallel and update a database file upon completion"""
 import pickle
 import configparser
 import ast
@@ -8,85 +8,87 @@ import sqlite3
 import datetime
 import numpy as np
 import re
+from matplotlib import pyplot as plt
 import Loss
 import Islet
-from matplotlib import pyplot as plt
+from Helper import *
+
+# headers for data
+reference = ['t', 'Vp']
+simulated = ['Time', 'VC0']
+
 class Model:
     def __init__(self, gid, run, alpha, beta, n, data, mean, threshold, slope):
         """Initialize model instance"""
         print(str(datetime.datetime.now()) + '\tModel.init')
+        # set object variables
         self.gid = gid
-        self.db = Islet.env['wd'] + 'run_' + run + '.db'
         self.data = data
         self.mean = mean
         self.slope = slope
         self.threshold = threshold
+        self.db = Islet.env['wd'] + 'run_' + run + '.db'
         # set environment variables
         Islet.env['rid'] = run
+        Islet.env['gid'] = gid
         Islet.env['wd'] += 'Islet_' + run + '_' + self.gid + '/'
         os.chdir(Islet.env['wd'])
-        print('wd', Islet.env['wd'])
-        # self.islet = Islet.Islet([float(alpha), float(beta)], None, int(n), self.gid)
-        # self.islet.run()
+        # create and run islet instance
+        print(str(datetime.datetime.now()) + '\tModel.init Create islet', Islet.env['wd'])
+        self.islet = Islet.Islet([float(alpha), float(beta)], None, int(n), self.gid)
+        self.islet.run()
         self.score()
         self.updateDatabase()
         self.clean()
     def score(self):
         """Score model"""
         print(str(datetime.datetime.now()) + '\tModel.score Score instance')
+        scores = []
         # load reference data
         ref = np.genfromtxt(self.data, delimiter=',', names=True)
         # initialize loss function
         path = self.data.split('/')[:len(self.data.split('/'))-1]
         path = '/'.join(path) + '/Loss.png'
         loss = Loss.Loss(int(self.mean), int(self.slope), int(self.threshold), path)
-        loss.plot()
-        for i in os.listdir(Islet.env['output'] + 'Islet_' + Islet.env['rid'] + '_' + self.gid + '/' ):
-            if 'csv' in i:
+        output_islet_path = Islet.env['output'] + 'Islet_' + Islet.env['rid'] + '_' + self.gid + '/'
+        for output in os.listdir(output_islet_path ):
+            if 'csv' in output:
                 # load simulated data
-                sim = np.genfromtxt(Islet.env['output'] + 'Islet_' + Islet.env['rid'] + '_' + self.gid + '/' + i, delimiter=',', names=True)
-                print(str(datetime.datetime.now()) + '\tModel.score length of reference and experimental data', len(ref), len(sim))
+                sim = np.genfromtxt(output_islet_path+ '/' + output, delimiter=',', names=True)
+                print(str(datetime.datetime.now()) + '\tModel.score Length of reference and experimental data', len(ref[reference[1]]), len(sim[simulated[1]]))
                 # normalize data to timescale with larger steps and shorter interval
-                # get smaller time step
-                min_tstep = -1
-                if ref['t'][1] - ref['t'][0] > sim['Time'][1] - sim['Time'][0]:
-                    min_tstep = 0
-                else:
-                    min_tstep = 1
-                print(str(datetime.datetime.now()) + '\tModel.score minimum time step', min_tstep, ref['t'][1] - ref['t'][0], sim['Time'][1] - sim['Time'][0])
-                steps = [sim['Time'][1] - sim['Time'][0], ref['t'][1] - ref['t'][0]]
-                multiple = round(steps[not min_tstep] / steps[min_tstep])
-                print(str(datetime.datetime.now()) + '\tModel.score large time step / small time step', multiple)
-                sim_normalized = sim['VC0'][::int(multiple)]
-                print(str(datetime.datetime.now()) + '\tModel.score length of normalized smaller time step data', len(sim_normalized))
-                plt.clf()
-                # get smaller size
-                min_tsize = -1
-                if len(ref['Vp']) > len(sim_normalized):
-                    min_tsize = 0
-                else:
-                    min_tsize = 1
-                print(str(datetime.datetime.now()) + '\tModel.score minimum time size', min_tsize, len(ref['Vp']), len(sim_normalized))
+                # determine smaller time step
+                multiple = getMultiple(ref[reference[0]], sim[simulated[0]])
+                sim_normalized = sim[simulated[1]][::int(multiple)]
+                print(str(datetime.datetime.now()) + '\tModel.score Large time step / small time step', multiple, 'length of normalized smaller time step data', len(sim_normalized), len(ref[reference[0]]))
+                # determine smaller sample size
+                size_normalized = getSize(ref[reference[0]], sim_normalized)
+                print(str(datetime.datetime.now()) + '\tModel.score Minimum sample size', len(ref[reference[1]]), len(sim_normalized), size_normalized)
                 # cut off simulated and reference data at same place
-                ref['Vp'] = ref['Vp'][:[len(sim_normalized), len(ref['Vp'])][min_tsize]]
-                sim_normalized = sim_normalized[:[len(sim_normalized), len(ref['Vp'])][min_tsize]]
-                print(str(datetime.datetime.now()) + '\tModel.score lengths of reference and simulated data after normalization', len(ref['Vp']), len(sim_normalized))
+                ref[reference[1]] = ref[reference[1]][:size_normalized]
+                sim_normalized = sim_normalized[:size_normalized]
+                print(str(datetime.datetime.now()) + '\tModel.score Lengths of reference and simulated data after normalization', len(ref[reference[1]]), len(sim_normalized))
                 # subtract one array from the other
-                output = []
-                for j in range(len(ref['Vp'])):
-                    output.append(ref['Vp'][j] - sim_normalized[j])
-                save =  self.data.split('/')[:len(self.data.split('/'))-1]
-                save =  '/'.join(save) + '/' + re.split('\.csv', i)[0] + '.png'
-                print(str(datetime.datetime.now()) + '\tModel.score path to save difference plot', save)
-                plt.title('Difference Between Reference and Simulated Data')
-                plt.xlabel('Time (ms)')
-                plt.ylabel('Membrane Potential (mV)')
-                plt.plot(output)
-                plt.savefig(save)
-                score = loss.getLoss(sum(output))
-                print(str(datetime.datetime.now()) + '\tModel.score cell score', score)
-                dump = open(Islet.env['output'] + 'Islet_' + Islet.env['rid'] + '_' + self.gid + '/' + re.split('\.csv', i)[0] + '.pl', 'wb')
-                pickle.dump([score], dump)
+                output_data = []
+                for val in range(len(ref[reference[1]])):
+                    output_data.append(ref[reference[1]][val] - sim_normalized[val])
+                save =  Islet.env['wd'] + re.split('\.csv', output)[0] + '.png'
+                print(str(datetime.datetime.now()) + '\tModel.score Path to save difference plot', save)
+                # plt.clf()
+                # plt.title('Difference Between Reference and Simulated Data')
+                # plt.xlabel('Time (ms)')
+                # plt.ylabel('Membrane Potential (mV)')
+                # plt.plot(output_data)
+                # plt.savefig(save)
+                scores.append(loss.getLoss(sum(output_data)))
+                print(str(datetime.datetime.now()) + '\tModel.score Cell score', scores)
+        print(str(datetime.datetime.now()) + '\tModel.score Islet score', sum(scores)/len(scores))
+        # save data to appropriate file
+        output_generation_path =  Islet.env['output'] + 'Islets_' + Islet.env['rid'] + '_' + self.gid.split('_')[0]
+        output_generation_file = '/Islet_' + Islet.env['rid'] + '_' + self.gid + '.pl'
+        os.system('mkdir -p ' + output_generation_path)
+        dump = open(output_generation_path + output_generation_file, 'wb')
+        pickle.dump([sum(scores)/len(scores), scores], dump)
     def updateDatabase(self):
         """Update database so that GA is aware that this process has concluded"""
         print(str(datetime.datetime.now()) + '\tModel.updateDatabase Update database: islet', self.gid)
@@ -99,14 +101,18 @@ class Model:
         c.close()
     def clean(self):
         """Compress and remove folders"""
-        print(str(datetime.datetime.now()) + '\tModel.clean Compress folders: output folder', Islet.env['output'] + 'Islet_' + Islet.env['rid'] + '_' + self.gid, 'run folder', Islet.env['wd'][:len(Islet.env['wd']-2)])
+        print(str(datetime.datetime.now()) + '\tModel.clean Compress folders: output folder', Islet.env['output'] + 'Islet_' + Islet.env['rid'] + '_' + self.gid, 'run folder', Islet.env['wd'][:len(Islet.env['wd'])-1])
+        output_islet_path = Islet.env['output'] + 'Islet_' + Islet.env['rid'] + '_' + self.gid
+        run_islet_path = Islet.env['wd'][:len(Islet.env['wd'])-1]
         # output folder
-        os.system('tar -zcvf ' + Islet.env['output'] + 'Islet_' + Islet.env['rid'] + '_' + self.gid + '.tar.gz ' + Islet.env['output'] + 'Islet_' + Islet.env['rid'] + '_' + self.gid)
+        os.system('tar -zcvf ' + output_islet_path + '.tar.gz ' + output_islet_path)
         # run folder
-        os.system('tar -zcvf ' + Islet.env['wd'][:len(Islet.env['wd'])-2] + 'tar.gz ' + Islet.env['wd'])
-        print(str(datetime.datetime.now()) + '\tModel.clean compressed folders')
-        os.system('rm -r ' + Islet.env['output'] + 'Islet_' + Islet.env['rid'] + '_' + self.gid)
-        os.system('ls ' + Islet.env['wd'] + '..')
-        # os.system('rm -r ' + Islet.env['wd'])
+        os.system('tar -zcvf ' + run_islet_path + '.tar.gz ' + run_islet_path)
+        print(str(datetime.datetime.now()) + '\tModel.clean Compressed folders')
+        # reduce size of output and run folders
+        os.system('rm -r ' + output_islet_path)
+        os.system('rm -r ' + run_islet_path)
 if __name__ == '__main__':
+    # run from command line
+    # python Model.py 1_0 0 0.15 0.75 4 /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/data/fridlyand_VCell_vp.csv -40 20 1
     Model(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7], sys.argv[8], sys.argv[9])

@@ -1,0 +1,115 @@
+Goal: 
+	- model secretion/diffusion of glucagon, insulin, somatostatin
+Major problems: 
+	1. nmodl and rxd variables do not match
+	2. NaN present when Sherman model transcribed/run
+	3. Major time series (voltage, currents, secretion) stabilize instead of periodically change/secrete
+		- no 'spike' in any cells
+		- 'spiking' no continous
+		- hormonal secretion not correct
+	
+Possible solutions (1):
+	- set secretion rate equal to ssto'
+	- record nmodl and rxd variables during same run and compare
+	- set rrate/urate to some value that changes according to secretion rate (JSS) in mod file
+	- change isst such that the concentration of ssti and ssto change according to the secretion rate given by the mechanism
+	
+Important observations (1):
+	- when ssti' set to 9999, ssti did not increase once it reached 2500
+		- rxd version of ssti (sst_cyt) remained unchanged
+	- when ssto' set to -9999, the slope of the ssto time series increased, but remained linear
+		- rxd version of ssto (sst_cyt) remained unchanged
+	- when ssto' and ssti' interchanged, the above patterns remained
+	- charge, region, name of ion in rxd and mod match
+	- writing ssti, ssto in breakpoint blocks did not change rxd curves, but did change mod curves as expected
+	- making the only section a delta cell and the only hormone somatostatin did not change rxd curves
+	- changing urate DID change rxd curve
+	- when ssti, ssto, isst read only in mod file:
+		- ssti matched rxd curve
+		- ssto was very high then decreased (not sure whether matched or not)
+		- isst was 0
+	- when only isst written:
+		- sstout and sst_ecs increased, sstin, sst_cyt unchanged when positive
+		- sstout, sst_ecs, sstin, and sst_cyt changed when negative (sstin, sst_cyt matched)
+	- when only ssti written:
+		- only ssti changes
+	- when isst written without write permission (tried as paramter and assigned)
+		- isst changes, but ssti, sstout, sst_cyt, and sst_ecs remain unchanged
+	* changing isst can have desired effect
+	- when isst is set to -29, ssti/sst_cyt increase and ssto/sst_ecs decrease
+		- this number changed when rrate and urate were changed
+	- when isst is set to 0, ssti/sst_cyt/ssto/sst_ecs remain the same value throughout
+	- when rrate and urate set equal to one another, setting isst to positive or negative creates the correct change in the direction of the flow of sst
+	* no need for production when isst is changed	
+	
+Possible solutions (2):
+	- dividing by tau component in h/mcapd equations may cause NaN
+	
+Important observations (2):
+	- all 'small' variables not equal to 0 (not sure if calculated as 0)
+	- y has a value for each time step (looks different than the equation mentioned in the paper)
+	- when JSS and som set to 4, NaN still present in mcapqd and hcapqd but not in Sst
+	- CaPQ current equal to that written by appropriate mod file
+	- infd-state works for one more time step than (infd-state)/tau
+		- dividing by tau in that time step (first) may cause m/hcapqd to go to NaN
+	- glucagon/insulin/somatostatin are read correctly when declared as parameters but not when they are declared as assigned
+	
+	
+Possible solutions (3):
+	- Transcribed incorrectly/edited after correct transcription
+		- vc term removed from G' equation
+	- Capacitance set to wrong value
+
+Important observations (3):
+	- NRa curve changes in alpha cell
+	- G flatlines after initial value
+	- when current clamp of .1 nA added for 1 ms with 8ms delay, spike in membrane potential occured 
+		- no spike in secretion
+		- spiking is not continuous
+	- when the cyptoplasmic concentration of insulin mutliplied by 100000
+		- no change
+	- when cyptoplasmic concentration of somatostatin multiplied by 100000
+		- no change
+	- when katp conductance multiplied by 999
+		- membrane potential stabilizes to ekatp (-75)
+	- changing values in heading of Watts xpp did not produce spiking
+	- a.) when all conductances of ion channels with negative reversal potentials multiplied by .001
+		- one initial spike occured
+	- when previous + all conductances of ion channels with positive reversal potentials set to 700
+		- initial spike + higher resting membrane potential
+	- when hna_inf and mna_inf mutliplied by 999 + (cond mult .001)
+		- higher resting membrane potential
+	- b.) when tau of hna, mna in derivative states multiplied by .001 + (cond mult .001)
+		- darker time series
+	- when a.cm set to 0.001 + a + b
+		- SPIKING
+	- when a.cm small (.00000000000001), tau variables multiplied by .001, and gNa mutliplied by 100
+		- multiple spikes close together at beginning, then stable
+			- similar to beta cell activity
+		- mna goes to 0, hna stabilizes
+	- capacitance in microfarads
+	- very different behavior when tau term is multiplied by different values
+	- when gna set to 1100, taus multiplied by 0.01, spiking looks good
+	- decreasing a.cm does not change spiking when gna and taus are set to above values
+	- when i's commented out, SOLVE states moved to end of breakpoint block
+		- no change
+	- c.) when initial membrane potential changed
+		- one initial spike
+	- when c.) + capacitance changed
+		- when capacitance decreased, larger initial spike, then no change
+
+Major breakthroughs:
+	- isoca current was not taken into account in the main membrane potential equation
+	- spikes occured when conductance and time constant of sodium channel changed
+	- when all equations put in 1 mod file, figures can be replicated
+	
+Next Steps:
+	- use NEURON's current equations to calculate voltage
+	- break apart mod files 
+	- simulate with rxd
+	- replace beta cell with Fridlyand model
+	- clean
+		- check units
+		- comment
+		- take away ugly
+	- DONE

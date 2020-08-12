@@ -1,18 +1,29 @@
 NEURON{
-SUFFIX A_Glucagon
+POINT_PROCESS A_Glucagon
 USEION CaPQ READ iCaPQ
 USEION CaT READ iCaT
 USEION CaL READ iCaL
-USEION glucagon READ glucagono, glucagoni WRITE iglucagon VALENCE 0
+USEION glucagon READ glucagono, glucagoni, iglucagon VALENCE 1
 USEION sst READ ssti
 USEION insulin READ insulini
-RANGE alphaa, Ba, fcyta, fVpqa, tmsb, vcella, vmdpq, kpmcaa, ksercaa, pleaka, fera, sigmava, fmda, k1a, km1a, r1a, rm1a, r20a, r30a, rm3a, u1a, u2a, u3a, kpa, kp2a, GlucFacta, knockoutda, ra, sombara, rako, ssom, fa, vc, caerbara, ssoca, vsoca, gsocbara, G 
-RANGE iCaPQ, iCaT, iCaL, JPQ, JTa, JLa, Jera, rm2a, r2a, r3a, Jsercaa, Jleaka, Jmema, JGS, cinfa, isoca
+USEION soca WRITE isoca VALENCE 1
+NONSPECIFIC_CURRENT i
+RANGE alphaa, Ba, fcyta, fVpqa, tmsb, vcella, vmdpq, kpmcaa, ksercaa, pleaka, fera, sigmava, fmda, k1a, km1a, r1a, rm1a, r20a, r30a, rm3a, u1a, u2a, u3a, kpa, kp2a, GlucFacta, knockoutda, ra, sombara, rako, ssom, fa, vc, caerbara, ssoca, vsoca, gsocbar, G 
+RANGE iCaPQ, iCaT, iCaL, JPQ, JTa, JLa, Jera, rm2a, r2a, r3a, Jsercaa, Jleaka, Jmema, cinfa, isoca
 RANGE Ins, Sst
 RANGE gin, gout, igl
+RANGE JGS
+POINTER Gpnt
+RANGE JGSpnt
+RANGE JGSpnt2
 }
 
 PARAMETER{
+Gpnt
+JGSpnt
+iglucagon
+glucagono
+glucagoni
 gout
 gin
 igl
@@ -58,9 +69,7 @@ vsoca
 }
 
 ASSIGNED{
-iglucagon
-glucagono
-glucagoni
+JGSpnt2
 iCaPQ
 iCaT
 iCaL
@@ -80,6 +89,7 @@ isoca
 insulini
 ssti
 v
+i
 }
 
 STATE{
@@ -110,7 +120,7 @@ vmdpq = 1.41e-15
 cmdpqa = 11.51299890826233
 ca = 0.3449148387259899
 kpmcaa = 0.3
-ksercaa = 0.05
+ksercaa = 0.5
 pleaka = 0.0003
 cera = 58.71698724650182
 N1a = 1.057203539612775e-05
@@ -154,12 +164,15 @@ v = -49.03736299581227
 }
 
 BREAKPOINT{
+Gpnt = G
+JGSpnt2 = JGS
+JGSpnt = JGS
 gin = glucagoni
 gout = glucagono
 igl = iglucagon
 Sst = ssti
 Ins = insulini
-iglucagon = -(tmsb*u3a*NRa*0.0000988) *100000
+:iglucagon = JGS
 JPQ = -alphaa*iCaPQ / vmdpq
 JTa = -alphaa*iCaT/vcella
 JLa = -alphaa*iCaL/vcella
@@ -171,9 +184,10 @@ Jsercaa = ksercaa*ca
 Jleaka = pleaka*(cera - ca)
 Jera = Jleaka - Jsercaa
 Jmema = JTa+JLa+fVpqa*Ba*(cmdpqa-ca)-kpmcaa*ca
-JGS = tmsb*u3a*NRa*0.0000988
+JGS = tmsb*u3a*NRa
 cinfa = 1/(1 + exp(-(cera - caerbara)/ssoca))
 isoca = gsocbara * cinfa * (v - vsoca)
+i = -iglucagon
 }
 
 DERIVATIVE states{
@@ -188,7 +202,8 @@ N5a' = tmsb*(rm1a*N1a - (r1a + rm2a)*N5a + r2a*N6a)
 N6a' = tmsb*(r3a + rm2a*N5a - (rm3a + r2a)*N6a)
 NFa' = tmsb*(u1a*N4a - u2a*NFa)
 NRa' = tmsb*(u2a*NFa - u3a*NRa)
-G' = JGS-fa*G
+G' = JGS/vc - fa*G
+:G' = JGS-fa*G
 :iglucagon' = (JGS/vc-fa*iglucagon)
 :glucagoni' = 0
 }

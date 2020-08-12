@@ -2,16 +2,24 @@ NEURON{
 SUFFIX D_Somatostatin
 USEION CaL READ iCaL
 USEION CaPQ READ iCaPQ
-USEION sst READ ssto, ssti WRITE isst VALENCE 0
+USEION sst READ ssti, ssto WRITE isst VALENCE 1
 USEION insulin READ insulini
 USEION glucagon READ glucagoni
 RANGE iCaL, iCaPQ, tmsb, con, alpha, vmdl, vmdPQ, fVl, B, fVPQ, kpmca, kserca, pleak, vCaPQm, sCaPQm, vCaPQh, sCaPQh, tCaPQh1, tCaPQh2, tausom, bas, fcyt, fmd, fer, sigmav, vc, f, Sst
 RANGE JL, JPQ, Jserca, Jer, mCaPQ_inf, hCaPQ_inf, tauCaPQm, tauCaPQh, Jmem, y, Jleak, som, JSS 
 RANGE Ins, G
 RANGE sstin, sstout, ist
+RANGE temp, dir, test
+:POINTER test
 }
 
 PARAMETER{ 
+test
+temp
+dir
+ssto
+ssti
+:isst
 sstin
 sstout
 ist
@@ -46,8 +54,8 @@ f
 
 ASSIGNED{
 isst
-ssti
-ssto
+:ssti
+:ssto
 iCaL
 iCaPQ
 JL 
@@ -70,6 +78,7 @@ v : This is the voltage when I run h.initial.....
 
 STATE{
 :ssti
+:ssto
 mCaPQ
 hCaPQ
 c
@@ -80,6 +89,9 @@ Sst
 }
 
 INITIAL{
+test = 1
+dir = 1
+temp = 20000
 tmsb = 0.001
 con = 0.00000000594
 alpha = 5.18e-15
@@ -114,15 +126,35 @@ f = 0.003
 Sst = 18.71318922819339
 ssti = 18.71318922819339
 v = -16.26895428994972
+som = 4
 }
 
 BREAKPOINT{
+test = test * 10
+if (temp > 0 && dir){
+    temp = temp - 1
+    isst =  4000
+    test = 1000000
+}
+if (temp < 20000 && !dir){
+    temp = temp + 1
+    isst =  - 4000
+    test = 0
+}
+if (temp <= 0){
+    dir = 0
+}
+if (temp >= 20000){
+    dir = 1
+}
+:isst =  - 999 * (ssti/(1+ssti) - ssto/(1+ssto))
+:ssti = 5
+:ssto = 500
 sstin = ssti
 sstout = ssto
 ist = isst
 Ins = insulini
 G = glucagoni
-isst =  tmsb * som * con * 100000000
 JL = -alpha * iCaL/vmdl
 JPQ = -alpha * iCaPQ/vmdPQ
 Jserca = kserca * c
@@ -136,8 +168,8 @@ Jmem = fVl * B * (cmdl - c) + fVPQ * B * (cmdPQ - c) - kpmca * c
 y = pow(cmdPQ/200,4)/(pow(0.2,4) + pow(cmdPQ/200,4))
 Jleak = pleak * (cer - c)
 Jer = (Jleak - Jserca)
-som = (200 * mCaPQ * hCaPQ * y/tausom) + bas
-JSS = tmsb * som * con
+som = (200 * mCaPQ * hCaPQ) + bas
+JSS = 1
 }
 
 DERIVATIVE states{
@@ -148,5 +180,6 @@ cmdl' = fmd * JL - fmd * B * (cmdl - c)
 cmdPQ' = fmd * JPQ - fmd * B * (cmdPQ-c)
 cer' = -fer * sigmav * Jer
 Sst' = JSS/vc - f * Sst
-:ssti' = (JSS - f * ssti)
+:ssti' = -99999
+:ssto' = 99999
 }

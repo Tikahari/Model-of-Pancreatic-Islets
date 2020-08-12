@@ -6,7 +6,7 @@ import re
 import os
 
 def getTokens(line):
-    """Get variables and value within 'INITIAL' block of mod file"""
+    """Get variables and value within the 'INITIAL' block of a mod file"""
     key = ""
     val = ""
     tokens = {'{', "'", '\n', '}'}
@@ -66,7 +66,7 @@ def writeMod(ini, mod):
     filer.close()
     filew = open(mod, 'w')
     filew.write(new)
-#    filew.close()
+    filew.close()
     # rename files so all mechanisms for all cells can exist in same folder without overwrite
     new = mod.split('.mod')[0]
     new += re.split('_|\.', ini)[len(re.split('_|\.', ini)) - 2] + '.mod'

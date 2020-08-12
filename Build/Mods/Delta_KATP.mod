@@ -20,7 +20,7 @@ iKATP
 
 INITIAL{
 eKATP = -75
-gKATPbar = 0.29
+gKATPbar = 0.029
 }
 
 BREAKPOINT{

@@ -1,8 +1,8 @@
 NEURON{
-SUFFIX B_Insulin
+POINT_PROCESS B_Insulin
 :USEION CaL READ iCaL
 :USEION CaR READ iCaR
-USEION insulin READ insulini, insulino WRITE iinsulin VALENCE 0
+USEION insulin READ insulini, insulino VALENCE 0
 USEION glucagon READ glucagoni
 USEION sst READ ssti
 RANGE vmd, vcell, alpha, B, kpmca, cbas, kserca2b, kserca3, per, phigk, KGPDH, kappa, Jgk, fcyt, delta, p23 
@@ -19,9 +19,14 @@ RANGE topa12, bottom12, weight13, topa13, bottom13, weight14, topa14, bottom14, 
 RANGE topa16, bottom16, pfk, pfk_ms, r20, ampfactor, r3, r2, rm2b, mod_cmd, JIS 
 RANGE G, Sst
 RANGE inin, inout, iin
+POINTER Inspnt
 }
 
 PARAMETER{   
+Inspnt
+iinsulin
+insulini
+insulino
 inin
 inout
 iin
@@ -130,9 +135,6 @@ fb
 }
 
 ASSIGNED{
-iinsulin
-insulini
-insulino
 minf
 iCa 
 iCaL 
@@ -370,12 +372,13 @@ v = -71.33779976819424
 }
 
 BREAKPOINT{
+Inspnt = Ins
 inin = insulini
 inout = insulino
 iin = iinsulin
 Sst = ssti
 G = glucagoni
-iinsulin = - (JIS/vc - fb * Ins)
+:iinsulin = JIS
 minf = 1/(1 + exp((vm - v)/sm))
 iCa = gCa * nCa * minf * (v - vCa)
 iCaL = raL * iCa

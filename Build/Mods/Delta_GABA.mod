@@ -4,13 +4,15 @@
 : but iGABA is included in the membrane voltage eqn for delta cell.
 NEURON{
 SUFFIX D_GABA
-NONSPECIFIC_CURRENT iGABA
+USEION GABA WRITE iGABA VALENCE -2
+:NONSPECIFIC_CURRENT i
 RANGE knockoutbd, vGABA 
 RANGE gGABAbar, EffId, iGABA
 POINTER Ins
 }
 
 PARAMETER{   
+:i
 knockoutbd
 vGABA
 }
@@ -31,8 +33,9 @@ vGABA = 0
 : B cells stim D cells. In both rat and human islets it has been shown that Sst coreleased with
 : ins. So there is a GABA curr dependent on I concentration 
 BREAKPOINT{
-gGABAbar=(1-knockoutbd)*0.1+knockoutbd*0
+gGABAbar=14
 EffId = 0.8/(1+exp(-(Ins-1500)/500)) : Effect of GABA on D cell
 iGABA = gGABAbar*EffId*(v - vGABA)
+:i = -iGABA
 }
 

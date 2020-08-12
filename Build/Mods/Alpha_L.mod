@@ -1,6 +1,7 @@
 NEURON{
 SUFFIX A_L
 USEION L WRITE iL, eL VALENCE 1
+:NONSPECIFIC_CURRENT i
 RANGE gL
 }
 
@@ -10,6 +11,7 @@ gL
 
 ASSIGNED{
 v
+i
 }
 
 STATE{
@@ -24,5 +26,6 @@ gL = 0.2
 
 BREAKPOINT{
 iL = gL*(v - eL)
+i = -iL
 }
 

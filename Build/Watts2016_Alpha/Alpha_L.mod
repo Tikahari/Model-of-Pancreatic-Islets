@@ -1,26 +1,27 @@
 NEURON{
-SUFFIX A_L
-USEION L WRITE iL, eL VALENCE 1
-RANGE iL
-RANGE eL, gL
+    SUFFIX
 }
 
 PARAMETER{
-eL
-gL
-v
+
 }
 
 ASSIGNED{
-iL
+
+}
+
+STATE{
+
 }
 
 INITIAL{
-eL = -20
-gL = 0.2
+
 }
 
 BREAKPOINT{
-iL = gL*(v - eL)
+    SOLVE states METHOD cnexp
 }
 
+DERIVATIVE states{
+    
+}

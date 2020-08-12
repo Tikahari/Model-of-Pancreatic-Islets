@@ -1,6 +1,9 @@
 **data
 **x86_64
 **__pycache__
+*log
 *compile*
 *csv
 *pl
+*gz
+*tar
