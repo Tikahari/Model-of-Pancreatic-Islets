@@ -1,60 +1,58 @@
 NEURON{
-SUFFIX D_CaPQ
-USEION CaPQ WRITE iCaPQ, eCaPQ VALENCE 1
-:USEION Ca READ eCa
-RANGE gCaPQ, mCaPQ, hCaPQ, vCaPQm, sCaPQm, vCaPQh, sCaPQh, tCaPQh1, tCaPQh2  
-RANGE mCaPQ_inf, hCaPQ_inf, tauCaPQm, tauCaPQh
+    SUFFIX D_CaPQ
+    USEION capqd WRITE icapqd VALENCE 2
+    RANGE gcapqd, vcad, scapqmd, vcapqmd, scapqhd, vcapqhd, tcapqh1d, tcapqh2d
+    RANGE mcapqinfd, hcapqinfd, taucapqmd, taucapqhd, icapqd
 }
 
 PARAMETER{
-gCaPQ  
-vCaPQm 
-sCaPQm 
-vCaPQh 
-sCaPQh 
-tCaPQh1 
-tCaPQh2   
+    gcapqd
+    vcad
+    scapqmd
+    vcapqmd
+    scapqhd
+    vcapqhd
+    tcapqh1d
+    tcapqh2d
 }
 
 ASSIGNED{
-mCaPQ_inf
-hCaPQ_inf
-tauCaPQm
-tauCaPQh
-eCaPQ
-v : This is the voltage when I run h.initial.....
+    mcapqinfd
+    hcapqinfd
+    taucapqmd
+    taucapqhd
+    v
+    icapqd
 }
 
 STATE{
-iCaPQ
-mCaPQ
-hCaPQ
+    mcapqd
+    hcapqd
 }
 
 INITIAL{
-gCaPQ = 0.7
-mCaPQ = 0.5089033026581684
-hCaPQ = 0.6672499701175263
-vCaPQm = -15
-sCaPQm = 10
-vCaPQh = -33
-sCaPQh = -5
-tCaPQh1 = 60
-tCaPQh2 = 51
-eCaPQ = 65
+    mcapqd=0.5089033026581684  
+    hcapqd=0.6672499701175263  
+    gcapqd=700
+    vcad=65
+    vcapqmd=-15
+    scapqmd=10
+    vcapqhd=-33
+    scapqhd=-5
+    tcapqh1d=60
+    tcapqh2d=51
 }
 
 BREAKPOINT{
-mCaPQ_inf = 1/(1 + exp(-(v - vCaPQm)/sCaPQm))
-hCaPQ_inf = 1/(1 + exp(-(v - vCaPQh)/sCaPQh))
-tauCaPQm = (1/(exp(-(v + 23)/20) + exp((v + 23)/20))) + 0.05
-tauCaPQh = (tCaPQh1/(exp(-(v + 0)/20) + exp((v + 0)/20))) + tCaPQh2
-SOLVE states METHOD cnexp : Put current equation below this
-iCaPQ = gCaPQ * mCaPQ * hCaPQ * (v - eCaPQ)
+    SOLVE states METHOD cnexp
+    mcapqinfd=1/(1+exp(-(v-vcapqmd)/scapqmd))
+    hcapqinfd=1/(1+exp(-(v-vcapqhd)/scapqhd))
+    taucapqmd=(1/(exp(-(v+23)/20)+exp((v+23)/20)))+0.05
+    taucapqhd=(tcapqh1d/(exp(-(v+0)/20)+exp((v+0)/20)))+tcapqh2d
+    icapqd=gcapqd*mcapqd*hcapqd*(v-vcad)
 }
 
 DERIVATIVE states{
-mCaPQ'= (mCaPQ_inf - mCaPQ)/tauCaPQm
-hCaPQ' = (hCaPQ_inf - hCaPQ)/tauCaPQh
+    mcapqd'=(mcapqinfd-mcapqd)/taucapqmd
+    hcapqd'=(hcapqinfd-hcapqd)/taucapqhd
 }
-

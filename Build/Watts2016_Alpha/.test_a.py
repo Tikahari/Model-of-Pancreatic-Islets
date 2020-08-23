@@ -46,14 +46,21 @@ h.load_file('stdrun.hoc')
 a = h.Section('alpha')
 a.pt3dadd(-20,0,0,10)
 a.pt3dadd(-10,0,0,10)
-# for i in mechs['Alpha']:
-    # print(str(datetime.datetime.now()) + '\tinsert A_' + i)
-    # a.insert('A_'+i)
+for i in mechs['Alpha']:
+    print(str(datetime.datetime.now()) + '\tinsert A_' + i)
+    a.insert('A_'+i)
 
-print(str(datetime.datetime.now()) + '\tinsert watts_alpha_v')
-a.insert('watts_alpha_v')
+# print(str(datetime.datetime.now()) + '\tinsert watts_alpha')
+# a.insert('watts_alpha')
+
+# print(str(datetime.datetime.now()) + '\tinsert watts_alpha_v')
+# a.insert('watts_alpha_v')
+
+# print(str(datetime.datetime.now()) + '\tinsert watts_alpha_v_0')
+# a.insert('watts_alpha_v_0')
+
 # simulation parameter
-a.cm = 5e6
+a.cm = 5
 print(str(datetime.datetime.now()) + '\ta.cm ', a.cm)
 
 # add point processes
@@ -74,21 +81,21 @@ reca = {}
 headera = []
 
 
-# print(str(datetime.datetime.now()) + '\tset pointers')
+print(str(datetime.datetime.now()) + '\tset pointers')
 # set pointers
-# mp = {'Alpha': gluc_syn}
-# for i in pointers:
-#     for j in pointers[i]:
-#         for k in pointers[i][j]:
-#             print(i,j,k)
-#             # for seg in mp[i]:
-#             temp = k.split('_')
-#             point_to = i[0].upper() + "_" + j
-#             point_from = "_ref_"+temp[0]
-#             print(str(datetime.datetime.now()) + '\t' + point_to + "_" + temp[0],  "points to", point_from)
-#             from_ = getattr(gluc_syn, point_from)
-#             to_ = getattr(a(0.5), point_to)
-#             h.setpointer(from_, temp[0], to_)
+mp = {'Alpha': a}
+for i in pointers:
+    for j in pointers[i]:
+        for k in pointers[i][j]:
+            print(i,j,k)
+            for seg in mp[i]:
+                temp = k.split('_')
+                point_to = i[0].upper() + "_" + j
+                point_from = "_ref_"+temp[0]+"_" + i[0].upper() + "_"+temp[2]
+                print(str(datetime.datetime.now()) + '\t' + point_to + "_" + temp[0],  "points to", point_from)
+                from_ = getattr(seg, point_from)
+                to_ = getattr(seg, point_to)
+                h.setpointer(from_, temp[0], to_)
 
 
 print(str(datetime.datetime.now()) + '\tset recording variables')

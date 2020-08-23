@@ -1,59 +1,58 @@
 NEURON{
-SUFFIX D_CaL
-USEION CaL WRITE iCaL, eCaL VALENCE 1
-RANGE sCaLm, sCaLh, vCaLm, vCaLh, tCaLh1, tCaLh2, gCaL
-RANGE mCaL_inf, hCaL_inf, tauCaLm, tauCaLh
+    SUFFIX D_CaL
+    USEION cald WRITE icald VALENCE 2
+    RANGE gcald, vcad, vcalmd, scalmd, vcalhd, scalhd, tcalh1d, tcalh2d
+    RANGE mcalinfd, hcalinfd, taucalmd, taucalhd, icald
 }
 
-PARAMETER{   
-sCaLm
-sCaLh
-vCaLm 
-vCaLh
-tCaLh1
-tCaLh2
-gCaL
+PARAMETER{
+    gcald
+    vcad
+    vcalmd
+    scalmd
+    vcalhd
+    scalhd
+    tcalh1d
+    tcalh2d
 }
 
 ASSIGNED{
-mCaL_inf
-hCaL_inf
-tauCaLm
-tauCaLh
-v : This is the voltage when I run h.initial.....
+    mcalinfd
+    hcalinfd
+    taucalmd
+    taucalhd
+    v
+    icald
 }
 
 STATE{
-iCaL
-eCaL
-mCaL
-hCaL
+    mcald
+    hcald
 }
 
 INITIAL{
-eCaL = 65
-gCaL = 0.7
-mCaL = 0.8218051702003508
-hCaL = 0.6672499701175263
-sCaLm = 10
-sCaLh = -5
-vCaLm = -30
-vCaLh = -33
-tCaLh1 = 60
-tCaLh2 = 51
+    mcald=0.8218051702003508  
+    hcald=0.6672499701175263  
+    gcald=700
+    vcad=65
+    vcalmd=-30
+    scalmd=10
+    vcalhd=-33
+    scalhd=-5
+    tcalh1d=60
+    tcalh2d=51
 }
 
 BREAKPOINT{
-mCaL_inf = 1/(1 + exp(-(v - vCaLm)/sCaLm))
-hCaL_inf = 1/(1 + exp(-(v - vCaLh)/sCaLh))    
-tauCaLm = (1/(exp(-(v + 23)/20) + exp((v + 23)/20))) + 0.05
-tauCaLh = (tCaLh1/(exp(-(v + 0)/20) + exp((v + 0)/20)))+tCaLh2
-SOLVE states METHOD cnexp :were putting this before current variable    
-iCaL = gCaL*pow(mCaL,2)*hCaL*(v-eCaL)
+    SOLVE states METHOD cnexp
+    mcalinfd=1/(1+exp(-(v-vcalmd)/scalmd))
+    hcalinfd=1/(1+exp(-(v-vcalhd)/scalhd))
+    taucalmd=(1/(exp(-(v+23)/20)+exp((v+23)/20)))+0.05
+    taucalhd=(tcalh1d/(exp(-(v+0)/20)+exp((v+0)/20)))+tcalh2d
+    icald=gcald*mcald^2*hcald*(v-vcad)
 }
 
 DERIVATIVE states{
-mCaL'= (mCaL_inf - mCaL)/tauCaLm
-hCaL'=(hCaL_inf - hCaL)/tauCaLh
+    mcald'=(mcalinfd-mcald)/taucalmd
+    hcald'=(hcalinfd-hcald)/taucalhd
 }
-

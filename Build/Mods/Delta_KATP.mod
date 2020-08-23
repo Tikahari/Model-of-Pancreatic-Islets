@@ -1,28 +1,25 @@
 NEURON{
-SUFFIX D_KATP
-USEION KATP WRITE iKATP, eKATP VALENCE 1
-:USEION K READ eK
-RANGE gKATPbar
+    SUFFIX D_KATP
+    USEION katpd WRITE ikatpd VALENCE 1
+    RANGE gkatpbard, vkd
+    RANGE ikatpd
 }
 
-PARAMETER{  
-gKATPbar 
+PARAMETER{
+    gkatpbard
+    vkd
 }
 
 ASSIGNED{
-eKATP
-v : This is the voltage when I run h.initial.....
-}
-
-STATE{
-iKATP
+    v
+    ikatpd
 }
 
 INITIAL{
-eKATP = -75
-gKATPbar = 0.029
+    gkatpbard=180
+    vkd=-75
 }
 
 BREAKPOINT{
-iKATP = gKATPbar * (v - eKATP)
+    ikatpd=gkatpbard*(v-vkd)
 }

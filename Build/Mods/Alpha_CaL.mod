@@ -1,49 +1,62 @@
 NEURON{
-SUFFIX A_CaL
-USEION CaL WRITE iCaL, eCaL VALENCE 1
-:NONSPECIFIC_CURRENT i
-RANGE mCaL_inf, hCaL_inf, tau_mCaL, tau_hCaL
-RANGE gCaL
+    SUFFIX A_CaL
+    USEION cala WRITE icala VALENCE 2
+    RANGE vcaa, vcala, gcala, tcalh1a, tcalh2a, vcalma, scalma, vcalha, scalha
+    RANGE taucalma, taucalha, mcalinfa, hcalinfa, icala
 }
 
 PARAMETER{
-gCaL
+    vcaa
+    vcala
+    gcala
+    tcalh1a
+    tcalh2a
+    vcalma
+    scalma
+    vcalha
+    scalha
 }
 
 ASSIGNED{
-mCaL_inf
-hCaL_inf
-tau_mCaL
-tau_hCaL
-v
-i
+    taucalma
+    taucalha
+    mcalinfa
+    hcalinfa
+    v
+    icala
 }
 
 STATE{
-eCaL
-iCaL
-mCaL
-hCaL
+    mcala
+    hcala
 }
 
 INITIAL{
-eCaL = 65
-gCaL = 0.7
-mCaL = 0.1293341713632475
-hCaL = 0.8127842536675057
+    mcala=0.1293341713632475  
+    hcala=0.8127842536675057  
+    vcaa=65
+    gcala=0.7
+    vcalma=-30
+    scalma=10
+    vcalha=-33
+    scalha=-5
+    tcalh1a=60
+    tcalh2a=51
+
+    taucalma = 0.5
+    taucalha = 0.5
 }
 
 BREAKPOINT{
-mCaL_inf = 1/(1 + exp((-(v + 30))/10))
-hCaL_inf = 1/(1 + exp((-(v + 33))/(-5)))
-tau_mCaL = (1/(exp((-(v + 23))/20) + exp((v + 23)/20))) + 0.05
-tau_hCaL = (60/(exp(-v/20) + exp(v/20))) + 51
-iCaL = gCaL * pow(mCaL,2) * hCaL*(v - eCaL)
-:i = -iCaL
-SOLVE states METHOD cnexp
+    SOLVE states METHOD cnexp
+    taucalma=(1/(exp(-(v+23)/20)+exp((v+23)/20)))+0.05
+    taucalha=(tcalh1a/(exp(-(v+0)/20)+exp((v+0)/20)))+tcalh2a
+    mcalinfa=1/(1+exp(-(v-vcalma)/scalma))
+    hcalinfa=1/(1+exp(-(v-vcalha)/scalha))
+    icala=gcala*(mcala^2)*hcala*(v-vcaa)
 }
 
 DERIVATIVE states{
-mCaL' = (mCaL_inf - mCaL)/(tau_mCaL)
-hCaL' = (hCaL_inf - hCaL)/(tau_hCaL)
+    mcala'=(mcalinfa-mcala)/taucalma
+    hcala'=(hcalinfa-hcala)/taucalha
 }

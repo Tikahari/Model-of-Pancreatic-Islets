@@ -1,5 +1,5 @@
 NEURON{
-SUFFIX watts_alpha_v
+SUFFIX watts_alpha_v_0
 :NONSPECIFIC_CURRENT i
 USEION cala WRITE icala VALENCE 2
 USEION cata WRITE icata VALENCE 2

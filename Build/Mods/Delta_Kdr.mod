@@ -1,45 +1,43 @@
 NEURON{
-SUFFIX D_Kdr
-USEION Kdr WRITE iKdr, eKdr VALENCE 1
-:USEION K READ eK
-RANGE vKdrm, sKdrm, gKdr 
-RANGE mKdr_inf, tauKdrm
+    SUFFIX D_Kdr
+    USEION kdrd WRITE ikdrd VALENCE 1
+    RANGE gkdrd, vkd, vkdrmd, skdrmd
+    RANGE mkdrinfd, taukdrmd, ikdrd
 }
 
-PARAMETER{   
-vKdrm 
-sKdrm 
-gKdr  
+PARAMETER{
+    gkdrd
+    vkd
+    vkdrmd
+    skdrmd
 }
 
 ASSIGNED{
-mKdr_inf
-tauKdrm
-eKdr
-v : This is the voltage when I run h.initial.....
+    mkdrinfd
+    taukdrmd
+    v
+    ikdrd
 }
 
 STATE{
-iKdr
-mKdr
+    mkdrd
 }
 
 INITIAL{
-eKdr = 65
-vKdrm = -25
-sKdrm = 23
-gKdr = 7.5
-mKdr = 0.5717652452166768
+    mkdrd=0.5717652452166768 
+    gkdrd=7500
+    vkd=-75
+    vkdrmd=-25
+    skdrmd=23
 }
 
 BREAKPOINT{
-mKdr_inf = 1/(1 + exp(-(v - vKdrm)/sKdrm))
-tauKdrm = (1.5/(exp(-(v + 10)/25) + exp((v + 10)/25))) + 15
-SOLVE states METHOD cnexp : Put current equation below this
-iKdr = gKdr * pow(mKdr,4) * (v - eKdr)
+    SOLVE states METHOD cnexp
+    mkdrinfd=1/(1+exp(-(v-vkdrmd)/skdrmd))
+    taukdrmd=(1.5/(exp(-(v+10)/25)+exp((v+10)/25)))+15
+    ikdrd=gkdrd*mkdrd^4*(v-vkd)
 }
 
 DERIVATIVE states{
-mKdr' = (mKdr_inf - mKdr)/tauKdrm
+    mkdrd'=(mkdrinfd-mkdrd)/taukdrmd
 }
-

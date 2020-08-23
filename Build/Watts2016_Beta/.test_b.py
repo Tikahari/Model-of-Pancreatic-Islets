@@ -37,7 +37,7 @@ for i in config:
         if config[i][j] is not None:
             pointers[i][j] = ast.literal_eval(config[i][j])
         # mod.writeMod(i + '.ini', i + '_' + j + '.mod')
-
+ 
 # create a section for each cell type and add all corresponding mechanisms
 from neuron import h, rxd
 h.load_file('stdrun.hoc')
@@ -46,13 +46,14 @@ h.load_file('stdrun.hoc')
 b = h.Section('beta')
 b.pt3dadd(-20,0,0,10)
 b.pt3dadd(-10,0,0,10)
-# for i in mechs['Beta']:
-#     print(str(datetime.datetime.now()) + '\tinsert B_' + i)
-#     b.insert('B_'+i)
-print(str(datetime.datetime.now()) + '\tinsert watts_beta_v')
-b.insert('watts_beta_v')
+for i in mechs['Beta']:
+    print(str(datetime.datetime.now()) + '\tinsert B_' + i)
+    b.insert('B_'+i)
+
+# print(str(datetime.datetime.now()) + '\tinsert watts_beta_v')
+# b.insert('watts_beta_v')
 # simulation parameter
-b.cm = 5300e6
+b.cm = 5300e3
 print(str(datetime.datetime.now()) + '\tb.cm ', b.cm)
 
 # add point processes

@@ -1,49 +1,61 @@
 NEURON{
-SUFFIX A_Na
-USEION Na WRITE iNa, eNa VALENCE 1
-:NONSPECIFIC_CURRENT i
-RANGE mNa_inf, hNa_inf, tau_mNa, tau_hNa
-RANGE gNa
+    SUFFIX A_Na
+    USEION naa WRITE inaa VALENCE 1
+    RANGE vnaa, vnama, vnaha, snama, snaha, tnah1a, tnah2a, gnaa
+    RANGE mnainfa, hnainfa, taunama, taunaha, inaa
 }
 
 PARAMETER{
-gNa
+    vnaa
+    vnama
+    vnaha
+    snama
+    snaha
+    tnah1a
+    tnah2a
+    gnaa
 }
 
 ASSIGNED{
-mNa_inf
-hNa_inf
-tau_mNa
-tau_hNa
-v
-i
+    mnainfa
+    hnainfa
+    taunama
+    taunaha
+    v
+    inaa
 }
 
 STATE{
-eNa
-iNa
-mNa
-hNa
+    mnaa
+    hnaa
 }
 
 INITIAL{
-eNa = 70
-gNa = 11
-mNa = 0.007938786735335676
-hNa = 0.2498175179717122
+    mnaa=0.007938786735335676  
+    hnaa=0.2498175179717122 
+    vnaa=70
+    vnama=-30
+    vnaha=-52
+    snama=4
+    snaha=-8
+    tnah1a=120
+    tnah2a=0.5
+    gnaa=11
+
+    taunama = 0.5
+    taunaha = 0.5
 }
 
 BREAKPOINT{
-mNa_inf = 1/(1 + exp((-(v + 30))/(4)))
-hNa_inf = 1/(1 + exp((-(v + 52))/(-8)))
-tau_mNa = (6/(exp((-(v + 50))/10) + exp((v + 50)/10))) + 0.05
-tau_hNa = (120/(exp((-(v + 50))/8) + exp((v + 50)/8))) + 0.5
-iNa = gNa * pow(mNa,3) * hNa*(v - eNa)
-:i = -iNa
-SOLVE states METHOD cnexp
+    SOLVE states METHOD cnexp
+    mnainfa=1/(1+exp(-(v-vnama)/snama))
+    hnainfa=1/(1+exp(-(v-vnaha)/snaha))
+    taunama=(6/(exp(-(v+50)/10)+exp((v+50)/10)))+0.05
+    taunaha=(tnah1a/(exp(-(v+50)/8)+exp((v+50)/8)))+tnah2a
+    inaa=gnaa*(mnaa^3)*hnaa*(v-vnaa)
 }
 
 DERIVATIVE states{
-mNa' = (mNa_inf - mNa)/(tau_mNa)
-hNa' = (hNa_inf - hNa)/(tau_hNa)
+    mnaa'=(mnainfa-mnaa)/taunama
+    hnaa'=(hnainfa-hnaa)/taunaha
 }

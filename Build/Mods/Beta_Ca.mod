@@ -1,37 +1,32 @@
 NEURON{
-SUFFIX B_Ca
-USEION Ca WRITE iCa, eCa VALENCE 2
-RANGE gCa, nCa, vm, sm
-RANGE minf
+    SUFFIX B_Ca
+    USEION Ca WRITE iCa VALENCE 1
+    RANGE vm, sm, gca, vca, nca
+    RANGE minf, ica
 }
 
 PARAMETER{
-gCa
-nCa 
-vm 
-sm 
+    vm
+    sm
+    gca
+    vca
+    nca
 }
 
 ASSIGNED{
-minf
-eCa
-v
-}
-
-STATE{
-iCa
+    minf
+    iCa
 }
 
 INITIAL{
-gCa = 7
-nCa = 590
-vm = -6
-eCa = 25
-sm = 10
+    vm=-6
+    sm=10
+    gca=7
+    vca=25
+    nca=590
 }
 
 BREAKPOINT{
-minf = 1/(1+exp((vm-v)/sm))
-iCa = gCa*nCa*minf*(v-eCa)
+    minf = 1/(1+exp((vm-v)/sm))
+    iCa = gca*nca*minf*(v-vca)
 }
-

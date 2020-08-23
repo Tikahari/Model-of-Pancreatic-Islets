@@ -1,6 +1,16 @@
 NEURON{
 SUFFIX watts_alpha
 :NONSPECIFIC_CURRENT i
+:USEION cala WRITE icala VALENCE 1
+:USEION cata WRITE icata VALENCE 1
+:USEION capqa WRITE icapqa VALENCE 1
+:USEION naa WRITE inaa VALENCE 1
+USEION kdra WRITE ikdra VALENCE 1
+:USEION katpa WRITE ikatpa VALENCE 1
+:USEION kaa WRITE ikaa VALENCE 1
+:USEION la WRITE ila VALENCE 1
+USEION soca WRITE isoca VALENCE 1
+:USEION GIRKa WRITE iGIRKa VALENCE 1
 RANGE  fa,gsocbara,ksercaa,vnaa,vka,vcaa,vla,cma,gcala,gcapqa,gcata,gnaa,gkaa,gkdra,gla,vcella,vmdpqa,fVpqa,fmda,Ba,alphaa,kpmcaa,fcyta,fera,pleaka,sigmava,vcalma,scalma,vcalha,scalha,tcalh1a,tcalh2a,vcatma,scatma,vcatha,scatha,tcatm1a,tcatm2a,tcath1a,tcath2a,vcapqma,scapqma,vcapqha
 RANGE  scapqha,tcapqh1a,tcapqh2a,vnama,vnaha,snama,snaha,tnah1a,tnah2a,vkama,skama,vkaha,skaha,taukama,tkah1a,tkah2a,vkdrma,skdrma,caerbara,ssoca,vsoca,k1a,km1a,r1a,rm1a,r20a,r30a,rm3a,u1a,u2a,u3a,kpa,kp2a,GlucFacta,gGIRKko,vGIRK,sombara2,ssom2,tausom,vc,gkatpbara,ka1,gkatpak,knockoutba,knockoutda
 RANGE  Icala,gkatpa,Ikatpa,gGIRKbara,EffSa,IGIRKa,rm2a,mcalinfa,hcalinfa,taucalma,taucalha,mcatinfa,hcatinfa,taucatma,taucatha,Icata,mcapqinfa,hcapqinfa,taucapqma,taucapqha,Icapqa,mnainfa,hnainfa,taunama,taunaha,Inaa,mkainfa,hkainfa,taukaha,Ikaa,mkdrinfa,taukdrma,Ikdra,Ila,cinfa,Isoca,JLa,JPQa,JTa,Jmema,Jsercaa,Jleaka,Jera,r2a,r3a,JGS
@@ -106,6 +116,17 @@ PARAMETER{
 }
 
 ASSIGNED{
+icala
+icata
+icapqa
+inaa
+ikdra
+ikatpa
+ikaa
+ila
+isoca
+iGIRKa
+
 EffIa
 gkatpa
 Ikatpa
@@ -209,15 +230,16 @@ N6a=12.69715161782077
 NFa=0.001724142875712899  
 NRa=0.1927364884362762  
 
-I=48.04298494148047  
+:I=48.04298494148047  
 G=31.73727470720019 
-S=18.71318922819339  
-
+:S=18.71318922819339  
+I=0
+S=0
 
 
  fa= 150
  gsocbara=0.025
- ksercaa=0.05
+ ksercaa=0.5
  vnaa=70
  vka=-75
  vcaa=65
@@ -298,7 +320,7 @@ S=18.71318922819339
  ssom2=10
  tausom=2000
  vc = 1e-13
- gkatpbara=3
+ gkatpbara=.15
  ka1=0.1
  gkatpak=0.05
  knockoutba=0
@@ -320,49 +342,49 @@ S=18.71318922819339
  taukdrma = 0.5
  
 }
-
+ 
 BREAKPOINT{
 SOLVE states METHOD cnexp
 
 EffIa=(1-knockoutba)*((0.015/(1+exp((-I+1500)/200)))+ka1)+knockoutba*ka1
 gkatpa=gkatpbara*EffIa
-Ikatpa=gkatpa*(va-vka)
+Ikatpa=gkatpa*(v-vka)
 
 gGIRKbara=(1-knockoutda)*0.025+knockoutda*gGIRKko
 EffSa=1/(1+exp(-(S-sombara2)/ssom2))
-IGIRKa=gGIRKbara*EffSa*(va-vGIRK)
+IGIRKa=gGIRKbara*EffSa*(v-vGIRK)
 
 rm2a=(1-knockoutda)*ra/(1+exp(-(S-sombara)/ssom))+knockoutda*rako
-mcalinfa=1/(1+exp(-(va-vcalma)/scalma))
-hcalinfa=1/(1+exp(-(va-vcalha)/scalha))
-taucalma=(1/(exp(-(va+23)/20)+exp((va+23)/20)))+0.05
-taucalha=(tcalh1a/(exp(-(va+0)/20)+exp((va+0)/20)))+tcalh2a
-Icala=gcala*(mcala^2)*hcala*(va-vcaa)
-mcatinfa=1/(1+exp(-(va-vcatma)/scatma))
-hcatinfa=1/(1+exp(-(va-vcatha)/scatha))
-taucatma=(tcatm1a/(exp(-(va+50)/12)+exp((va+50)/12)))+tcatm2a
-taucatha=(tcath1a/(exp(-(va+50)/15)+exp((va+50)/15)))+tcath2a
-Icata=gcata*(mcata^3)*hcata*(va-vcaa)
-mcapqinfa=1/(1+exp(-(va-vcapqma)/scapqma))
-hcapqinfa=1/(1+exp(-(va-vcapqha)/scapqha))
-taucapqma=(1/(exp(-(va+23)/20)+exp((va+23)/20)))+0.05
-taucapqha=(tcapqh1a/(exp(-(va+0)/20)+exp((va+0)/20)))+tcapqh2a
-Icapqa=gcapqa*mcapqa*hcapqa*(va-vcaa)
-mnainfa=1/(1+exp(-(va-vnama)/snama))
-hnainfa=1/(1+exp(-(va-vnaha)/snaha))
-taunama=(6/(exp(-(va+50)/10)+exp((va+50)/10)))+0.05
-taunaha=(tnah1a/(exp(-(va+50)/8)+exp((va+50)/8)))+tnah2a
-Inaa=gnaa*(mnaa^3)*hnaa*(va-vnaa)
-mkainfa=1/(1+exp(-(va-vkama)/skama))
-hkainfa=1/(1+exp(-(va-vkaha)/skaha))
-taukaha=(tkah1a/(exp(-(va-5)/20)+exp((va-5)/20)))+tkah2a
-Ikaa=gkaa*mkaa*hkaa*(va-vka)
-mkdrinfa=1/(1+exp(-(va-vkdrma)/skdrma))
-taukdrma=(1.5/(exp(-(va+10)/25)+exp((va+10)/25)))+15
-Ikdra=gkdra*(mkdra^4)*(va-vka)
-Ila=gla*(va-vla)
+mcalinfa=1/(1+exp(-(v-vcalma)/scalma))
+hcalinfa=1/(1+exp(-(v-vcalha)/scalha))
+taucalma=(1/(exp(-(v+23)/20)+exp((v+23)/20)))+0.05
+taucalha=(tcalh1a/(exp(-(v+0)/20)+exp((v+0)/20)))+tcalh2a
+Icala=gcala*(mcala^2)*hcala*(v-vcaa)
+mcatinfa=1/(1+exp(-(v-vcatma)/scatma))
+hcatinfa=1/(1+exp(-(v-vcatha)/scatha))
+taucatma=(tcatm1a/(exp(-(v+50)/12)+exp((v+50)/12)))+tcatm2a
+taucatha=(tcath1a/(exp(-(v+50)/15)+exp((v+50)/15)))+tcath2a
+Icata=gcata*(mcata^3)*hcata*(v-vcaa)
+mcapqinfa=1/(1+exp(-(v-vcapqma)/scapqma))
+hcapqinfa=1/(1+exp(-(v-vcapqha)/scapqha))
+taucapqma=(1/(exp(-(v+23)/20)+exp((v+23)/20)))+0.05
+taucapqha=(tcapqh1a/(exp(-(v+0)/20)+exp((v+0)/20)))+tcapqh2a
+Icapqa=gcapqa*mcapqa*hcapqa*(v-vcaa)
+mnainfa=1/(1+exp(-(v-vnama)/snama))
+hnainfa=1/(1+exp(-(v-vnaha)/snaha))
+taunama=(6/(exp(-(v+50)/10)+exp((v+50)/10)))+0.05
+taunaha=(tnah1a/(exp(-(v+50)/8)+exp((v+50)/8)))+tnah2a
+Inaa=gnaa*(mnaa^3)*hnaa*(v-vnaa)
+mkainfa=1/(1+exp(-(v-vkama)/skama))
+hkainfa=1/(1+exp(-(v-vkaha)/skaha))
+taukaha=(tkah1a/(exp(-(v-5)/20)+exp((v-5)/20)))+tkah2a
+Ikaa=gkaa*mkaa*hkaa*(v-vka)
+mkdrinfa=1/(1+exp(-(v-vkdrma)/skdrma))
+taukdrma=(1.5/(exp(-(v+10)/25)+exp((v+10)/25)))+15
+Ikdra=gkdra*(mkdra^4)*(v-vka)
+Ila=gla*(v-vla)
 cinfa = 1/(1+exp(-(cera-caerbara)/ssoca))
-Isoca = gsocbara*cinfa*(va-vsoca)
+Isoca = gsocbara*cinfa*(v-vsoca)
 JLa=-alphaa*Icala/vcella
 JPQa=-alphaa*Icapqa/vmdpqa
 JTa=-alphaa*Icata/vcella
@@ -373,6 +395,17 @@ Jera = Jleaka - Jsercaa
 r2a=r20a*ca/(ca+kp2a)
 r3a=GlucFacta*r30a*ca/(ca+kpa)
 JGS=tmsb*u3a*NRa*0.0000988
+
+icala=Icala
+icata=Icata
+icapqa=Icapqa
+inaa=Inaa
+ikdra=Ikdra
+ikatpa=Ikatpa
+ikaa=Ikaa
+ila=Ila
+isoca=Isoca
+iGIRKa=IGIRKa
 }
 
 DERIVATIVE states{

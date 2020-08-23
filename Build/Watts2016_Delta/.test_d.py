@@ -46,11 +46,12 @@ h.load_file('stdrun.hoc')
 d = h.Section('delta')
 d.pt3dadd(-20,0,0,10)
 d.pt3dadd(-10,0,0,10)
-# for i in mechs['Delta']:
-#     print(str(datetime.datetime.now()) + '\tinsert D_' + i)
-#     d.insert('D_'+i)
-print(str(datetime.datetime.now()) + '\tinsert watts_delta_v')
-d.insert('watts_delta_v')
+for i in mechs['Delta']:
+    print(str(datetime.datetime.now()) + '\tinsert D_' + i)
+    d.insert('D_'+i)
+
+# print(str(datetime.datetime.now()) + '\tinsert watts_delta_v')
+# d.insert('watts_delta_v')
 # simulation parameter
 d.cm = 5e6
 print(str(datetime.datetime.now()) + '\td.cm ', d.cm)
@@ -73,21 +74,21 @@ recd = {}
 headerd = []
 
 
-# print(str(datetime.datetime.now()) + '\tset pointers')
-# # set pointers
-# mp = {'Delta': sst_syn}
-# for i in pointers:
-#     for j in pointers[i]:
-#         for k in pointers[i][j]:
-#             print(i,j,k)
-#             # for seg in mp[i]:
-#             temp = k.split('_')
-#             point_to = i[0].upper() + "_" + j
-#             point_from = "_ref_"+temp[0]
-#             print(str(datetime.datetime.now()) + '\t' + point_to + "_" + temp[0],  "points to", point_from)
-#             from_ = getattr(sst_syn, point_from)
-#             to_ = getattr(d(0.5), point_to)
-#             h.setpointer(from_, temp[0], to_)
+print(str(datetime.datetime.now()) + '\tset pointers')
+# set pointers
+mp = {"Delta": d}
+for i in pointers:
+    for j in pointers[i]:
+        for k in pointers[i][j]:
+            print(i,j,k)
+            for seg in mp[i]:
+                temp = k.split('_')
+                point_to = i[0].upper() + "_" + j
+                point_from = "_ref_"+temp[0]+"_" + i[0].upper() + "_"+temp[2]
+                print(str(datetime.datetime.now()) + '\t' + point_to + "_" + temp[0],  "points to", point_from)
+                from_ = getattr(seg, point_from)
+                to_ = getattr(seg, point_to)
+                h.setpointer(from_, temp[0], to_)
 
 
 print(str(datetime.datetime.now()) + '\tset recording variables')

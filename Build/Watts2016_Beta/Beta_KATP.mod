@@ -1,27 +1,25 @@
 NEURON{
-    SUFFIX
+    SUFFIX B_KATP
+    USEION katp WRITE ikatp VALENCE 1
+    RANGE gkatpb, vk
+    RANGE ikatp
 }
 
 PARAMETER{
-
+    gkatpb
+    vk
 }
 
 ASSIGNED{
-
-}
-
-STATE{
-
+    ikatp
+    v
 }
 
 INITIAL{
-
+    gkatpb=85
+    vk=-75
 }
 
 BREAKPOINT{
-    SOLVE states METHOD cnexp
-}
-
-DERIVATIVE states{
-    
+    ikatp = gkatpb*(v-vk)
 }

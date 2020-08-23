@@ -1,29 +1,25 @@
 NEURON{
-SUFFIX D_L
-USEION L WRITE iL, eL VALENCE 1
-RANGE gL
+    SUFFIX D_L
+    USEION ld WRITE ild VALENCE 1
+    RANGE gld, vld
+    RANGE ild
 }
 
-PARAMETER{   
-gL
+PARAMETER{
+    gld
+    vld
 }
 
 ASSIGNED{
-v : This is the voltage when I run h.initial.....
-}
-
-STATE{
-eL
-iL
+    v
+    ild
 }
 
 INITIAL{
-eL = -20
-gL = 0.2
+    gld=200
+    vld=-20
 }
 
 BREAKPOINT{
-iL = gL * (v - eL)
+    ild=gld*(v-vld)
 }
-
-

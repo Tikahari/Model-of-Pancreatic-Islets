@@ -1,46 +1,37 @@
 NEURON{
-SUFFIX A_KATP
-USEION KATP WRITE iKATP, eKATP VALENCE 1
-:NONSPECIFIC_CURRENT i
-RANGE knockoutba, ka1, gKATPbara
-RANGE EffI, gKATP
-POINTER Ins
+    SUFFIX A_KATP
+    USEION katpa WRITE ikatpa VALENCE 2
+    RANGE gkatpbara, vka, ka1, knockoutba
+    RANGE EffIa, gkatpa, ikatpa
+    :POINTER I
+    RANGE I
 }
 
 PARAMETER{
-knockoutba
-ka1
-gKATPbara
+    gkatpbara
+    vka
+    ka1
+    knockoutba
+    I
 }
 
 ASSIGNED{
-EffI
-gKATP
-Ins
-eKATP
-v
-i
-}
-
-STATE{
-iKATP
+    EffIa
+    gkatpa
+    v
+    ikatpa
 }
 
 INITIAL{
-eKATP = -75
-knockoutba = 0
-ka1 = 0.1
-:gKATPbara = 3
-gKATPbara=0.15
+    I = 0
+    gkatpbara=0.15
+    vka=-75
+    ka1=0.1
+    knockoutba=0
 }
 
-: B cell modifies G secretion by increasing KATPa chan activity, so conductance of gKATPa
-: chans depends on concentration of I 
-
 BREAKPOINT{
-:EffI = (1 - knockoutba) * ((0.015/(1 + exp((-Ins + 1500)/200))) + ka1) + knockoutba * ka1
-EffI = (1 - knockoutba) * ((0.015/(1 + exp((-0 + 1500)/200))) + ka1) + knockoutba * ka1
-gKATP = gKATPbara * EffI
-iKATP = gKATP*(v - eKATP)
-:i = -iKATP
+    EffIa=(1-knockoutba)*((0.015/(1+exp((-I+1500)/200)))+ka1)+knockoutba*ka1
+    gkatpa=gkatpbara*EffIa
+    ikatpa=gkatpa*(v-vka)
 }

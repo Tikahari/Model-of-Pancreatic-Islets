@@ -1,6 +1,6 @@
 NEURON{
     SUFFIX A_Glucagon
-    USEION soca WRITE isoca VALENCE 1
+    USEION soca WRITE isoca VALENCE 2
     USEION cala READ icala
     USEION cata READ icata
     USEION capqa READ icapqa
@@ -131,7 +131,7 @@ INITIAL{
     pleaka=0.0003
     sigmava=31
     fa= 150
-    gsocbara=0.025
+    gsocbara=25
     ksercaa=0.5
     tmsb=0.001
     knockoutda=0
@@ -140,7 +140,7 @@ INITIAL{
     rako=0.001
     ssom=15
 }
- 
+
 BREAKPOINT{
     SOLVE states METHOD cnexp
     rm2a=(1-knockoutda)*ra/(1+exp(-(S-sombara)/ssom))+knockoutda*rako

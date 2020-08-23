@@ -1,37 +1,33 @@
 NEURON{
-SUFFIX B_GIRK
-USEION GIRK WRITE iGIRK, eGIRK VALENCE 1
-RANGE sombarb2, knockoutdb
-RANGE EffSb, gGIRKbarb
-POINTER Sst
+    SUFFIX B_GIRK
+    USEION GIRKb WRITE iGIRKb VALENCE 1
+    RANGE knockoutdb, vGIRK, S, sombarb2
+    RANGE gGIRKbarb, EffSb, iGIRKb
 }
 
 PARAMETER{
-sombarb2
-knockoutdb
-Sst
+    knockoutdb
+    vGIRK
+    S
+    sombarb2
 }
 
 ASSIGNED{
-EffSb
-gGIRKbarb
-v
-}
-
-STATE{
-iGIRK
-eGIRK
+    gGIRKbarb
+    EffSb
+    iGIRKb
+    v
 }
 
 INITIAL{
-sombarb2 = 35
-knockoutdb = 0
-eGIRK = -80
+    knockoutdb=0
+    vGIRK=-80
+    S=0
+    sombarb2=35
 }
 
 BREAKPOINT{
-EffSb = 1/(1+exp(-(Sst-sombarb2)/10)) :delta inhibiting beta
-gGIRKbarb=(1-knockoutdb)*10+knockoutdb*0
-iGIRK = gGIRKbarb*EffSb*(v-eGIRK)
+    gGIRKbarb=(1-knockoutdb)*10+knockoutdb*0
+    EffSb=1/(1+exp(-(S-sombarb2)/10))
+    iGIRKb=gGIRKbarb*EffSb*(v-vGIRK)
 }
-

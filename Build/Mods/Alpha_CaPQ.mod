@@ -1,62 +1,61 @@
 NEURON{
-SUFFIX A_CaPQ
-USEION CaPQ WRITE iCaPQ, eCaPQ VALENCE 1
-:NONSPECIFIC_CURRENT i
-:USEION Ca READ eCa 
-RANGE gcapq, vcapqm, scapqm, vcapqh, scapqh, tcapqh1, tcapqh2
-RANGE mcapqinf, hcapqinf, taucapqm, taucapqh
+    SUFFIX A_CaPQ
+    USEION capqa WRITE icapqa VALENCE 2
+    RANGE vcaa, tcapqh1a, tcapqh2a, vcapqma, scapqma, vcapqha, scapqha, gcapqa
+    RANGE mcapqinfa, hcapqinfa, taucapqma, taucapqha, icapqa
 }
 
 PARAMETER{
-gcapq
-vcapqm
-scapqm
-vcapqh
-scapqh
-tcapqh1
-tcapqh2
+    vcaa
+    tcapqh1a
+    tcapqh2a
+    vcapqma
+    scapqma
+    vcapqha
+    scapqha
+    gcapqa
 }
 
 ASSIGNED{
-eCaPQ
-mcapqinf
-hcapqinf
-taucapqm
-taucapqh
-v
-i
+    mcapqinfa
+    hcapqinfa
+    taucapqma
+    taucapqha
+    v
+    icapqa
 }
 
 STATE{
-iCaPQ
-mcapq 
-hcapq
+    mcapqa
+    hcapqa
 }
 
-INITIAL{
-eCaPQ = 65
-gcapq = 0.6
-mcapq = 0.0120465460803863
-hcapq = 0.8127842536675057
-vcapqm = -5
-scapqm = 10
-vcapqh = -33
-scapqh = -5
-tcapqh1 = 60
-tcapqh2 = 51
+INITIAL{ 
+    mcapqa=0.0120465460803863  
+    hcapqa=0.8127842536675057  
+    vcaa=65
+    vcapqma=-5
+    scapqma=10
+    vcapqha=-33
+    scapqha=-5
+    gcapqa=0.6
+    tcapqh1a=60
+    tcapqh2a=51
+
+    taucapqma = 0.5
+    taucapqha = 0.5
 }
 
 BREAKPOINT{
-mcapqinf = 1/(1+exp(-(v-vcapqm)/scapqm))
-hcapqinf = 1/(1+exp(-(v-vcapqh)/scapqh))
-taucapqm = (1/(exp(-(v+23)/20)+exp((v+23)/20)))+0.05
-taucapqh = (tcapqh1/(exp(-(v+0)/20)+exp((v+0)/20)))+tcapqh2
-iCaPQ = gcapq *mcapq *hcapq *(v-eCaPQ)
-:i = -iCaPQ
-SOLVE states METHOD cnexp
+    SOLVE states METHOD cnexp
+    mcapqinfa=1/(1+exp(-(v-vcapqma)/scapqma))
+    hcapqinfa=1/(1+exp(-(v-vcapqha)/scapqha))
+    taucapqma=(1/(exp(-(v+23)/20)+exp((v+23)/20)))+0.05
+    taucapqha=(tcapqh1a/(exp(-(v+0)/20)+exp((v+0)/20)))+tcapqh2a
+    icapqa=gcapqa*mcapqa*hcapqa*(v-vcaa)
 }
 
 DERIVATIVE states{
-mcapq' = (mcapqinf - mcapq)/taucapqm
-hcapq' = (hcapqinf - hcapq)/taucapqh
+    mcapqa'=(mcapqinfa-mcapqa)/taucapqma
+    hcapqa'=(hcapqinfa-hcapqa)/taucapqha
 }

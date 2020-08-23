@@ -1,28 +1,25 @@
 NEURON{
-SUFFIX B_KATP
-USEION KATP WRITE iKATP, eKATP VALENCE 1
-RANGE gKATPb
+    SUFFIX B_KATP
+    USEION katp WRITE ikatp VALENCE 1
+    RANGE gkatpb, vk
+    RANGE ikatp
 }
 
 PARAMETER{
-gKATPb
+    gkatpb
+    vk
 }
 
 ASSIGNED{
-eKATP
-v
-}
-
-STATE{
-iKATP
+    ikatp
+    v
 }
 
 INITIAL{
-eKATP = -75
-gKATPb = 25
+    gkatpb=85
+    vk=-75
 }
 
 BREAKPOINT{
-iKATP = gKATPb*(v-eKATP)
+    ikatp = gkatpb*(v-vk)
 }
-

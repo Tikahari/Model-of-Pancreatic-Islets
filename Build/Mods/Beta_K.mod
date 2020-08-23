@@ -1,44 +1,43 @@
 NEURON{
-SUFFIX B_K
-USEION K WRITE iK VALENCE 1
-USEION k WRITE ek VALENCE 1
-RANGE gK, vn, sn, taun
-RANGE ninf
+    SUFFIX B_K
+    USEION K WRITE iK VALENCE 1
+    RANGE taun, vk, gk, vn, sn
+    RANGE ninf, ik
 }
 
 PARAMETER{
-gK
-vn
-sn
-taun
+    taun
+    vk
+    gk
+    vn
+    sn
 }
 
 ASSIGNED{
-ninf
-v
+    ninf
+    iK
+    v
 }
 
 STATE{
-iK
-ek
-n
+    n
 }
 
 INITIAL{
-gK = 1800
-n = 9.875188779513991e-05 
-ek = -75
-vn = -16
-sn = 6
-taun = 5
+    :n=9.875188779513991e-05 
+    taun=5
+    vk=-75
+    gk=1800
+    vn=-16
+    sn=6
 }
 
 BREAKPOINT{
-ninf = 1/(1+exp((vn-v)/sn))
-SOLVE states METHOD cnexp
-iK = gK*n*(v-ek)
+    SOLVE states METHOD cnexp
+    ninf = 1/(1+exp((vn-v)/sn))
+    iK = gk*n*(v-vk)
 }
 
 DERIVATIVE states{
-n' = (ninf-n)/taun
+    n' = (ninf-n)/taun
 }

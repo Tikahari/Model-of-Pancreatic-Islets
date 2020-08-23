@@ -44,9 +44,12 @@ plot(d$D_Somatostatin_ist)
 
 # delta
 path="/home/tk/Desktop/Model-of-Pancreatic-Islets/Build/Mods/data/"
+path="/home/tk/Desktop/Model-of-Pancreatic-Islets/Build/Watts2016_Delta/data/"
 d <- read.csv(paste(path, "watts_Delta.csv", sep=""))
 View(d)
-plot(d$watts_delta_vd)
+#plot(d$watts_delta_vd)
+#plot(d$watts_delta_v_vd)
+plot(d$watts_delta_v_0_vd)
 plot(d$VC0)
 
 plot(d$D_Sst_ssti)

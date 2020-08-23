@@ -1,59 +1,58 @@
 NEURON{
-SUFFIX D_Na
-USEION Na WRITE iNa, eNa VALENCE 1
-RANGE gNa, vNam, vNah, sNam, sNah, tNah1, tNah2
-RANGE mNa_inf, hNa_inf, tauNam, tauNah
+    SUFFIX D_Na
+    USEION nad WRITE inad VALENCE 1
+    RANGE gnad, vnad, vnamd, vnahd, snamd, snahd, tnah1d, tnah2d
+    RANGE mnainfd, hnainfd, taunamd, taunahd, inad
 }
 
-PARAMETER{   
-gNa
-vNam
-vNah 
-sNam 
-sNah 
-tNah1 
-tNah2 
+PARAMETER{
+    gnad
+    vnad
+    vnamd
+    vnahd
+    snamd
+    snahd
+    tnah1d
+    tnah2d
 }
 
 ASSIGNED{
-mNa_inf
-hNa_inf
-tauNam
-tauNah
-v : This is the voltage when I run h.initial.....
+    mnainfd
+    hnainfd
+    taunamd
+    taunahd
+    v
+    inad
 }
 
 STATE{
-eNa 
-iNa
-mNa
-hNa
+    mnad
+    hnad
 }
 
 INITIAL{
-eNa = 70
-gNa = 5
-vNam = -30
-vNah = -52
-sNam = 4
-sNah = -8
-tNah1 = 120
-tNah2 = 0.5
-mNa = 0.9737137320580179
-hNa = 0.006777955247303555
+    mnad=0.9737137320580179  
+    hnad=0.006777955247303555  
+    gnad=5000
+    vnad=70
+    vnamd=-30
+    vnahd=-52
+    snamd=4
+    snahd=-8
+    tnah1d=120
+    tnah2d=0.5
 }
 
 BREAKPOINT{
-mNa_inf = 1/(1 + exp(-(v - vNam)/sNam))
-hNa_inf = 1/(1 + exp(-(v - vNah)/sNah))
-tauNam = (6/(exp(-(v + 50)/10) + exp((v + 50)/10))) + 0.05
-tauNah = (tNah1/(exp(-(v + 50)/8) + exp((v + 50)/8))) + tNah2
-SOLVE states METHOD cnexp : Put current equation below this
-iNa = gNa * pow(mNa,3) * hNa * (v - eNa)
+    SOLVE states METHOD cnexp
+    mnainfd=1/(1+exp(-(v-vnamd)/snamd))
+    hnainfd=1/(1+exp(-(v-vnahd)/snahd))
+    taunamd=(6/(exp(-(v+50)/10)+exp((v+50)/10)))+0.05
+    taunahd=(tnah1d/(exp(-(v+50)/8)+exp((v+50)/8)))+tnah2d
+    inad=gnad*mnad^3*hnad*(v-vnad)
 }
 
 DERIVATIVE states{
-mNa' = (mNa_inf - mNa)/tauNam
-hNa' = (hNa_inf - hNa)/tauNah
+    mnad'=(mnainfd-mnad)/taunamd
+    hnad'=(hnainfd-hnad)/taunahd
 }
-

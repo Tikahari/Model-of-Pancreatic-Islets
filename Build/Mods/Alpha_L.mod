@@ -1,31 +1,24 @@
 NEURON{
-SUFFIX A_L
-USEION L WRITE iL, eL VALENCE 1
-:NONSPECIFIC_CURRENT i
-RANGE gL
+    SUFFIX A_L
+    USEION la WRITE ila VALENCE 1
+    RANGE gla, vla, ila
 }
 
 PARAMETER{
-gL
+    gla
+    vla
 }
 
 ASSIGNED{
-v
-i
-}
-
-STATE{
-eL
-iL
+    ila
+    v
 }
 
 INITIAL{
-eL = -20
-gL = 0.2
+    gla=0.2
+    vla=-20
 }
 
 BREAKPOINT{
-iL = gL*(v - eL)
-i = -iL
+    ila=gla*(v-vla)
 }
-
