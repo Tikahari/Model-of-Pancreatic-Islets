@@ -82,6 +82,7 @@ View(b)
 #plot(b$watts_beta_vb)
 plot(b$watts_beta_v_vb)
 plot(b$VC0)
+plot(b$watts_beta_vb)
 
 plot(a$gl_cyt)
 plot(b$B_Insulin_inin)

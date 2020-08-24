@@ -3,8 +3,7 @@ NEURON{
     USEION GIRKa WRITE iGIRKa VALENCE 1
     RANGE knockoutda, gGIRKko, vGIRK, sombara2, ssom2
     RANGE gGIRKbara, EffSa, iGIRKa
-    :POINTER S
-    RANGE S
+    POINTER Sst
 }
 
 PARAMETER{

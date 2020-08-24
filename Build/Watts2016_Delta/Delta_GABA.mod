@@ -22,7 +22,6 @@ ASSIGNED{
 INITIAL{
     knockoutbd=0
     vGABA=0
-    I=0
 }
 
 BREAKPOINT{

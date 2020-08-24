@@ -248,25 +248,25 @@ glucagon = rxd.Species([cyt, ecs], name='glucagon', charge=0, d=1.0, initial=lam
 gcyt = glucagon[cyt]
 gecs = glucagon[ecs]
 
-# # somatostatin
-# sst = rxd.Species([cyt, ecs], name='sst', charge=1, d=1.0, initial=lambda nd: 19 if hasattr(nd, 'sec') and nd.segment in d else 0)
-# sstcyt = sst[cyt]
-# sstecs = sst[ecs]
+# somatostatin
+sst = rxd.Species([cyt, ecs], name='sst', charge=1, d=1.0, initial=lambda nd: 19 if hasattr(nd, 'sec') and nd.segment in d else 0)
+sstcyt = sst[cyt]
+sstecs = sst[ecs]
 
-# # insulin
-# insulin = rxd.Species([cyt, ecs], name='insulin', charge=0, d=1.0, initial=lambda nd: 48 if hasattr(nd, 'sec') and nd.segment in b else 0)
-# inscyt = insulin[cyt]
-# insecs = insulin[ecs]
+# insulin
+insulin = rxd.Species([cyt, ecs], name='insulin', charge=0, d=1.0, initial=lambda nd: 48 if hasattr(nd, 'sec') and nd.segment in b else 0)
+inscyt = insulin[cyt]
+insecs = insulin[ecs]
 
 # production
 gluc_param = rxd.Parameter(cyt, initial=lambda node: 1.0 if node.segment.sec == a else 0)
 createX = rxd.Rate(gcyt, gluc_param[cyt] * 1.0/(10.0 + gcyt))
 
-# ins_param = rxd.Parameter(cyt, initial=lambda node: 1.0 if node.segment.sec == b else 0)
-# createX = rxd.Rate(inscyt, ins_param[cyt] * 1.0/(10.0 + inscyt))
+ins_param = rxd.Parameter(cyt, initial=lambda node: 1.0 if node.segment.sec == b else 0)
+createX = rxd.Rate(inscyt, ins_param[cyt] * 1.0/(10.0 + inscyt))
 
-# sst_param = rxd.Parameter(cyt, initial=lambda node: 1.0 if node.segment.sec == d else 0)
-# createX = rxd.Rate(sstcyt, sst_param[cyt] * 1.0/(10.0 + sstcyt))
+sst_param = rxd.Parameter(cyt, initial=lambda node: 1.0 if node.segment.sec == d else 0)
+createX = rxd.Rate(sstcyt, sst_param[cyt] * 1.0/(10.0 + sstcyt))
 
 
 # uptake and release
@@ -280,19 +280,19 @@ glucagon_release = rxd.MultiCompartmentReaction(gcyt, gecs, rrateg, urateg,
                                                 membrane=mem, 
                                                 custom_dynamics=True)
 h.setpointer(glucagon.nodes[0]._ref_concentration, 'JGS', gluc_syn)
-# h.setpointer(a(0.5)._ref_G_A_Glucagon, 'JGS', gluc_syn)
+h.setpointer(a(0.5)._ref_G_A_Glucagon, 'JGS', gluc_syn)
 
-# rratei = R*inscyt     
-# uratei = U*insecs     
-# insulin_release = rxd.MultiCompartmentReaction(inscyt, insecs, rratei, uratei,
-#                                                 membrane=mem, 
-#                                                 custom_dynamics=True)
+rratei = R*inscyt     
+uratei = U*insecs     
+insulin_release = rxd.MultiCompartmentReaction(inscyt, insecs, rratei, uratei,
+                                                membrane=mem, 
+                                                custom_dynamics=True)
 
-# rrates = R*sstcyt    
-# urates = U*sstecs     
-# somatostatin_release = rxd.MultiCompartmentReaction(sstcyt, sstecs, rrates, urates,
-#                                                 membrane=mem, 
-#                                                 custom_dynamics=True)
+rrates = R*sstcyt    
+urates = U*sstecs     
+somatostatin_release = rxd.MultiCompartmentReaction(sstcyt, sstecs, rrates, urates,
+                                                membrane=mem, 
+                                                custom_dynamics=True)
 
 # record the concentrations in the cells
 t_vec = h.Vector()
@@ -301,19 +301,19 @@ t_vec.record(h._ref_t)
 gl_cell1 = h.Vector().record(a(0.5)._ref_glucagoni)
 gl_ecs = h.Vector().record(gecs.node_by_location(0,0,0)._ref_concentration)
 
-# ins_cell1 = h.Vector().record(b(0.5)._ref_insulini)
-# ins_ecs = h.Vector().record(insecs.node_by_location(0,0,0)._ref_concentration)
+ins_cell1 = h.Vector().record(b(0.5)._ref_insulini)
+ins_ecs = h.Vector().record(insecs.node_by_location(0,0,0)._ref_concentration)
 
-# sst_cell1 = h.Vector().record(d(0.5)._ref_ssti)
-# sst_ecs = h.Vector().record(sstecs.node_by_location(0,0,0)._ref_concentration)
+sst_cell1 = h.Vector().record(d(0.5)._ref_ssti)
+sst_ecs = h.Vector().record(sstecs.node_by_location(0,0,0)._ref_concentration)
 
-# recd['sst_ecs'] = []
-# recd['sst_ecs'].append(sst_ecs)
-# headerd.append('sst_ecs')
+recd['sst_ecs'] = []
+recd['sst_ecs'].append(sst_ecs)
+headerd.append('sst_ecs')
 
-# recd['sst_cyt'] = []
-# recd['sst_cyt'].append(sst_cell1)
-# headerd.append('sst_cyt')
+recd['sst_cyt'] = []
+recd['sst_cyt'].append(sst_cell1)
+headerd.append('sst_cyt')
 
 reca['gl_ecs'] = []
 reca['gl_ecs'].append(gl_ecs)
@@ -323,13 +323,13 @@ reca['gl_cyt'] = []
 reca['gl_cyt'].append(gl_cell1)
 headera.append('gl_cyt')
 
-# recb['ins_ecs'] = []
-# recb['ins_ecs'].append(ins_ecs)
-# headerb.append('ins_ecs')
+recb['ins_ecs'] = []
+recb['ins_ecs'].append(ins_ecs)
+headerb.append('ins_ecs')
 
-# recb['ins_cyt'] = []
-# recb['ins_cyt'].append(ins_cell1)
-# headerb.append('ins_cyt')
+recb['ins_cyt'] = []
+recb['ins_cyt'].append(ins_cell1)
+headerb.append('ins_cyt')
 # fix header / record voltage of every segment for each cell type
 
 # Alpha

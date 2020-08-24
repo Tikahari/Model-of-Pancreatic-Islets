@@ -1,16 +1,22 @@
 NEURON{
-    SUFFIX A_Glucagon
+    POINT_PROCESS A_Glucagon
     USEION soca WRITE isoca VALENCE 1
     USEION cala READ icala
     USEION cata READ icata
     USEION capqa READ icapqa
+    USEION sst READ ssti VALENCE 1
+    USEION insulin READ insulini VALENCE 1
     RANGE vc, caerbara, ssoca, vsoca, k1a, km1a, r1a, rm1a, r20a, r30a, rm3a, u1a, u2a, u3a, kpa, kp2a, GlucFacta, vcella, vmdpqa, fVpqa, fmda, Ba, alphaa, kpmcaa, fcyta, fera, pleaka, sigmava, fa, gsocbara, ksercaa, tmsb, knockoutda, ra, sombara, rako, ssom
     RANGE rm2a, cinfa, JLa, JPQa, JTa, Jmema, Jsercaa, Jleaka, Jera, r2a, r3a, JGS, isoca
-    RANGE S, I
+    RANGE Sst, I
+    POINTER Gpnt
 }
 
 PARAMETER{
-    S
+    ssti
+    insulini
+    Gpnt
+    Sst
     I
     icala
     icata
@@ -100,7 +106,7 @@ INITIAL{
     NRa=0.1927364884362762  
     G=31.73727470720019 
 
-    S=0
+    Sst=0
 
     vc = 1e-13
     caerbara=70
@@ -143,6 +149,9 @@ INITIAL{
  
 BREAKPOINT{
     SOLVE states METHOD cnexp
+    Sst = ssti
+    I = insulini
+    Gpnt = G
     rm2a=(1-knockoutda)*ra/(1+exp(-(S-sombara)/ssom))+knockoutda*rako
     cinfa = 1/(1+exp(-(cera-caerbara)/ssoca))
     isoca = gsocbara*cinfa*(v-vsoca)

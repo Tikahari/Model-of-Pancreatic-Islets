@@ -3,8 +3,7 @@ NEURON{
     USEION katpa WRITE ikatpa VALENCE 2
     RANGE gkatpbara, vka, ka1, knockoutba
     RANGE EffIa, gkatpa, ikatpa
-    :POINTER I
-    RANGE I
+    POINTER I
 }
 
 PARAMETER{
@@ -23,7 +22,6 @@ ASSIGNED{
 }
 
 INITIAL{
-    I = 0
     gkatpbara=0.15
     vka=-75
     ka1=0.1
