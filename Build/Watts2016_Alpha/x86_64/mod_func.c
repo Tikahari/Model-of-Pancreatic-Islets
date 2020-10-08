@@ -8,9 +8,9 @@ extern void _Alpha_CaPQ_reg(void);
 extern void _Alpha_CaT_reg(void);
 extern void _Alpha_GIRK_reg(void);
 extern void _Alpha_Glucagon_reg(void);
-extern void _Alpha_Ka_reg(void);
 extern void _Alpha_KATP_reg(void);
-extern void _Alpha_KDR_reg(void);
+extern void _Alpha_Kdr_reg(void);
+extern void _Alpha_K_reg(void);
 extern void _Alpha_L_reg(void);
 extern void _Alpha_Na_reg(void);
 
@@ -23,9 +23,9 @@ void modl_reg(){
     fprintf(stderr," Alpha_CaT.mod");
     fprintf(stderr," Alpha_GIRK.mod");
     fprintf(stderr," Alpha_Glucagon.mod");
-    fprintf(stderr," Alpha_Ka.mod");
     fprintf(stderr," Alpha_KATP.mod");
-    fprintf(stderr," Alpha_KDR.mod");
+    fprintf(stderr," Alpha_Kdr.mod");
+    fprintf(stderr," Alpha_K.mod");
     fprintf(stderr," Alpha_L.mod");
     fprintf(stderr," Alpha_Na.mod");
     fprintf(stderr, "\n");
@@ -35,9 +35,9 @@ void modl_reg(){
   _Alpha_CaT_reg();
   _Alpha_GIRK_reg();
   _Alpha_Glucagon_reg();
-  _Alpha_Ka_reg();
   _Alpha_KATP_reg();
-  _Alpha_KDR_reg();
+  _Alpha_Kdr_reg();
+  _Alpha_K_reg();
   _Alpha_L_reg();
   _Alpha_Na_reg();
 }

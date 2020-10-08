@@ -1,0 +1,2 @@
+define(["require","exports","tslib","modules/core/browser","modules/core/uri"],(function(e,r,a,i,t){"use strict";Object.defineProperty(r,"__esModule",{value:!0}),i=a.__importStar(i);var o=["src","campaign","adgroup","creative"];r.getMobileTrackerCampaignParams=function(){var e=t.URI.parse(i.get_href()).getQuery(),r={};for(var a in e)o.includes(a)&&(r[a]=e[a]);return r}}));
+//# sourceMappingURL=mobile_tracker.min.js-vflhMFgSJ.map

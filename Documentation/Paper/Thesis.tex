@@ -1,0 +1,81 @@
+\documentclass[12pt]{article}
+
+% packages
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage[
+top=2cm,
+bottom=2cm,
+left=2cm,
+right=2cm,
+headheight=17pt, % as per the warning by fancyhdr
+includehead,includefoot,
+heightrounded, % to avoid spurious underfull messages
+]{geometry} 
+\usepackage{amsmath,amssymb}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage[style=ieee, backend=bibtex]{biblatex}
+% paragraph indentation
+\usepackage{indentfirst}
+\setlength{\parindent}{2em}
+% page style
+\pagestyle{fancy}
+% section name without number
+\renewcommand{\sectionmark}[1]{\markright{#1}}
+\renewcommand{\subsectionmark}[1]{}
+% header and footer lines
+\renewcommand{\headrulewidth}{1.5pt}
+\renewcommand{\footrulewidth}{1.5pt}
+% line spacing
+\renewcommand{\baselinestretch}{1.5} 
+% \fancyheadoffset{1 cm} 
+\fancyhead[L]{A Computational Model of the Islets of Langerhans}
+\fancyhead[R]{\rightmark}
+\fancyfoot{}
+\fancyfoot[R]{\thepage}
+\fancyfoot[L]{UF CISE}
+\fancyfoot[C]{Tikahari Khanal}
+
+
+% references
+\addbibresource{ref.bib}
+% title
+\title{
+{A Computational Model of the Islets of Langerhans}\\
+{\large University of Florida\\ Department of Computer and Information Science and Engineering}
+}
+\author{Tikahari Khanal}
+
+% document
+\begin{document}
+\begin{titlingpage}\setlength{\droptitle}{30pt} % lower the title
+	\maketitle
+	\begin{abstract}
+	\input{Sections/Abstract}
+	\end{abstract}
+\end{titlingpage}
+
+\tableofcontents
+\newpage
+\renewcommand{\listfigurename}{Figures}
+\listoffigures
+\newpage
+
+\section{Background}
+\input{Sections/Background}
+
+\section{Computational Model}
+\input{Sections/ComputationalModel}
+
+\section{Evolutionary Algorithm}
+\input{Sections/EvolutionaryAlgorithm}
+
+\section{Considerations}
+\input{Sections/Discussion}
+\clearpage
+\printbibliography
+
+\textbf{Github}: https://github.com/Tikahari/Model-of-Pancreatic-Islets/
+\end{document}

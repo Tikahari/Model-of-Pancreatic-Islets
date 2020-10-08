@@ -1,23 +1,19 @@
 from neuron import h, rxd
-from neuron.rxd import v
-from neuron.units import mV
 import sys
 import csv
 import numpy as np
 from matplotlib import pyplot as plt
+import configparser
 
 h.load_file('stdrun.hoc')
 
-# create a couple of cells
-alpha = h.Section('alpha')
-alpha.pt3dclear()
-alpha.pt3dadd(-20,0,0,10)
-alpha.pt3dadd(-10,0,0,10)
-alpha.insert('A_GIRK')
-# alpha.insert('D_Somatostatin')
-# alpha.insert('D_CaL')
-# alpha.insert('D_CaPQ')
+# exclude constants from  output
+configc = configparser.ConfigParser(allow_no_value= True)
+configc.optionxform = str
+configc.read('constants.ini')
 
+
+# create a cell
 delta = h.Section('delta')
 delta.pt3dclear()
 delta.pt3dadd(-9,0,0,10)
@@ -36,62 +32,78 @@ mem = rxd.Region(h.allsec(), name='mem', geometry=rxd.membrane)
 # the extracellular space
 ecs = rxd.Extracellular(-35, -15, -15, 35, 15, 15, dx=10, volume_fraction=0.2, tortuosity=1.6)
 
-Sst = rxd.Species([cyt, ecs], name='Sst', d=1.0, initial= 18.71318922819339)
+Sst = rxd.Species([cyt, ecs], name='sst', charge=0, d=1.0, initial= 18.71318922819339)
 Sst_cyt = Sst[cyt]
 Sst_ecs = Sst[ecs]
 
-# Produce Sst in delta cell
-# parameter to limit production to cell 1
-delta_param = rxd.Parameter(cyt, initial=lambda node: 1.0 if node.segment.sec == delta else 0)
+# interaction between intracellular and extracellular glucagon
+R = 1e4
+U = 1e4
+rrate = R*Sst_cyt     # release rate [molecules per square micron per ms]
+urate = U*Sst_ecs     # uptake rate [molecules per square micron per ms]
 
-# production with a rate following Michaels Menton kinetics
-create_Sst = rxd.Rate(Sst_cyt, delta_param[cyt] * 1.0/(10.0 + Sst_cyt))
-
-# uptake
-# uptake_Sst = rxd.Rate(Sst_ecs, )
+sst_release = rxd.MultiCompartmentReaction(Sst_cyt, Sst_ecs, rrate, urate,
+                                                membrane=mem, 
+                                                custom_dynamics=True)
 
 # record the concentrations in the cells
 t_vec = h.Vector()
 t_vec.record(h._ref_t)
-alpha_Sst = h.Vector()
-alpha_Sst.record(alpha(0.5)._ref_Ssti)
-alpha_Sst_ecs = h.Vector()
-# alpha_Sst_ecs.record(Sst_ecs.nodes(alpha)(0.5)[0]._ref_concentration)
 
 delta_Sst = h.Vector()
-delta_Sst.record(delta(0.5)._ref_Ssti)
-delta_Sst_ecs = h.Vector()
-# delta_Sst_ecs.record(Sst_ecs.nodes(delta)(0.5)[0]._ref_concentration)
+delta_Sst.record(delta(0.5)._ref_ssti)
+delta_Sst_ecs = h.Vector().record(Sst_ecs.node_by_location(0,0,0)._ref_concentration)
 
-# variables to store data
+
+# variables to store data for delta cell
 t = []
 v = []
 rec = {}
-header = ["Time","A_Sst_cyt","A_Sst_ecs","D_Sst_cyt","D_Sst_ecs"]
-my_data = [t_vec, alpha_Sst, alpha_Sst_ecs, delta_Sst, delta_Sst_ecs]
-# run and plot the results
+header = []
+
+# record mechanisms delta
+for i in delta.psection()['density_mechs']:
+    for j in delta.psection()['density_mechs'][i]:
+      if j not in configc['Delta']:
+        header.append(j+'_'+i)
+        rec[str(j+'_'+i)] = []
+        # record variables of every mechanism in every segment
+        for k in delta:
+            v.append(h.Vector().record(k._ref_v))
+            mechRecord = getattr(k, '_ref_'+j+'_'+i)
+            rec[str(j+'_'+i)].append(h.Vector().record(mechRecord))
+
+# fix header / record voltage of every segment
+head = ['Time']
+count = 0
+for i in delta:
+    temp = 'VC'+str(count)
+    # ease writing to csv by keeping same format even though it is not necessary
+    rec[temp] = []
+    rec[temp].append(h.Vector().record(i._ref_v))
+    count += 1
+head.extend(header)
+head.append(temp)
+
+t = h.Vector().record(h._ref_t)
 h.finitialize(-65)
 h.continuerun(1000)
 
-# for i in my_data:
-#     print(len(i))
 
-np.savetxt("output.csv", my_data, delimiter = ',', fmt='%s')
-  
-  # write data cell 2
-with open('data/'+sys.argv[1],'w') as file:
+
+# write data cell for delta cell
+with open('data/'+sys.argv[2],'w') as file:
     writer = csv.writer(file,quoting = csv.QUOTE_NONE,escapechar=' ')
-    writer.writerow(header)
-    for i in range(len(t_vec)):
-        out = []
-        for q in my_data:
-            if len(q) > 0:
-                out.append(q[i])
-                # print(q[i], header[i])
-        # print(len(rec), len(out), len(header))
+    writer.writerow(head)
+    for i in range(len(t)):
+        out = [t[i]]
+        for q in rec:
+            out.append(rec[q][0][i])
         writer.writerow(out)
-plt.plot(t_vec, alpha_Sst, label='alpha')
+
+
 plt.plot(t_vec, delta_Sst, label='delta')
+plt.plot(t_vec, delta_Sst_ecs, label='ecs')
 plt.legend(frameon=False)
 plt.xlabel('t (ms)')
 plt.ylabel('sst (mM)')

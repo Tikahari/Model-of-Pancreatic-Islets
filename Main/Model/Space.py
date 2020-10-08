@@ -101,11 +101,14 @@ class Space:
     def configSetup(self, id):
         """Set up the islet from configuration file"""
         print(str(datetime.datetime.now()) + '\tSpace.configSetup Create islet instance: id', id, 'wd', Islet.env['wd'])
+        self.rxd()
         Islet.env['gid'] = id
         owd = Islet.env['wd']
         for cell in os.listdir(Islet.env['wd']):
+            # print
             if os.path.isdir(Islet.env['wd'] + cell) and 'Islet_' in (Islet.env['wd'] + cell):
-                values_cell_path = Islet.env['config'] + 'Values/Islet_'+ Islet.env['rid'] + '_' + str(id) + '/' + cell + '.ini'
+                values_cell_path = Islet.env['config'] + 'Values/Islet_' + str(id) + '/' + cell + '.ini'
+                print('path', values_cell_path)
                 config = configparser.ConfigParser()
                 config = configparser.ConfigParser(allow_no_value= True)
                 config.optionxform = str
@@ -118,12 +121,73 @@ class Space:
                         pos = ast.literal_eval(config[cell_type]['position'])
                         Islet.env['wd'] = owd + cell.split('.')[0] + '/'
                         print(str(datetime.datetime.now()) + '\tSpace.configSetup Set up cell from configuration file: configuration file', cell, 'cell type', cell_type, 'id', cell_num, 'position', pos, 'wd', Islet.env['wd'])
-                        cell_obj = Cell.Cell(cell_num, pos[0], pos[1], pos[2], cell_type[0].upper(), True, self.compile)
+                        cell_obj = Cell.Cell(cell_num, pos[0], pos[1], pos[2], cell_type[0].upper(), True, self.compile, self.insulin, self.glucagon, self.sst)
+                        # cell_obj = Cell.Cell(cell_num, pos[0], pos[1], pos[2], cell_type[0].upper(), True)
                         self.cells[pos[0]][pos[1]][pos[2]] = cell_obj
                         # store type and position
                         self.cell_positions.append([cell_type[0].upper(), pos[0], pos[1], pos[2]])
                         self.cell_sizes.append(cell_obj.diam)
-            Islet.env['wd'] = owd                  
+            Islet.env['wd'] = owd       
+    def rxd(self):
+        print(str(datetime.datetime.now()) + '\tSpace.rxd Set up reaction diffusion')
+        # the intracellular spaces
+        cyt = Islet.neuron.rxd.Region(Islet.neuron.h.allsec(), name='cyt', nrn_region='i')
+
+        # plasma membrane 
+        mem = Islet.neuron.rxd.Region(Islet.neuron.h.allsec(), name='mem', geometry=Islet.neuron.rxd.membrane)
+
+        # the extracellular space
+        ecs = Islet.neuron.rxd.Extracellular(-20, -5, -5, 45, 5, 5, dx=1, volume_fraction=0.2, tortuosity=1.6)
+
+        # glucagon
+        glucagon = Islet.neuron.rxd.Species([cyt, ecs], name='glucagon', charge=0, d=1.0, initial=31)
+        gcyt = glucagon[cyt]
+        gecs = glucagon[ecs]
+        self.glucagon = glucagon
+
+        # somatostatin
+        sst = Islet.neuron.rxd.Species([cyt, ecs], name='sst', charge=1, d=1.0, initial=19)
+        sstcyt = sst[cyt]
+        sstecs = sst[ecs]
+        self.sst = sst
+
+        # insulin
+        insulin = Islet.neuron.rxd.Species([cyt, ecs], name='insulin', charge=0, d=1.0, initial=48)
+        inscyt = insulin[cyt]
+        insecs = insulin[ecs]
+        self.insulin = insulin
+
+        # # production
+        # gluc_param = Islet.neuron.rxd.Parameter(cyt, initial=1)
+        # createX = Islet.neuron.rxd.Rate(gcyt, gluc_param[cyt] * 1.0/(10.0 + gcyt))
+
+
+        # # uptake and release
+        # R = 1e1     # release rate [molecules per square micron per ms]
+        # U = 1e1     # uptake rate [molecules per square micron per ms]
+
+
+        # rrateg = R*gcyt     
+        # urateg = U*gecs     
+        # glucagon_release = Islet.neuron.rxd.MultiCompartmentReaction(gcyt, gecs, rrateg, urateg,
+        #                                                 membrane=mem, 
+        #                                                 custom_dynamics=True)
+        # # Islet.neuron.h.setpointer(glucagon.nodes[0]._ref_concentration, 'Gpnt', gluc_syn)
+
+        # rratei = R*inscyt     
+        # uratei = U*insecs     
+        # insulin_release = Islet.neuron.rxd.MultiCompartmentReaction(inscyt, insecs, rratei, uratei,
+        #                                                 membrane=mem, 
+        #                                                 custom_dynamics=True)
+        # # Islet.neuron.h.setpointer(insulin.nodes[0]._ref_concentration, 'Inspnt', ins_syn)
+
+
+        # rrates = R*sstcyt    
+        # urates = U*sstecs     
+        # somatostatin_release = Islet.neuron.rxd.MultiCompartmentReaction(sstcyt, sstecs, rrates, urates,
+        #                                                 membrane=mem, 
+        #                                                 custom_dynamics=True)  
+        # Islet.neuron.h.setpointer(sst.nodes[0]._ref_concentration, 'Sstpnt', sst_syn)         
     def plot(self):
         """Visualize the islet"""
         print(str(datetime.datetime.now()) + '\tSpace.plot Plotting:')
@@ -218,13 +282,12 @@ class Space:
                             print(str(datetime.datetime.now()) + '\tSpace.writeDataPhysiology Wrote data: cell', self.cells[i][j][k], 'islet Islet_' + Islet.env['gid'], 'path', Islet.env['output'] + 'Islet_' + Islet.env['rid'] + '_' + Islet.env['gid'] + '/' + self.cells[i][j][k].type.lower() + '_' + self.cells[i][j][k].id + '.csv')
     def getCell(self, rand, x, y, z):
         """Randomly select one cell"""
-        # print(str(datetime.datetime.now()) + '\tSpace.getCell rand =', rand, 'x =', x, 'y =', y, 'z =', z, 'Probability of alpha/beta at this x/y/z position', self.probabilities[x][y][z])
-        # if rand <= self.probabilities[x][y][z][0]:
-        #     return 'A'
-        # elif rand <= self.probabilities[x][y][z][1]:
-        #     return 'B'
-        # return 'D'
-        return 'B'
+        print(str(datetime.datetime.now()) + '\tSpace.getCell rand =', rand, 'x =', x, 'y =', y, 'z =', z, 'Probability of alpha/beta at this x/y/z position', self.probabilities[x][y][z])
+        if rand <= self.probabilities[x][y][z][0]:
+            return 'A'
+        elif rand <= self.probabilities[x][y][z][1]:
+            return 'B'
+        return 'D'
 if __name__ == '__main__':
     # test
     # python Space.py

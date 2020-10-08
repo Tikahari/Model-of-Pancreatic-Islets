@@ -7,7 +7,7 @@ import Islet
 def Compile(islet_id, run_id, dimensions):
     """Compile and move all mod files for all cells such that an islet instance can be run from one library"""
     # create temp folder for mods
-    Islet.env['wd'] += 'Islet_' + run_id + '_' + islet_id + '/'
+    Islet.env['wd'] += 'Islet_' + islet_id + '/'
     Islet.env['rid'] = run_id
     print(str(datetime.datetime.now()) + '\tCompile.py Compile mod files in: wd', Islet.env['wd'])
     # create islet instance with compile set to true

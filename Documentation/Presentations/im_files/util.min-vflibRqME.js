@@ -1,0 +1,2 @@
+define(["require","exports"],(function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.getInitials=function(e){var t=e.toUpperCase().split(" ");return""+t[0][0]+(t.length>1?t[t.length-1][0]:"")}}));
+//# sourceMappingURL=util.min.js-vfl2OKqFQ.map

@@ -1,14 +1,15 @@
 NEURON{
 SUFFIX D_Somatostatin
-USEION Sst READ Ssti, Ssto WRITE iSst VALENCE 0
+USEION sst READ isst, ssto WRITE ssti VALENCE 0
 NONSPECIFIC_CURRENT i
 USEION CaL READ iCaL
 USEION CaPQ READ iCaPQ
-RANGE iSst, iCaL, iCaPQ, tmsb, con, alpha, vmdl, vmdPQ, fVl, B, fVPQ, kpmca, kserca, pleak, vCaPQm, sCaPQm, vCaPQh, sCaPQh, tCaPQh1, tCaPQh2, tausom, bas, fcyt, fmd, fer, sigmav, vc, f, Sst_init 
+RANGE isst, ssti, ssto, iCaL, iCaPQ, tmsb, con, alpha, vmdl, vmdPQ, fVl, B, fVPQ, kpmca, kserca, pleak, vCaPQm, sCaPQm, vCaPQh, sCaPQh, tCaPQh1, tCaPQh2, tausom, bas, fcyt, fmd, fer, sigmav, vc, f, sst_init 
 RANGE JL, JPQ, Jserca, Jer, mCaPQ_inf, hCaPQ_inf, tauCaPQm, tauCaPQh, Jmem, y, Jleak, som
+RANGE sstin, sstout
 }
 
-PARAMETER{   
+PARAMETER{
 tmsb
 con
 alpha 
@@ -34,13 +35,14 @@ fer
 sigmav 
 vc 
 f 
-Sst_init
 }
 
 ASSIGNED{
-Ssti
-Ssto
-iSst
+sstin
+sstout
+:ssti
+ssto
+isst
 i
 iCaL
 iCaPQ
@@ -56,10 +58,12 @@ Jmem
 y 
 Jleak 
 som 
+JSS
 v : This is the voltage when I run h.initial.....
 }
 
 STATE{
+ssti
 mCaPQ
 hCaPQ
 c
@@ -101,10 +105,12 @@ fer = 0.01
 sigmav = 31
 vc = 1e-13
 f = 0.003
-Sst_init = 18.71318922819339 
+Sst = 18.71318922819339 
 }
 
 BREAKPOINT{
+sstin = ssti
+sstout = ssto
 JL = -alpha * iCaL/vmdl
 JPQ = -alpha * iCaPQ/vmdPQ
 Jserca = kserca * c
@@ -118,7 +124,8 @@ Jmem = fVl * B * (cmdl - c) + fVPQ * B * (cmdPQ - c) - kpmca * c
 y = pow(cmdPQ/200,4)/(pow(0.2,4) + pow(cmdPQ/200,4))
 Jleak = pleak * (cer - c)
 som = (200 * mCaPQ * hCaPQ * y/tausom) + bas
-iSst = tmsb * som * con
+JSS = tmsb * som * con
+:isst = -Sst
 }
 
 DERIVATIVE states{
@@ -128,5 +135,6 @@ c' = fcyt * (Jmem + Jer)
 cmdl' = fmd * JL - fmd * B * (cmdl - c)
 cmdPQ' = fmd * JPQ - fmd * B * (cmdPQ-c)
 cer' = -fer * sigmav * Jer
-Sst' = iSst/vc - f * Sst_init
+Sst' = JSS/vc - f * Sst
+ssti' = 10
 }

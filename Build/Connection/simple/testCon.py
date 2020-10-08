@@ -19,39 +19,12 @@ cell2.pt3dadd(30,0,0,15)
 cell2.pt3dadd(45,0,0,15)
 cell2.insert('send')
 
-# Where?
-# the intracellular spaces
-cyt = rxd.Region(h.allsec(), name='cyt', nrn_region='i')
+syn = h.pump(cell1(0.5))
 
-# plasma membrane 
-mem = rxd.Region(h.allsec(), name='mem', geometry=rxd.membrane)
-
-# the extracellular space
-ecs = rxd.Extracellular(-20, -5, -5, 45, 5, 5, dx=1, volume_fraction=0.2, tortuosity=1.6)
-
-# Who?
-glucagon = rxd.Species([cyt, ecs], name='glucagon', charge=1, d=1.0)
-gcyt = glucagon[cyt]
-gecs = glucagon[ecs]
-
-delta_param = rxd.Parameter(cyt, initial=lambda node: 1 if node.segment in cell2 else 0)
-
-# interaction between intracellular and extracellular glucagon
-R = 1e5
-U = 1e3
-rrate = R*gcyt     # release rate [molecules per square micron per ms]
-urate = U*gecs*delta_param[cyt]      # uptake rate [molecules per square micron per ms]
-glucagon_release = rxd.MultiCompartmentReaction(gcyt, gecs, rrate, urate,
-                                                membrane=mem, 
-                                                custom_dynamics=True)
-
-
-# record the concentrations in the cells
-t_vec = h.Vector()
-t_vec.record(h._ref_t)
-gl_cell1 = h.Vector().record(cell1(0.5)._ref_glucagoni)
-gl_ecs = h.Vector().record(gecs.node_by_location(0,0,0)._ref_concentration)
-gl_cell2 = h.Vector().record(cell2(0.5)._ref_glucagoni)
+var_1 = syn._ref_ix
+var_2 = syn._ref_Kd
+l = []
+l.append(h.Vector().record(var_2))
 
 # variables to store data cell 1
 t = []
@@ -83,13 +56,13 @@ head.extend(header)
 head.append(temp)
 
 
-# variables to store data
+# variables to store data cell 2
 t2 = []
 v2 = []
 rec2 = {}
 header2 = []
 
-# record mechanisms cell1
+# record mechanisms cell2
 for i in cell2.psection()['density_mechs']:
     for j in cell2.psection()['density_mechs'][i]:
         header2.append(j+'_'+i)
@@ -99,6 +72,24 @@ for i in cell2.psection()['density_mechs']:
             v2.append(h.Vector().record(k._ref_v))
             mechRecord2 = getattr(k, '_ref_'+j+'_'+i)
             rec2[str(j+'_'+i)].append(h.Vector().record(mechRecord2))
+
+
+cyt = rxd.Region(h.allsec(), name='cyt', nrn_region='i')
+
+# plasma membrane 
+mem = rxd.Region(h.allsec(), name='mem', geometry=rxd.membrane)
+
+# the extracellular space
+ecs = rxd.Extracellular(-20, -5, -5, 45, 5, 5, dx=1, volume_fraction=0.2, tortuosity=1.6)
+
+
+glucagon = rxd.Species([cyt, ecs], name='glucagon', charge=0, d=1.0, initial=lambda nd: 31 if hasattr(nd, 'sec') and nd.segment in cell1 else 0)
+gcyt = glucagon[cyt]
+gecs = glucagon[ecs]
+
+h.setpointer(glucagon.nodes[0]._ref_concentration, 'pnt', syn)
+
+
 
 # fix header / record voltage of every segment
 head2 = ['Time']
@@ -118,37 +109,36 @@ t = h.Vector().record(h._ref_t)
 h.finitialize(-62)
 h.continuerun(1000)
 
-# write data cell 1
-with open('data/'+sys.argv[1],'w') as file:
+with open('data/Kd.csv', 'w') as file:
     writer = csv.writer(file,quoting = csv.QUOTE_NONE,escapechar=' ')
-    writer.writerow(head)
+    writer.writerow(['Kd'])
     for i in range(len(t)):
         out = [t[i]]
-        for q in rec:
-            out.append(rec[q][0][i])
+        out.append(l[0][i])
         # print(len(rec), len(out), len(header))
-        writer.writerow(out)
-
-# write data cell 2
-with open('data/'+sys.argv[2],'w') as file:
-    writer = csv.writer(file,quoting = csv.QUOTE_NONE,escapechar=' ')
-    writer.writerow(head2)
-    for i in range(len(t)):
-        out = [t[i]]
-        for q in rec2:
-            out.append(rec2[q][0][i])
-        # print(len(rec), len(out), len(header))
-        writer.writerow(out)
+        writer.writerow(out)    
 
 
+# # write data cell 1
+# with open('data/'+sys.argv[1],'w') as file:
+#     writer = csv.writer(file,quoting = csv.QUOTE_NONE,escapechar=' ')
+#     writer.writerow(head)
+#     for i in range(len(t)):
+#         out = [t[i]]
+#         for q in rec:
+#             out.append(rec[q][0][i])
+#         # print(len(rec), len(out), len(header))
+#         writer.writerow(out)
 
-fig = pyplot.figure(dpi=200)
-pyplot.plot(t_vec,gl_cell1, label='cell1')
-pyplot.plot(t_vec,gl_ecs, label='ecs')
-pyplot.plot(t_vec,gl_cell2, label='cell2')
-pyplot.legend(frameon=False)
-pyplot.xlabel('t (ms)')
-pyplot.ylabel('glucagon (mM)')
-pyplot.savefig("/tmp/300620_glucagon_example.png")
-pyplot.show()
+# # write data cell 2
+# with open('data/'+sys.argv[2],'w') as file:
+#     writer = csv.writer(file,quoting = csv.QUOTE_NONE,escapechar=' ')
+#     writer.writerow(head2)
+#     for i in range(len(t)):
+#         out = [t[i]]
+#         for q in rec2:
+#             out.append(rec2[q][0][i])
+#         # print(len(rec), len(out), len(header))
+#         writer.writerow(out)
+
 
