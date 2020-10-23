@@ -1,0 +1,1971 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.1 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated as
+% required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+\datalist[entry]{none/global//global/global}
+  \entry{caicedo_paracrine_2013}{article}{}
+    \name{author}{1}{}{%
+      {{hash=CA}{%
+         family={Caicedo},
+         familyi={C\bibinitperiod},
+         given={Alejandro},
+         giveni={A\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {en}%
+    }
+    \strng{namehash}{CA1}
+    \strng{fullhash}{CA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{shorttitle}
+    \field{abstract}{%
+    The pancreatic islet secretes the hormones insulin and glucagon to regulate
+  glucose metabolism. To generate an adequate secretory response, islet
+  endocrine cells must receive multiple regulatory signals relaying information
+  about changes in the internal and external environments. Islet cells also
+  need to be made aware about the functional status of neighboring cells
+  through paracrine interactions. All this information is used to orchestrate a
+  hormonal response that contributes to glucose homeostasis. Several
+  neurotransmitters have been proposed to work as paracrine signals in the
+  islet. Most of these, however, have yet to meet the criteria to be considered
+  bona ﬁde paracrine signals, in particular in human islets. Here, we review
+  recent ﬁndings describing autocrine and paracrine signaling mechanisms in
+  human islets. These recent results are showing an increasingly complex
+  picture of paracrine interactions in the human islet and emphasize that
+  results from other species cannot be readily extrapolated to the human
+  context. Investigators are unveiling new signaling mechanisms or ﬁnding new
+  roles for known paracrine signals in human islets. While it is too early to
+  provide a synthesis, the ﬁeld of islet research is deﬁning the paracrine
+  and autocrine components that will be used to generate models about how islet
+  function is regulated. Meanwhile, the identiﬁed signaling pathways can be
+  proposed as therapeutic targets for treating diabetes, a devastating disease
+  affecting millions worldwide.%
+    }
+    \verb{doi}
+    \verb 10.1016/j.semcdb.2012.09.007
+    \endverb
+    \field{issn}{10849521}
+    \field{number}{1}
+    \field{pages}{11\bibrangedash 21}
+    \field{shorttitle}{Paracrine and autocrine interactions in the human islet}
+    \field{title}{Paracrine and autocrine interactions in the human islet:
+  {More} than meets the eye}
+    \verb{url}
+    \verb https://linkinghub.elsevier.com/retrieve/pii/S1084952112001723
+    \endverb
+    \field{volume}{24}
+    \verb{file}
+    \verb Caicedo - 2013 - Paracrine and autocrine interactions in the human .p
+    \verb df:/home/tk/Zotero/storage/CQAEL93F/Caicedo - 2013 - Paracrine and au
+    \verb tocrine interactions in the human .pdf:application/pdf
+    \endverb
+    \field{journaltitle}{Seminars in Cell \& Developmental Biology}
+    \field{month}{01}
+    \field{year}{2013}
+    \field{urlday}{29}
+    \field{urlmonth}{01}
+    \field{urlyear}{2020}
+  \endentry
+
+  \entry{woods_pancreatic_2006}{article}{}
+    \name{author}{4}{}{%
+      {{hash=WSC}{%
+         family={Woods},
+         familyi={W\bibinitperiod},
+         given={Stephen\bibnamedelima C},
+         giveni={S\bibinitperiod\bibinitdelim C\bibinitperiod},
+      }}%
+      {{hash=LTA}{%
+         family={Lutz},
+         familyi={L\bibinitperiod},
+         given={Thomas\bibnamedelima A},
+         giveni={T\bibinitperiod\bibinitdelim A\bibinitperiod},
+      }}%
+      {{hash=GN}{%
+         family={Geary},
+         familyi={G\bibinitperiod},
+         given={Nori},
+         giveni={N\bibinitperiod},
+      }}%
+      {{hash=LW}{%
+         family={Langhans},
+         familyi={L\bibinitperiod},
+         given={Wolfgang},
+         giveni={W\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{WSCLTAGN+1}
+    \strng{fullhash}{WSCLTAGNLW1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{abstract}{%
+    The control of food intake and body weight by the brain relies upon the
+  detection and integration of signals reflecting energy stores and fluxes, and
+  their interaction with many different inputs related to food palatability and
+  gastrointestinal handling as well as social, emotional, circadian, habitual
+  and other situational factors. This review focuses upon the role of hormones
+  secreted by the endocrine pancreas: hormones, which individually and
+  collectively influence food intake, with an emphasis upon insulin, glucagon
+  and amylin. Insulin and amylin are co-secreted by B-cells and provide a
+  signal that reflects both circulating energy in the form of glucose and
+  stored energy in the form of visceral adipose tissue. Insulin acts directly
+  at the liver to suppress the synthesis and secretion of glucose, and some
+  plasma insulin is transported into the brain and especially the mediobasal
+  hypothalamus where it elicits a net catabolic response, particularly reduced
+  food intake and loss of body weight. Amylin reduces meal size by stimulating
+  neurons in the hindbrain, and there is evidence that amylin additionally
+  functions as an adiposity signal controlling body weight as well as meal
+  size. Glucagon is secreted from A-cells and increases glucose secretion from
+  the liver. Glucagon acts in the liver to reduce meal size, the signal being
+  relayed to the brain via the vagus nerves. To summarize, hormones of the
+  endocrine pancreas are collectively at the crossroads of many aspects of
+  energy homeostasis. Glucagon and amylin act in the short term to reduce meal
+  size, and insulin sensitizes the brain to short-term meal-generated satiety
+  signals; and insulin and perhaps amylin as well act over longer intervals to
+  modulate the amount of fat maintained and defended by the brain. Hormones of
+  the endocrine pancreas interact with receptors at many points along the
+  gut–brain axis, from the liver to the sensory vagus nerve to the hindbrain
+  to the hypothalamus; and their signals are conveyed both neurally and
+  humorally. Finally, their actions include gastrointestinal and metabolic as
+  well as behavioural effects.%
+    }
+    \verb{doi}
+    \verb 10.1098/rstb.2006.1858
+    \endverb
+    \field{issn}{0962-8436}
+    \field{number}{1471}
+    \field{pages}{1219\bibrangedash 1235}
+    \field{title}{Pancreatic signals controlling food intake; insulin, glucagon
+  and amylin}
+    \verb{url}
+    \verb https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1642707/
+    \endverb
+    \field{volume}{361}
+    \verb{file}
+    \verb PubMed Central Full Text PDF:/home/tk/Zotero/storage/T9LUWXY6/Woods e
+    \verb t al. - 2006 - Pancreatic signals controlling food intake\; insuli.pd
+    \verb f:application/pdf
+    \endverb
+    \field{journaltitle}{Philosophical Transactions of the Royal Society B:
+  Biological Sciences}
+    \field{month}{07}
+    \field{year}{2006}
+    \field{urlday}{29}
+    \field{urlmonth}{07}
+    \field{urlyear}{2020}
+  \endentry
+
+  \entry{ianiro_digestive_2016}{article}{}
+    \name{author}{5}{}{%
+      {{hash=IG}{%
+         family={Ianiro},
+         familyi={I\bibinitperiod},
+         given={Gianluca},
+         giveni={G\bibinitperiod},
+      }}%
+      {{hash=PS}{%
+         family={Pecere},
+         familyi={P\bibinitperiod},
+         given={Silvia},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=GV}{%
+         family={Giorgio},
+         familyi={G\bibinitperiod},
+         given={Valentina},
+         giveni={V\bibinitperiod},
+      }}%
+      {{hash=GA}{%
+         family={Gasbarrini},
+         familyi={G\bibinitperiod},
+         given={Antonio},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=CG}{%
+         family={Cammarota},
+         familyi={C\bibinitperiod},
+         given={Giovanni},
+         giveni={G\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{IGPSGV+1}
+    \strng{fullhash}{IGPSGVGACG1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{abstract}{%
+    Background: Digestive enzymes are able to break down proteins and
+  carbohydrates and lipids, and their supplementation may play a role in the
+  management of digestive disorders, from lactose intolerance to cystic
+  fibrosis. To date, several formulations of digestive enzymes are available on
+  the market, being different each other in terms of enzyme type, source and
+  origin, and dosage. Methods: This review, performed through a non-systematic
+  search of the available literature, will provide an overview of the current
+  knowledge of digestive enzyme supplementation in gastrointestinal disorders,
+  discussion of the use of pancreatic enzymes, lactase (β-galactosidase) and
+  conjugated bile acids, and also exploring the future perspective of digestive
+  enzyme supplementation. Results: Currently, the animal-derived enzymes
+  represent an established standard of care, however the growing study of
+  plant-based and microbe-derived enzymes offers great promise in the
+  advancement of digestive enzyme therapy. Conclusion: New frontiers of enzyme
+  replacement are being evaluated also in the treatment of diseases not
+  specifically related to enzyme deficiency, whereas the combination of
+  different enzymes might constitute an intriguing therapeutic option in the
+  future.%
+    }
+    \verb{doi}
+    \verb 10.2174/138920021702160114150137
+    \endverb
+    \field{issn}{1389-2002}
+    \field{number}{2}
+    \field{pages}{187\bibrangedash 193}
+    \field{title}{Digestive {Enzyme} {Supplementation} in {Gastrointestinal}
+  {Diseases}}
+    \verb{url}
+    \verb https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4923703/
+    \endverb
+    \field{volume}{17}
+    \verb{file}
+    \verb PubMed Central Full Text PDF:/home/tk/Zotero/storage/QGPYZ77Q/Ianiro
+    \verb et al. - 2016 - Digestive Enzyme Supplementation in Gastrointestin.pd
+    \verb f:application/pdf
+    \endverb
+    \field{journaltitle}{Current Drug Metabolism}
+    \field{month}{02}
+    \field{year}{2016}
+    \field{urlday}{29}
+    \field{urlmonth}{07}
+    \field{urlyear}{2020}
+  \endentry
+
+  \entry{hegyi_pancreatic_2011}{article}{}
+    \name{author}{4}{}{%
+      {{hash=HP}{%
+         family={Hegyi},
+         familyi={H\bibinitperiod},
+         given={Péter},
+         giveni={P\bibinitperiod},
+      }}%
+      {{hash=MJ}{%
+         family={Maléth},
+         familyi={M\bibinitperiod},
+         given={József},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=VV}{%
+         family={Venglovecz},
+         familyi={V\bibinitperiod},
+         given={Viktória},
+         giveni={V\bibinitperiod},
+      }}%
+      {{hash=RZ}{%
+         family={Rakonczay},
+         familyi={R\bibinitperiod},
+         given={Zoltán},
+         giveni={Z\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {eng}%
+    }
+    \keyw{bicarbonate, pancreatic duct}
+    \strng{namehash}{HPMJVV+1}
+    \strng{fullhash}{HPMJVVRZ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{shorttitle}
+    \field{abstract}{%
+    Acinar and ductal cells of the exocrine pancreas form a close functional
+  unit. Although most studies contain data either on acinar or ductal cells, an
+  increasing number of evidence highlights the importance of the pancreatic
+  acinar-ductal functional unit. One of the best examples for this functional
+  unit is the regulation of luminal pH by both cell types. Protons co-released
+  during exocytosis from acini cause significant acidosis, whereas, bicarbonate
+  secreted by ductal cells cause alkalization in the lumen. This suggests that
+  the first and probably one of the most important role of bicarbonate
+  secretion by pancreatic ductal cells is not only to neutralize the acid chyme
+  entering into the duodenum from the stomach, but to neutralize acidic content
+  secreted by acinar cells. To accomplish this role, it is more than likely
+  that ductal cells have physiological sensing mechanisms which would allow
+  them to regulate luminal pH. To date, four different classes of acid-sensing
+  ion channels have been identified in the gastrointestinal tract (transient
+  receptor potential ion channels, two-pore domain potassium channel,
+  ionotropic purinoceptor and acid-sensing ion channel), however, none of these
+  have been studied in pancreatic ductal cells. In this mini-review, we
+  summarize our current knowledge of these channels and urge scientists to
+  characterize ductal acid-sensing mechanisms and also to investigate the
+  challenge of the acinar acid load on ductal cells.%
+    }
+    \verb{doi}
+    \verb 10.3389/fphys.2011.00036
+    \endverb
+    \field{issn}{1664-042X}
+    \field{pages}{36}
+    \field{shorttitle}{Pancreatic ductal bicarbonate secretion}
+    \field{title}{Pancreatic ductal bicarbonate secretion: challenge of the
+  acinar {Acid} load}
+    \field{volume}{2}
+    \verb{file}
+    \verb Full Text:/home/tk/Zotero/storage/IW5QEWRI/Hegyi et al. - 2011 - Panc
+    \verb reatic ductal bicarbonate secretion challenge.pdf:application/pdf
+    \endverb
+    \field{journaltitle}{Frontiers in Physiology}
+    \field{year}{2011}
+  \endentry
+
+  \entry{rutter_gaba_2017}{article}{}
+    \name{author}{1}{}{%
+      {{hash=RGA}{%
+         family={Rutter},
+         familyi={R\bibinitperiod},
+         given={Guy\bibnamedelima A.},
+         giveni={G\bibinitperiod\bibinitdelim A\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {en}%
+    }
+    \strng{namehash}{RGA1}
+    \strng{fullhash}{RGA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{shorttitle}
+    \field{abstract}{%
+    An ability to convert between pancreatic islet cell types may provide a new
+  approach to replace insulin-secreting β cells destroyed by autoimmune attack
+  in Type 1 diabetes. Two papers, which have recently appeared in Cell,
+  describe how this might be achieved.%
+    }
+    \verb{doi}
+    \verb 10.1038/cr.2017.20
+    \endverb
+    \field{issn}{1748-7838}
+    \field{note}{Number: 3 Publisher: Nature Publishing Group}
+    \field{number}{3}
+    \field{pages}{309\bibrangedash 310}
+    \field{shorttitle}{{GABA} signaling}
+    \field{title}{{GABA} signaling: {A} route to new pancreatic β cells}
+    \verb{url}
+    \verb https://www.nature.com/articles/cr201720
+    \endverb
+    \field{volume}{27}
+    \verb{file}
+    \verb Full Text PDF:/home/tk/Zotero/storage/XNPQV3A5/Rutter - 2017 - GABA s
+    \verb ignaling A route to new pancreatic β cells.pdf:application/pdf;Snaps
+    \verb hot:/home/tk/Zotero/storage/LB6U6CDA/cr201720.html:text/html
+    \endverb
+    \field{journaltitle}{Cell Research}
+    \field{month}{03}
+    \field{year}{2017}
+    \field{urlday}{29}
+    \field{urlmonth}{07}
+    \field{urlyear}{2020}
+  \endentry
+
+  \entry{chandra_neural_2009}{article}{}
+    \name{author}{2}{}{%
+      {{hash=CR}{%
+         family={Chandra},
+         familyi={C\bibinitperiod},
+         given={Rashmi},
+         giveni={R\bibinitperiod},
+      }}%
+      {{hash=LRA}{%
+         family={Liddle},
+         familyi={L\bibinitperiod},
+         given={Rodger\bibnamedelima A.},
+         giveni={R\bibinitperiod\bibinitdelim A\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{CRLRA1}
+    \strng{fullhash}{CRLRA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{abstract}{%
+    Purpose of review The biology of the pancreas is exquisitely complex and
+  involves both endocrine and exocrine functions that are regulated by an
+  integrated array of neural and hormonal processes. This review discusses
+  recent developments in the regulation of both endocrine and exocrine
+  secretion from the pancreas. Recent Findings New data suggest that
+  cholecystokinin can stimulate neurons located in the dorsal motor nucleus of
+  the vagus. Addressing a controversial topic, recent evidence suggests a
+  direct secretory action of CCK on human acinar cells. An emerging concept is
+  that some hormones and peptides such as melatonin, ghrelin, obestatin and
+  leptin perform dual functions in the pancreas by regulating secretion and
+  maintaining metabolic homeostasis. The regulation of pancreatic secretion by
+  several appetite-controlling neuropeptides such as ghrelin, orexin A, NPY, is
+  also discussed. Recent data highlight findings that mechanisms of hormone
+  action may be different between species possibly due to a divergence in
+  signaling pathways during evolution. Summary The regulation of the secretory
+  function of the pancreas by numerous hormones suggests that there are
+  multiple and perhaps redundant signals governing the control of this
+  important organ. Understanding these diverse pathways is essential to the
+  treatment of pancreatitis, diabetes and obesity.%
+    }
+    \verb{doi}
+    \verb 10.1097/MOG.0b013e32832e9c41
+    \endverb
+    \field{issn}{0267-1379}
+    \field{number}{5}
+    \field{pages}{441\bibrangedash 446}
+    \field{title}{Neural and {Hormonal} {Regulation} of {Pancreatic}
+  {Secretion}}
+    \verb{url}
+    \verb https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2838392/
+    \endverb
+    \field{volume}{25}
+    \verb{file}
+    \verb PubMed Central Full Text PDF:/home/tk/Zotero/storage/JJSUB9EA/Chandra
+    \verb  and Liddle - 2009 - Neural and Hormonal Regulation of Pancreatic Sec
+    \verb re.pdf:application/pdf
+    \endverb
+    \field{journaltitle}{Current opinion in gastroenterology}
+    \field{month}{09}
+    \field{year}{2009}
+    \field{urlday}{29}
+    \field{urlmonth}{07}
+    \field{urlyear}{2020}
+  \endentry
+
+  \entry{g_quantification_2012}{article}{}
+    \name{author}{5}{}{%
+      {{hash=GK}{%
+         family={G},
+         familyi={G},
+         given={Kilimnik},
+         giveni={K\bibinitperiod},
+      }}%
+      {{hash=JJ}{%
+         family={J},
+         familyi={J},
+         given={Jo},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=VP}{%
+         family={V},
+         familyi={V},
+         given={Periwal},
+         giveni={P\bibinitperiod},
+      }}%
+      {{hash=MZ}{%
+         family={Mc},
+         familyi={M\bibinitperiod},
+         given={Zielinski},
+         giveni={Z\bibinitperiod},
+      }}%
+      {{hash=MH}{%
+         family={M},
+         familyi={M},
+         given={Hara},
+         giveni={H\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {English}%
+    }
+    \strng{namehash}{GKJJVP+1}
+    \strng{fullhash}{GKJJVPMZMH1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{abstract}{%
+    Europe PMC is an archive of life sciences journal literature.,
+  Quantification of islet size and architecture.%
+    }
+    \verb{doi}
+    \verb 10.4161/isl.19256
+    \endverb
+    \field{issn}{1938-2014, 1938-2022}
+    \field{number}{2}
+    \field{pages}{167\bibrangedash 172}
+    \field{title}{Quantification of islet size and architecture.}
+    \verb{url}
+    \verb http://europepmc.org/article/PMC/3396703
+    \endverb
+    \field{volume}{4}
+    \verb{file}
+    \verb Full Text PDF:/home/tk/Zotero/storage/MBEFVQCQ/G et al. - 2012 - Quan
+    \verb tification of islet size and architecture..pdf:application/pdf;Snapsh
+    \verb ot:/home/tk/Zotero/storage/766YCU75/3396703.html:text/html
+    \endverb
+    \field{journaltitle}{Islets}
+    \field{month}{03}
+    \field{year}{2012}
+    \field{urlday}{29}
+    \field{urlmonth}{07}
+    \field{urlyear}{2020}
+  \endentry
+
+  \entry{birnbaum_head_2019}{article}{}
+    \name{author}{5}{}{%
+      {{hash=BDJ}{%
+         family={Birnbaum},
+         familyi={B\bibinitperiod},
+         given={David\bibnamedelima Jérémie},
+         giveni={D\bibinitperiod\bibinitdelim J\bibinitperiod},
+      }}%
+      {{hash=BF}{%
+         family={Bertucci},
+         familyi={B\bibinitperiod},
+         given={François},
+         giveni={F\bibinitperiod},
+      }}%
+      {{hash=FP}{%
+         family={Finetti},
+         familyi={F\bibinitperiod},
+         given={Pascal},
+         giveni={P\bibinitperiod},
+      }}%
+      {{hash=BD}{%
+         family={Birnbaum},
+         familyi={B\bibinitperiod},
+         given={Daniel},
+         giveni={D\bibinitperiod},
+      }}%
+      {{hash=ME}{%
+         family={Mamessier},
+         familyi={M\bibinitperiod},
+         given={Emilie},
+         giveni={E\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{BDJBFFP+1}
+    \strng{fullhash}{BDJBFFPBDME1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{abstract}{%
+    The association between pancreatic ductal adenocarcinoma (PDAC) location
+  (head vs. Body/Tail (B/T)) and clinical outcome remains controversial. We
+  collected clinicopathological and gene expression data from 249 resected PDAC
+  samples from public data sets, and we compared data between 208 head and 41
+  B/T samples. The 2-year overall survival (OS) was better for the head than
+  for the B/T PDACs (44 vs. 27\%, p = 0.043), especially when comparing tumors
+  with similar TNM classification (T3/4N0M0: 67\% vs. 17\%, p = 0.002) or from
+  the same molecular class (squamous subtype: 31\% vs. 0\%, p {\textless}
+  0.0001). Bailey’s molecular subtypes were differentially distributed within
+  the two groups, with the immunogenic subtype being underrepresented in the
+  “B/T” group (p = 0.005). Uni- and multivariate analyses indicated that
+  PDAC anatomic location was an independent prognostic factor. Finally, the
+  supervised analysis identified 334 genes differentially expressed. Genes
+  upregulated in the “head” group suggested lymphocyte activation and
+  pancreas exocrine functions. Genes upregulated in the “B/T” group were
+  related to keratinocyte differentiation, in line with the enrichment for
+  squamous phenotype. We identified a robust gene expression signature (GES)
+  associated with B/T PDAC location, suggesting that head and B/T PDAC are
+  different. This GES could serve as an indicator for differential therapeutic
+  management based on PDAC location.%
+    }
+    \verb{doi}
+    \verb 10.3390/cancers11040497
+    \endverb
+    \field{issn}{2072-6694}
+    \field{number}{4}
+    \field{title}{Head and {Body}/{Tail} {Pancreatic} {Carcinomas} {Are} {Not}
+  the {Same} {Tumors}}
+    \verb{url}
+    \verb https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6520848/
+    \endverb
+    \field{volume}{11}
+    \verb{file}
+    \verb PubMed Central Full Text PDF:/home/tk/Zotero/storage/Q48MPDAJ/Birnbau
+    \verb m et al. - 2019 - Head and BodyTail Pancreatic Carcinomas Are Not t.p
+    \verb df:application/pdf
+    \endverb
+    \field{journaltitle}{Cancers}
+    \field{month}{04}
+    \field{year}{2019}
+    \field{urlday}{29}
+    \field{urlmonth}{07}
+    \field{urlyear}{2020}
+  \endentry
+
+  \entry{pour_are_2002}{article}{}
+    \name{author}{3}{}{%
+      {{hash=PPM}{%
+         family={Pour},
+         familyi={P\bibinitperiod},
+         given={Parviz\bibnamedelima M.},
+         giveni={P\bibinitperiod\bibinitdelim M\bibinitperiod},
+      }}%
+      {{hash=SJ}{%
+         family={Standop},
+         familyi={S\bibinitperiod},
+         given={Jens},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=BSK}{%
+         family={Batra},
+         familyi={B\bibinitperiod},
+         given={Surinder\bibnamedelima K.},
+         giveni={S\bibinitperiod\bibinitdelim K\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {en}%
+    }
+    \keyw{Cytochrome P450, Glutathione S-transferase,
+  N-nitrosobis(2-oxopropyl)amine}
+    \strng{namehash}{PPMSJBSK1}
+    \strng{fullhash}{PPMSJBSK1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{abstract}{%
+    The pancreas is one of the body's most complex tissues composed of a
+  mixture of endocrine and exocrine cell components. Although, islets comprise
+  1–2\% of the pancreatic volume, there is some evidence that they control
+  the function and the integrity of the pancreas and play the role of a
+  gatekeeper. This review intends to highlight the importance of islet cells,
+  not only for glucose metabolism, but also for their significant role in drug
+  metabolism and diseases, especially in pancreatic cancer.%
+    }
+    \verb{doi}
+    \verb 10.1159/000064718
+    \endverb
+    \field{issn}{1424-3903}
+    \field{number}{5}
+    \field{pages}{440\bibrangedash 448}
+    \field{title}{Are islet cells the gatekeepers of the pancreas?}
+    \verb{url}
+    \verb http://www.sciencedirect.com/science/article/pii/S1424390302800606
+    \endverb
+    \field{volume}{2}
+    \verb{file}
+    \verb ScienceDirect Snapshot:/home/tk/Zotero/storage/6RUHTSIF/S142439030280
+    \verb 0606.html:text/html
+    \endverb
+    \field{journaltitle}{Pancreatology}
+    \field{month}{01}
+    \field{year}{2002}
+    \field{urlday}{29}
+    \field{urlmonth}{07}
+    \field{urlyear}{2020}
+  \endentry
+
+  \entry{jiang_glucagon_2003}{article}{}
+    \name{author}{2}{}{%
+      {{hash=JG}{%
+         family={Jiang},
+         familyi={J\bibinitperiod},
+         given={Guoqiang},
+         giveni={G\bibinitperiod},
+      }}%
+      {{hash=ZBB}{%
+         family={Zhang},
+         familyi={Z\bibinitperiod},
+         given={Bei\bibnamedelima B.},
+         giveni={B\bibinitperiod\bibinitdelim B\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {en}%
+    }
+    \strng{namehash}{JGZBB1}
+    \strng{fullhash}{JGZBB1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{abstract}{%
+    As a counterregulatory hormone for insulin, glucagon plays a critical role
+  in maintaining glucose homeostasis in vivo in both animals and humans. To
+  increase blood glucose, glucagon promotes hepatic glucose output by
+  increasing glycogenolysis and gluconeogenesis and by decreasing glycogenesis
+  and glycolysis in a concerted fashion via multiple mechanisms. Compared with
+  healthy subjects, diabetic patients and animals have abnormal secretion of
+  not only insulin but also glucagon. Hyperglucagonemia and altered
+  insulin-to-glucagon ratios play important roles in initiating and maintaining
+  pathological hyperglycemic states. Not surprisingly, glucagon and glucagon
+  receptor have been pursued extensively in recent years as potential targets
+  for the therapeutic treatment of diabetes.%
+    }
+    \verb{doi}
+    \verb 10.1152/ajpendo.00492.2002
+    \endverb
+    \field{issn}{0193-1849, 1522-1555}
+    \field{number}{4}
+    \field{pages}{E671\bibrangedash E678}
+    \field{title}{Glucagon and regulation of glucose metabolism}
+    \verb{url}
+    \verb https://www.physiology.org/doi/10.1152/ajpendo.00492.2002
+    \endverb
+    \field{volume}{284}
+    \verb{file}
+    \verb Jiang and Zhang - 2003 - Glucagon and regulation of glucose metabolis
+    \verb m.pdf:/home/tk/Zotero/storage/YRDLVFSF/Jiang and Zhang - 2003 - Gluca
+    \verb gon and regulation of glucose metabolism.pdf:application/pdf
+    \endverb
+    \field{journaltitle}{American Journal of Physiology-Endocrinology and
+  Metabolism}
+    \field{month}{04}
+    \field{year}{2003}
+    \field{urlday}{29}
+    \field{urlmonth}{07}
+    \field{urlyear}{2020}
+  \endentry
+
+  \entry{hatting_insulin_2018}{article}{}
+    \name{author}{5}{}{%
+      {{hash=HM}{%
+         family={Hatting},
+         familyi={H\bibinitperiod},
+         given={Maximilian},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=TCDJ}{%
+         family={Tavares},
+         familyi={T\bibinitperiod},
+         given={Clint D.\bibnamedelima J.},
+         giveni={C\bibinitperiod\bibinitdelim D\bibinitperiod\bibinitdelim
+  J\bibinitperiod},
+      }}%
+      {{hash=SK}{%
+         family={Sharabi},
+         familyi={S\bibinitperiod},
+         given={Kfir},
+         giveni={K\bibinitperiod},
+      }}%
+      {{hash=RAK}{%
+         family={Rines},
+         familyi={R\bibinitperiod},
+         given={Amy\bibnamedelima K.},
+         giveni={A\bibinitperiod\bibinitdelim K\bibinitperiod},
+      }}%
+      {{hash=PP}{%
+         family={Puigserver},
+         familyi={P\bibinitperiod},
+         given={Pere},
+         giveni={P\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{HMTCDJSK+1}
+    \strng{fullhash}{HMTCDJSKRAKPP1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{abstract}{%
+    The coordinated regulation between cellular glucose uptake and endogenous
+  glucose production is indispensable for the maintenance of constant blood
+  glucose concentrations. The liver contributes significantly to this process
+  by altering the levels of hepatic glucose release, through controlling the
+  processes of de novo glucose production (gluconeogenesis) and glycogen
+  breakdown (glycogenolysis). Various nutritional and hormonal stimuli signal
+  to alter hepatic gluconeogenic flux, and suppression of this metabolic
+  pathway during the postprandial state can, to a significant extent, be
+  attributed to insulin. Here, we review some of the molecular mechanisms
+  through which insulin modulates hepatic gluconeogenesis, thus controlling
+  glucose production by the liver to ultimately maintain normoglycemia. Various
+  signaling pathways governed by insulin converge at the level of
+  transcriptional regulation of the key hepatic gluconeogenic genes PCK1 and
+  G6PC, highlighting this as one of the focal mechanisms through which
+  gluconeogenesis is modulated. In individuals with compromised insulin
+  signaling, such as insulin resistance in type 2 diabetes, insulin fails to
+  suppress hepatic gluconeogenesis, even in the fed state; hence, an insight
+  into these insulin-moderated pathways is critical for therapeutic purposes.%
+    }
+    \verb{doi}
+    \verb 10.1111/nyas.13435
+    \endverb
+    \field{issn}{0077-8923}
+    \field{number}{1}
+    \field{pages}{21\bibrangedash 35}
+    \field{title}{Insulin regulation of gluconeogenesis}
+    \verb{url}
+    \verb https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5927596/
+    \endverb
+    \field{volume}{1411}
+    \verb{file}
+    \verb PubMed Central Full Text PDF:/home/tk/Zotero/storage/69QSNMWL/Hatting
+    \verb  et al. - 2018 - Insulin regulation of gluconeogenesis.pdf:applicatio
+    \verb n/pdf
+    \endverb
+    \field{journaltitle}{Annals of the New York Academy of Sciences}
+    \field{month}{01}
+    \field{year}{2018}
+    \field{urlday}{29}
+    \field{urlmonth}{07}
+    \field{urlyear}{2020}
+  \endentry
+
+  \entry{vergari_somatostatin_2020}{article}{}
+    \name{author}{21}{}{%
+      {{hash=VE}{%
+         family={Vergari},
+         familyi={V\bibinitperiod},
+         given={Elisa},
+         giveni={E\bibinitperiod},
+      }}%
+      {{hash=DG}{%
+         family={Denwood},
+         familyi={D\bibinitperiod},
+         given={Geoffrey},
+         giveni={G\bibinitperiod},
+      }}%
+      {{hash=SA}{%
+         family={Salehi},
+         familyi={S\bibinitperiod},
+         given={Albert},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=ZQ}{%
+         family={Zhang},
+         familyi={Z\bibinitperiod},
+         given={Quan},
+         giveni={Q\bibinitperiod},
+      }}%
+      {{hash=AJ}{%
+         family={Adam},
+         familyi={A\bibinitperiod},
+         given={Julie},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=AA}{%
+         family={Alrifaiy},
+         familyi={A\bibinitperiod},
+         given={Ahmed},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=WAI}{%
+         family={Wernstedt\bibnamedelima Asterholm},
+         familyi={W\bibinitperiod\bibinitdelim A\bibinitperiod},
+         given={Ingrid},
+         giveni={I\bibinitperiod},
+      }}%
+      {{hash=BA}{%
+         family={Benrick},
+         familyi={B\bibinitperiod},
+         given={Anna},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=CMV}{%
+         family={Chibalina},
+         familyi={C\bibinitperiod},
+         given={Margarita\bibnamedelima V.},
+         giveni={M\bibinitperiod\bibinitdelim V\bibinitperiod},
+      }}%
+      {{hash=EL}{%
+         family={Eliasson},
+         familyi={E\bibinitperiod},
+         given={Lena},
+         giveni={L\bibinitperiod},
+      }}%
+      {{hash=GC}{%
+         family={Guida},
+         familyi={G\bibinitperiod},
+         given={Claudia},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=HTG}{%
+         family={Hill},
+         familyi={H\bibinitperiod},
+         given={Thomas\bibnamedelima G.},
+         giveni={T\bibinitperiod\bibinitdelim G\bibinitperiod},
+      }}%
+      {{hash=HA}{%
+         family={Hamilton},
+         familyi={H\bibinitperiod},
+         given={Alexander},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=RR}{%
+         family={Ramracheya},
+         familyi={R\bibinitperiod},
+         given={Reshma},
+         giveni={R\bibinitperiod},
+      }}%
+      {{hash=RF}{%
+         family={Reimann},
+         familyi={R\bibinitperiod},
+         given={Frank},
+         giveni={F\bibinitperiod},
+      }}%
+      {{hash=RNJG}{%
+         family={Rorsman},
+         familyi={R\bibinitperiod},
+         given={Nils J.\bibnamedelima G.},
+         giveni={N\bibinitperiod\bibinitdelim J\bibinitperiod\bibinitdelim
+  G\bibinitperiod},
+      }}%
+      {{hash=SI}{%
+         family={Spilliotis},
+         familyi={S\bibinitperiod},
+         given={Ioannis},
+         giveni={I\bibinitperiod},
+      }}%
+      {{hash=TAI}{%
+         family={Tarasov},
+         familyi={T\bibinitperiod},
+         given={Andrei\bibnamedelima I.},
+         giveni={A\bibinitperiod\bibinitdelim I\bibinitperiod},
+      }}%
+      {{hash=WJN}{%
+         family={Walker},
+         familyi={W\bibinitperiod},
+         given={Jonathan\bibnamedelima N.},
+         giveni={J\bibinitperiod\bibinitdelim N\bibinitperiod},
+      }}%
+      {{hash=RP}{%
+         family={Rorsman},
+         familyi={R\bibinitperiod},
+         given={Patrik},
+         giveni={P\bibinitperiod},
+      }}%
+      {{hash=BLJB}{%
+         family={Briant},
+         familyi={B\bibinitperiod},
+         given={Linford J.\bibnamedelima B.},
+         giveni={L\bibinitperiod\bibinitdelim J\bibinitperiod\bibinitdelim
+  B\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {en}%
+    }
+    \strng{namehash}{VEDGSA+1}
+    \strng{fullhash}{VEDGSAZQAJAAWAIBACMVELGCHTGHARRRFRNJGSITAIWJNRPBLJB1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{doi}
+    \verb 10.1038/s42255-019-0158-0
+    \endverb
+    \field{issn}{2522-5812}
+    \field{number}{1}
+    \field{pages}{32\bibrangedash 40}
+    \field{title}{Somatostatin secretion by {Na}+-dependent {Ca2}+-induced
+  {Ca2}+ release in pancreatic delta cells}
+    \verb{url}
+    \verb http://www.nature.com/articles/s42255-019-0158-0
+    \endverb
+    \field{volume}{2}
+    \verb{file}
+    \verb Vergari et al. - 2020 - Somatostatin secretion by Na+-dependent Ca2+-
+    \verb induc.pdf:/home/tk/Zotero/storage/FIZ7PI6K/Vergari et al. - 2020 - So
+    \verb matostatin secretion by Na+-dependent Ca2+-induc.pdf:application/pdf
+    \endverb
+    \field{journaltitle}{Nature Metabolism}
+    \field{month}{01}
+    \field{year}{2020}
+    \field{urlday}{29}
+    \field{urlmonth}{01}
+    \field{urlyear}{2020}
+  \endentry
+
+  \entry{braun_somatostatin_2009}{article}{}
+    \name{author}{8}{}{%
+      {{hash=BM}{%
+         family={Braun},
+         familyi={B\bibinitperiod},
+         given={M.},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=RR}{%
+         family={Ramracheya},
+         familyi={R\bibinitperiod},
+         given={R.},
+         giveni={R\bibinitperiod},
+      }}%
+      {{hash=AS}{%
+         family={Amisten},
+         familyi={A\bibinitperiod},
+         given={S.},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=BM}{%
+         family={Bengtsson},
+         familyi={B\bibinitperiod},
+         given={M.},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=MY}{%
+         family={Moritoh},
+         familyi={M\bibinitperiod},
+         given={Y.},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=ZQ}{%
+         family={Zhang},
+         familyi={Z\bibinitperiod},
+         given={Q.},
+         giveni={Q\bibinitperiod},
+      }}%
+      {{hash=JPR}{%
+         family={Johnson},
+         familyi={J\bibinitperiod},
+         given={P.\bibnamedelima R.},
+         giveni={P\bibinitperiod\bibinitdelim R\bibinitperiod},
+      }}%
+      {{hash=RP}{%
+         family={Rorsman},
+         familyi={R\bibinitperiod},
+         given={P.},
+         giveni={P\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {en}%
+    }
+    \strng{namehash}{BMRRAS+1}
+    \strng{fullhash}{BMRRASBMMYZQJPRRP1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{abstract}{%
+    The aim of this study was to characterise electrical activity, ion
+  channels, exocytosis and somatostatin release in human delta cells/pancreatic
+  islets.%
+    }
+    \verb{doi}
+    \verb 10.1007/s00125-009-1382-z
+    \endverb
+    \field{issn}{1432-0428}
+    \field{number}{8}
+    \field{pages}{1566}
+    \field{title}{Somatostatin release, electrical activity, membrane currents
+  and exocytosis in human pancreatic delta cells}
+    \verb{url}
+    \verb https://doi.org/10.1007/s00125-009-1382-z
+    \endverb
+    \field{volume}{52}
+    \verb{file}
+    \verb Springer Full Text PDF:/home/tk/Zotero/storage/NAJ4YB5C/Braun et al.
+    \verb - 2009 - Somatostatin release, electrical activity, membran.pdf:appli
+    \verb cation/pdf
+    \endverb
+    \field{journaltitle}{Diabetologia}
+    \field{month}{05}
+    \field{year}{2009}
+    \field{urlday}{29}
+    \field{urlmonth}{07}
+    \field{urlyear}{2020}
+  \endentry
+
+  \entry{sakata_development_2019}{article}{}
+    \name{author}{3}{}{%
+      {{hash=SN}{%
+         family={Sakata},
+         familyi={S\bibinitperiod},
+         given={Naoaki},
+         giveni={N\bibinitperiod},
+      }}%
+      {{hash=YG}{%
+         family={Yoshimatsu},
+         familyi={Y\bibinitperiod},
+         given={Gumpei},
+         giveni={G\bibinitperiod},
+      }}%
+      {{hash=KS}{%
+         family={Kodama},
+         familyi={K\bibinitperiod},
+         given={Shohta},
+         giveni={S\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {en}%
+    }
+    \keyw{endocrine cell, ghrelin, insulin, islet, Nkx2.2, pancreas, Pax4,
+  Pax6, β cell, ε cell}
+    \strng{namehash}{SNYGKS1}
+    \strng{fullhash}{SNYGKS1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{abstract}{%
+    Pancreatic endocrine cells expressing the ghrelin gene and producing the
+  ghrelin hormone were first identified in 2002. These cells, named \&epsilon;
+  cells, were recognized as the fifth type of endocrine cells. Differentiation
+  of \&epsilon; cells is induced by various transcription factors, including
+  Nk2 homeobox 2, paired box proteins Pax-4 and Pax6, and the
+  aristaless-related homeobox. Ghrelin is generally considered to be a
+  \&ldquo;hunger hormone\&rdquo; that stimulates the appetite and is produced
+  mainly by the stomach. Although the population of \&epsilon; cells is small
+  in adults, they play important roles in regulating other endocrine cells,
+  especially \&beta; cells, by releasing ghrelin. However, the roles of ghrelin
+  in \&beta; cells are complex. Ghrelin contributes to increased blood glucose
+  levels by suppressing insulin release from \&beta; cells and is also involved
+  in the growth and proliferation of \&beta; cells and the prevention of
+  \&beta; cell apoptosis. Despite increasing evidence and clarification of the
+  mechanisms of \&epsilon; cells over the last 20 years, many questions remain
+  to be answered. In this review, we present the current evidence for the
+  participation of \&epsilon; cells in differentiation and clarify their
+  characteristics by focusing on the roles of ghrelin.%
+    }
+    \verb{doi}
+    \verb 10.3390/ijms20081867
+    \endverb
+    \field{note}{Number: 8 Publisher: Multidisciplinary Digital Publishing
+  Institute}
+    \field{number}{8}
+    \field{pages}{1867}
+    \field{title}{Development and {Characteristics} of {Pancreatic} {Epsilon}
+  {Cells}}
+    \verb{url}
+    \verb https://www.mdpi.com/1422-0067/20/8/1867
+    \endverb
+    \field{volume}{20}
+    \verb{file}
+    \verb Full Text PDF:/home/tk/Zotero/storage/D9AGYLY5/Sakata et al. - 2019 -
+    \verb  Development and Characteristics of Pancreatic Epsi.pdf:application/p
+    \verb df;Snapshot:/home/tk/Zotero/storage/UZN8NLYX/1867.html:text/html
+    \endverb
+    \field{journaltitle}{International Journal of Molecular Sciences}
+    \field{month}{01}
+    \field{year}{2019}
+    \field{urlday}{29}
+    \field{urlmonth}{07}
+    \field{urlyear}{2020}
+  \endentry
+
+  \entry{riz_mathematical_2014}{article}{}
+    \name{author}{3}{}{%
+      {{hash=RM}{%
+         family={Riz},
+         familyi={R\bibinitperiod},
+         given={Michela},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=BM}{%
+         family={Braun},
+         familyi={B\bibinitperiod},
+         given={Matthias},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=PMG}{%
+         family={Pedersen},
+         familyi={P\bibinitperiod},
+         given={Morten\bibnamedelima Gram},
+         giveni={M\bibinitperiod\bibinitdelim G\bibinitperiod},
+      }}%
+    }
+    \name{editor}{1}{}{%
+      {{hash=EB}{%
+         family={Ermentrout},
+         familyi={E\bibinitperiod},
+         given={Bard},
+         giveni={B\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {en}%
+    }
+    \strng{namehash}{RMBMPMG1}
+    \strng{fullhash}{RMBMPMG1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{abstract}{%
+    Electrical activity plays a pivotal role in glucose-stimulated insulin
+  secretion from pancreatic b-cells. Recent findings have shown that the
+  electrophysiological characteristics of human b-cells differ from their
+  rodent counterparts. We show that the electrophysiological responses in human
+  b-cells to a range of ion channels antagonists are heterogeneous. In some
+  cells, inhibition of small-conductance potassium currents has no effect on
+  action potential firing, while it increases the firing frequency dramatically
+  in other cells. Sodium channel block can sometimes reduce action potential
+  amplitude, sometimes abolish electrical activity, and in some cells even
+  change spiking electrical activity to rapid bursting. We show that, in
+  contrast to L-type Ca2z -channels, P/Q-type Ca2z -currents are not necessary
+  for action potential generation, and, surprisingly, a P/Q-type Ca2z -channel
+  antagonist even accelerates action potential firing. By including SK-channels
+  and Ca2z dynamics in a previous mathematical model of electrical activity in
+  human b-cells, we investigate the heterogeneous and nonintuitive
+  electrophysiological responses to ion channel antagonists, and use our
+  findings to obtain insight in previously published insulin secretion
+  measurements. Using our model we also study paracrine signals, and simulate
+  slow oscillations by adding a glycolytic oscillatory component to the
+  electrophysiological model. The heterogenous electrophysiological responses
+  in human b-cells must be taken into account for a deeper understanding of the
+  mechanisms underlying insulin secretion in health and disease, and as shown
+  here, the interdisciplinary combination of experiments and modeling increases
+  our understanding of human b-cell physiology.%
+    }
+    \verb{doi}
+    \verb 10.1371/journal.pcbi.1003389
+    \endverb
+    \field{issn}{1553-7358}
+    \field{number}{1}
+    \field{pages}{e1003389}
+    \field{title}{Mathematical {Modeling} of {Heterogeneous}
+  {Electrophysiological} {Responses} in {Human} β-{Cells}}
+    \verb{url}
+    \verb https://dx.plos.org/10.1371/journal.pcbi.1003389
+    \endverb
+    \field{volume}{10}
+    \verb{file}
+    \verb Riz et al. - 2014 - Mathematical Modeling of Heterogeneous Electrophy
+    \verb s.PDF:/home/tk/Zotero/storage/MILLC3JM/Riz et al. - 2014 - Mathematic
+    \verb al Modeling of Heterogeneous Electrophys.PDF:application/pdf
+    \endverb
+    \field{journaltitle}{PLoS Computational Biology}
+    \field{month}{01}
+    \field{year}{2014}
+    \field{urlday}{29}
+    \field{urlmonth}{01}
+    \field{urlyear}{2020}
+  \endentry
+
+  \entry{briant_functional_2017}{article}{}
+    \name{author}{7}{}{%
+      {{hash=BLJB}{%
+         family={Briant},
+         familyi={B\bibinitperiod},
+         given={Linford J.\bibnamedelima B.},
+         giveni={L\bibinitperiod\bibinitdelim J\bibinitperiod\bibinitdelim
+  B\bibinitperiod},
+      }}%
+      {{hash=ZQ}{%
+         family={Zhang},
+         familyi={Z\bibinitperiod},
+         given={Quan},
+         giveni={Q\bibinitperiod},
+      }}%
+      {{hash=VE}{%
+         family={Vergari},
+         familyi={V\bibinitperiod},
+         given={Elisa},
+         giveni={E\bibinitperiod},
+      }}%
+      {{hash=KJA}{%
+         family={Kellard},
+         familyi={K\bibinitperiod},
+         given={Joely\bibnamedelima A.},
+         giveni={J\bibinitperiod\bibinitdelim A\bibinitperiod},
+      }}%
+      {{hash=RB}{%
+         family={Rodriguez},
+         familyi={R\bibinitperiod},
+         given={Blanca},
+         giveni={B\bibinitperiod},
+      }}%
+      {{hash=AFM}{%
+         family={Ashcroft},
+         familyi={A\bibinitperiod},
+         given={Frances\bibnamedelima M.},
+         giveni={F\bibinitperiod\bibinitdelim M\bibinitperiod},
+      }}%
+      {{hash=RP}{%
+         family={Rorsman},
+         familyi={R\bibinitperiod},
+         given={Patrik},
+         giveni={P\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {en}%
+    }
+    \strng{namehash}{BLJBZQVE+1}
+    \strng{fullhash}{BLJBZQVEKJARBAFMRP1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{doi}
+    \verb 10.1098/rsif.2016.0999
+    \endverb
+    \field{issn}{1742-5689, 1742-5662}
+    \field{number}{128}
+    \field{pages}{20160999}
+    \field{title}{Functional identification of islet cell types by
+  electrophysiological fingerprinting}
+    \verb{url}
+    \verb https://royalsocietypublishing.org/doi/10.1098/rsif.2016.0999
+    \endverb
+    \field{volume}{14}
+    \verb{file}
+    \verb Briant et al. - 2017 - Functional identification of islet cell types
+    \verb by e.pdf:/home/tk/Zotero/storage/C6HDR5Z7/Briant et al. - 2017 - Func
+    \verb tional identification of islet cell types by e.pdf:application/pdf
+    \endverb
+    \field{journaltitle}{Journal of The Royal Society Interface}
+    \field{month}{03}
+    \field{year}{2017}
+    \field{urlday}{29}
+    \field{urlmonth}{01}
+    \field{urlyear}{2020}
+  \endentry
+
+  \entry{hodgkin_effect_1949}{article}{}
+    \name{author}{2}{}{%
+      {{hash=HAL}{%
+         family={Hodgkin},
+         familyi={H\bibinitperiod},
+         given={A.\bibnamedelima L.},
+         giveni={A\bibinitperiod\bibinitdelim L\bibinitperiod},
+      }}%
+      {{hash=KB}{%
+         family={Katz},
+         familyi={K\bibinitperiod},
+         given={B.},
+         giveni={B\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{HALKB1}
+    \strng{fullhash}{HALKB1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{issn}{0022-3751}
+    \field{number}{1}
+    \field{pages}{37\bibrangedash 77}
+    \field{title}{The effect of sodium ions on the electrical activity of the
+  giant axon of the squid}
+    \verb{url}
+    \verb https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1392331/
+    \endverb
+    \field{volume}{108}
+    \verb{file}
+    \verb PubMed Central Full Text PDF:/home/tk/Zotero/storage/B7ZM8N8N/Hodgkin
+    \verb  and Katz - 1949 - The effect of sodium ions on the electrical activi
+    \verb .pdf:application/pdf
+    \endverb
+    \field{journaltitle}{The Journal of Physiology}
+    \field{month}{03}
+    \field{year}{1949}
+    \field{urlday}{29}
+    \field{urlmonth}{07}
+    \field{urlyear}{2020}
+  \endentry
+
+  \entry{fisher_wave_1937}{article}{}
+    \name{author}{1}{}{%
+      {{hash=FRA}{%
+         family={Fisher},
+         familyi={F\bibinitperiod},
+         given={R.\bibnamedelima A.},
+         giveni={R\bibinitperiod\bibinitdelim A\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {en}%
+    }
+    \strng{namehash}{FRA1}
+    \strng{fullhash}{FRA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{abstract}{%
+    The articles published by the Annals of Eugenics (1925–1954) have been
+  made available online as an historical archive intended for scholarly use.
+  The work of eugenicists was often pervaded by prejudice against racial,
+  ethnic and disabled groups. The online publication of this material for
+  scholarly research purposes is not an endorsement of those views nor a
+  promotion of eugenics in any way.%
+    }
+    \verb{doi}
+    \verb 10.1111/j.1469-1809.1937.tb02153.x
+    \endverb
+    \field{issn}{2050-1439}
+    \field{note}{\_eprint:
+  https://onlinelibrary.wiley.com/doi/pdf/10.1111/j.1469-1809.1937.tb02153.x}
+    \field{number}{4}
+    \field{pages}{355\bibrangedash 369}
+    \field{title}{The {Wave} of {Advance} of {Advantageous} {Genes}}
+    \verb{url}
+    \verb https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1469-1809.1937.tb02
+    \verb 153.x
+    \endverb
+    \field{volume}{7}
+    \verb{file}
+    \verb Snapshot:/home/tk/Zotero/storage/ZF9TBWQU/j.1469-1809.1937.tb02153.ht
+    \verb ml:text/html;Full Text PDF:/home/tk/Zotero/storage/AXRS4275/Fisher -
+    \verb 1937 - The Wave of Advance of Advantageous Genes.pdf:application/pdf
+    \endverb
+    \field{journaltitle}{Annals of Eugenics}
+    \field{year}{1937}
+    \field{urlday}{29}
+    \field{urlmonth}{07}
+    \field{urlyear}{2020}
+  \endentry
+
+  \entry{kondo_reaction-diffusion_2010}{article}{}
+    \name{author}{2}{}{%
+      {{hash=KS}{%
+         family={Kondo},
+         familyi={K\bibinitperiod},
+         given={Shigeru},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=MT}{%
+         family={Miura},
+         familyi={M\bibinitperiod},
+         given={Takashi},
+         giveni={T\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {en}%
+    }
+    \strng{namehash}{KSMT1}
+    \strng{fullhash}{KSMT1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{abstract}{%
+    The Turing, or reaction-diffusion (RD), model is one of the best-known
+  theoretical models used to explain self-regulated pattern formation in the
+  developing animal embryo. Although its real-world relevance was long debated,
+  a number of compelling examples have gradually alleviated much of the
+  skepticism surrounding the model. The RD model can generate a wide variety of
+  spatial patterns, and mathematical studies have revealed the kinds of
+  interactions required for each, giving this model the potential for
+  application as an experimental working hypothesis in a wide variety of
+  morphological phenomena. In this review, we describe the essence of this
+  theory for experimental biologists unfamiliar with the model, using examples
+  from experimental studies in which the RD model is effectively incorporated.%
+    }
+    \verb{doi}
+    \verb 10.1126/science.1179047
+    \endverb
+    \field{issn}{0036-8075, 1095-9203}
+    \field{note}{Publisher: American Association for the Advancement of Science
+  Section: Review}
+    \field{number}{5999}
+    \field{pages}{1616\bibrangedash 1620}
+    \field{title}{Reaction-{Diffusion} {Model} as a {Framework} for
+  {Understanding} {Biological} {Pattern} {Formation}}
+    \verb{url}
+    \verb https://science.sciencemag.org/content/329/5999/1616
+    \endverb
+    \field{volume}{329}
+    \verb{file}
+    \verb Full Text PDF:/home/tk/Zotero/storage/PTW6CYIB/Kondo and Miura - 2010
+    \verb  - Reaction-Diffusion Model as a Framework for Unders.pdf:application
+    \verb /pdf;Snapshot:/home/tk/Zotero/storage/65BR6AD8/1616.html:text/html
+    \endverb
+    \field{journaltitle}{Science}
+    \field{month}{09}
+    \field{year}{2010}
+    \field{urlday}{29}
+    \field{urlmonth}{07}
+    \field{urlyear}{2020}
+  \endentry
+
+  \entry{chay_minimal_1983}{article}{}
+    \name{author}{2}{}{%
+      {{hash=CTR}{%
+         family={Chay},
+         familyi={C\bibinitperiod},
+         given={T\bibnamedelima R},
+         giveni={T\bibinitperiod\bibinitdelim R\bibinitperiod},
+      }}%
+      {{hash=KJ}{%
+         family={Keizer},
+         familyi={K\bibinitperiod},
+         given={J},
+         giveni={J},
+      }}%
+    }
+    \strng{namehash}{CTRKJ1}
+    \strng{fullhash}{CTRKJ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{abstract}{%
+    Following the experimental findings of Atwater et al. (In Biochemistry
+  Biophysics of the Pancreatic-beta-Cell, George Thieme Verlag, New York,
+  100-107), we have formulated a mathematical model for ionic and electrical
+  events that take place in pancreatic-beta-cells. Our formulation incorporates
+  a Hodgkin-Huxley type gating mechanism for Ca2+ and K+ channels, in addition
+  to Ca2+ gated K+-channels. Consistent with the experimental observations, our
+  model generates spikes and bursts in beta-cell membrane potentials and gives
+  the correct responses to additions of glucose, quinine, and
+  tetraethylammonium ions. The response of the oscillations to ouabain and
+  changing concentrations of external K+ can be incorporated into the present
+  model, although a more complete treatment would require inclusion of the
+  Na+/K+ pump.%
+    }
+    \field{issn}{0006-3495}
+    \field{number}{2}
+    \field{pages}{181\bibrangedash 190}
+    \field{title}{Minimal model for membrane oscillations in the pancreatic
+  beta-cell.}
+    \verb{url}
+    \verb https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1329221/
+    \endverb
+    \field{volume}{42}
+    \verb{file}
+    \verb PubMed Central Full Text PDF:/home/tk/Zotero/storage/X8YC36LA/Chay an
+    \verb d Keizer - 1983 - Minimal model for membrane oscillations in the pan.
+    \verb pdf:application/pdf
+    \endverb
+    \field{journaltitle}{Biophysical Journal}
+    \field{month}{05}
+    \field{year}{1983}
+    \field{urlday}{29}
+    \field{urlmonth}{07}
+    \field{urlyear}{2020}
+  \endentry
+
+  \entry{fridlyand_pancreatic_2016}{article}{}
+    \name{author}{2}{}{%
+      {{hash=FLE}{%
+         family={Fridlyand},
+         familyi={F\bibinitperiod},
+         given={Leonid\bibnamedelima E.},
+         giveni={L\bibinitperiod\bibinitdelim E\bibinitperiod},
+      }}%
+      {{hash=PLH}{%
+         family={Philipson},
+         familyi={P\bibinitperiod},
+         given={Louis\bibnamedelima H.},
+         giveni={L\bibinitperiod\bibinitdelim H\bibinitperiod},
+      }}%
+    }
+    \name{editor}{1}{}{%
+      {{hash=CT}{%
+         family={Cai},
+         familyi={C\bibinitperiod},
+         given={Tao},
+         giveni={T\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {en}%
+    }
+    \strng{namehash}{FLEPLH1}
+    \strng{fullhash}{FLEPLH1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{shorttitle}
+    \verb{doi}
+    \verb 10.1371/journal.pone.0152869
+    \endverb
+    \field{issn}{1932-6203}
+    \field{number}{5}
+    \field{pages}{e0152869}
+    \field{shorttitle}{Pancreatic {Beta} {Cell} {G}-{Protein} {Coupled}
+  {Receptors} and {Second} {Messenger} {Interactions}}
+    \field{title}{Pancreatic {Beta} {Cell} {G}-{Protein} {Coupled} {Receptors}
+  and {Second} {Messenger} {Interactions}: {A} {Systems} {Biology}
+  {Computational} {Analysis}}
+    \verb{url}
+    \verb http://dx.plos.org/10.1371/journal.pone.0152869
+    \endverb
+    \field{volume}{11}
+    \verb{file}
+    \verb Fridlyand and Philipson - 2016 - Pancreatic Beta Cell G-Protein Coupl
+    \verb ed Receptors a.pdf:/home/tk/Zotero/storage/RL9S2E5K/Fridlyand and Phi
+    \verb lipson - 2016 - Pancreatic Beta Cell G-Protein Coupled Receptors a.pd
+    \verb f:application/pdf
+    \endverb
+    \field{journaltitle}{PLOS ONE}
+    \field{month}{05}
+    \field{year}{2016}
+    \field{urlday}{29}
+    \field{urlmonth}{01}
+    \field{urlyear}{2020}
+  \endentry
+
+  \entry{watts_modeling_2014}{article}{}
+    \name{author}{2}{}{%
+      {{hash=WM}{%
+         family={Watts},
+         familyi={W\bibinitperiod},
+         given={Margaret},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=SA}{%
+         family={Sherman},
+         familyi={S\bibinitperiod},
+         given={Arthur},
+         giveni={A\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {en}%
+    }
+    \strng{namehash}{WMSA1}
+    \strng{fullhash}{WMSA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{shorttitle}
+    \field{abstract}{%
+    The mechanism by which glucose induces insulin secretion in b-cells is
+  fairly well understood. Despite years of research, however, the mechanism of
+  glucagon secretion in a-cells is still not well established. It has been
+  proposed that glucose regulates glucagon secretion by decreasing the
+  conductance of either outward ATP-dependent potassium channels (K(ATP)) or an
+  inward store-operated current (SOC). We have developed a mathematical model
+  based on mouse data to test these hypotheses and found that both mechanisms
+  are possible. Glucose metabolism closes K(ATP) channels, which depolarizes
+  the cell but paradoxically reduces calcium inﬂux by inactivating
+  voltage-dependent calcium and sodium channels and decreases secretion.
+  Glucose metabolism also activates SERCA pumps, which ﬁlls the endoplasmic
+  reticulum and hyperpolarizes the cells by reducing the inward current through
+  SOC channels and again suppresses glucagon secretion. We ﬁnd further that
+  the two mechanisms can combine to account for the nonmonotonic dependence of
+  secretion on glucose observed in some studies, an effect that cannot be
+  obtained with either mechanism alone.%
+    }
+    \verb{doi}
+    \verb 10.1016/j.bpj.2013.11.4504
+    \endverb
+    \field{issn}{00063495}
+    \field{number}{3}
+    \field{pages}{741\bibrangedash 751}
+    \field{shorttitle}{Modeling the {Pancreatic} α-{Cell}}
+    \field{title}{Modeling the {Pancreatic} α-{Cell}: {Dual} {Mechanisms} of
+  {Glucose} {Suppression} of {Glucagon} {Secretion}}
+    \verb{url}
+    \verb https://linkinghub.elsevier.com/retrieve/pii/S0006349513058438
+    \endverb
+    \field{volume}{106}
+    \verb{file}
+    \verb Watts and Sherman - 2014 - Modeling the Pancreatic α-Cell Dual Mecha
+    \verb nisms of.pdf:/home/tk/Zotero/storage/DFWNI3K6/Watts and Sherman - 201
+    \verb 4 - Modeling the Pancreatic α-Cell Dual Mechanisms of.pdf:applicatio
+    \verb n/pdf
+    \endverb
+    \field{journaltitle}{Biophysical Journal}
+    \field{month}{02}
+    \field{year}{2014}
+    \field{urlday}{29}
+    \field{urlmonth}{01}
+    \field{urlyear}{2020}
+  \endentry
+
+  \entry{hines_neuron_1997}{article}{}
+    \name{author}{2}{}{%
+      {{hash=HML}{%
+         family={Hines},
+         familyi={H\bibinitperiod},
+         given={M.\bibnamedelima L.},
+         giveni={M\bibinitperiod\bibinitdelim L\bibinitperiod},
+      }}%
+      {{hash=CNT}{%
+         family={Carnevale},
+         familyi={C\bibinitperiod},
+         given={N.\bibnamedelima T.},
+         giveni={N\bibinitperiod\bibinitdelim T\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{HMLCNT1}
+    \strng{fullhash}{HMLCNT1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{abstract}{%
+    The moment-to-moment processing of information by the nervous system
+  involves the propagation and interaction of electrical and chemical signals
+  that are distributed in space and time. Biologically realistic modeling is
+  needed to test hypotheses about the mechanisms that govern these signals and
+  how nervous system function emerges from the operation of these mechanisms.
+  The NEURON simulation program provides a powerful and flexible environment
+  for implementing such models of individual neurons and small networks of
+  neurons. It is particularly useful when membrane potential is nonuniform and
+  membrane currents are complex. We present the basic ideas that would help
+  informed users make the most efficient use of NEURON.%
+    }
+    \verb{doi}
+    \verb 10.1162/neco.1997.9.6.1179
+    \endverb
+    \field{note}{\_eprint: https://doi.org/10.1162/neco.1997.9.6.1179}
+    \field{number}{6}
+    \field{pages}{1179\bibrangedash 1209}
+    \field{title}{The {NEURON} {Simulation} {Environment}}
+    \verb{url}
+    \verb https://doi.org/10.1162/neco.1997.9.6.1179
+    \endverb
+    \field{volume}{9}
+    \field{journaltitle}{Neural Computation}
+    \field{year}{1997}
+  \endentry
+
+  \entry{hines_expanding_2000}{article}{}
+    \name{author}{2}{}{%
+      {{hash=HML}{%
+         family={Hines},
+         familyi={H\bibinitperiod},
+         given={M.\bibnamedelima L.},
+         giveni={M\bibinitperiod\bibinitdelim L\bibinitperiod},
+      }}%
+      {{hash=CNT}{%
+         family={Carnevale},
+         familyi={C\bibinitperiod},
+         given={N.\bibnamedelima T.},
+         giveni={N\bibinitperiod\bibinitdelim T\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {en}%
+    }
+    \strng{namehash}{HMLCNT1}
+    \strng{fullhash}{HMLCNT1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{abstract}{%
+    Neuronal function involves the interaction of electrical and chemical
+  signals that are distributed in time and space. The mechanisms that generate
+  these signals and regulate their interactions are marked by a rich diversity
+  of properties that precludes a “one size fits all” approach to modeling.
+  This paper shows how the model description language NMODL enables the
+  neuronal simulation environment NEURON to accommodate these differences.%
+    }
+    \verb{doi}
+    \verb 10.1162/089976600300015475
+    \endverb
+    \field{issn}{0899-7667, 1530-888X}
+    \field{number}{5}
+    \field{pages}{995\bibrangedash 1007}
+    \field{title}{Expanding {NEURON}'s {Repertoire} of {Mechanisms} with
+  {NMODL}}
+    \verb{url}
+    \verb http://www.mitpressjournals.org/doi/10.1162/089976600300015475
+    \endverb
+    \field{volume}{12}
+    \verb{file}
+    \verb Hines and Carnevale - 2000 - Expanding NEURON's Repertoire of Mechani
+    \verb sms with N.pdf:/home/tk/Zotero/storage/TJSTW9RT/Hines and Carnevale -
+    \verb  2000 - Expanding NEURON's Repertoire of Mechanisms with N.pdf:applic
+    \verb ation/pdf
+    \endverb
+    \field{journaltitle}{Neural Computation}
+    \field{month}{05}
+    \field{year}{2000}
+    \field{urlday}{29}
+    \field{urlmonth}{01}
+    \field{urlyear}{2020}
+  \endentry
+
+  \entry{hashimoto_postsynaptic_2011}{article}{}
+    \name{author}{9}{}{%
+      {{hash=HK}{%
+         family={Hashimoto},
+         familyi={H\bibinitperiod},
+         given={Kouichi},
+         giveni={K\bibinitperiod},
+      }}%
+      {{hash=TM}{%
+         family={Tsujita},
+         familyi={T\bibinitperiod},
+         given={Mika},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=MT}{%
+         family={Miyazaki},
+         familyi={M\bibinitperiod},
+         given={Taisuke},
+         giveni={T\bibinitperiod},
+      }}%
+      {{hash=KK}{%
+         family={Kitamura},
+         familyi={K\bibinitperiod},
+         given={Kazuo},
+         giveni={K\bibinitperiod},
+      }}%
+      {{hash=YM}{%
+         family={Yamazaki},
+         familyi={Y\bibinitperiod},
+         given={Maya},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=SHS}{%
+         family={Shin},
+         familyi={S\bibinitperiod},
+         given={Hee-Sup},
+         giveni={H\bibinithyphendelim S\bibinitperiod},
+      }}%
+      {{hash=WM}{%
+         family={Watanabe},
+         familyi={W\bibinitperiod},
+         given={Masahiko},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=SK}{%
+         family={Sakimura},
+         familyi={S\bibinitperiod},
+         given={Kenji},
+         giveni={K\bibinitperiod},
+      }}%
+      {{hash=KM}{%
+         family={Kano},
+         familyi={K\bibinitperiod},
+         given={Masanobu},
+         giveni={M\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {eng}%
+    }
+    \keyw{Action Potentials, Animals, Animals, Newborn, Calcium, Calcium
+  Channels, N-Type, Cerebellum, Dendrites, Excitatory Postsynaptic Potentials,
+  Female, Fluorescent Antibody Technique, Immunohistochemistry, In Situ
+  Hybridization, Male, Mice, Mice, Inbred C57BL, Mice, Knockout, Nerve Fibers,
+  Patch-Clamp Techniques, Purkinje Cells, Synapses, Time Factors}
+    \strng{namehash}{HKTMMT+1}
+    \strng{fullhash}{HKTMMTKKYMSHSWMSKKM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{abstract}{%
+    Neural circuits are initially redundant but rearranged through
+  activity-dependent synapse elimination during postnatal development. This
+  process is crucial for shaping mature neural circuits and for proper brain
+  function. At birth, Purkinje cells (PCs) in the cerebellum are innervated by
+  multiple climbing fibers (CFs) with similar synaptic strengths. During
+  postnatal development, a single CF is selectively strengthened in each PC
+  through synaptic competition, the strengthened single CF undergoes
+  translocation to a PC dendrite, and massive elimination of redundant CF
+  synapses follows. To investigate the cellular mechanisms of this
+  activity-dependent synaptic refinement, we generated mice with PC-selective
+  deletion of the Ca(v)2.1 P/Q-type Ca(2+) channel, the major voltage-dependent
+  Ca(2+) channel in PCs. In the PC-selective Ca(v)2.1 knockout mice, Ca(2+)
+  transients induced by spontaneous CF inputs are markedly reduced in PCs in
+  vivo. Not a single but multiple CFs were equally strengthened in each PC from
+  postnatal day 5 (P5) to P8, multiple CFs underwent translocation to PC
+  dendrites, and subsequent synapse elimination until around P12 was severely
+  impaired. Thus, P/Q-type Ca(2+) channels in postsynaptic PCs mediate synaptic
+  competition among multiple CFs and trigger synapse elimination in developing
+  cerebellum.%
+    }
+    \verb{doi}
+    \verb 10.1073/pnas.1101488108
+    \endverb
+    \field{issn}{1091-6490}
+    \field{number}{24}
+    \field{pages}{9987\bibrangedash 9992}
+    \field{title}{Postsynaptic {P}/{Q}-type {Ca2}+ channel in {Purkinje} cell
+  mediates synaptic competition and elimination in developing cerebellum}
+    \field{volume}{108}
+    \verb{file}
+    \verb Full Text:/home/tk/Zotero/storage/P67ZUYQT/Hashimoto et al. - 2011 -
+    \verb Postsynaptic PQ-type Ca2+ channel in Purkinje cel.pdf:application/pdf
+    \endverb
+    \field{journaltitle}{Proceedings of the National Academy of Sciences of the
+  United States of America}
+    \field{month}{06}
+    \field{year}{2011}
+  \endentry
+
+  \entry{steiner_pancreatic_2010}{article}{}
+    \name{author}{4}{}{%
+      {{hash=SDJ}{%
+         family={Steiner},
+         familyi={S\bibinitperiod},
+         given={Donald\bibnamedelima J.},
+         giveni={D\bibinitperiod\bibinitdelim J\bibinitperiod},
+      }}%
+      {{hash=KA}{%
+         family={Kim},
+         familyi={K\bibinitperiod},
+         given={Abraham},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=MK}{%
+         family={Miller},
+         familyi={M\bibinitperiod},
+         given={Kevin},
+         giveni={K\bibinitperiod},
+      }}%
+      {{hash=HM}{%
+         family={Hara},
+         familyi={H\bibinitperiod},
+         given={Manami},
+         giveni={M\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{SDJKAMK+1}
+    \strng{fullhash}{SDJKAMKHM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{shorttitle}
+    \field{abstract}{%
+    The pancreatic islet displays diverse patterns of endocrine cell
+  arrangement. The prototypic islet, with insulin-secreting β-cells forming
+  the core surrounded by other endocrine cells in the periphery, is largely
+  based on studies of normal rodent islets. Recent reports on large animals,
+  including humans, show a difference in islet architecture, in which the
+  endocrine cells are randomly distributed throughout the islet. This
+  particular species difference has raised concerns regarding the
+  interpretation of data based on rodent studies to humans. On the other hand,
+  further variations have been reported in marsupials and some nonhuman
+  primates, which possess an inverted ratio of β-cells to other endocrine
+  cells. This review discusses the striking plasticity of islet architecture
+  and cellular composition among various species including changes in response
+  to metabolic states within a single species. We propose that this plasticity
+  reflects evolutionary acquired adaptation induced by altered physiological
+  conditions, rather than inherent disparities between species.%
+    }
+    \field{issn}{1938-2014}
+    \field{number}{3}
+    \field{pages}{135\bibrangedash 145}
+    \field{shorttitle}{Pancreatic islet plasticity}
+    \field{title}{Pancreatic islet plasticity: {Interspecies} comparison of
+  islet architecture and composition}
+    \verb{url}
+    \verb https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2908252/
+    \endverb
+    \field{volume}{2}
+    \verb{file}
+    \verb PubMed Central Full Text PDF:/home/tk/Zotero/storage/ILD93599/Steiner
+    \verb  et al. - 2010 - Pancreatic islet plasticity Interspecies comparis.pd
+    \verb f:application/pdf
+    \endverb
+    \field{journaltitle}{Islets}
+    \field{month}{05}
+    \field{year}{2010}
+    \field{urlday}{29}
+    \field{urlmonth}{07}
+    \field{urlyear}{2020}
+  \endentry
+
+  \entry{gurkiewicz_numerical_2007}{article}{}
+    \name{author}{2}{}{%
+      {{hash=GM}{%
+         family={Gurkiewicz},
+         familyi={G\bibinitperiod},
+         given={Meron},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=KA}{%
+         family={Korngreen},
+         familyi={K\bibinitperiod},
+         given={Alon},
+         giveni={A\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{GMKA1}
+    \strng{fullhash}{GMKA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{abstract}{%
+    The activity of trans-membrane proteins such as ion channels is the essence
+  of neuronal transmission. The currently most accurate method for determining
+  ion channel kinetic mechanisms is single-channel recording and analysis. Yet,
+  the limitations and complexities in interpreting single-channel recordings
+  discourage many physiologists from using them. Here we show that a genetic
+  search algorithm in combination with a gradient descent algorithm can be used
+  to fit whole-cell voltage-clamp data to kinetic models with a high degree of
+  accuracy. Previously, ion channel stimulation traces were analyzed one at a
+  time, the results of these analyses being combined to produce a picture of
+  channel kinetics. Here the entire set of traces from all stimulation
+  protocols are analysed simultaneously. The algorithm was initially tested on
+  simulated current traces produced by several Hodgkin-Huxley–like and Markov
+  chain models of voltage-gated potassium and sodium channels. Currents were
+  also produced by simulating levels of noise expected from actual patch
+  recordings. Finally, the algorithm was used for finding the kinetic
+  parameters of several voltage-gated sodium and potassium channels models by
+  matching its results to data recorded from layer 5 pyramidal neurons of the
+  rat cortex in the nucleated outside-out patch configuration. The minimization
+  scheme gives electrophysiologists a tool for reproducing and simulating
+  voltage-gated ion channel kinetics at the cellular level.%
+    }
+    \verb{doi}
+    \verb 10.1371/journal.pcbi.0030169
+    \endverb
+    \field{issn}{1553-734X}
+    \field{number}{8}
+    \field{title}{A {Numerical} {Approach} to {Ion} {Channel} {Modelling}
+  {Using} {Whole}-{Cell} {Voltage}-{Clamp} {Recordings} and a {Genetic}
+  {Algorithm}}
+    \verb{url}
+    \verb https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1963494/
+    \endverb
+    \field{volume}{3}
+    \verb{file}
+    \verb PubMed Central Full Text PDF:/home/tk/Zotero/storage/84AT27ND/Gurkiew
+    \verb icz and Korngreen - 2007 - A Numerical Approach to Ion Channel Modell
+    \verb ing Usin.pdf:application/pdf
+    \endverb
+    \field{journaltitle}{PLoS Computational Biology}
+    \field{month}{08}
+    \field{year}{2007}
+    \field{urlday}{29}
+    \field{urlmonth}{07}
+    \field{urlyear}{2020}
+  \endentry
+\enddatalist
+\endinput

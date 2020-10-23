@@ -1,5 +1,8 @@
+<<<<<<< HEAD
+=======
 : sst inhibits G secretion by reducing cAMP, which primarily reduces exocytosis but also through
 : act. of G protein-coupled inward rect potass (GIRK) chans
+>>>>>>> fe8c19b62eba9796e280755f3128019db9728811
 NEURON{
 SUFFIX A_GIRK
 USEION GIRK WRITE iGIRK, eGIRK VALENCE 1

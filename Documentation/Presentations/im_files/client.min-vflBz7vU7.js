@@ -1,0 +1,2 @@
+define(["require","exports","tslib","modules/clean/api_v2/user_client"],(function(e,r,s,t){"use strict";Object.defineProperty(r,"__esModule",{value:!0});var i=(function(e){function r(r){var s=r.userId,t=e.call(this)||this;return t.userId=s,t}return s.__extends(r,e),r.prototype.logExposure=function(e){return this.ns("stormcrow_servicer").rpc("log_exposures",{exposures:[s.__assign({timestamp:Date.now()},e)]},{subjectUserId:this.userId})},r})(t.UserApiV2Client);r.StormcrowApiClient=i}));
+//# sourceMappingURL=client.min.js-vflaH9Gfu.map

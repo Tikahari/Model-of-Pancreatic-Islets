@@ -1,0 +1,132 @@
+Super.sh: line 1: ml: command not found
+Super.sh: line 2: ml: command not found
+Super.sh: line 3: ml: command not found
+2020-08-31 10:46:37.252288	Super.py
+wd is /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/
+NEURON mechanisms not found in /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/.r/.
+2020-08-31 10:46:37.271377	Islet.init  Load mechanisms: path /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/.r/ False
+2020-08-31 10:46:37.271394	Islet.init Normal islet setup (no compile)
+2020-08-31 10:46:37.271539	Islet.spatialConfig Enter radial setup
+2020-08-31 10:46:37.271572	Space.getCell rand = 0.72508539747103 x = 0 y = 2 z = 2 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-08-31 10:46:37.271766	Space.RadialSetup Added cell to islet: id B0
+2020-08-31 10:46:37.271790	Space.getCell rand = 0.08012114925056446 x = 1 y = 1 z = 1 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-08-31 10:46:37.271821	Space.RadialSetup Added cell to islet: id A1
+2020-08-31 10:46:37.271829	Space.getCell rand = 0.6842647361153984 x = 1 y = 1 z = 2 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-08-31 10:46:37.271855	Space.RadialSetup Added cell to islet: id B2
+2020-08-31 10:46:37.271862	Space.getCell rand = 0.12227199589810911 x = 1 y = 1 z = 3 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-08-31 10:46:37.271888	Space.RadialSetup Added cell to islet: id A3
+2020-08-31 10:46:37.271897	Space.getCell rand = 0.5693998515634253 x = 1 y = 2 z = 1 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-08-31 10:46:37.271919	Space.RadialSetup Added cell to islet: id B4
+2020-08-31 10:46:37.271925	Space.getCell rand = 0.016300277979936162 x = 1 y = 2 z = 2 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-08-31 10:46:37.271945	Space.RadialSetup Added cell to islet: id A5
+2020-08-31 10:46:37.271951	Space.getCell rand = 0.6684062972126839 x = 1 y = 2 z = 3 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-08-31 10:46:37.271978	Space.RadialSetup Added cell to islet: id B6
+2020-08-31 10:46:37.271985	Space.getCell rand = 0.39861262656330654 x = 1 y = 3 z = 1 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-08-31 10:46:37.272009	Space.RadialSetup Added cell to islet: id B7
+2020-08-31 10:46:37.272015	Space.getCell rand = 0.8807548932979317 x = 1 y = 3 z = 2 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-08-31 10:46:37.272036	Space.RadialSetup Added cell to islet: id D8
+2020-08-31 10:46:37.272042	Space.getCell rand = 0.19837777339620344 x = 1 y = 3 z = 3 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-08-31 10:46:37.272062	Space.RadialSetup Added cell to islet: id B9
+2020-08-31 10:46:37.272070	Space.getCell rand = 0.7883119261700531 x = 2 y = 0 z = 2 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-08-31 10:46:37.272090	Space.RadialSetup Added cell to islet: id D10
+2020-08-31 10:46:37.272098	Space.getCell rand = 0.08769502513934668 x = 2 y = 1 z = 1 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-08-31 10:46:37.272117	Space.RadialSetup Added cell to islet: id A11
+2020-08-31 10:46:37.272123	Space.getCell rand = 0.8919388576377253 x = 2 y = 1 z = 2 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-08-31 10:46:37.272147	Space.RadialSetup Added cell to islet: id D12
+2020-08-31 10:46:37.272153	Space.getCell rand = 0.3502403728786877 x = 2 y = 1 z = 3 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-08-31 10:46:37.272172	Space.RadialSetup Added cell to islet: id B13
+2020-08-31 10:46:37.272178	Space.getCell rand = 0.776003248253435 x = 2 y = 2 z = 0 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-08-31 10:46:37.272197	Space.RadialSetup Added cell to islet: id D14
+2020-08-31 10:46:37.272203	Space.getCell rand = 0.16114733651904167 x = 2 y = 2 z = 1 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-08-31 10:46:37.272224	Space.RadialSetup Added cell to islet: id B15
+2020-08-31 10:46:37.272231	Space.getCell rand = 0.3851571253679783 x = 2 y = 2 z = 2 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-08-31 10:46:37.272255	Space.RadialSetup Added cell to islet: id B16
+2020-08-31 10:46:37.272263	Space.getCell rand = 0.8099834280827709 x = 2 y = 2 z = 3 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-08-31 10:46:37.272283	Space.RadialSetup Added cell to islet: id D17
+2020-08-31 10:46:37.272290	Space.getCell rand = 0.6021806673125543 x = 2 y = 3 z = 1 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-08-31 10:46:37.272309	Space.RadialSetup Added cell to islet: id B18
+2020-08-31 10:46:37.272314	Space.getCell rand = 0.8249906303538274 x = 2 y = 3 z = 2 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-08-31 10:46:37.272333	Space.RadialSetup Added cell to islet: id D19
+2020-08-31 10:46:37.272339	Space.getCell rand = 0.6837893350631314 x = 2 y = 3 z = 3 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-08-31 10:46:37.272363	Space.RadialSetup Added cell to islet: id B20
+2020-08-31 10:46:37.272385	Space.getCell rand = 0.9446219562117962 x = 3 y = 1 z = 1 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-08-31 10:46:37.272411	Space.RadialSetup Added cell to islet: id D21
+2020-08-31 10:46:37.272418	Space.getCell rand = 0.7548817852484113 x = 3 y = 1 z = 2 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-08-31 10:46:37.272439	Space.RadialSetup Added cell to islet: id D22
+2020-08-31 10:46:37.272446	Space.getCell rand = 0.7068939211544744 x = 3 y = 1 z = 3 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-08-31 10:46:37.272465	Space.RadialSetup Added cell to islet: id B23
+2020-08-31 10:46:37.272473	Space.getCell rand = 0.33032037092689914 x = 3 y = 2 z = 1 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-08-31 10:46:37.272500	Space.RadialSetup Added cell to islet: id B24
+2020-08-31 10:46:37.272510	Space.getCell rand = 0.273473647977309 x = 3 y = 2 z = 2 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-08-31 10:46:37.272532	Space.RadialSetup Added cell to islet: id B25
+2020-08-31 10:46:37.272540	Space.getCell rand = 0.8802630368536316 x = 3 y = 2 z = 3 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-08-31 10:46:37.272561	Space.RadialSetup Added cell to islet: id D26
+2020-08-31 10:46:37.272568	Space.getCell rand = 0.5574484231000552 x = 3 y = 3 z = 1 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-08-31 10:46:37.272595	Space.RadialSetup Added cell to islet: id B27
+2020-08-31 10:46:37.272602	Space.getCell rand = 0.6017390143331164 x = 3 y = 3 z = 2 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-08-31 10:46:37.272628	Space.RadialSetup Added cell to islet: id B28
+2020-08-31 10:46:37.272635	Space.getCell rand = 0.8261386225685459 x = 3 y = 3 z = 3 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-08-31 10:46:37.272665	Space.RadialSetup Added cell to islet: id D29
+2020-08-31 10:46:37.272672	Space.writeDataOrientation Write orientation data: number of cells 30
+2020-08-31 10:46:37.273703	Super.setTemplates Create islet: gid 0_model_0
+2020-08-31 10:46:37.273720	Helper.readInit Read mechanisms and values initialization file
+2020-08-31 10:46:37.324114	Helper.writeValuesCell Write values for cell b_0 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_0.ini
+2020-08-31 10:46:37.325646	Helper.writeMechanismsCell Write mechanisms for cell b_0 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/b_0.ini
+2020-08-31 10:46:37.363379	Helper.writeValuesCell Write values for cell a_1 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_1.ini
+2020-08-31 10:46:37.364599	Helper.writeMechanismsCell Write mechanisms for cell a_1 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/a_1.ini
+2020-08-31 10:46:37.393208	Helper.writeValuesCell Write values for cell b_2 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_2.ini
+2020-08-31 10:46:37.394505	Helper.writeMechanismsCell Write mechanisms for cell b_2 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/b_2.ini
+2020-08-31 10:46:37.433175	Helper.writeValuesCell Write values for cell a_3 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_3.ini
+2020-08-31 10:46:37.434548	Helper.writeMechanismsCell Write mechanisms for cell a_3 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/a_3.ini
+2020-08-31 10:46:37.464820	Helper.writeValuesCell Write values for cell b_4 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_4.ini
+2020-08-31 10:46:37.466082	Helper.writeMechanismsCell Write mechanisms for cell b_4 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/b_4.ini
+2020-08-31 10:46:37.505001	Helper.writeValuesCell Write values for cell a_5 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_5.ini
+2020-08-31 10:46:37.506209	Helper.writeMechanismsCell Write mechanisms for cell a_5 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/a_5.ini
+2020-08-31 10:46:37.536475	Helper.writeValuesCell Write values for cell b_6 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_6.ini
+2020-08-31 10:46:37.537856	Helper.writeMechanismsCell Write mechanisms for cell b_6 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/b_6.ini
+2020-08-31 10:46:37.568606	Helper.writeValuesCell Write values for cell b_7 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_7.ini
+2020-08-31 10:46:37.570036	Helper.writeMechanismsCell Write mechanisms for cell b_7 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/b_7.ini
+2020-08-31 10:46:37.616072	Helper.writeValuesCell Write values for cell d_8 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_8.ini
+2020-08-31 10:46:37.617271	Helper.writeMechanismsCell Write mechanisms for cell d_8 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/d_8.ini
+2020-08-31 10:46:37.647059	Helper.writeValuesCell Write values for cell b_9 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_9.ini
+2020-08-31 10:46:37.648343	Helper.writeMechanismsCell Write mechanisms for cell b_9 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/b_9.ini
+2020-08-31 10:46:37.685235	Helper.writeValuesCell Write values for cell d_10 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_10.ini
+2020-08-31 10:46:37.686432	Helper.writeMechanismsCell Write mechanisms for cell d_10 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/d_10.ini
+2020-08-31 10:46:37.725727	Helper.writeValuesCell Write values for cell a_11 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_11.ini
+2020-08-31 10:46:37.727059	Helper.writeMechanismsCell Write mechanisms for cell a_11 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/a_11.ini
+2020-08-31 10:46:37.764069	Helper.writeValuesCell Write values for cell d_12 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_12.ini
+2020-08-31 10:46:37.765285	Helper.writeMechanismsCell Write mechanisms for cell d_12 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/d_12.ini
+2020-08-31 10:46:37.794452	Helper.writeValuesCell Write values for cell b_13 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_13.ini
+2020-08-31 10:46:37.795663	Helper.writeMechanismsCell Write mechanisms for cell b_13 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/b_13.ini
+2020-08-31 10:46:37.834799	Helper.writeValuesCell Write values for cell d_14 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_14.ini
+2020-08-31 10:46:37.835975	Helper.writeMechanismsCell Write mechanisms for cell d_14 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/d_14.ini
+2020-08-31 10:46:37.866466	Helper.writeValuesCell Write values for cell b_15 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_15.ini
+2020-08-31 10:46:37.867875	Helper.writeMechanismsCell Write mechanisms for cell b_15 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/b_15.ini
+2020-08-31 10:46:37.897730	Helper.writeValuesCell Write values for cell b_16 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_16.ini
+2020-08-31 10:46:37.898957	Helper.writeMechanismsCell Write mechanisms for cell b_16 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/b_16.ini
+2020-08-31 10:46:37.936796	Helper.writeValuesCell Write values for cell d_17 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_17.ini
+2020-08-31 10:46:37.938029	Helper.writeMechanismsCell Write mechanisms for cell d_17 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/d_17.ini
+2020-08-31 10:46:37.967290	Helper.writeValuesCell Write values for cell b_18 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_18.ini
+2020-08-31 10:46:37.968615	Helper.writeMechanismsCell Write mechanisms for cell b_18 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/b_18.ini
+2020-08-31 10:46:38.006493	Helper.writeValuesCell Write values for cell d_19 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_19.ini
+2020-08-31 10:46:38.007698	Helper.writeMechanismsCell Write mechanisms for cell d_19 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/d_19.ini
+2020-08-31 10:46:38.038142	Helper.writeValuesCell Write values for cell b_20 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_20.ini
+2020-08-31 10:46:38.039306	Helper.writeMechanismsCell Write mechanisms for cell b_20 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/b_20.ini
+2020-08-31 10:46:38.078064	Helper.writeValuesCell Write values for cell d_21 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_21.ini
+2020-08-31 10:46:38.087124	Helper.writeMechanismsCell Write mechanisms for cell d_21 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/d_21.ini
+2020-08-31 10:46:38.131778	Helper.writeValuesCell Write values for cell d_22 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_22.ini
+2020-08-31 10:46:38.132946	Helper.writeMechanismsCell Write mechanisms for cell d_22 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/d_22.ini
+2020-08-31 10:46:38.162226	Helper.writeValuesCell Write values for cell b_23 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_23.ini
+2020-08-31 10:46:38.163500	Helper.writeMechanismsCell Write mechanisms for cell b_23 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/b_23.ini
+2020-08-31 10:46:38.193466	Helper.writeValuesCell Write values for cell b_24 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_24.ini
+2020-08-31 10:46:38.194643	Helper.writeMechanismsCell Write mechanisms for cell b_24 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/b_24.ini
+2020-08-31 10:46:38.229720	Helper.writeValuesCell Write values for cell b_25 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_25.ini
+2020-08-31 10:46:38.231800	Helper.writeMechanismsCell Write mechanisms for cell b_25 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/b_25.ini
+2020-08-31 10:46:38.272794	Helper.writeValuesCell Write values for cell d_26 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_26.ini
+2020-08-31 10:46:38.274040	Helper.writeMechanismsCell Write mechanisms for cell d_26 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/d_26.ini
+2020-08-31 10:46:38.305243	Helper.writeValuesCell Write values for cell b_27 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_27.ini
+2020-08-31 10:46:38.306512	Helper.writeMechanismsCell Write mechanisms for cell b_27 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/b_27.ini
+2020-08-31 10:46:38.337438	Helper.writeValuesCell Write values for cell b_28 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_28.ini
+2020-08-31 10:46:38.338743	Helper.writeMechanismsCell Write mechanisms for cell b_28 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/b_28.ini
+2020-08-31 10:46:38.375696	Helper.writeValuesCell Write values for cell d_29 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_29.ini
+2020-08-31 10:46:38.376868	Helper.writeMechanismsCell Write mechanisms for cell d_29 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/d_29.ini

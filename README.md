@@ -25,5 +25,7 @@ It can be run through either<br/>
 or<br/>
 `sbatch GA.sbatch`<br/>
 If run through a submission script: intended runtime and path to log files need be configured from within `GA.sbatch`. In either case, `GeneticAlgorithm.py` and the env variable in `Islet.py` need to be updated to reflect the desired simulation parameters and the correct environment.
+### Paper
+https://ufdc.ufl.edu/AA00078930
 ### Contact
 Email: tikaharik@gmail.com, robert727@ufl.edu

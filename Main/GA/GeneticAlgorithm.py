@@ -14,7 +14,7 @@ import Islet
 from Helper import *
 
 # run number
-run = 0
+run = 2
 # number of unique spatial configurations
 spatial_configurations = 3
 # islets per generation
@@ -35,9 +35,8 @@ breeding = 40
 random_selection = 20
 # mutation rate
 mutation_rate = 0.05
-# default probability of cell (60% chance of b-cell, 30% of a-cell, 10% of d-cell)
+# default probability of each cell type [P(A), P(A) + P(B)]
 probabilities = [0.15, 0.75]
-
 # spin lock interval (minutes)
 spin_lock_interval = 10
 
@@ -51,6 +50,7 @@ class GA:
         self.parentGen()
         self.run()
     def setDatabase(self):
+        """Create and initialize the tables that will be updated by model instances"""
         print(str(datetime.datetime.now()) + '\tGeneticAlgorithm.setDatabase Create and write to database')
         # run id will allow for multiple instances of the genetic algorithm to be run simultaneously (different configuration folders for the same islets of different runs)
         Islet.env['rid'] = str(run)
@@ -136,7 +136,7 @@ class GA:
             c += 1
     def dispatch(self):
         """Write and dispatch batch file that will run model instance"""
-        template = open('Model.sbatch', 'r+')
+        template = open('Model.sbatch', 'r')
         dispatch = open('Model_temp.sbatch', 'w')
         lines = template.readlines()
         # replace tokens accordingly

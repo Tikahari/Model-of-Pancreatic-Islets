@@ -1,0 +1,750 @@
+2020-09-21 15:11:12.798557	Super.py
+wd is /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/
+NEURON mechanisms not found in /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/.r/.
+2020-09-21 15:11:12.816484	Islet.init  Load mechanisms: path /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/.r/ False
+2020-09-21 15:11:12.816506	Islet.init Normal islet setup (no compile)
+2020-09-21 15:11:12.816671	Islet.spatialConfig Enter radial setup
+2020-09-21 15:11:12.816713	Space.getCell rand = 0.7814686854219569 x = 0 y = 2 z = 2 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-09-21 15:11:12.816917	Space.RadialSetup Added cell to islet: id D0
+2020-09-21 15:11:12.816945	Space.getCell rand = 0.18682795062027424 x = 1 y = 1 z = 1 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-09-21 15:11:12.816986	Space.RadialSetup Added cell to islet: id B1
+2020-09-21 15:11:12.816996	Space.getCell rand = 0.08231723026890558 x = 1 y = 1 z = 2 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-09-21 15:11:12.817024	Space.RadialSetup Added cell to islet: id A2
+2020-09-21 15:11:12.817032	Space.getCell rand = 0.059505156734143694 x = 1 y = 1 z = 3 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-09-21 15:11:12.817060	Space.RadialSetup Added cell to islet: id A3
+2020-09-21 15:11:12.817069	Space.getCell rand = 0.6201564763404224 x = 1 y = 2 z = 1 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-09-21 15:11:12.817116	Space.RadialSetup Added cell to islet: id B4
+2020-09-21 15:11:12.817125	Space.getCell rand = 0.12439226341941367 x = 1 y = 2 z = 2 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-09-21 15:11:12.817152	Space.RadialSetup Added cell to islet: id A5
+2020-09-21 15:11:12.817160	Space.getCell rand = 0.05633637279960646 x = 1 y = 2 z = 3 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-09-21 15:11:12.817183	Space.RadialSetup Added cell to islet: id A6
+2020-09-21 15:11:12.817191	Space.getCell rand = 0.5588357825781624 x = 1 y = 3 z = 1 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-09-21 15:11:12.817214	Space.RadialSetup Added cell to islet: id B7
+2020-09-21 15:11:12.817225	Space.getCell rand = 0.5924757044878972 x = 1 y = 3 z = 2 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-09-21 15:11:12.817250	Space.RadialSetup Added cell to islet: id B8
+2020-09-21 15:11:12.817261	Space.getCell rand = 0.6282924500916414 x = 1 y = 3 z = 3 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-09-21 15:11:12.817286	Space.RadialSetup Added cell to islet: id B9
+2020-09-21 15:11:12.817296	Space.getCell rand = 0.32519583255507145 x = 2 y = 0 z = 2 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-09-21 15:11:12.817321	Space.RadialSetup Added cell to islet: id B10
+2020-09-21 15:11:12.817331	Space.getCell rand = 0.7864509532419991 x = 2 y = 1 z = 1 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-09-21 15:11:12.817358	Space.RadialSetup Added cell to islet: id D11
+2020-09-21 15:11:12.817366	Space.getCell rand = 0.5220940161735356 x = 2 y = 1 z = 2 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-09-21 15:11:12.817396	Space.RadialSetup Added cell to islet: id B12
+2020-09-21 15:11:12.817404	Space.getCell rand = 0.10008828405934367 x = 2 y = 1 z = 3 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-09-21 15:11:12.817427	Space.RadialSetup Added cell to islet: id A13
+2020-09-21 15:11:12.817435	Space.getCell rand = 0.8720792832766597 x = 2 y = 2 z = 0 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-09-21 15:11:12.817458	Space.RadialSetup Added cell to islet: id D14
+2020-09-21 15:11:12.817465	Space.getCell rand = 0.26729814792733675 x = 2 y = 2 z = 1 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-09-21 15:11:12.817489	Space.RadialSetup Added cell to islet: id B15
+2020-09-21 15:11:12.817496	Space.getCell rand = 0.2792082697339848 x = 2 y = 2 z = 2 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-09-21 15:11:12.817524	Space.RadialSetup Added cell to islet: id B16
+2020-09-21 15:11:12.817534	Space.getCell rand = 0.9772604157894619 x = 2 y = 2 z = 3 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-09-21 15:11:12.817558	Space.RadialSetup Added cell to islet: id D17
+2020-09-21 15:11:12.817566	Space.getCell rand = 0.1578999245614333 x = 2 y = 3 z = 1 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-09-21 15:11:12.817589	Space.RadialSetup Added cell to islet: id B18
+2020-09-21 15:11:12.817597	Space.getCell rand = 0.8980400103453602 x = 2 y = 3 z = 2 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-09-21 15:11:12.817630	Space.RadialSetup Added cell to islet: id D19
+2020-09-21 15:11:12.817637	Space.getCell rand = 0.18690849786878072 x = 2 y = 3 z = 3 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-09-21 15:11:12.817877	Space.RadialSetup Added cell to islet: id B20
+2020-09-21 15:11:12.817892	Space.getCell rand = 0.5878408273306559 x = 3 y = 1 z = 1 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-09-21 15:11:12.817920	Space.RadialSetup Added cell to islet: id B21
+2020-09-21 15:11:12.817928	Space.getCell rand = 0.5254615292133086 x = 3 y = 1 z = 2 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-09-21 15:11:12.817951	Space.RadialSetup Added cell to islet: id B22
+2020-09-21 15:11:12.817958	Space.getCell rand = 0.2217126291392194 x = 3 y = 1 z = 3 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-09-21 15:11:12.817986	Space.RadialSetup Added cell to islet: id B23
+2020-09-21 15:11:12.817995	Space.getCell rand = 0.9647474611784392 x = 3 y = 2 z = 1 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-09-21 15:11:12.818018	Space.RadialSetup Added cell to islet: id D24
+2020-09-21 15:11:12.818029	Space.getCell rand = 0.8147556415890148 x = 3 y = 2 z = 2 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-09-21 15:11:12.818053	Space.RadialSetup Added cell to islet: id D25
+2020-09-21 15:11:12.818064	Space.getCell rand = 0.26233432511783505 x = 3 y = 2 z = 3 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-09-21 15:11:12.818101	Space.RadialSetup Added cell to islet: id B26
+2020-09-21 15:11:12.818124	Space.getCell rand = 0.5673189436767254 x = 3 y = 3 z = 1 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-09-21 15:11:12.818151	Space.RadialSetup Added cell to islet: id B27
+2020-09-21 15:11:12.818159	Space.getCell rand = 0.6389923875386909 x = 3 y = 3 z = 2 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-09-21 15:11:12.818182	Space.RadialSetup Added cell to islet: id B28
+2020-09-21 15:11:12.818189	Space.getCell rand = 0.5204672176086481 x = 3 y = 3 z = 3 Probability of alpha/beta at this x/y/z position [0.15, 0.75]
+2020-09-21 15:11:12.818216	Space.RadialSetup Added cell to islet: id B29
+2020-09-21 15:11:12.818224	Space.writeDataOrientation Write orientation data: number of cells 30
+2020-09-21 15:11:12.819306	Super.setTemplates Create islet: gid 0_model_0
+2020-09-21 15:11:12.819328	Helper.readInit Read mechanisms and values initialization file
+2020-09-21 15:11:12.882620	Helper.writeValuesCell Write values for cell d_0 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_0.ini
+2020-09-21 15:11:12.883766	Helper.writeMechanismsCell Write mechanisms for cell d_0 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/d_0.ini
+2020-09-21 15:11:12.913638	Helper.writeValuesCell Write values for cell b_1 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_1.ini
+2020-09-21 15:11:12.914813	Helper.writeMechanismsCell Write mechanisms for cell b_1 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/b_1.ini
+2020-09-21 15:11:12.954073	Helper.writeValuesCell Write values for cell a_2 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_2.ini
+2020-09-21 15:11:12.955282	Helper.writeMechanismsCell Write mechanisms for cell a_2 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/a_2.ini
+2020-09-21 15:11:12.995137	Helper.writeValuesCell Write values for cell a_3 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_3.ini
+2020-09-21 15:11:12.996373	Helper.writeMechanismsCell Write mechanisms for cell a_3 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/a_3.ini
+2020-09-21 15:11:13.026641	Helper.writeValuesCell Write values for cell b_4 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_4.ini
+2020-09-21 15:11:13.027935	Helper.writeMechanismsCell Write mechanisms for cell b_4 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/b_4.ini
+2020-09-21 15:11:13.068357	Helper.writeValuesCell Write values for cell a_5 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_5.ini
+2020-09-21 15:11:13.069549	Helper.writeMechanismsCell Write mechanisms for cell a_5 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/a_5.ini
+2020-09-21 15:11:13.109408	Helper.writeValuesCell Write values for cell a_6 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_6.ini
+2020-09-21 15:11:13.110526	Helper.writeMechanismsCell Write mechanisms for cell a_6 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/a_6.ini
+2020-09-21 15:11:13.140609	Helper.writeValuesCell Write values for cell b_7 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_7.ini
+2020-09-21 15:11:13.141732	Helper.writeMechanismsCell Write mechanisms for cell b_7 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/b_7.ini
+2020-09-21 15:11:13.172228	Helper.writeValuesCell Write values for cell b_8 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_8.ini
+2020-09-21 15:11:13.173358	Helper.writeMechanismsCell Write mechanisms for cell b_8 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/b_8.ini
+2020-09-21 15:11:13.204035	Helper.writeValuesCell Write values for cell b_9 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_9.ini
+2020-09-21 15:11:13.205189	Helper.writeMechanismsCell Write mechanisms for cell b_9 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/b_9.ini
+2020-09-21 15:11:13.234861	Helper.writeValuesCell Write values for cell b_10 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_10.ini
+2020-09-21 15:11:13.235999	Helper.writeMechanismsCell Write mechanisms for cell b_10 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/b_10.ini
+2020-09-21 15:11:13.273840	Helper.writeValuesCell Write values for cell d_11 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_11.ini
+2020-09-21 15:11:13.274973	Helper.writeMechanismsCell Write mechanisms for cell d_11 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/d_11.ini
+2020-09-21 15:11:13.305285	Helper.writeValuesCell Write values for cell b_12 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_12.ini
+2020-09-21 15:11:13.306550	Helper.writeMechanismsCell Write mechanisms for cell b_12 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/b_12.ini
+2020-09-21 15:11:13.344786	Helper.writeValuesCell Write values for cell a_13 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_13.ini
+2020-09-21 15:11:13.345982	Helper.writeMechanismsCell Write mechanisms for cell a_13 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/a_13.ini
+2020-09-21 15:11:13.383107	Helper.writeValuesCell Write values for cell d_14 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_14.ini
+2020-09-21 15:11:13.384266	Helper.writeMechanismsCell Write mechanisms for cell d_14 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/d_14.ini
+2020-09-21 15:11:13.413933	Helper.writeValuesCell Write values for cell b_15 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_15.ini
+2020-09-21 15:11:13.415120	Helper.writeMechanismsCell Write mechanisms for cell b_15 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/b_15.ini
+2020-09-21 15:11:13.445026	Helper.writeValuesCell Write values for cell b_16 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_16.ini
+2020-09-21 15:11:13.446212	Helper.writeMechanismsCell Write mechanisms for cell b_16 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/b_16.ini
+2020-09-21 15:11:13.483368	Helper.writeValuesCell Write values for cell d_17 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_17.ini
+2020-09-21 15:11:13.484602	Helper.writeMechanismsCell Write mechanisms for cell d_17 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/d_17.ini
+2020-09-21 15:11:13.514002	Helper.writeValuesCell Write values for cell b_18 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_18.ini
+2020-09-21 15:11:13.515322	Helper.writeMechanismsCell Write mechanisms for cell b_18 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/b_18.ini
+2020-09-21 15:11:13.552648	Helper.writeValuesCell Write values for cell d_19 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_19.ini
+2020-09-21 15:11:13.553776	Helper.writeMechanismsCell Write mechanisms for cell d_19 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/d_19.ini
+2020-09-21 15:11:13.583962	Helper.writeValuesCell Write values for cell b_20 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_20.ini
+2020-09-21 15:11:13.585158	Helper.writeMechanismsCell Write mechanisms for cell b_20 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/b_20.ini
+2020-09-21 15:11:13.616076	Helper.writeValuesCell Write values for cell b_21 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_21.ini
+2020-09-21 15:11:13.617478	Helper.writeMechanismsCell Write mechanisms for cell b_21 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/b_21.ini
+2020-09-21 15:11:13.647718	Helper.writeValuesCell Write values for cell b_22 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_22.ini
+2020-09-21 15:11:13.648866	Helper.writeMechanismsCell Write mechanisms for cell b_22 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/b_22.ini
+2020-09-21 15:11:13.678797	Helper.writeValuesCell Write values for cell b_23 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_23.ini
+2020-09-21 15:11:13.680079	Helper.writeMechanismsCell Write mechanisms for cell b_23 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/b_23.ini
+2020-09-21 15:11:13.717098	Helper.writeValuesCell Write values for cell d_24 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_24.ini
+2020-09-21 15:11:13.718261	Helper.writeMechanismsCell Write mechanisms for cell d_24 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/d_24.ini
+2020-09-21 15:11:13.756000	Helper.writeValuesCell Write values for cell d_25 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_25.ini
+2020-09-21 15:11:13.757129	Helper.writeMechanismsCell Write mechanisms for cell d_25 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/d_25.ini
+2020-09-21 15:11:13.787026	Helper.writeValuesCell Write values for cell b_26 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_26.ini
+2020-09-21 15:11:13.788208	Helper.writeMechanismsCell Write mechanisms for cell b_26 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/b_26.ini
+2020-09-21 15:11:13.818884	Helper.writeValuesCell Write values for cell b_27 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_27.ini
+2020-09-21 15:11:13.819996	Helper.writeMechanismsCell Write mechanisms for cell b_27 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/b_27.ini
+2020-09-21 15:11:13.851191	Helper.writeValuesCell Write values for cell b_28 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_28.ini
+2020-09-21 15:11:13.852525	Helper.writeMechanismsCell Write mechanisms for cell b_28 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/b_28.ini
+2020-09-21 15:11:13.883173	Helper.writeValuesCell Write values for cell b_29 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_29.ini
+2020-09-21 15:11:13.884565	Helper.writeMechanismsCell Write mechanisms for cell b_29 file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Mechanisms/Islet_0_model_0/b_29.ini
+2020-09-21 15:11:14.499931	Compile.py Compile mod files in: wd /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/
+wd is /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/
+2020-09-21 15:11:14.509907	Islet.init Compile mod files: wd /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/
+2020-09-21 15:11:14.510002	Space.configSetup Create islet instance: id 0_model_0 wd /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/
+2020-09-21 15:11:14.510009	Space.rxd Set up reaction diffusion
+path /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_1.ini
+2020-09-21 15:11:14.565168	Space.configSetup Set up cell from configuration file: configuration file b_1 cell type Beta id 1 position [1, 1, 1] wd /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/b_1/
+2020-09-21 15:11:14.565339	Cells.readData Reading from configuration: configuration file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration//Mechanisms/Islet_0_model_0/b_1.ini
+2020-09-21 15:11:14.565908	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Ca1 cell type B Beta
+2020-09-21 15:11:14.565935	Cells.readData Write mod file: cell B1
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_1.ini
+2020-09-21 15:11:14.575830	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism GIRK1 cell type B Beta
+2020-09-21 15:11:14.576007	Cells.readData Write mod file: cell B1
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_1.ini
+2020-09-21 15:11:14.584926	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism K1 cell type B Beta
+2020-09-21 15:11:14.585010	Cells.readData Write mod file: cell B1
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_1.ini
+pointers {'GIRK1': ['Sst_B_Insulin1']}
+path /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_24.ini
+2020-09-21 15:11:14.594836	Space.configSetup Set up cell from configuration file: configuration file d_24 cell type Delta id 24 position [3, 2, 1] wd /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/d_24/
+2020-09-21 15:11:14.594937	Cells.readData Reading from configuration: configuration file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration//Mechanisms/Islet_0_model_0/d_24.ini
+2020-09-21 15:11:14.595441	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism CaL24 cell type D Delta
+2020-09-21 15:11:14.595463	Cells.readData Write mod file: cell D24
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_24.ini
+2020-09-21 15:11:14.603441	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism CaPQ24 cell type D Delta
+2020-09-21 15:11:14.603521	Cells.readData Write mod file: cell D24
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_24.ini
+2020-09-21 15:11:14.611709	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Na24 cell type D Delta
+2020-09-21 15:11:14.611788	Cells.readData Write mod file: cell D24
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_24.ini
+2020-09-21 15:11:14.620081	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism K24 cell type D Delta
+2020-09-21 15:11:14.620170	Cells.readData Write mod file: cell D24
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_24.ini
+2020-09-21 15:11:14.628554	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Kdr24 cell type D Delta
+2020-09-21 15:11:14.628634	Cells.readData Write mod file: cell D24
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_24.ini
+2020-09-21 15:11:14.636915	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism KATP24 cell type D Delta
+2020-09-21 15:11:14.636994	Cells.readData Write mod file: cell D24
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_24.ini
+2020-09-21 15:11:14.645329	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism L24 cell type D Delta
+2020-09-21 15:11:14.645410	Cells.readData Write mod file: cell D24
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_24.ini
+2020-09-21 15:11:14.653610	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism GABA24 cell type D Delta
+2020-09-21 15:11:14.653780	Cells.readData Write mod file: cell D24
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_24.ini
+pointers {'GABA24': ['I_D_Sst24']}
+path /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_27.ini
+2020-09-21 15:11:14.663293	Space.configSetup Set up cell from configuration file: configuration file b_27 cell type Beta id 27 position [3, 3, 1] wd /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/b_27/
+2020-09-21 15:11:14.663390	Cells.readData Reading from configuration: configuration file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration//Mechanisms/Islet_0_model_0/b_27.ini
+2020-09-21 15:11:14.663900	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Ca27 cell type B Beta
+2020-09-21 15:11:14.663921	Cells.readData Write mod file: cell B27
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_27.ini
+2020-09-21 15:11:14.671967	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism GIRK27 cell type B Beta
+2020-09-21 15:11:14.672138	Cells.readData Write mod file: cell B27
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_27.ini
+2020-09-21 15:11:14.681308	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism K27 cell type B Beta
+2020-09-21 15:11:14.681392	Cells.readData Write mod file: cell B27
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_27.ini
+pointers {'GIRK27': ['Sst_B_Insulin27']}
+path /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_15.ini
+2020-09-21 15:11:14.691762	Space.configSetup Set up cell from configuration file: configuration file b_15 cell type Beta id 15 position [2, 2, 1] wd /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/b_15/
+2020-09-21 15:11:14.691850	Cells.readData Reading from configuration: configuration file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration//Mechanisms/Islet_0_model_0/b_15.ini
+2020-09-21 15:11:14.692319	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Ca15 cell type B Beta
+2020-09-21 15:11:14.692341	Cells.readData Write mod file: cell B15
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_15.ini
+2020-09-21 15:11:14.700629	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism GIRK15 cell type B Beta
+2020-09-21 15:11:14.700796	Cells.readData Write mod file: cell B15
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_15.ini
+2020-09-21 15:11:14.709568	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism K15 cell type B Beta
+2020-09-21 15:11:14.709651	Cells.readData Write mod file: cell B15
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_15.ini
+pointers {'GIRK15': ['Sst_B_Insulin15']}
+path /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_18.ini
+2020-09-21 15:11:14.719902	Space.configSetup Set up cell from configuration file: configuration file b_18 cell type Beta id 18 position [2, 3, 1] wd /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/b_18/
+2020-09-21 15:11:14.720037	Cells.readData Reading from configuration: configuration file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration//Mechanisms/Islet_0_model_0/b_18.ini
+2020-09-21 15:11:14.720535	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Ca18 cell type B Beta
+2020-09-21 15:11:14.720558	Cells.readData Write mod file: cell B18
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_18.ini
+2020-09-21 15:11:14.728952	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism GIRK18 cell type B Beta
+2020-09-21 15:11:14.729137	Cells.readData Write mod file: cell B18
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_18.ini
+2020-09-21 15:11:14.737627	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism K18 cell type B Beta
+2020-09-21 15:11:14.737713	Cells.readData Write mod file: cell B18
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_18.ini
+pointers {'GIRK18': ['Sst_B_Insulin18']}
+path /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_7.ini
+2020-09-21 15:11:14.747842	Space.configSetup Set up cell from configuration file: configuration file b_7 cell type Beta id 7 position [1, 3, 1] wd /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/b_7/
+2020-09-21 15:11:14.747969	Cells.readData Reading from configuration: configuration file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration//Mechanisms/Islet_0_model_0/b_7.ini
+2020-09-21 15:11:14.748744	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Ca7 cell type B Beta
+2020-09-21 15:11:14.748763	Cells.readData Write mod file: cell B7
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_7.ini
+2020-09-21 15:11:14.756961	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism GIRK7 cell type B Beta
+2020-09-21 15:11:14.757157	Cells.readData Write mod file: cell B7
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_7.ini
+2020-09-21 15:11:14.766639	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism K7 cell type B Beta
+2020-09-21 15:11:14.766723	Cells.readData Write mod file: cell B7
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_7.ini
+pointers {'GIRK7': ['Sst_B_Insulin7']}
+path /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_13.ini
+2020-09-21 15:11:14.777327	Space.configSetup Set up cell from configuration file: configuration file a_13 cell type Alpha id 13 position [2, 1, 3] wd /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/a_13/
+2020-09-21 15:11:14.777444	Cells.readData Reading from configuration: configuration file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration//Mechanisms/Islet_0_model_0/a_13.ini
+2020-09-21 15:11:14.777967	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism CaL13 cell type A Alpha
+2020-09-21 15:11:14.777999	Cells.readData Write mod file: cell A13
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_13.ini
+2020-09-21 15:11:14.786628	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism CaPQ13 cell type A Alpha
+2020-09-21 15:11:14.786714	Cells.readData Write mod file: cell A13
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_13.ini
+2020-09-21 15:11:14.795153	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism CaT13 cell type A Alpha
+2020-09-21 15:11:14.795237	Cells.readData Write mod file: cell A13
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_13.ini
+2020-09-21 15:11:14.803587	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism GIRK13 cell type A Alpha
+2020-09-21 15:11:14.803760	Cells.readData Write mod file: cell A13
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_13.ini
+2020-09-21 15:11:14.812009	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism K13 cell type A Alpha
+2020-09-21 15:11:14.812108	Cells.readData Write mod file: cell A13
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_13.ini
+2020-09-21 15:11:14.834541	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism KATP13 cell type A Alpha
+2020-09-21 15:11:14.834786	Cells.readData Write mod file: cell A13
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_13.ini
+2020-09-21 15:11:14.844720	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Kdr13 cell type A Alpha
+2020-09-21 15:11:14.844835	Cells.readData Write mod file: cell A13
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_13.ini
+2020-09-21 15:11:14.855023	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism L13 cell type A Alpha
+2020-09-21 15:11:14.855140	Cells.readData Write mod file: cell A13
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_13.ini
+2020-09-21 15:11:14.864484	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Na13 cell type A Alpha
+2020-09-21 15:11:14.864586	Cells.readData Write mod file: cell A13
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_13.ini
+pointers {'GIRK13': ['Sst_A_Glucagon13'], 'KATP13': ['I_A_Glucagon13']}
+path /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_9.ini
+2020-09-21 15:11:14.875089	Space.configSetup Set up cell from configuration file: configuration file b_9 cell type Beta id 9 position [1, 3, 3] wd /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/b_9/
+2020-09-21 15:11:14.875270	Cells.readData Reading from configuration: configuration file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration//Mechanisms/Islet_0_model_0/b_9.ini
+2020-09-21 15:11:14.875769	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Ca9 cell type B Beta
+2020-09-21 15:11:14.875804	Cells.readData Write mod file: cell B9
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_9.ini
+2020-09-21 15:11:14.885121	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism GIRK9 cell type B Beta
+2020-09-21 15:11:14.885309	Cells.readData Write mod file: cell B9
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_9.ini
+2020-09-21 15:11:14.894014	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism K9 cell type B Beta
+2020-09-21 15:11:14.894105	Cells.readData Write mod file: cell B9
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_9.ini
+pointers {'GIRK9': ['Sst_B_Insulin9']}
+path /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_0.ini
+2020-09-21 15:11:14.903788	Space.configSetup Set up cell from configuration file: configuration file d_0 cell type Delta id 0 position [0, 2, 2] wd /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/d_0/
+2020-09-21 15:11:14.903919	Cells.readData Reading from configuration: configuration file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration//Mechanisms/Islet_0_model_0/d_0.ini
+2020-09-21 15:11:14.904436	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism CaL0 cell type D Delta
+2020-09-21 15:11:14.904511	Cells.readData Write mod file: cell D0
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_0.ini
+2020-09-21 15:11:14.913415	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism CaPQ0 cell type D Delta
+2020-09-21 15:11:14.913500	Cells.readData Write mod file: cell D0
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_0.ini
+2020-09-21 15:11:14.922551	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Na0 cell type D Delta
+2020-09-21 15:11:14.922632	Cells.readData Write mod file: cell D0
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_0.ini
+2020-09-21 15:11:14.931401	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism K0 cell type D Delta
+2020-09-21 15:11:14.931489	Cells.readData Write mod file: cell D0
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_0.ini
+2020-09-21 15:11:14.940201	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Kdr0 cell type D Delta
+2020-09-21 15:11:14.940283	Cells.readData Write mod file: cell D0
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_0.ini
+2020-09-21 15:11:14.948766	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism KATP0 cell type D Delta
+2020-09-21 15:11:14.948852	Cells.readData Write mod file: cell D0
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_0.ini
+2020-09-21 15:11:14.957451	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism L0 cell type D Delta
+2020-09-21 15:11:14.957534	Cells.readData Write mod file: cell D0
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_0.ini
+2020-09-21 15:11:14.965761	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism GABA0 cell type D Delta
+2020-09-21 15:11:14.965934	Cells.readData Write mod file: cell D0
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_0.ini
+pointers {'GABA0': ['I_D_Sst0']}
+path /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_25.ini
+2020-09-21 15:11:14.976200	Space.configSetup Set up cell from configuration file: configuration file d_25 cell type Delta id 25 position [3, 2, 2] wd /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/d_25/
+2020-09-21 15:11:14.976317	Cells.readData Reading from configuration: configuration file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration//Mechanisms/Islet_0_model_0/d_25.ini
+2020-09-21 15:11:14.976849	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism CaL25 cell type D Delta
+2020-09-21 15:11:14.976871	Cells.readData Write mod file: cell D25
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_25.ini
+2020-09-21 15:11:14.985431	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism CaPQ25 cell type D Delta
+2020-09-21 15:11:14.985517	Cells.readData Write mod file: cell D25
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_25.ini
+2020-09-21 15:11:14.994167	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Na25 cell type D Delta
+2020-09-21 15:11:14.994252	Cells.readData Write mod file: cell D25
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_25.ini
+2020-09-21 15:11:15.003539	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism K25 cell type D Delta
+2020-09-21 15:11:15.003626	Cells.readData Write mod file: cell D25
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_25.ini
+2020-09-21 15:11:15.012264	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Kdr25 cell type D Delta
+2020-09-21 15:11:15.012348	Cells.readData Write mod file: cell D25
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_25.ini
+2020-09-21 15:11:15.020698	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism KATP25 cell type D Delta
+2020-09-21 15:11:15.020780	Cells.readData Write mod file: cell D25
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_25.ini
+2020-09-21 15:11:15.030085	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism L25 cell type D Delta
+2020-09-21 15:11:15.030192	Cells.readData Write mod file: cell D25
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_25.ini
+2020-09-21 15:11:15.038517	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism GABA25 cell type D Delta
+2020-09-21 15:11:15.038691	Cells.readData Write mod file: cell D25
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_25.ini
+pointers {'GABA25': ['I_D_Sst25']}
+path /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_6.ini
+2020-09-21 15:11:15.048679	Space.configSetup Set up cell from configuration file: configuration file a_6 cell type Alpha id 6 position [1, 2, 3] wd /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/a_6/
+2020-09-21 15:11:15.048784	Cells.readData Reading from configuration: configuration file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration//Mechanisms/Islet_0_model_0/a_6.ini
+2020-09-21 15:11:15.049318	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism CaL6 cell type A Alpha
+2020-09-21 15:11:15.049340	Cells.readData Write mod file: cell A6
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_6.ini
+2020-09-21 15:11:15.057860	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism CaPQ6 cell type A Alpha
+2020-09-21 15:11:15.057943	Cells.readData Write mod file: cell A6
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_6.ini
+2020-09-21 15:11:15.066229	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism CaT6 cell type A Alpha
+2020-09-21 15:11:15.066313	Cells.readData Write mod file: cell A6
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_6.ini
+2020-09-21 15:11:15.074788	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism GIRK6 cell type A Alpha
+2020-09-21 15:11:15.074973	Cells.readData Write mod file: cell A6
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_6.ini
+2020-09-21 15:11:15.083509	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism K6 cell type A Alpha
+2020-09-21 15:11:15.083587	Cells.readData Write mod file: cell A6
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_6.ini
+2020-09-21 15:11:15.093251	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism KATP6 cell type A Alpha
+2020-09-21 15:11:15.093435	Cells.readData Write mod file: cell A6
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_6.ini
+2020-09-21 15:11:15.101832	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Kdr6 cell type A Alpha
+2020-09-21 15:11:15.101923	Cells.readData Write mod file: cell A6
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_6.ini
+2020-09-21 15:11:15.110460	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism L6 cell type A Alpha
+2020-09-21 15:11:15.110543	Cells.readData Write mod file: cell A6
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_6.ini
+2020-09-21 15:11:15.118812	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Na6 cell type A Alpha
+2020-09-21 15:11:15.118898	Cells.readData Write mod file: cell A6
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_6.ini
+pointers {'GIRK6': ['Sst_A_Glucagon6'], 'KATP6': ['I_A_Glucagon6']}
+path /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_16.ini
+2020-09-21 15:11:15.128926	Space.configSetup Set up cell from configuration file: configuration file b_16 cell type Beta id 16 position [2, 2, 2] wd /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/b_16/
+2020-09-21 15:11:15.129021	Cells.readData Reading from configuration: configuration file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration//Mechanisms/Islet_0_model_0/b_16.ini
+2020-09-21 15:11:15.129587	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Ca16 cell type B Beta
+2020-09-21 15:11:15.129618	Cells.readData Write mod file: cell B16
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_16.ini
+2020-09-21 15:11:15.138965	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism GIRK16 cell type B Beta
+2020-09-21 15:11:15.139158	Cells.readData Write mod file: cell B16
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_16.ini
+2020-09-21 15:11:15.147914	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism K16 cell type B Beta
+2020-09-21 15:11:15.148003	Cells.readData Write mod file: cell B16
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_16.ini
+pointers {'GIRK16': ['Sst_B_Insulin16']}
+path /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_17.ini
+2020-09-21 15:11:15.158012	Space.configSetup Set up cell from configuration file: configuration file d_17 cell type Delta id 17 position [2, 2, 3] wd /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/d_17/
+2020-09-21 15:11:15.158125	Cells.readData Reading from configuration: configuration file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration//Mechanisms/Islet_0_model_0/d_17.ini
+2020-09-21 15:11:15.158644	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism CaL17 cell type D Delta
+2020-09-21 15:11:15.158666	Cells.readData Write mod file: cell D17
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_17.ini
+2020-09-21 15:11:15.166960	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism CaPQ17 cell type D Delta
+2020-09-21 15:11:15.167055	Cells.readData Write mod file: cell D17
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_17.ini
+2020-09-21 15:11:15.175894	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Na17 cell type D Delta
+2020-09-21 15:11:15.175978	Cells.readData Write mod file: cell D17
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_17.ini
+2020-09-21 15:11:15.184702	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism K17 cell type D Delta
+2020-09-21 15:11:15.184787	Cells.readData Write mod file: cell D17
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_17.ini
+2020-09-21 15:11:15.193249	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Kdr17 cell type D Delta
+2020-09-21 15:11:15.193332	Cells.readData Write mod file: cell D17
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_17.ini
+2020-09-21 15:11:15.201481	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism KATP17 cell type D Delta
+2020-09-21 15:11:15.201564	Cells.readData Write mod file: cell D17
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_17.ini
+2020-09-21 15:11:15.209817	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism L17 cell type D Delta
+2020-09-21 15:11:15.209901	Cells.readData Write mod file: cell D17
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_17.ini
+2020-09-21 15:11:15.218327	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism GABA17 cell type D Delta
+2020-09-21 15:11:15.218508	Cells.readData Write mod file: cell D17
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_17.ini
+pointers {'GABA17': ['I_D_Sst17']}
+path /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_23.ini
+2020-09-21 15:11:15.228588	Space.configSetup Set up cell from configuration file: configuration file b_23 cell type Beta id 23 position [3, 1, 3] wd /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/b_23/
+2020-09-21 15:11:15.228689	Cells.readData Reading from configuration: configuration file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration//Mechanisms/Islet_0_model_0/b_23.ini
+2020-09-21 15:11:15.229159	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Ca23 cell type B Beta
+2020-09-21 15:11:15.229181	Cells.readData Write mod file: cell B23
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_23.ini
+2020-09-21 15:11:15.237837	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism GIRK23 cell type B Beta
+2020-09-21 15:11:15.238014	Cells.readData Write mod file: cell B23
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_23.ini
+2020-09-21 15:11:15.247231	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism K23 cell type B Beta
+2020-09-21 15:11:15.247314	Cells.readData Write mod file: cell B23
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_23.ini
+pointers {'GIRK23': ['Sst_B_Insulin23']}
+path /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_28.ini
+2020-09-21 15:11:15.257956	Space.configSetup Set up cell from configuration file: configuration file b_28 cell type Beta id 28 position [3, 3, 2] wd /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/b_28/
+2020-09-21 15:11:15.258043	Cells.readData Reading from configuration: configuration file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration//Mechanisms/Islet_0_model_0/b_28.ini
+2020-09-21 15:11:15.258536	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Ca28 cell type B Beta
+2020-09-21 15:11:15.258556	Cells.readData Write mod file: cell B28
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_28.ini
+2020-09-21 15:11:15.266970	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism GIRK28 cell type B Beta
+2020-09-21 15:11:15.267143	Cells.readData Write mod file: cell B28
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_28.ini
+2020-09-21 15:11:15.275795	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism K28 cell type B Beta
+2020-09-21 15:11:15.275876	Cells.readData Write mod file: cell B28
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_28.ini
+pointers {'GIRK28': ['Sst_B_Insulin28']}
+path /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_4.ini
+2020-09-21 15:11:15.286143	Space.configSetup Set up cell from configuration file: configuration file b_4 cell type Beta id 4 position [1, 2, 1] wd /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/b_4/
+2020-09-21 15:11:15.286280	Cells.readData Reading from configuration: configuration file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration//Mechanisms/Islet_0_model_0/b_4.ini
+2020-09-21 15:11:15.286786	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Ca4 cell type B Beta
+2020-09-21 15:11:15.286808	Cells.readData Write mod file: cell B4
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_4.ini
+2020-09-21 15:11:15.295370	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism GIRK4 cell type B Beta
+2020-09-21 15:11:15.295541	Cells.readData Write mod file: cell B4
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_4.ini
+2020-09-21 15:11:15.304317	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism K4 cell type B Beta
+2020-09-21 15:11:15.304411	Cells.readData Write mod file: cell B4
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_4.ini
+pointers {'GIRK4': ['Sst_B_Insulin4']}
+path /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_19.ini
+2020-09-21 15:11:15.314479	Space.configSetup Set up cell from configuration file: configuration file d_19 cell type Delta id 19 position [2, 3, 2] wd /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/d_19/
+2020-09-21 15:11:15.314569	Cells.readData Reading from configuration: configuration file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration//Mechanisms/Islet_0_model_0/d_19.ini
+2020-09-21 15:11:15.315077	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism CaL19 cell type D Delta
+2020-09-21 15:11:15.315110	Cells.readData Write mod file: cell D19
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_19.ini
+2020-09-21 15:11:15.322935	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism CaPQ19 cell type D Delta
+2020-09-21 15:11:15.323016	Cells.readData Write mod file: cell D19
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_19.ini
+2020-09-21 15:11:15.331251	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Na19 cell type D Delta
+2020-09-21 15:11:15.331335	Cells.readData Write mod file: cell D19
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_19.ini
+2020-09-21 15:11:15.339931	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism K19 cell type D Delta
+2020-09-21 15:11:15.340018	Cells.readData Write mod file: cell D19
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_19.ini
+2020-09-21 15:11:15.348873	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Kdr19 cell type D Delta
+2020-09-21 15:11:15.348955	Cells.readData Write mod file: cell D19
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_19.ini
+2020-09-21 15:11:15.357238	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism KATP19 cell type D Delta
+2020-09-21 15:11:15.357331	Cells.readData Write mod file: cell D19
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_19.ini
+2020-09-21 15:11:15.365893	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism L19 cell type D Delta
+2020-09-21 15:11:15.365984	Cells.readData Write mod file: cell D19
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_19.ini
+2020-09-21 15:11:15.374445	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism GABA19 cell type D Delta
+2020-09-21 15:11:15.374617	Cells.readData Write mod file: cell D19
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_19.ini
+pointers {'GABA19': ['I_D_Sst19']}
+path /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_22.ini
+2020-09-21 15:11:15.384570	Space.configSetup Set up cell from configuration file: configuration file b_22 cell type Beta id 22 position [3, 1, 2] wd /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/b_22/
+2020-09-21 15:11:15.384664	Cells.readData Reading from configuration: configuration file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration//Mechanisms/Islet_0_model_0/b_22.ini
+2020-09-21 15:11:15.385149	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Ca22 cell type B Beta
+2020-09-21 15:11:15.385171	Cells.readData Write mod file: cell B22
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_22.ini
+2020-09-21 15:11:15.393695	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism GIRK22 cell type B Beta
+2020-09-21 15:11:15.393872	Cells.readData Write mod file: cell B22
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_22.ini
+2020-09-21 15:11:15.403127	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism K22 cell type B Beta
+2020-09-21 15:11:15.403211	Cells.readData Write mod file: cell B22
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_22.ini
+pointers {'GIRK22': ['Sst_B_Insulin22']}
+path /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_11.ini
+2020-09-21 15:11:15.412934	Space.configSetup Set up cell from configuration file: configuration file d_11 cell type Delta id 11 position [2, 1, 1] wd /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/d_11/
+2020-09-21 15:11:15.413024	Cells.readData Reading from configuration: configuration file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration//Mechanisms/Islet_0_model_0/d_11.ini
+2020-09-21 15:11:15.413564	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism CaL11 cell type D Delta
+2020-09-21 15:11:15.413584	Cells.readData Write mod file: cell D11
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_11.ini
+2020-09-21 15:11:15.421438	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism CaPQ11 cell type D Delta
+2020-09-21 15:11:15.421521	Cells.readData Write mod file: cell D11
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_11.ini
+2020-09-21 15:11:15.429920	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Na11 cell type D Delta
+2020-09-21 15:11:15.430006	Cells.readData Write mod file: cell D11
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_11.ini
+2020-09-21 15:11:15.438810	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism K11 cell type D Delta
+2020-09-21 15:11:15.438894	Cells.readData Write mod file: cell D11
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_11.ini
+2020-09-21 15:11:15.447454	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Kdr11 cell type D Delta
+2020-09-21 15:11:15.447542	Cells.readData Write mod file: cell D11
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_11.ini
+2020-09-21 15:11:15.456133	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism KATP11 cell type D Delta
+2020-09-21 15:11:15.456216	Cells.readData Write mod file: cell D11
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_11.ini
+2020-09-21 15:11:15.464657	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism L11 cell type D Delta
+2020-09-21 15:11:15.464824	Cells.readData Write mod file: cell D11
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_11.ini
+2020-09-21 15:11:15.473336	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism GABA11 cell type D Delta
+2020-09-21 15:11:15.473504	Cells.readData Write mod file: cell D11
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_11.ini
+pointers {'GABA11': ['I_D_Sst11']}
+path /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_3.ini
+2020-09-21 15:11:15.482814	Space.configSetup Set up cell from configuration file: configuration file a_3 cell type Alpha id 3 position [1, 1, 3] wd /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/a_3/
+2020-09-21 15:11:15.482907	Cells.readData Reading from configuration: configuration file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration//Mechanisms/Islet_0_model_0/a_3.ini
+2020-09-21 15:11:15.483426	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism CaL3 cell type A Alpha
+2020-09-21 15:11:15.483448	Cells.readData Write mod file: cell A3
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_3.ini
+2020-09-21 15:11:15.491515	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism CaPQ3 cell type A Alpha
+2020-09-21 15:11:15.491599	Cells.readData Write mod file: cell A3
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_3.ini
+2020-09-21 15:11:15.500237	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism CaT3 cell type A Alpha
+2020-09-21 15:11:15.500324	Cells.readData Write mod file: cell A3
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_3.ini
+2020-09-21 15:11:15.509082	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism GIRK3 cell type A Alpha
+2020-09-21 15:11:15.509258	Cells.readData Write mod file: cell A3
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_3.ini
+2020-09-21 15:11:15.517732	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism K3 cell type A Alpha
+2020-09-21 15:11:15.517818	Cells.readData Write mod file: cell A3
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_3.ini
+2020-09-21 15:11:15.526528	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism KATP3 cell type A Alpha
+2020-09-21 15:11:15.526698	Cells.readData Write mod file: cell A3
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_3.ini
+2020-09-21 15:11:15.535230	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Kdr3 cell type A Alpha
+2020-09-21 15:11:15.535316	Cells.readData Write mod file: cell A3
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_3.ini
+2020-09-21 15:11:15.544057	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism L3 cell type A Alpha
+2020-09-21 15:11:15.544153	Cells.readData Write mod file: cell A3
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_3.ini
+2020-09-21 15:11:15.552669	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Na3 cell type A Alpha
+2020-09-21 15:11:15.552757	Cells.readData Write mod file: cell A3
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_3.ini
+pointers {'GIRK3': ['Sst_A_Glucagon3'], 'KATP3': ['I_A_Glucagon3']}
+path /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_8.ini
+2020-09-21 15:11:15.562863	Space.configSetup Set up cell from configuration file: configuration file b_8 cell type Beta id 8 position [1, 3, 2] wd /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/b_8/
+2020-09-21 15:11:15.562953	Cells.readData Reading from configuration: configuration file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration//Mechanisms/Islet_0_model_0/b_8.ini
+2020-09-21 15:11:15.563434	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Ca8 cell type B Beta
+2020-09-21 15:11:15.563467	Cells.readData Write mod file: cell B8
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_8.ini
+2020-09-21 15:11:15.572780	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism GIRK8 cell type B Beta
+2020-09-21 15:11:15.572959	Cells.readData Write mod file: cell B8
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_8.ini
+2020-09-21 15:11:15.581573	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism K8 cell type B Beta
+2020-09-21 15:11:15.581659	Cells.readData Write mod file: cell B8
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_8.ini
+pointers {'GIRK8': ['Sst_B_Insulin8']}
+path /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_20.ini
+2020-09-21 15:11:15.591802	Space.configSetup Set up cell from configuration file: configuration file b_20 cell type Beta id 20 position [2, 3, 3] wd /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/b_20/
+2020-09-21 15:11:15.591899	Cells.readData Reading from configuration: configuration file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration//Mechanisms/Islet_0_model_0/b_20.ini
+2020-09-21 15:11:15.592412	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Ca20 cell type B Beta
+2020-09-21 15:11:15.592433	Cells.readData Write mod file: cell B20
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_20.ini
+2020-09-21 15:11:15.601134	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism GIRK20 cell type B Beta
+2020-09-21 15:11:15.601308	Cells.readData Write mod file: cell B20
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_20.ini
+2020-09-21 15:11:15.610155	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism K20 cell type B Beta
+2020-09-21 15:11:15.610241	Cells.readData Write mod file: cell B20
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_20.ini
+pointers {'GIRK20': ['Sst_B_Insulin20']}
+path /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_14.ini
+2020-09-21 15:11:15.620552	Space.configSetup Set up cell from configuration file: configuration file d_14 cell type Delta id 14 position [2, 2, 0] wd /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/d_14/
+2020-09-21 15:11:15.620642	Cells.readData Reading from configuration: configuration file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration//Mechanisms/Islet_0_model_0/d_14.ini
+2020-09-21 15:11:15.621166	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism CaL14 cell type D Delta
+2020-09-21 15:11:15.621188	Cells.readData Write mod file: cell D14
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_14.ini
+2020-09-21 15:11:15.629472	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism CaPQ14 cell type D Delta
+2020-09-21 15:11:15.629567	Cells.readData Write mod file: cell D14
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_14.ini
+2020-09-21 15:11:15.638258	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Na14 cell type D Delta
+2020-09-21 15:11:15.638341	Cells.readData Write mod file: cell D14
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_14.ini
+2020-09-21 15:11:15.646984	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism K14 cell type D Delta
+2020-09-21 15:11:15.647071	Cells.readData Write mod file: cell D14
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_14.ini
+2020-09-21 15:11:15.655707	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Kdr14 cell type D Delta
+2020-09-21 15:11:15.655789	Cells.readData Write mod file: cell D14
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_14.ini
+2020-09-21 15:11:15.664343	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism KATP14 cell type D Delta
+2020-09-21 15:11:15.664432	Cells.readData Write mod file: cell D14
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_14.ini
+2020-09-21 15:11:15.672986	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism L14 cell type D Delta
+2020-09-21 15:11:15.673067	Cells.readData Write mod file: cell D14
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_14.ini
+2020-09-21 15:11:15.681675	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism GABA14 cell type D Delta
+2020-09-21 15:11:15.681861	Cells.readData Write mod file: cell D14
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/d_14.ini
+pointers {'GABA14': ['I_D_Sst14']}
+path /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_12.ini
+2020-09-21 15:11:15.691851	Space.configSetup Set up cell from configuration file: configuration file b_12 cell type Beta id 12 position [2, 1, 2] wd /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/b_12/
+2020-09-21 15:11:15.691939	Cells.readData Reading from configuration: configuration file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration//Mechanisms/Islet_0_model_0/b_12.ini
+2020-09-21 15:11:15.692436	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Ca12 cell type B Beta
+2020-09-21 15:11:15.692468	Cells.readData Write mod file: cell B12
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_12.ini
+2020-09-21 15:11:15.701675	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism GIRK12 cell type B Beta
+2020-09-21 15:11:15.701861	Cells.readData Write mod file: cell B12
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_12.ini
+2020-09-21 15:11:15.710638	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism K12 cell type B Beta
+2020-09-21 15:11:15.710726	Cells.readData Write mod file: cell B12
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_12.ini
+pointers {'GIRK12': ['Sst_B_Insulin12']}
+path /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_26.ini
+2020-09-21 15:11:15.721452	Space.configSetup Set up cell from configuration file: configuration file b_26 cell type Beta id 26 position [3, 2, 3] wd /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/b_26/
+2020-09-21 15:11:15.721538	Cells.readData Reading from configuration: configuration file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration//Mechanisms/Islet_0_model_0/b_26.ini
+2020-09-21 15:11:15.721958	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Ca26 cell type B Beta
+2020-09-21 15:11:15.721976	Cells.readData Write mod file: cell B26
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_26.ini
+2020-09-21 15:11:15.731074	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism GIRK26 cell type B Beta
+2020-09-21 15:11:15.731274	Cells.readData Write mod file: cell B26
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_26.ini
+2020-09-21 15:11:15.739878	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism K26 cell type B Beta
+2020-09-21 15:11:15.739959	Cells.readData Write mod file: cell B26
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_26.ini
+pointers {'GIRK26': ['Sst_B_Insulin26']}
+path /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_2.ini
+2020-09-21 15:11:15.749815	Space.configSetup Set up cell from configuration file: configuration file a_2 cell type Alpha id 2 position [1, 1, 2] wd /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/a_2/
+2020-09-21 15:11:15.749903	Cells.readData Reading from configuration: configuration file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration//Mechanisms/Islet_0_model_0/a_2.ini
+2020-09-21 15:11:15.750432	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism CaL2 cell type A Alpha
+2020-09-21 15:11:15.750453	Cells.readData Write mod file: cell A2
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_2.ini
+2020-09-21 15:11:15.759715	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism CaPQ2 cell type A Alpha
+2020-09-21 15:11:15.759805	Cells.readData Write mod file: cell A2
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_2.ini
+2020-09-21 15:11:15.768553	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism CaT2 cell type A Alpha
+2020-09-21 15:11:15.768643	Cells.readData Write mod file: cell A2
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_2.ini
+2020-09-21 15:11:15.777221	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism GIRK2 cell type A Alpha
+2020-09-21 15:11:15.777415	Cells.readData Write mod file: cell A2
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_2.ini
+2020-09-21 15:11:15.786158	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism K2 cell type A Alpha
+2020-09-21 15:11:15.786255	Cells.readData Write mod file: cell A2
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_2.ini
+2020-09-21 15:11:15.794966	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism KATP2 cell type A Alpha
+2020-09-21 15:11:15.795160	Cells.readData Write mod file: cell A2
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_2.ini
+2020-09-21 15:11:15.804401	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Kdr2 cell type A Alpha
+2020-09-21 15:11:15.804496	Cells.readData Write mod file: cell A2
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_2.ini
+2020-09-21 15:11:15.813072	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism L2 cell type A Alpha
+2020-09-21 15:11:15.813171	Cells.readData Write mod file: cell A2
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_2.ini
+2020-09-21 15:11:15.821832	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Na2 cell type A Alpha
+2020-09-21 15:11:15.821922	Cells.readData Write mod file: cell A2
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_2.ini
+pointers {'GIRK2': ['Sst_A_Glucagon2'], 'KATP2': ['I_A_Glucagon2']}
+path /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_10.ini
+2020-09-21 15:11:15.832323	Space.configSetup Set up cell from configuration file: configuration file b_10 cell type Beta id 10 position [2, 0, 2] wd /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/b_10/
+2020-09-21 15:11:15.832491	Cells.readData Reading from configuration: configuration file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration//Mechanisms/Islet_0_model_0/b_10.ini
+2020-09-21 15:11:15.832972	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Ca10 cell type B Beta
+2020-09-21 15:11:15.832994	Cells.readData Write mod file: cell B10
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_10.ini
+2020-09-21 15:11:15.841660	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism GIRK10 cell type B Beta
+2020-09-21 15:11:15.841837	Cells.readData Write mod file: cell B10
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_10.ini
+2020-09-21 15:11:15.850186	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism K10 cell type B Beta
+2020-09-21 15:11:15.850273	Cells.readData Write mod file: cell B10
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_10.ini
+pointers {'GIRK10': ['Sst_B_Insulin10']}
+path /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_21.ini
+2020-09-21 15:11:15.860269	Space.configSetup Set up cell from configuration file: configuration file b_21 cell type Beta id 21 position [3, 1, 1] wd /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/b_21/
+2020-09-21 15:11:15.860364	Cells.readData Reading from configuration: configuration file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration//Mechanisms/Islet_0_model_0/b_21.ini
+2020-09-21 15:11:15.860836	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Ca21 cell type B Beta
+2020-09-21 15:11:15.860859	Cells.readData Write mod file: cell B21
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_21.ini
+2020-09-21 15:11:15.869424	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism GIRK21 cell type B Beta
+2020-09-21 15:11:15.869600	Cells.readData Write mod file: cell B21
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_21.ini
+2020-09-21 15:11:15.879269	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism K21 cell type B Beta
+2020-09-21 15:11:15.879354	Cells.readData Write mod file: cell B21
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_21.ini
+pointers {'GIRK21': ['Sst_B_Insulin21']}
+path /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_29.ini
+2020-09-21 15:11:15.890148	Space.configSetup Set up cell from configuration file: configuration file b_29 cell type Beta id 29 position [3, 3, 3] wd /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/b_29/
+2020-09-21 15:11:15.890239	Cells.readData Reading from configuration: configuration file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration//Mechanisms/Islet_0_model_0/b_29.ini
+2020-09-21 15:11:15.890744	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Ca29 cell type B Beta
+2020-09-21 15:11:15.890766	Cells.readData Write mod file: cell B29
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_29.ini
+2020-09-21 15:11:15.899071	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism GIRK29 cell type B Beta
+2020-09-21 15:11:15.899258	Cells.readData Write mod file: cell B29
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_29.ini
+2020-09-21 15:11:15.907197	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism K29 cell type B Beta
+2020-09-21 15:11:15.907273	Cells.readData Write mod file: cell B29
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/b_29.ini
+pointers {'GIRK29': ['Sst_B_Insulin29']}
+path /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_5.ini
+2020-09-21 15:11:15.917606	Space.configSetup Set up cell from configuration file: configuration file a_5 cell type Alpha id 5 position [1, 2, 2] wd /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/a_5/
+2020-09-21 15:11:15.917695	Cells.readData Reading from configuration: configuration file /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration//Mechanisms/Islet_0_model_0/a_5.ini
+2020-09-21 15:11:15.918267	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism CaL5 cell type A Alpha
+2020-09-21 15:11:15.918298	Cells.readData Write mod file: cell A5
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_5.ini
+2020-09-21 15:11:15.926845	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism CaPQ5 cell type A Alpha
+2020-09-21 15:11:15.926939	Cells.readData Write mod file: cell A5
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_5.ini
+2020-09-21 15:11:15.935600	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism CaT5 cell type A Alpha
+2020-09-21 15:11:15.935687	Cells.readData Write mod file: cell A5
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_5.ini
+2020-09-21 15:11:15.944372	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism GIRK5 cell type A Alpha
+2020-09-21 15:11:15.944557	Cells.readData Write mod file: cell A5
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_5.ini
+2020-09-21 15:11:15.953360	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism K5 cell type A Alpha
+2020-09-21 15:11:15.953449	Cells.readData Write mod file: cell A5
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_5.ini
+2020-09-21 15:11:15.962131	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism KATP5 cell type A Alpha
+2020-09-21 15:11:15.962304	Cells.readData Write mod file: cell A5
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_5.ini
+2020-09-21 15:11:15.970744	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Kdr5 cell type A Alpha
+2020-09-21 15:11:15.970834	Cells.readData Write mod file: cell A5
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_5.ini
+2020-09-21 15:11:15.979510	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism L5 cell type A Alpha
+2020-09-21 15:11:15.979601	Cells.readData Write mod file: cell A5
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_5.ini
+2020-09-21 15:11:15.987716	Cells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism Na5 cell type A Alpha
+2020-09-21 15:11:15.987802	Cells.readData Write mod file: cell A5
+/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Configuration/Values/Islet_0_model_0/a_5.ini
+pointers {'GIRK5': ['Sst_A_Glucagon5'], 'KATP5': ['I_A_Glucagon5']}
+2020-09-21 15:11:17.338214	Compile.py Compiled /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/b_1
+2020-09-21 15:11:18.863826	Compile.py Compiled /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/d_24
+2020-09-21 15:11:20.148827	Compile.py Compiled /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/b_27
+2020-09-21 15:11:21.268007	Compile.py Compiled /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/b_15
+2020-09-21 15:11:22.515919	Compile.py Compiled /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/b_18
+2020-09-21 15:11:23.709816	Compile.py Compiled /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/b_7
+2020-09-21 15:11:25.277587	Compile.py Compiled /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/a_13
+2020-09-21 15:11:27.189242	Compile.py Compiled /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/b_9
+2020-09-21 15:11:28.927087	Compile.py Compiled /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/d_0
+2020-09-21 15:11:30.601216	Compile.py Compiled /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/d_25
+2020-09-21 15:11:32.183658	Compile.py Compiled /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/a_6
+2020-09-21 15:11:33.856621	Compile.py Compiled /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/b_16
+2020-09-21 15:11:35.454211	Compile.py Compiled /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/d_17
+2020-09-21 15:11:36.636693	Compile.py Compiled /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/b_23
+2020-09-21 15:11:37.896745	Compile.py Compiled /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/b_28
+2020-09-21 15:11:39.002317	Compile.py Compiled /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/b_4
+2020-09-21 15:11:40.748635	Compile.py Compiled /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/d_19
+2020-09-21 15:11:41.983210	Compile.py Compiled /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/b_22
+2020-09-21 15:11:43.659225	Compile.py Compiled /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/d_11
+2020-09-21 15:11:45.219929	Compile.py Compiled /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/a_3
+2020-09-21 15:11:46.364990	Compile.py Compiled /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/b_8
+2020-09-21 15:11:47.518220	Compile.py Compiled /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/b_20
+2020-09-21 15:11:49.204491	Compile.py Compiled /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/d_14
+2020-09-21 15:11:50.418469	Compile.py Compiled /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/b_12
+2020-09-21 15:11:51.610881	Compile.py Compiled /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/b_26
+2020-09-21 15:11:53.287872	Compile.py Compiled /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/a_2
+2020-09-21 15:11:54.474503	Compile.py Compiled /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/b_10
+2020-09-21 15:11:55.559097	Compile.py Compiled /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/b_21
+2020-09-21 15:11:56.651930	Compile.py Compiled /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/b_29
+2020-09-21 15:11:58.247439	Compile.py Compiled /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/a_5
+2020-09-21 15:12:11.360830	Compile.py Compiled /blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/Main/Run/Islet_0_model_0/.r
