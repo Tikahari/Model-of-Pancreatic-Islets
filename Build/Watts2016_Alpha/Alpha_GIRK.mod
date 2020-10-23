@@ -13,6 +13,7 @@ PARAMETER{
     S
     sombara2
     ssom2
+    Sst
 }
 
 ASSIGNED{
@@ -32,6 +33,6 @@ INITIAL{
 
 BREAKPOINT{
     gGIRKbara=(1-knockoutda)*0.025+knockoutda*gGIRKko
-    EffSa=1/(1+exp(-(S-sombara2)/ssom2))
+    EffSa=1/(1+exp(-(Sst-sombara2)/ssom2))
     iGIRKa=gGIRKbara*EffSa*(v-vGIRK)
 }

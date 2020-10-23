@@ -159,7 +159,7 @@ mem = rxd.Region(h.allsec(), name='mem', geometry=rxd.membrane)
 ecs = rxd.Extracellular(-20, -5, -5, 45, 5, 5, dx=1, volume_fraction=0.2, tortuosity=1.6)
 
 # glucagon
-glucagon = rxd.Species([cyt, ecs], name='glucagon', charge=1, d=1.0, initial=lambda nd: 31 if hasattr(nd, 'sec') and nd.segment in a else 0)
+glucagon = rxd.Species([cyt, ecs], name='glucagon', charge=1, d=1.0, initial=lambda nd: 38 if hasattr(nd, 'sec') and nd.segment in a else 0)
 gcyt = glucagon[cyt]
 gecs = glucagon[ecs]
 
@@ -253,7 +253,7 @@ for i in a:
     counta += 1
 heada.extend(headera)
 heada.append(tempa)
-a.v = -49
+a.v = 0
 
 t = h.Vector().record(h._ref_t)
 print(str(datetime.datetime.now()) + '\tinitialize')

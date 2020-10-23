@@ -152,7 +152,7 @@ BREAKPOINT{
     Sst = ssti
     I = insulini
     Gpnt = G
-    rm2a=(1-knockoutda)*ra/(1+exp(-(S-sombara)/ssom))+knockoutda*rako
+    rm2a=(1-knockoutda)*ra/(1+exp(-(Sst-sombara)/ssom))+knockoutda*rako
     cinfa = 1/(1+exp(-(cera-caerbara)/ssoca))
     isoca = gsocbara*cinfa*(v-vsoca)
     JLa=-alphaa*icala/vcella
