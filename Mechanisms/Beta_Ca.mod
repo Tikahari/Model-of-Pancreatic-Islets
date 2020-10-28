@@ -1,8 +1,8 @@
 NEURON{
     SUFFIX B_Ca
-    USEION Ca WRITE iCa VALENCE 1
+    USEION Ca WRITE iCa VALENCE 2
     RANGE vm, sm, gca, vca, nca
-    RANGE minf, ica
+    RANGE minf, iCa
 }
 
 PARAMETER{
@@ -16,6 +16,7 @@ PARAMETER{
 ASSIGNED{
     minf
     iCa
+    v
 }
 
 INITIAL{
