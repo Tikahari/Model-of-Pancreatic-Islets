@@ -1,6 +1,6 @@
 NEURON{
     SUFFIX A_KATP
-    USEION katpa WRITE ikatpa VALENCE 2
+    USEION katpa WRITE ikatpa VALENCE 1
     RANGE gkatpbara, vka, ka1, knockoutba
     RANGE EffIa, gkatpa, ikatpa
     POINTER I
