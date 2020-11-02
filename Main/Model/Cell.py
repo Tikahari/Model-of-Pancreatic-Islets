@@ -71,16 +71,18 @@ class Cell:
         if self.type == 'A':
             self.pp = Islet.neuron.h.A_Glucagon(self.cell(0.5))
             Islet.neuron.h.setpointer(self.glucagon.nodes[0]._ref_concentration, 'Gpnt', self.pp)
+            self.cell.cm = 5
         elif self.type == 'B':
             self.pp = Islet.neuron.h.B_Insulin(self.cell(0.5))
             Islet.neuron.h.setpointer(self.insulin.nodes[0]._ref_concentration, 'Inspnt', self.pp)
+            self.cell.cm = 5300e3
         else:
             self.pp = Islet.neuron.h.D_Somatostatin(self.cell(0.5))
             Islet.neuron.h.setpointer(self.sst.nodes[0]._ref_concentration, 'Sstpnt', self.pp)
+            d.cm = 5e6
         for i in self.mechs:
             print(str(datetime.datetime.now()) + '\tCells.addMechanisms Adding mechanisms: cell type', self.type, 'mechanism', i, 'cwd', os.getcwd())
             self.cell.insert(self.type+'_'+i)
-        self.cell.cm = 9990000
     def setPointers(self):
         """Set NEURON pointers"""
         for i in self.pointers:

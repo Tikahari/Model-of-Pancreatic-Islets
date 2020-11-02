@@ -22,7 +22,7 @@ ASSIGNED{
 }
 
 INITIAL{
-    gkatpbara=0.15
+    gkatpbara=0.015
     vka=-75
     ka1=0.1
     knockoutba=0

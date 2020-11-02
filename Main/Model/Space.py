@@ -144,7 +144,6 @@ class Space:
         gcyt = glucagon[cyt]
         gecs = glucagon[ecs]
         self.glucagon = glucagon
-
         # somatostatin
         sst = Islet.neuron.rxd.Species([cyt, ecs], name='sst', charge=1, d=1.0, initial=19)
         sstcyt = sst[cyt]
