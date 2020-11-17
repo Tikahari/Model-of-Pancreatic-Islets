@@ -5,6 +5,10 @@ NEURON{
     RANGE mkainfa, hkainfa, taukaha, ikaa
 }
 
+UNITS {
+    (mV) = (millivolt)
+}
+
 PARAMETER{
     vka
     gkaa

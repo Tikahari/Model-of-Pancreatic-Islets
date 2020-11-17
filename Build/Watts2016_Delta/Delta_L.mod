@@ -5,6 +5,10 @@ NEURON{
     RANGE ild
 }
 
+UNITS {
+    (mV) = (millivolt)
+}
+
 PARAMETER{
     gld
     vld

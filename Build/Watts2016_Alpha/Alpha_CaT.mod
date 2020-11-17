@@ -5,6 +5,10 @@ NEURON{
     RANGE mcatinfa, hcatinfa, taucatma, taucatha, icata
 }
 
+UNITS {
+    (mV) = (millivolt)
+}
+
 PARAMETER{
     vcaa
     gcata

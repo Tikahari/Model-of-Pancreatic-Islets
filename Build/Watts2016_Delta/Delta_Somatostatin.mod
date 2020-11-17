@@ -11,6 +11,10 @@ NEURON{
     POINTER Sstpnt
 }
 
+UNITS {
+    (mV) = (millivolt)
+}
+
 PARAMETER{
     icald
     icapqd
@@ -20,14 +24,14 @@ PARAMETER{
     insulini
     I
     con
-    bas
+    bas     :dimensionless
     cma
     vc
     tmsb
     tausom
     pleakd
-    fVld
-    fVpqd
+    fVld    :dimensionless
+    fVpqd   :dimensionless
     fmdd
     Bd
     alphad
@@ -36,7 +40,7 @@ PARAMETER{
     ferd
     sigmavd
     ksercad
-    fd
+    fd      :dimensionless
     vmdpqd
     vmdld
 }

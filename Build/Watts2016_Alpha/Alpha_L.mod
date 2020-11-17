@@ -4,6 +4,10 @@ NEURON{
     RANGE gla, vla, ila
 }
 
+UNITS {
+    (mV) = (millivolt)
+}
+
 PARAMETER{
     gla
     vla

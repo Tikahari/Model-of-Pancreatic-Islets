@@ -5,6 +5,10 @@ NEURON{
     RANGE mnainfa, hnainfa, taunama, taunaha, inaa
 }
 
+UNITS {
+    (mV) = (millivolt)
+}
+
 PARAMETER{
     vnaa
     vnama

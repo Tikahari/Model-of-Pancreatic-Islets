@@ -6,10 +6,15 @@ NEURON{
     POINTER Sst
 }
 
+UNITS {
+    (mV) = (millivolt)
+    (nS) = (nanosiemen)
+}
+
 PARAMETER{
     knockoutda
     gGIRKko
-    vGIRK
+    vGIRK   (mV)
     S
     sombara2
     ssom2
@@ -17,9 +22,9 @@ PARAMETER{
 }
 
 ASSIGNED{
-    gGIRKbara
+    gGIRKbara   (nS)
     EffSa
-    v
+    v   (mV)
     iGIRKa
 }
 

@@ -5,6 +5,10 @@ NEURON{
     RANGE mcapqinfa, hcapqinfa, taucapqma, taucapqha, icapqa
 }
 
+UNITS {
+    (mV) = (millivolt)
+}
+
 PARAMETER{
     vcaa
     tcapqh1a

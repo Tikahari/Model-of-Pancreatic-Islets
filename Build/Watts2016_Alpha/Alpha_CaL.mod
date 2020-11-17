@@ -5,8 +5,12 @@ NEURON{
     RANGE taucalma, taucalha, mcalinfa, hcalinfa, icala
 }
 
+UNITS {
+    (mV) = (millivolt)
+}
+
 PARAMETER{
-    vcaa
+    vcaa 
     vcala
     gcala
     tcalh1a
@@ -22,7 +26,7 @@ ASSIGNED{
     taucalha
     mcalinfa
     hcalinfa
-    v
+    v   (mV)
     icala
 }
 

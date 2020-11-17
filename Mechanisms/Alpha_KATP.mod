@@ -6,9 +6,14 @@ NEURON{
     POINTER I
 }
 
+UNITS {
+    (mV) = (millivolt)
+    (nS) = (nanosiemens)
+}
+
 PARAMETER{
-    gkatpbara
-    vka
+    gkatpbara   (nS)
+    vka  (mV)
     ka1
     knockoutba
     I
@@ -16,14 +21,14 @@ PARAMETER{
 
 ASSIGNED{
     EffIa
-    gkatpa
-    v
+    gkatpa  (mV)
+    v   (mV)
     ikatpa
 }
 
 INITIAL{
-    gkatpbara=0.015
-    vka=-75
+    gkatpbara=0.015 
+    vka=-75 
     ka1=0.1
     knockoutba=0
 }

@@ -5,14 +5,19 @@ NEURON{
     RANGE ikatp
 }
 
+UNITS {
+    (mV) = (millivolt)
+    (pS) = (picosiemens)
+}
+
 PARAMETER{
-    gkatpb
-    vk
+    gkatpb  (pS)
+    vk  (mV)
 }
 
 ASSIGNED{
     ikatp
-    v
+    v   (mV)
 }
 
 INITIAL{

@@ -5,8 +5,13 @@ NEURON{
     RANGE mkainfd, hkainfd, taukahd, ikad
 }
 
+UNITS {
+    (mV) = (millivolt)
+    (nS) = (nanosiemens)
+}
+
 PARAMETER{
-    gkad
+    gkad    (nS)
     vkd
     vkamd
     skamd

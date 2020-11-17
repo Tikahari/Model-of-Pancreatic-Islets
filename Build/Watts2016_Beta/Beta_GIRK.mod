@@ -6,6 +6,11 @@ NEURON{
     POINTER Sst
 }
 
+UNITS {
+    (mV) = (millivolt)
+    (pS) = (picoseconds)
+}
+
 PARAMETER{
     knockoutdb
     vGIRK
@@ -14,10 +19,10 @@ PARAMETER{
 }
 
 ASSIGNED{
-    gGIRKbarb
+    gGIRKbarb   (pS)
     EffSb
     iGIRKb
-    v
+    v   (mV)
 }
 
 INITIAL{

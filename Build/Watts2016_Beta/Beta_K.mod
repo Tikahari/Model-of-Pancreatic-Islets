@@ -5,10 +5,15 @@ NEURON{
     RANGE ninf, ik
 }
 
+UNITS{
+    (picosiemens) = (pS)
+    (milliseconds) = (ms)
+}
+
 PARAMETER{
-    taun
+    taun    (ms)
     vk
-    gk
+    gk  (pS)
     vn
     sn
 }

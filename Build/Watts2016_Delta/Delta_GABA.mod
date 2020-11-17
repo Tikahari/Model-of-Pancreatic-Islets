@@ -6,14 +6,19 @@ NEURON{
     POINTER I
 }
 
+UNITS {
+    (mV) = (millivolt)
+    (nS) = (nanosiemen)
+}
+
 PARAMETER{
     knockoutbd
-    vGABA
+    vGABA   {mV}
     I
 }
 
 ASSIGNED{
-    gGABAbar
+    gGABAbar    (nS)
     EffId
     v
     iGABA

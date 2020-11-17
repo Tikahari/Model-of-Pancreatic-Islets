@@ -5,6 +5,10 @@ NEURON{
     RANGE mcalinfd, hcalinfd, taucalmd, taucalhd, icald
 }
 
+UNITS {
+    (mV) = (millivolt)
+}
+
 PARAMETER{
     gcald
     vcad

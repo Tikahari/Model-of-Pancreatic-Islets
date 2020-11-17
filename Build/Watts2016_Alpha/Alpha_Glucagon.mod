@@ -12,6 +12,11 @@ NEURON{
     POINTER Gpnt
 }
 
+UNITS {
+    (mV) = (millivolt)
+    (s) = (seconds)
+}
+
 PARAMETER{
     ssti
     insulini
@@ -49,12 +54,12 @@ PARAMETER{
     fera
     pleaka
     sigmava
-    fa
+    fa  :dimensionless
     gsocbara
     ksercaa
     tmsb
     knockoutda
-    ra
+    ra  (/s)
     sombara
     rako
     ssom

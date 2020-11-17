@@ -5,6 +5,10 @@ NEURON{
     RANGE mkdrinfa, taukdrma, ikdra
 }
 
+UNITS {
+    (mV) = (millivolt)
+}
+
 PARAMETER{
     vka
     vkdrma
