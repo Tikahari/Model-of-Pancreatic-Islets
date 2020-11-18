@@ -15,14 +15,18 @@ NEURON{
 UNITS {
     (mV) = (millivolt)
     (s) = (seconds)
+    (molar) = (1/liter)
+    (pM) = (picomolar)
+    (uM) = (micromolar)
+    (nS) = (nanosiemen)
 }
 
 PARAMETER{
     ssti
     insulini
     Gpnt
-    Sst
-    I
+    Sst     (pM)
+    I       (pM)
     icala
     icata
     icapqa
@@ -55,8 +59,8 @@ PARAMETER{
     pleaka
     sigmava
     fa  :dimensionless
-    gsocbara
-    ksercaa
+    gsocbara    (nS)
+    ksercaa :dimensionless
     tmsb
     knockoutda
     ra  (/s)
@@ -78,12 +82,12 @@ ASSIGNED{
     r2a
     r3a
     JGS
-    v
+    v   (mV)
     isoca
 }
 
 STATE{
-    ca
+    ca  (uM)
     cmdpqa
     cera
     N1a
@@ -94,7 +98,7 @@ STATE{
     N6a
     NFa
     NRa
-    G
+    G   (pM)
 }
 
 INITIAL{

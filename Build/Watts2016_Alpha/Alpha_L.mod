@@ -10,12 +10,12 @@ UNITS {
 
 PARAMETER{
     gla
-    vla
+    vla (mV)
 }
 
 ASSIGNED{
     ila
-    v
+    v   (mV)
 }
 
 INITIAL{

@@ -7,6 +7,7 @@ NEURON{
 
 UNITS {
     (mV) = (millivolt)
+    (pA) = (picoamp)
 }
 
 PARAMETER{
@@ -19,8 +20,8 @@ PARAMETER{
 ASSIGNED{
     mkdrinfa
     taukdrma
-    v
-    ikdra
+    v   (mV)
+    ikdra   (pA)
 }
 
 STATE{

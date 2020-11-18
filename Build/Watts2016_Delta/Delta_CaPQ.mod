@@ -12,9 +12,9 @@ UNITS {
 
 PARAMETER{
     gcapqd  (nS)
-    vcad
+    vcad    (mV)
     scapqmd
-    vcapqmd (mV)
+    vcapqmd 
     scapqhd
     vcapqhd
     tcapqh1d

@@ -16,7 +16,9 @@ NEURON{
 UNITS{
     (mV) = (millivolt)
     (ms) = (milliseconds)
-    (um) = (micromolar)
+    (molar) = (1/liter)
+    (uM) = (micromolar)
+    (pM) = (picomolar)
     (s) = (seconds)
  }
 
@@ -24,15 +26,15 @@ PARAMETER{
 Inspnt
 glucagoni
 ssti
-Sst
-G
+Sst (pM)
+G   (pM)
 gthresh
 sombarb
 ssomb
 rb  (/s)
 vk
 fb      :dimensionless
-Jgk (um/ms)
+Jgk (uM/ms)
 factor
 gkatpb
 bas_r3
@@ -239,12 +241,12 @@ ASSIGNED{
     r2
     JIS
     rm2b
-    v
+    v   (mV)
 }
 
 STATE{
     n
-    c
+    c   (uM)
     cer
     cmd 
     g6p
@@ -262,7 +264,7 @@ STATE{
     N6 
     NF 
     NR
-    I
+    I   (pM)
 }
 
 INITIAL{

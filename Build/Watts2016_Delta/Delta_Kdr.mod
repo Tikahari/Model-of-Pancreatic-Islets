@@ -12,7 +12,7 @@ UNITS {
 
 PARAMETER{
     gkdrd   (nS)
-    vkd
+    vkd (mV)
     vkdrmd
     skdrmd
 }
@@ -20,7 +20,7 @@ PARAMETER{
 ASSIGNED{
     mkdrinfd
     taukdrmd
-    v
+    v   (mV)
     ikdrd
 }
 

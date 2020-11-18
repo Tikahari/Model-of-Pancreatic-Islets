@@ -10,7 +10,7 @@ UNITS {
 }
 
 PARAMETER{
-    vcaa
+    vcaa    (mV)
     tcapqh1a
     tcapqh2a
     vcapqma
@@ -25,7 +25,7 @@ ASSIGNED{
     hcapqinfa
     taucapqma
     taucapqha
-    v
+    v   (mV)
     icapqa
 }
 

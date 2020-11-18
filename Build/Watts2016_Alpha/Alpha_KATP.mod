@@ -9,6 +9,8 @@ NEURON{
 UNITS {
     (mV) = (millivolt)
     (nS) = (nanosiemens)
+    (molar) = (1/liter)
+    (pM) = (picomolar)
 }
 
 PARAMETER{
@@ -16,13 +18,13 @@ PARAMETER{
     vka
     ka1
     knockoutba
-    I
+    I   (pM)
 }
 
 ASSIGNED{
     EffIa
     gkatpa
-    v
+    v   (mV)
     ikatpa
 }
 

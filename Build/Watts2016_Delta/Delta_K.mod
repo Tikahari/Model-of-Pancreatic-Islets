@@ -12,7 +12,7 @@ UNITS {
 
 PARAMETER{
     gkad    (nS)
-    vkd
+    vkd (mV)
     vkamd
     skamd
     vkahd
@@ -26,7 +26,7 @@ ASSIGNED{
     mkainfd
     hkainfd
     taukahd
-    v
+    v   (mV)
     ikad
 }
 

@@ -7,11 +7,12 @@ NEURON{
 
 UNITS {
     (mV) = (millivolt)
+    (pA) = (picoamp)
 }
 
 PARAMETER{
-    vcaa 
-    vcala
+    vcaa    (mV)
+    vcala   (mV)
     gcala
     tcalh1a
     tcalh2a
@@ -27,7 +28,7 @@ ASSIGNED{
     mcalinfa
     hcalinfa
     v   (mV)
-    icala
+    icala   (pA)
 }
 
 STATE{

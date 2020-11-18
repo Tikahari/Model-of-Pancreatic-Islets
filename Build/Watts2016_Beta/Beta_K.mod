@@ -21,7 +21,7 @@ PARAMETER{
 ASSIGNED{
     ninf
     iK
-    v
+    v   (mV)
 }
 
 STATE{

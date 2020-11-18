@@ -8,15 +8,14 @@ NEURON{
 UNITS{
     (millivolt) = (mV)
     (picosiemens) = (pS)
-    (dimensionless) = (dless)
 }
 
 PARAMETER{
     vm  (mV)
     sm  (dless)
     gca (pS)
-    vca
-    nca (dless)
+    vca (mV)
+    nca :dimensionless
 }
 
 ASSIGNED{

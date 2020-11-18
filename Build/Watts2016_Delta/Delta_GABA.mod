@@ -9,18 +9,20 @@ NEURON{
 UNITS {
     (mV) = (millivolt)
     (nS) = (nanosiemen)
+    (molar) = (1/liter)
+    (pM) = (picomolar)
 }
 
 PARAMETER{
     knockoutbd
     vGABA   {mV}
-    I
+    I   (pM)
 }
 
 ASSIGNED{
     gGABAbar    (nS)
     EffId
-    v
+    v   (mV)
     iGABA
 }
 

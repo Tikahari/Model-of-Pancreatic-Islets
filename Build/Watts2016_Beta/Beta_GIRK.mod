@@ -9,12 +9,14 @@ NEURON{
 UNITS {
     (mV) = (millivolt)
     (pS) = (picoseconds)
+    (molar) = (1/liter)
+    (pM) = (picomolar)
 }
 
 PARAMETER{
     knockoutdb
-    vGIRK
-    Sst
+    vGIRK   (mV)
+    Sst     (pM)
     sombarb2
 }
 

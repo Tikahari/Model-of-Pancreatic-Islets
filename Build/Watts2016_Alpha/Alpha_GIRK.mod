@@ -9,16 +9,18 @@ NEURON{
 UNITS {
     (mV) = (millivolt)
     (nS) = (nanosiemen)
+    (molar) = (1/liter)
+    (pM) = (picomolar)
 }
 
 PARAMETER{
     knockoutda
     gGIRKko
     vGIRK   (mV)
-    S
+    S   (pM)
     sombara2
     ssom2
-    Sst
+    Sst     (pM)
 }
 
 ASSIGNED{

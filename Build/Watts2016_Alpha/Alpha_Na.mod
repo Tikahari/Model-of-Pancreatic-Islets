@@ -7,10 +7,11 @@ NEURON{
 
 UNITS {
     (mV) = (millivolt)
+    (pA) = (picoamp)
 }
 
 PARAMETER{
-    vnaa
+    vnaa    (mV)
     vnama
     vnaha
     snama
@@ -25,8 +26,8 @@ ASSIGNED{
     hnainfa
     taunama
     taunaha
-    v
-    inaa
+    v   (mV)
+    inaa    (pA)
 }
 
 STATE{

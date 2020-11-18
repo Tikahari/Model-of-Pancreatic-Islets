@@ -10,7 +10,7 @@ UNITS {
 }
 
 PARAMETER{
-    vcaa
+    vcaa    (mV)
     gcata
     vcatma
     scatma
@@ -27,7 +27,7 @@ ASSIGNED{
     hcatinfa
     taucatma
     taucatha
-    v
+    v   (mV)
     icata
 }
 

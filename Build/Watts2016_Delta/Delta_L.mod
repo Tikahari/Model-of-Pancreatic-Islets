@@ -11,11 +11,11 @@ UNITS {
 
 PARAMETER{
     gld
-    vld
+    vld (mV)
 }
 
 ASSIGNED{
-    v
+    v   (mV)
     ild
 }
 

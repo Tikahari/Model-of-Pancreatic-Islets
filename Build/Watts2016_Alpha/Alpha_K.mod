@@ -10,7 +10,7 @@ UNITS {
 }
 
 PARAMETER{
-    vka
+    vka (mV)
     gkaa
     vkama
     skama
@@ -25,7 +25,7 @@ ASSIGNED{
     mkainfa
     hkainfa
     taukaha
-    v
+    v   (mV)
     ikaa
 }
 

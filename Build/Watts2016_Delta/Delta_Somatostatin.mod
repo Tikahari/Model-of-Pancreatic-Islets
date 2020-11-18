@@ -13,6 +13,9 @@ NEURON{
 
 UNITS {
     (mV) = (millivolt)
+    (molar) = (1/liter)
+    (pM) = (picomolar)
+    (uM) = (micromolar)
 }
 
 PARAMETER{
@@ -22,7 +25,7 @@ PARAMETER{
     hcapqd
     Sstpnt
     insulini
-    I
+    I   (pM)
     con
     bas     :dimensionless
     cma
@@ -58,11 +61,11 @@ ASSIGNED{
 }
 
 STATE{
-    cd
+    cd  (uM)
     cmdld
     cmdpqd
     cerd
-    S
+    S   (pM)
 }
 
 INITIAL{
@@ -87,7 +90,7 @@ INITIAL{
     fcytd=0.01
     ferd=0.01
     sigmavd=31
-    ksercad=0.4
+    ksercad=0.4 :dimensionless
     fd= 0.003
     vmdpqd=1.41e-15
     vmdld=2.12e-15

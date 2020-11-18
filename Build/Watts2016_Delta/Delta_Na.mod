@@ -12,7 +12,7 @@ UNITS{
 
 PARAMETER{
     gnad    (nS)
-    vnad
+    vnad    (mV)
     vnamd
     vnahd
     snamd
