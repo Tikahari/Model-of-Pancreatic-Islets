@@ -12,7 +12,7 @@ UNITS{
 
 PARAMETER{
     vm  (mV)
-    sm  (dless)
+    sm  :dimensionless
     gca (pS)
     vca (mV)
     nca :dimensionless
