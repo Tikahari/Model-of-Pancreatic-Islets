@@ -16,6 +16,7 @@ UNITS {
     (molar) = (1/liter)
     (pM) = (picomolar)
     (uM) = (micromolar)
+    (L) = (liter)
 }
 
 PARAMETER{
@@ -45,7 +46,7 @@ PARAMETER{
     ksercad
     fd      :dimensionless
     vmdpqd
-    vmdld
+    vmdld   (L)
 }
 
 ASSIGNED{

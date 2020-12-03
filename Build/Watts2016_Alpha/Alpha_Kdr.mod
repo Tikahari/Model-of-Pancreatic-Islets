@@ -8,13 +8,14 @@ NEURON{
 UNITS {
     (mV) = (millivolt)
     (pA) = (picoamp)
+    (nS) = (nanosiemen)
 }
 
 PARAMETER{
-    vka
-    vkdrma
-    skdrma
-    gkdra
+    vka (mV)
+    vkdrma  (mV)
+    skdrma  (mV)
+    gkdra   (nS)
 }
 
 ASSIGNED{

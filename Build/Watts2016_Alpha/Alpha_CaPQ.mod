@@ -7,26 +7,29 @@ NEURON{
 
 UNITS {
     (mV) = (millivolt)
+    (ms) = (millisecond)
+    (nS) = (nanosiemen)
+    (pA) = (picoamps)
 }
 
 PARAMETER{
     vcaa    (mV)
-    tcapqh1a
-    tcapqh2a
-    vcapqma
-    scapqma
-    vcapqha
-    scapqha
-    gcapqa
+    tcapqh1a    (ms)
+    tcapqh2a    (ms)
+    vcapqma     (mV)
+    scapqma     (mV)
+    vcapqha     (mV)
+    scapqha     (mV)
+    gcapqa      (nS)
 }
 
 ASSIGNED{
-    mcapqinfa
-    hcapqinfa
-    taucapqma
-    taucapqha
+    mcapqinfa   :dimensionless
+    hcapqinfa   :dimensionless
+    taucapqma   (ms)
+    taucapqha   (ms)
     v   (mV)
-    icapqa
+    icapqa  (pA)
 }
 
 STATE{
@@ -45,9 +48,6 @@ INITIAL{
     gcapqa=0.6
     tcapqh1a=60
     tcapqh2a=51
-
-    taucapqma = 0.5
-    taucapqha = 0.5
 }
 
 BREAKPOINT{

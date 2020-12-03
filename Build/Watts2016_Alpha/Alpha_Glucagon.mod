@@ -15,10 +15,14 @@ NEURON{
 UNITS {
     (mV) = (millivolt)
     (s) = (seconds)
+    (ms) = (milliseconds)
     (molar) = (1/liter)
     (pM) = (picomolar)
     (uM) = (micromolar)
     (nS) = (nanosiemen)
+    (pL) = (picoliter)
+    (pA) = (picoamp)
+    (L) = (liter)
 }
 
 PARAMETER{
@@ -31,9 +35,9 @@ PARAMETER{
     icata
     icapqa
     vc
-    caerbara
+    caerbara    (uM)
     ssoca
-    vsoca
+    vsoca   (mV)
     k1a
     km1a
     r1a
@@ -47,16 +51,16 @@ PARAMETER{
     kpa
     kp2a
     GlucFacta
-    vcella
-    vmdpqa
-    fVpqa
-    fmda
-    Ba
-    alphaa
-    kpmcaa
+    vcella  (L)
+    vmdpqa  (L)
+    fVpqa   :dimensionless
+    fmda    :dimensionless
+    Ba  (/ms)
+    alphaa  (uM/ms/pA)
+    kpmcaa  (/ms)
     fcyta
-    fera
-    pleaka
+    fera    :dimensionless
+    pleaka  (/ms)
     sigmava
     fa  :dimensionless
     gsocbara    (nS)

@@ -15,7 +15,7 @@ UNITS {
 
 PARAMETER{
     gkatpbara   (nS)
-    vka
+    vka     (mV)
     ka1
     knockoutba
     I   (pM)

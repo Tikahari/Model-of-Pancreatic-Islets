@@ -8,17 +8,19 @@ NEURON{
 UNITS {
     (mV) = (millivolt)
     (pA) = (picoamp)
+    (nS) = (nanosiemen)
+    (ms) = (millisecond)
 }
 
 PARAMETER{
     vnaa    (mV)
-    vnama
-    vnaha
-    snama
-    snaha
-    tnah1a
-    tnah2a
-    gnaa
+    vnama   (mV)
+    vnaha   (mV)
+    snama   (mV)
+    snaha   (mV)
+    tnah1a  (ms)
+    tnah2a  (ms)
+    gnaa    (nS)
 }
 
 ASSIGNED{

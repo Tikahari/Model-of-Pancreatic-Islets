@@ -7,18 +7,20 @@ NEURON{
 
 UNITS {
     (mV) = (millivolt)
+    (nS) = (nanosiemen)
+    (ms) = (millisecond)
 }
 
 PARAMETER{
     vka (mV)
-    gkaa
-    vkama
-    skama
-    vkaha
-    skaha
-    taukama
-    tkah1a
-    tkah2a
+    gkaa    (nS)
+    vkama (mV)
+    skama   (mV)
+    vkaha   (mV)
+    skaha   (mV)
+    taukama (ms)
+    tkah1a  (ms)
+    tkah2a  (ms)
 }
 
 ASSIGNED{
@@ -46,8 +48,6 @@ INITIAL{
     taukama=0.1
     tkah1a=60
     tkah2a=5
-
-    taukaha = 0.5
 }
 
 BREAKPOINT{

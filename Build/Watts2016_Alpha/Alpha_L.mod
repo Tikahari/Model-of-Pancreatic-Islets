@@ -6,11 +6,12 @@ NEURON{
 
 UNITS {
     (mV) = (millivolt)
+    (nS) = (nanosiemen)
 }
 
 PARAMETER{
-    gla
-    vla (mV)
+    gla     (nS)
+    vla     (mV)
 }
 
 ASSIGNED{
