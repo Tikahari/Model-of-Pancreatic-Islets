@@ -34,8 +34,8 @@ ASSIGNED{
 }
 
 STATE{
-    mcala
-    hcala
+    mcala   :dimensionless
+    hcala   :dimensionless
 }
 
 INITIAL{

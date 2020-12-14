@@ -11,11 +11,12 @@ UNITS {
     (nS) = (nanosiemen)
     (molar) = (1/liter)
     (pM) = (picomolar)
+    (pA) = (picoamp)
 }
 
 PARAMETER{
-    knockoutda
-    gGIRKko
+    knockoutda  :dimensionless
+    gGIRKko  (nS)
     vGIRK   (mV)
     S   (pM)
     sombara2
@@ -25,9 +26,9 @@ PARAMETER{
 
 ASSIGNED{
     gGIRKbara   (nS)
-    EffSa
+    EffSa   :dimensionless
     v   (mV)
-    iGIRKa
+    iGIRKa  (pA)
 }
 
 INITIAL{

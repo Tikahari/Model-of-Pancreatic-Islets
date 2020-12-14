@@ -11,6 +11,7 @@ UNITS {
     (nS) = (nanosiemens)
     (molar) = (1/liter)
     (pM) = (picomolar)
+    (pA) = (picoamp)
 }
 
 PARAMETER{
@@ -22,10 +23,10 @@ PARAMETER{
 }
 
 ASSIGNED{
-    EffIa
-    gkatpa
+    EffIa   :dimensionless
+    gkatpa  (nS)
     v   (mV)
-    ikatpa
+    ikatpa  (pA)
 }
 
 INITIAL{

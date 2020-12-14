@@ -33,8 +33,8 @@ ASSIGNED{
 }
 
 STATE{
-    mcapqa
-    hcapqa
+    mcapqa  :dimensionless
+    hcapqa  :dimensionless
 }
 
 INITIAL{ 

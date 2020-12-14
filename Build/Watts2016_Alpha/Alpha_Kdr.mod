@@ -9,6 +9,7 @@ UNITS {
     (mV) = (millivolt)
     (pA) = (picoamp)
     (nS) = (nanosiemen)
+    (ms) = (millisecond)
 }
 
 PARAMETER{
@@ -19,14 +20,14 @@ PARAMETER{
 }
 
 ASSIGNED{
-    mkdrinfa
-    taukdrma
+    mkdrinfa    :dimensionless
+    taukdrma    (ms)
     v   (mV)
     ikdra   (pA)
 }
 
 STATE{
-    mkdra
+    mkdra   :dimensionless
 }
 
 INITIAL{
@@ -35,8 +36,6 @@ INITIAL{
     vkdrma=-25
     skdrma=23
     gkdra=4.5
-
-    taukdrma = 0.5
 }
 
 BREAKPOINT{

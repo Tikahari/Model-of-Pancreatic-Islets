@@ -35,8 +35,8 @@ ASSIGNED{
 }
 
 STATE{
-    mcata
-    hcata
+    mcata   :dimensionless
+    hcata   :dimensionless
 }
 
 INITIAL{

@@ -8,11 +8,12 @@ NEURON{
 UNITS{
     (picosiemens) = (pS)
     (milliseconds) = (ms)
+    ()
 }
 
 PARAMETER{
     taun    (ms)
-    vk
+    vk  (mV)
     gk  (pS)
     vn
     sn

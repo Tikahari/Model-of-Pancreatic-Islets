@@ -6,8 +6,9 @@ NEURON{
 }
 
 UNITS{
-    (millivolt) = (mV)
-    (picosiemens) = (pS)
+    (mV) = (millivolt)
+    (pS) = (picosiemens)
+    (fA) = (femtoamp)
 }
 
 PARAMETER{
@@ -19,8 +20,8 @@ PARAMETER{
 }
 
 ASSIGNED{
-    minf
-    iCa
+    minf    :dimensionless
+    iCa    (fA) 
 }
 
 INITIAL{

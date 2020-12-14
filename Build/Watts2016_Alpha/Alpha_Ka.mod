@@ -9,6 +9,7 @@ UNITS {
     (mV) = (millivolt)
     (nS) = (nanosiemen)
     (ms) = (millisecond)
+    (pA) = (picoamp)
 }
 
 PARAMETER{
@@ -24,16 +25,16 @@ PARAMETER{
 }
 
 ASSIGNED{
-    mkainfa
-    hkainfa
-    taukaha
+    mkainfa    :dimensionless
+    hkainfa    :dimensionless
+    taukaha    (ms)
     v   (mV)
-    ikaa
+    ikaa    (pA)
 }
 
 STATE{
-    mkaa
-    hkaa
+    mkaa    :dimensionless
+    hkaa    :dimensionless
 }
 
 INITIAL{

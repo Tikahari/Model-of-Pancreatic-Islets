@@ -31,9 +31,9 @@ PARAMETER{
     Gpnt
     Sst     (pM)
     I       (pM)
-    icala
-    icata
-    icapqa
+    icala   (pA)
+    icata   (pA)
+    icapqa  (pA)
     vc
     caerbara    (uM)
     ssoca
@@ -58,7 +58,7 @@ PARAMETER{
     Ba  (/ms)
     alphaa  (uM/ms/pA)
     kpmcaa  (/ms)
-    fcyta
+    fcyta   :dimensionless
     fera    :dimensionless
     pleaka  (/ms)
     sigmava
@@ -76,9 +76,9 @@ PARAMETER{
 ASSIGNED{
     rm2a
     cinfa
-    JLa
-    JPQa
-    JTa
+    JLa    (uM/ms)
+    JPQa   (uM/ms)
+    JTa    (uM/ms)
     Jmema
     Jsercaa
     Jleaka

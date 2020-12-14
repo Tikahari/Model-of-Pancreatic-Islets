@@ -24,17 +24,17 @@ PARAMETER{
 }
 
 ASSIGNED{
-    mnainfa
-    hnainfa
-    taunama
-    taunaha
+    mnainfa :dimensionless
+    hnainfa :dimensionless
+    taunama (ms)    
+    taunaha (ms)
     v   (mV)
     inaa    (pA)
 }
 
 STATE{
-    mnaa
-    hnaa
+    mnaa    :dimensionless
+    hnaa    :dimensionless
 }
 
 INITIAL{

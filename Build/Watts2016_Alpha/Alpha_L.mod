@@ -7,6 +7,7 @@ NEURON{
 UNITS {
     (mV) = (millivolt)
     (nS) = (nanosiemen)
+    (pA) = (picoamp)
 }
 
 PARAMETER{
@@ -15,7 +16,7 @@ PARAMETER{
 }
 
 ASSIGNED{
-    ila
+    ila (pA)
     v   (mV)
 }
 

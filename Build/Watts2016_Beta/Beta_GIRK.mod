@@ -10,7 +10,8 @@ UNITS {
     (mV) = (millivolt)
     (pS) = (picoseconds)
     (molar) = (1/liter)
-    (pM) = (picomolar)
+    (pM) = (picomolar)  
+    (fA) = (femtoamp)
 }
 
 PARAMETER{
@@ -22,8 +23,8 @@ PARAMETER{
 
 ASSIGNED{
     gGIRKbarb   (pS)
-    EffSb
-    iGIRKb
+    EffSb   :dimensionless
+    iGIRKb  (fA)
     v   (mV)
 }
 
