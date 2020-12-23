@@ -1,11 +1,12 @@
 "This is the supervisor script which will write the configuration of an islet instance and dispatch its compilation and simulation"
 import datetime
+import sys
 import Islet
 from Helper import *
 
 print(str(datetime.datetime.now()) + '\tSuper.py')
 # size of islets (dimensions of cube which will contain it)
-size = 5
+size = int(sys.argv[1])
 # default probability of each cell type [P(A), P(A) + P(B)]
 probabilities = [0.15, 0.75]
 
@@ -20,7 +21,7 @@ islet = Islet.Islet(probabilities, None, size)
 islet.spatialConfig(0)
 print(str(datetime.datetime.now()) + '\tSuper.setTemplates Create islet: gid', Islet.env['gid'])
 
-# get paremter values, mechanisms for each cell type
+# get parameter values, mechanisms for each cell type
 mechanisms_config_path = Islet.env['config'] + 'Mechanisms/'
 values_config_path = Islet.env['config'] + 'Values/'
 template_path = Islet.env['config'] + 'Values/Template_' + Islet.env['rid'] + '_'

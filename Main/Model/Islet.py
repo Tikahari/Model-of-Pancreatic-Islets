@@ -8,7 +8,7 @@ import neuron
 from neuron import rxd
 
 # path to initialization file, mechanisms, output, and generation identifier
-path = "/blue/lamb/robert727/Model-of-Pancreatic-Islets/"
+path = "/mnt/c/Users/Robert/Desktop/Model-of-Pancreatic-Islets/"
 env = {'config': path + "Configuration/", 'gid': "1_0", 'mech': path + "Mechanisms/", 'output': path + "Outputs/", 'rid': "0", 'wd': path + "Main/Run/" }
 
 class Islet:

@@ -79,7 +79,7 @@ class Cell:
         else:
             self.pp = Islet.neuron.h.D_Somatostatin(self.cell(0.5))
             Islet.neuron.h.setpointer(self.sst.nodes[0]._ref_concentration, 'Sstpnt', self.pp)
-            d.cm = 5e6
+            self.cell.cm = 5e6
         for i in self.mechs:
             print(str(datetime.datetime.now()) + '\tCells.addMechanisms Adding mechanisms: cell type', self.type, 'mechanism', i, 'cwd', os.getcwd())
             self.cell.insert(self.type+'_'+i)
@@ -136,11 +136,11 @@ class Cell:
                     if ex in j:
                         _exclude = False
                 if(_exclude):
-                    self.header.append(n+'_'+j)
+                    self.header.append(self.type + '_' + n + self.id + '_'+ j)
                     molecule = getattr(i, '_ref_' + j)
-                    self.rec[str(n + '_' + j)] = []
-                    self.rec[str(n + '_' + j)].append(Islet.neuron.h.Vector().record(molecule))
-                    print(str(datetime.datetime.now()) + '\tCells.record Record point process ' + n + '_' + j)
+                    self.rec[str(self.type + '_' + n + self.id + '_'+ j)] = []
+                    self.rec[str(self.type + '_' + n + self.id + '_'+ j)].append(Islet.neuron.h.Vector().record(molecule))
+                    print(str(datetime.datetime.now()) + '\tCells.record Record point process' + self.type + '_' + n + self.id + '_' + j)
     
     
     def __repr__(self):
