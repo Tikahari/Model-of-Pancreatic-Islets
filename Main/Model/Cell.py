@@ -116,7 +116,7 @@ class Cell:
         # fix header / record voltage of every segment
         count = 0
         for i in self.cell:
-            temp = 'VC'+str(count)
+            temp = self.type+'_Vm_'+self.id+str(count) 
             # ease writing to csv by keeping same format even though it is not necessary
             self.rec[temp] = []
             self.rec[temp].append(Islet.neuron.h.Vector().record(i._ref_v))
@@ -136,11 +136,11 @@ class Cell:
                     if ex in j:
                         _exclude = False
                 if(_exclude):
-                    self.header.append(self.type + '_' + n + self.id + '_'+ j)
+                    self.header.append(self.type + '_' + n + '_'+ j + self.id)
                     molecule = getattr(i, '_ref_' + j)
-                    self.rec[str(self.type + '_' + n + self.id + '_'+ j)] = []
-                    self.rec[str(self.type + '_' + n + self.id + '_'+ j)].append(Islet.neuron.h.Vector().record(molecule))
-                    print(str(datetime.datetime.now()) + '\tCells.record Record point process' + self.type + '_' + n + self.id + '_' + j)
+                    self.rec[str(self.type + '_' + n + '_'+ j + self.id)] = []
+                    self.rec[str(self.type + '_' + n + '_'+ j + self.id)].append(Islet.neuron.h.Vector().record(molecule))
+                    print(str(datetime.datetime.now()) + '\tCells.record Record point process' + self.type + '_' + n + '_'+ j + self.id)
     
     
     def __repr__(self):
