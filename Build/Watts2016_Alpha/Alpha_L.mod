@@ -4,14 +4,20 @@ NEURON{
     RANGE gla, vla, ila
 }
 
+UNITS {
+    (mV) = (millivolt)
+    (nS) = (nanosiemen)
+    (pA) = (picoamp)
+}
+
 PARAMETER{
-    gla
-    vla
+    gla     (nS)
+    vla     (mV)
 }
 
 ASSIGNED{
-    ila
-    v
+    ila (pA)
+    v   (mV)
 }
 
 INITIAL{

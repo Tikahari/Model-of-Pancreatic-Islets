@@ -5,9 +5,14 @@ NEURON{
     RANGE mkdrinfd, taukdrmd, ikdrd
 }
 
+UNITS {
+    (mV) = (millivolt)
+    (nS) = (nanosiemens)
+}
+
 PARAMETER{
-    gkdrd
-    vkd
+    gkdrd   (nS)
+    vkd (mV)
     vkdrmd
     skdrmd
 }
@@ -15,7 +20,7 @@ PARAMETER{
 ASSIGNED{
     mkdrinfd
     taukdrmd
-    v
+    v   (mV)
     ikdrd
 }
 

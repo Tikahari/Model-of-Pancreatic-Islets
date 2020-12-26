@@ -5,13 +5,18 @@ NEURON{
     RANGE ikatpd
 }
 
+UNITS {
+    (mV) = (millivolt)
+    (nS) = (nanosiemens)
+}
+
 PARAMETER{
-    gkatpbard
-    vkd
+    gkatpbard (nS)
+    vkd (mV)
 }
 
 ASSIGNED{
-    v
+    v (mV)
     ikatpd
 }
 

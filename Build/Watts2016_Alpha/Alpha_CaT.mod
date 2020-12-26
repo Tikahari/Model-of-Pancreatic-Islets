@@ -5,31 +5,38 @@ NEURON{
     RANGE mcatinfa, hcatinfa, taucatma, taucatha, icata
 }
 
+UNITS {
+    (mV) = (millivolt)
+    (nS) = (nanosiemen)
+    (ms) = (millisecond)
+    (pA) = (picoamps)
+}
+
 PARAMETER{
-    vcaa
-    gcata
-    vcatma
-    scatma
-    vcatha
-    scatha
-    tcatm1a
-    tcatm2a
-    tcath1a
-    tcath2a
+    vcaa    (mV)
+    gcata   (nS)
+    vcatma  (mV)
+    scatma  (mV)
+    vcatha  (mV)
+    scatha  (mV)
+    tcatm1a (ms)
+    tcatm2a (ms)
+    tcath1a (ms)
+    tcath2a (ms)
 }
 
 ASSIGNED{
-    mcatinfa
-    hcatinfa
-    taucatma
-    taucatha
-    v
-    icata
+    mcatinfa    :dimensionless
+    hcatinfa    :dimensionless
+    taucatma    (ms)
+    taucatha    (ms)
+    v   (mV)
+    icata   (pA)
 }
 
 STATE{
-    mcata
-    hcata
+    mcata   :dimensionless
+    hcata   :dimensionless
 }
 
 INITIAL{
@@ -45,9 +52,6 @@ INITIAL{
     tcatm2a=0
     tcath1a=20
     tcath2a=5
-
-    taucatma = 0.5
-    taucatha = 0.5
 }
 
 BREAKPOINT{

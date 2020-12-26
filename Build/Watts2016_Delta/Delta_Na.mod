@@ -5,9 +5,14 @@ NEURON{
     RANGE mnainfd, hnainfd, taunamd, taunahd, inad
 }
 
+UNITS{
+    (mV) = (millivolt)
+    (nS) = (nanosiemens)
+}
+
 PARAMETER{
-    gnad
-    vnad
+    gnad    (nS)
+    vnad    (mV)
     vnamd
     vnahd
     snamd
@@ -21,7 +26,7 @@ ASSIGNED{
     hnainfd
     taunamd
     taunahd
-    v
+    v   (mV)
     inad
 }
 

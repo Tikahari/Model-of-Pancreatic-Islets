@@ -6,18 +6,26 @@ NEURON{
     POINTER Sst
 }
 
+UNITS {
+    (mV) = (millivolt)
+    (pS) = (picoseconds)
+    (molar) = (1/liter)
+    (pM) = (picomolar)  
+    (fA) = (femtoamp)
+}
+
 PARAMETER{
     knockoutdb
-    vGIRK
-    Sst
+    vGIRK   (mV)
+    Sst     (pM)
     sombarb2
 }
 
 ASSIGNED{
-    gGIRKbarb
-    EffSb
-    iGIRKb
-    v
+    gGIRKbarb   (pS)
+    EffSb   :dimensionless
+    iGIRKb  (fA)
+    v   (mV)
 }
 
 INITIAL{

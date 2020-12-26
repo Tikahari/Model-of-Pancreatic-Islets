@@ -144,7 +144,6 @@ class Space:
         gcyt = glucagon[cyt]
         gecs = glucagon[ecs]
         self.glucagon = glucagon
-
         # somatostatin
         sst = Islet.neuron.rxd.Species([cyt, ecs], name='sst', charge=1, d=1.0, initial=19)
         sstcyt = sst[cyt]
@@ -248,7 +247,7 @@ class Space:
     def writeDataPhysiology(self):
         """Write physiological data for each cell"""
         print(str(datetime.datetime.now()) + '\tSpace.writeDataPhysiology Write physiology data: number of columns in 3d matrix of cells', len(self.cells), 'number of rows in x direction', len(self.cells[0]), 'number of rows in y direction', len(self.cells[0][0]))
-        print( Islet.env['output'], 'Islet_', Islet.env['rid'], Islet.env['gid'])
+        print(str(datetime.datetime.now()) + '\tSpace.writeDataPhysiology Output folder: ' + Islet.env['output'] + 'Islet_' + Islet.env['rid'] + Islet.env['gid'])
         output_islet_path = Islet.env['output'] + 'Islet_' + Islet.env['rid'] + '_' + Islet.env['gid']
         # create output folder
         os.system('mkdir -p ' + output_islet_path)
@@ -280,9 +279,6 @@ class Space:
                                         data.append(self.cells[i][j][k].rec[q][0][z])
                                     writer.writerow(data)
                             print(str(datetime.datetime.now()) + '\tSpace.writeDataPhysiology Wrote data: cell', self.cells[i][j][k], 'islet Islet_' + Islet.env['gid'], 'path', Islet.env['output'] + 'Islet_' + Islet.env['rid'] + '_' + Islet.env['gid'] + '/' + self.cells[i][j][k].type.lower() + '_' + self.cells[i][j][k].id + '.csv')
-    def writeHeader(self):
-        """Write header for every output of every cell"""
-        print(str(datetime.datetime.now()) + '\tSpace.writeHeader')
     def getCell(self, rand, x, y, z):
         """Randomly select one cell"""
         print(str(datetime.datetime.now()) + '\tSpace.getCell rand =', rand, 'x =', x, 'y =', y, 'z =', z, 'Probability of alpha/beta at this x/y/z position', self.probabilities[x][y][z])

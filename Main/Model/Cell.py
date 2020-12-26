@@ -71,16 +71,18 @@ class Cell:
         if self.type == 'A':
             self.pp = Islet.neuron.h.A_Glucagon(self.cell(0.5))
             Islet.neuron.h.setpointer(self.glucagon.nodes[0]._ref_concentration, 'Gpnt', self.pp)
+            self.cell.cm = 5
         elif self.type == 'B':
             self.pp = Islet.neuron.h.B_Insulin(self.cell(0.5))
             Islet.neuron.h.setpointer(self.insulin.nodes[0]._ref_concentration, 'Inspnt', self.pp)
+            self.cell.cm = 5300e3
         else:
             self.pp = Islet.neuron.h.D_Somatostatin(self.cell(0.5))
             Islet.neuron.h.setpointer(self.sst.nodes[0]._ref_concentration, 'Sstpnt', self.pp)
+            self.cell.cm = 5e6
         for i in self.mechs:
             print(str(datetime.datetime.now()) + '\tCells.addMechanisms Adding mechanisms: cell type', self.type, 'mechanism', i, 'cwd', os.getcwd())
             self.cell.insert(self.type+'_'+i)
-        self.cell.cm = 9990000
     def setPointers(self):
         """Set NEURON pointers"""
         for i in self.pointers:
@@ -104,24 +106,25 @@ class Cell:
         print(str(datetime.datetime.now()) + '\tCell.record(self) Add recording variables')
         for i in self.cell.psection()['density_mechs']:
             for j in self.cell.psection()['density_mechs'][i]:
-                self.header.append(i+'_'+j)
-                self.rec[str(i+'_'+j)] = []
+                head = re.split("[0-9]", i)[0]
+                self.header.append(head + '_' + j + '_' + self.id)
+                self.rec[str(head + '_' + j + '_' + self.id)] = []
                 # record variables of every mechanism in every segment
                 for k in self.cell:
                     self.v.append(Islet.neuron.h.Vector().record(k._ref_v))
                     mechRecord = getattr(k, '_ref_'+j+'_'+i)
-                    self.rec[str(i+'_'+j)].append(Islet.neuron.h.Vector().record(mechRecord))
+                    self.rec[str(head + '_' + j + '_' + self.id)].append(Islet.neuron.h.Vector().record(mechRecord))
         # fix header / record voltage of every segment
         count = 0
         for i in self.cell:
-            temp = 'VC'+str(count)
+            # temp = self.type+'_Vm_'+self.id+str(count) 
+            temp = self.type+'_Vm_'+self.id
             # ease writing to csv by keeping same format even though it is not necessary
             self.rec[temp] = []
             self.rec[temp].append(Islet.neuron.h.Vector().record(i._ref_v))
             count += 1
         self.header.append(temp)
         self.t = Islet.neuron.h.Vector().record(Islet.neuron.h._ref_t)
-
         # point processes
         exclude = ['loc', 'get_segment', 'Inspnt']
         _exclude = True
@@ -134,13 +137,11 @@ class Cell:
                     if ex in j:
                         _exclude = False
                 if(_exclude):
-                    self.header.append(n+'_'+j)
+                    self.header.append(self.type + '_' + n + '_'+ j + self.id)
                     molecule = getattr(i, '_ref_' + j)
-                    self.rec[str(n + '_' + j)] = []
-                    self.rec[str(n + '_' + j)].append(Islet.neuron.h.Vector().record(molecule))
-                    print(str(datetime.datetime.now()) + '\tCells.record Record point process ' + n + '_' + j)
-    
-    
+                    self.rec[str(self.type + '_' + n + '_'+ j + self.id)] = []
+                    self.rec[str(self.type + '_' + n + '_'+ j + self.id)].append(Islet.neuron.h.Vector().record(molecule))
+                    print(str(datetime.datetime.now()) + '\tCells.record Record point process ' + self.type + '_' + n + '_'+ j + self.id)
     def __repr__(self):
         return '{}{}'.format(self.type, self.id)
 if __name__ == '__main__':

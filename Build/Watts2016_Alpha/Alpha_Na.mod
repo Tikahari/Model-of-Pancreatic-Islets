@@ -5,29 +5,36 @@ NEURON{
     RANGE mnainfa, hnainfa, taunama, taunaha, inaa
 }
 
+UNITS {
+    (mV) = (millivolt)
+    (pA) = (picoamp)
+    (nS) = (nanosiemen)
+    (ms) = (millisecond)
+}
+
 PARAMETER{
-    vnaa
-    vnama
-    vnaha
-    snama
-    snaha
-    tnah1a
-    tnah2a
-    gnaa
+    vnaa    (mV)
+    vnama   (mV)
+    vnaha   (mV)
+    snama   (mV)
+    snaha   (mV)
+    tnah1a  (ms)
+    tnah2a  (ms)
+    gnaa    (nS)
 }
 
 ASSIGNED{
-    mnainfa
-    hnainfa
-    taunama
-    taunaha
-    v
-    inaa
+    mnainfa :dimensionless
+    hnainfa :dimensionless
+    taunama (ms)    
+    taunaha (ms)
+    v   (mV)
+    inaa    (pA)
 }
 
 STATE{
-    mnaa
-    hnaa
+    mnaa    :dimensionless
+    hnaa    :dimensionless
 }
 
 INITIAL{

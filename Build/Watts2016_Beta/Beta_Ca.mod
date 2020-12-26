@@ -5,17 +5,23 @@ NEURON{
     RANGE minf, ica
 }
 
+UNITS{
+    (mV) = (millivolt)
+    (pS) = (picosiemens)
+    (fA) = (femtoamp)
+}
+
 PARAMETER{
-    vm
-    sm
-    gca
-    vca
-    nca
+    vm  (mV)
+    sm  :dimensionless
+    gca (pS)
+    vca (mV)
+    nca :dimensionless
 }
 
 ASSIGNED{
-    minf
-    iCa
+    minf    :dimensionless
+    iCa    (fA) 
 }
 
 INITIAL{

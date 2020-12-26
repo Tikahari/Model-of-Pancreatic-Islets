@@ -5,13 +5,17 @@ NEURON{
     RANGE ild
 }
 
+UNITS {
+    (mV) = (millivolt)
+}
+
 PARAMETER{
     gld
-    vld
+    vld (mV)
 }
 
 ASSIGNED{
-    v
+    v   (mV)
     ild
 }
 

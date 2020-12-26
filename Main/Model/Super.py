@@ -1,11 +1,12 @@
 "This is the supervisor script which will write the configuration of an islet instance and dispatch its compilation and simulation"
 import datetime
+import sys
 import Islet
 from Helper import *
 
 print(str(datetime.datetime.now()) + '\tSuper.py')
 # size of islets (dimensions of cube which will contain it)
-size = 5
+size = int(sys.argv[1])
 # default probability of each cell type [P(A), P(A) + P(B)]
 probabilities = [0.15, 0.75]
 
@@ -14,13 +15,13 @@ probabilities = [0.15, 0.75]
 template_path = Islet.env['config'] + 'Values/Template_' + Islet.env['rid'] + '_'
 # create folder to write config files to and update Islet env variable
 os.system('mkdir -p ' + template_path + str(0))
-Islet.env['gid'] = str(0) + '_model_' + str(0)
+Islet.env['gid'] = sys.argv[2]
 # generate islet with random size
 islet = Islet.Islet(probabilities, None, size)
 islet.spatialConfig(0)
 print(str(datetime.datetime.now()) + '\tSuper.setTemplates Create islet: gid', Islet.env['gid'])
 
-# get paremter values, mechanisms for each cell type
+# get parameter values, mechanisms for each cell type
 mechanisms_config_path = Islet.env['config'] + 'Mechanisms/'
 values_config_path = Islet.env['config'] + 'Values/'
 template_path = Islet.env['config'] + 'Values/Template_' + Islet.env['rid'] + '_'
@@ -28,7 +29,7 @@ run_islet_path = Islet.env['wd']
 values, mechanisms = readInit(values_config_path + 'super.ini', mechanisms_config_path + 'super.ini')
 
 # set up run folder appropriately
-instance = 'Islet_' + str(0) + '_model_' + str(0)
+instance = 'Islet_' + sys.argv[2]
 # create initialization and run folders for this islet
 os.system('mkdir -p ' + mechanisms_config_path + instance)
 os.system('mkdir -p ' + values_config_path + instance)

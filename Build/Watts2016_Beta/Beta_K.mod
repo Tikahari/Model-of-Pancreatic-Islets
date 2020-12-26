@@ -5,10 +5,16 @@ NEURON{
     RANGE ninf, ik
 }
 
+UNITS{
+    (picosiemens) = (pS)
+    (milliseconds) = (ms)
+    ()
+}
+
 PARAMETER{
-    taun
-    vk
-    gk
+    taun    (ms)
+    vk  (mV)
+    gk  (pS)
     vn
     sn
 }
@@ -16,7 +22,7 @@ PARAMETER{
 ASSIGNED{
     ninf
     iK
-    v
+    v   (mV)
 }
 
 STATE{
@@ -24,7 +30,7 @@ STATE{
 }
 
 INITIAL{
-    :n=9.875188779513991e-05 
+    n=9.875188779513991e-05 
     taun=5
     vk=-75
     gk=1800

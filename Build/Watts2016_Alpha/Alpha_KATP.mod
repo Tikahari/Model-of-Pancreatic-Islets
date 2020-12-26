@@ -6,19 +6,27 @@ NEURON{
     POINTER I
 }
 
+UNITS {
+    (mV) = (millivolt)
+    (nS) = (nanosiemens)
+    (molar) = (1/liter)
+    (pM) = (picomolar)
+    (pA) = (picoamp)
+}
+
 PARAMETER{
-    gkatpbara
-    vka
+    gkatpbara   (nS)
+    vka     (mV)
     ka1
     knockoutba
-    I
+    I   (pM)
 }
 
 ASSIGNED{
-    EffIa
-    gkatpa
-    v
-    ikatpa
+    EffIa   :dimensionless
+    gkatpa  (nS)
+    v   (mV)
+    ikatpa  (pA)
 }
 
 INITIAL{

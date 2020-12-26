@@ -6,21 +6,29 @@ NEURON{
     POINTER Sst
 }
 
+UNITS {
+    (mV) = (millivolt)
+    (nS) = (nanosiemen)
+    (molar) = (1/liter)
+    (pM) = (picomolar)
+    (pA) = (picoamp)
+}
+
 PARAMETER{
-    knockoutda
-    gGIRKko
-    vGIRK
-    S
+    knockoutda  :dimensionless
+    gGIRKko  (nS)
+    vGIRK   (mV)
+    S   (pM)
     sombara2
     ssom2
-    Sst
+    Sst     (pM)
 }
 
 ASSIGNED{
-    gGIRKbara
-    EffSa
-    v
-    iGIRKa
+    gGIRKbara   (nS)
+    EffSa   :dimensionless
+    v   (mV)
+    iGIRKa  (pA)
 }
 
 INITIAL{

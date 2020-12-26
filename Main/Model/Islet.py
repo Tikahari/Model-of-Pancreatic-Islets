@@ -8,7 +8,8 @@ import neuron
 from neuron import rxd
 
 # path to initialization file, mechanisms, output, and generation identifier
-path = "/blue/lamb/tikaharikhanal/Model-of-Pancreatic-Islets/"
+# path = "/mnt/c/Users/Robert/Desktop/Model-of-Pancreatic-Islets/"
+path = "/home/tk/Desktop/Model-of-Pancreatic-Islets/"
 env = {'config': path + "Configuration/", 'gid': "1_0", 'mech': path + "Mechanisms/", 'output': path + "Outputs/", 'rid': "0", 'wd': path + "Main/Run/" }
 
 class Islet:
@@ -38,11 +39,8 @@ class Islet:
         self.space.rxd()
         print(str(datetime.datetime.now()) + '\tIslet.run Initialize neuron mechanisms: path', os.getcwd())
         neuron.h.finitialize()
-        print(str(datetime.datetime.now()) + '\tIslet.run Write header')
         print(str(datetime.datetime.now()) + '\tIslet.run Run simulation')
-        for i in range(500):
-            neuron.h.fadvance()
-            self.space.writeDataPhysiology()
+        neuron.h.continuerun(500)
         print(str(datetime.datetime.now()) + '\tIslet.run Write data')
         self.space.writeDataPhysiology()
         # self.space.plot()

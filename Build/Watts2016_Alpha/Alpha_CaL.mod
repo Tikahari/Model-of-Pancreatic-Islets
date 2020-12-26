@@ -5,30 +5,37 @@ NEURON{
     RANGE taucalma, taucalha, mcalinfa, hcalinfa, icala
 }
 
+UNITS {
+    (mV) = (millivolt)
+    (pA) = (picoamp)
+    (nS) = (nanosiemen)
+    (ms) = (milliseconds)
+}
+
 PARAMETER{
-    vcaa
-    vcala
-    gcala
-    tcalh1a
-    tcalh2a
-    vcalma
-    scalma
-    vcalha
-    scalha
+    vcaa    (mV)
+    vcala   (mV)
+    gcala   (nS)
+    tcalh1a (ms)
+    tcalh2a (ms)
+    vcalma  (mV)
+    scalma  (mV)
+    vcalha  (mV)
+    scalha  (mV)
 }
 
 ASSIGNED{
-    taucalma
-    taucalha
-    mcalinfa
-    hcalinfa
-    v
-    icala
+    taucalma    (ms)
+    taucalha    (ms)
+    mcalinfa    :dimensionless
+    hcalinfa    :dimensionless
+    v   (mV)
+    icala   (pA)
 }
 
 STATE{
-    mcala
-    hcala
+    mcala   :dimensionless
+    hcala   :dimensionless
 }
 
 INITIAL{
@@ -42,9 +49,6 @@ INITIAL{
     scalha=-5
     tcalh1a=60
     tcalh2a=51
-
-    taucalma = 0.5
-    taucalha = 0.5
 }
 
 BREAKPOINT{

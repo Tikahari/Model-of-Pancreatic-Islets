@@ -10,9 +10,10 @@ PARAMETER{
     knockoutda
     gGIRKko
     vGIRK
-    Sst
+    S
     sombara2
     ssom2
+    Sst
 }
 
 ASSIGNED{

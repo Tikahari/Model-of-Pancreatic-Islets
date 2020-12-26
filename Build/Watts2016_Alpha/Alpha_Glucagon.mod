@@ -12,19 +12,32 @@ NEURON{
     POINTER Gpnt
 }
 
+UNITS {
+    (mV) = (millivolt)
+    (s) = (seconds)
+    (ms) = (milliseconds)
+    (molar) = (1/liter)
+    (pM) = (picomolar)
+    (uM) = (micromolar)
+    (nS) = (nanosiemen)
+    (pL) = (picoliter)
+    (pA) = (picoamp)
+    (L) = (liter)
+}
+
 PARAMETER{
     ssti
     insulini
     Gpnt
-    Sst
-    I
-    icala
-    icata
-    icapqa
+    Sst     (pM)
+    I       (pM)
+    icala   (pA)
+    icata   (pA)
+    icapqa  (pA)
     vc
-    caerbara
+    caerbara    (uM)
     ssoca
-    vsoca
+    vsoca   (mV)
     k1a
     km1a
     r1a
@@ -38,23 +51,23 @@ PARAMETER{
     kpa
     kp2a
     GlucFacta
-    vcella
-    vmdpqa
-    fVpqa
-    fmda
-    Ba
-    alphaa
-    kpmcaa
-    fcyta
-    fera
-    pleaka
+    vcella  (L)
+    vmdpqa  (L)
+    fVpqa   :dimensionless
+    fmda    :dimensionless
+    Ba  (/ms)
+    alphaa  (uM/ms/pA)
+    kpmcaa  (/ms)
+    fcyta   :dimensionless
+    fera    :dimensionless
+    pleaka  (/ms)
     sigmava
-    fa
-    gsocbara
-    ksercaa
+    fa  :dimensionless
+    gsocbara    (nS)
+    ksercaa :dimensionless
     tmsb
     knockoutda
-    ra
+    ra  (/s)
     sombara
     rako
     ssom
@@ -63,9 +76,9 @@ PARAMETER{
 ASSIGNED{
     rm2a
     cinfa
-    JLa
-    JPQa
-    JTa
+    JLa    (uM/ms)
+    JPQa   (uM/ms)
+    JTa    (uM/ms)
     Jmema
     Jsercaa
     Jleaka
@@ -73,12 +86,12 @@ ASSIGNED{
     r2a
     r3a
     JGS
-    v
+    v   (mV)
     isoca
 }
 
 STATE{
-    ca
+    ca  (uM)
     cmdpqa
     cera
     N1a
@@ -89,7 +102,7 @@ STATE{
     N6a
     NFa
     NRa
-    G
+    G   (pM)
 }
 
 INITIAL{

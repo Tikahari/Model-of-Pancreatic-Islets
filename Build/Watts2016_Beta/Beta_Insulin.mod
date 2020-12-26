@@ -13,19 +13,28 @@ NEURON{
     POINTER Inspnt
 }
 
+UNITS{
+    (mV) = (millivolt)
+    (ms) = (milliseconds)
+    (molar) = (1/liter)
+    (uM) = (micromolar)
+    (pM) = (picomolar)
+    (s) = (seconds)
+ }
+
 PARAMETER{
 Inspnt
 glucagoni
 ssti
-Sst
-G
+Sst (pM)
+G   (pM)
 gthresh
 sombarb
 ssomb
-rb
+rb  (/s)
 vk
-fb
-Jgk
+fb      :dimensionless
+Jgk (uM/ms)
 factor
 gkatpb
 bas_r3
@@ -47,9 +56,9 @@ ktt
 fcyt
 fer
 fmd
-kpmca
+kpmca   (/ms)
 cbas
-B
+B   (/ms)
 per
 kserca3
 kserca2b
@@ -230,15 +239,14 @@ ASSIGNED{
     ampfactor
     r3
     r2
-
     JIS
     rm2b
-    v
+    v   (mV)
 }
 
 STATE{
     n
-    c
+    c   (uM)
     cer
     cmd 
     g6p
@@ -256,7 +264,7 @@ STATE{
     N6 
     NF 
     NR
-    I
+    I   (pM)
 }
 
 INITIAL{

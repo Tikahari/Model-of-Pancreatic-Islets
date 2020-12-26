@@ -5,22 +5,29 @@ NEURON{
     RANGE mkdrinfa, taukdrma, ikdra
 }
 
+UNITS {
+    (mV) = (millivolt)
+    (pA) = (picoamp)
+    (nS) = (nanosiemen)
+    (ms) = (millisecond)
+}
+
 PARAMETER{
-    vka
-    vkdrma
-    skdrma
-    gkdra
+    vka (mV)
+    vkdrma  (mV)
+    skdrma  (mV)
+    gkdra   (nS)
 }
 
 ASSIGNED{
-    mkdrinfa
-    taukdrma
-    v
-    ikdra
+    mkdrinfa    :dimensionless
+    taukdrma    (ms)
+    v   (mV)
+    ikdra   (pA)
 }
 
 STATE{
-    mkdra
+    mkdra   :dimensionless
 }
 
 INITIAL{
@@ -29,8 +36,6 @@ INITIAL{
     vkdrma=-25
     skdrma=23
     gkdra=4.5
-
-    taukdrma = 0.5
 }
 
 BREAKPOINT{

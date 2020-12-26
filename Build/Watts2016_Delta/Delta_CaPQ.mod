@@ -5,11 +5,16 @@ NEURON{
     RANGE mcapqinfd, hcapqinfd, taucapqmd, taucapqhd, icapqd
 }
 
+UNITS {
+    (mV) = (millivolt)
+    (nS) = (nanosiemens) 
+}
+
 PARAMETER{
-    gcapqd
-    vcad
+    gcapqd  (nS)
+    vcad    (mV)
     scapqmd
-    vcapqmd
+    vcapqmd 
     scapqhd
     vcapqhd
     tcapqh1d
