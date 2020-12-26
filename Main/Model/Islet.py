@@ -38,8 +38,11 @@ class Islet:
         self.space.rxd()
         print(str(datetime.datetime.now()) + '\tIslet.run Initialize neuron mechanisms: path', os.getcwd())
         neuron.h.finitialize()
+        print(str(datetime.datetime.now()) + '\tIslet.run Write header')
         print(str(datetime.datetime.now()) + '\tIslet.run Run simulation')
-        neuron.h.continuerun(500)
+        for i in range(500):
+            neuron.h.fadvance()
+            self.space.writeDataPhysiology()
         print(str(datetime.datetime.now()) + '\tIslet.run Write data')
         self.space.writeDataPhysiology()
         # self.space.plot()

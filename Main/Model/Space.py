@@ -280,6 +280,9 @@ class Space:
                                         data.append(self.cells[i][j][k].rec[q][0][z])
                                     writer.writerow(data)
                             print(str(datetime.datetime.now()) + '\tSpace.writeDataPhysiology Wrote data: cell', self.cells[i][j][k], 'islet Islet_' + Islet.env['gid'], 'path', Islet.env['output'] + 'Islet_' + Islet.env['rid'] + '_' + Islet.env['gid'] + '/' + self.cells[i][j][k].type.lower() + '_' + self.cells[i][j][k].id + '.csv')
+    def writeHeader(self):
+        """Write header for every output of every cell"""
+        print(str(datetime.datetime.now()) + '\tSpace.writeHeader')
     def getCell(self, rand, x, y, z):
         """Randomly select one cell"""
         print(str(datetime.datetime.now()) + '\tSpace.getCell rand =', rand, 'x =', x, 'y =', y, 'z =', z, 'Probability of alpha/beta at this x/y/z position', self.probabilities[x][y][z])
