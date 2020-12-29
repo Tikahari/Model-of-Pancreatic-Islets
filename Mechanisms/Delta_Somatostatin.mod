@@ -2,12 +2,12 @@ NEURON{
     POINT_PROCESS D_Somatostatin
     USEION cald READ icald
     USEION capqd READ icapqd
-    USEION insulin READ insulini VALENCE 1
+    USEION insulin READ insulini,insulino VALENCE 1
     POINTER mcapqd
     POINTER hcapqd
     RANGE con, bas, cma, vc, tmsb, tausom, pleakd, fVld, fVpqd, fmdd, Bd, alphad, kpmcad, fcytd, ferd, sigmavd, ksercad, fd, vmdpqd, vmdld
     RANGE JLd, JPQd, Jmemd, Jsercad, Jleakd, Jerd, y, Som, JSS
-    RANGE I
+    RANGE I, Io
     POINTER Sstpnt
 }
 
@@ -18,7 +18,9 @@ PARAMETER{
     hcapqd
     Sstpnt
     insulini
+    insulino
     I
+    Io
     con
     bas
     cma
@@ -94,6 +96,7 @@ BREAKPOINT{
     SOLVE states METHOD cnexp
     Sstpnt = S
     I = insulini
+    Io = insulino
     JLd=-alphad*icald/vmdld
     JPQd=-alphad*icapqd/vmdpqd
     Jmemd = fVld*Bd*(cmdld-cd)+fVpqd*Bd*(cmdpqd-cd)-kpmcad*cd

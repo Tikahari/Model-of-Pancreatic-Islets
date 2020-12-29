@@ -10,7 +10,6 @@ PARAMETER{
     knockoutda
     gGIRKko
     vGIRK
-    S
     sombara2
     ssom2
     Sst
