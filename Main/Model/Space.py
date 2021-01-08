@@ -51,6 +51,8 @@ class Space:
         self.cell_positions = []
         # size of cells
         self.cell_sizes = []
+        # cells by type
+        # self.cell_types = {'A': [], 'B': [], 'D': []}
         # 3d matrix of cells (initialized to None)
         self.cells = [[[None for i in range(self.dimensions)] for j in range(self.dimensions)] for k in range(self.dimensions)]
         # 3d matrix of probabilities (initialized to None then whatever probability is given by the distribution at the corresponding point)
@@ -128,6 +130,7 @@ class Space:
                         self.cell_positions.append([cell_type[0].upper(), pos[0], pos[1], pos[2]])
                         self.cell_sizes.append(cell_obj.diam)
             Islet.env['wd'] = owd       
+        # self.rxd()
     def rxd(self):
         print(str(datetime.datetime.now()) + '\tSpace.rxd Set up reaction diffusion')
         # the intracellular spaces
@@ -152,6 +155,7 @@ class Space:
 
         # insulin
         insulin = Islet.neuron.rxd.Species([cyt, ecs], name='insulin', charge=0, d=1.0, initial=48)
+        # insulin = Islet.neuron.rxd.Species([cyt, ecs], name='insulin', charge=0, d=1.0, initial=lambda n: 48 if hasattr(n, 'sec') and n.segment in 'B' else 0)
         inscyt = insulin[cyt]
         insecs = insulin[ecs]
         self.insulin = insulin
@@ -186,7 +190,43 @@ class Space:
         # somatostatin_release = Islet.neuron.rxd.MultiCompartmentReaction(sstcyt, sstecs, rrates, urates,
         #                                                 membrane=mem, 
         #                                                 custom_dynamics=True)  
-        # Islet.neuron.h.setpointer(sst.nodes[0]._ref_concentration, 'Sstpnt', sst_syn)         
+        # Islet.neuron.h.setpointer(sst.nodes[0]._ref_concentration, 'Sstpnt', sst_syn)  
+    def setGlucose(self, glucose_changes, i):
+        print(str(datetime.datetime.now()) + '\tsetGlucose: time = ' + i)       
+        # change glucose to 7mM
+        if glucose_changes[0] == i:
+            print(str(datetime.datetime.now()) + '\tset to 7mM')
+            for i in range(self.dimensions):
+                for j in range(self.dimensions):
+                    for k in range(self.dimensions):
+                        if self.cells[i][j][k] is not None and self.cells[i][j][k].type == 'A':
+                            gkatpa = getattr(self.cells[i][j][k].cell, 'gkatpbara_A_KATP' + self.cells[i][j][k].id)
+                            gkatpa = 0.6
+                            ksercaa = getattr(self.cells[i][j][k].pp, 'ksercaa')
+                            ksercaa = 0.5
+                        elif self.cells[i][j][k] is not None and self.cells[i][j][k].type == 'B':
+                            gkatpb = getattr(self.cells[i][j][k].pp, 'gkatpb')
+                            gkatpb = 85         
+                        elif self.cells[i][j][k] is not None:
+                            gkatpbard = getattr(self.cells[i][j][k].cell, 'gkatpbard_D_KATP' + self.cells[i][j][k].id)        
+                            gkatpbard = 0.27           
+        else:
+            print(str(datetime.datetime.now()) + '\tset to 11mM')
+            for i in range(self.dimensions):
+                for j in range(self.dimensions):
+                    for k in range(self.dimensions):
+                        if self.cells[i][j][k] is not None and self.cells[i][j][k].type == 'A':
+                            gkatpa = getattr(self.cells[i][j][k].cell, 'gkatpbara_A_KATP' + self.cells[i][j][k].id)
+                            gkatpa = 0.15
+                            ksercaa = getattr(self.cells[i][j][k].pp, 'ksercaa')
+                            ksercaa = 0.5
+                        elif self.cells[i][j][k] is not None and self.cells[i][j][k].type == 'B':
+                            gkatpb = getattr(self.cells[i][j][k].pp, 'gkatpb')
+                            gkatpb = 25     
+                        elif self.cells[i][j][k] is not None:
+                            gkatpbard = getattr(self.cells[i][j][k].cell, 'gkatpbard_D_KATP' + self.cells[i][j][k].id)        
+                            gkatpbard = 0.18
+
     def plot(self):
         """Visualize the islet"""
         print(str(datetime.datetime.now()) + '\tSpace.plot Plotting:')

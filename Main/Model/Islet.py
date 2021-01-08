@@ -11,6 +11,9 @@ from neuron import rxd
 # path = "/mnt/c/Users/Robert/Desktop/Model-of-Pancreatic-Islets/"
 path = "/home/tk/Desktop/Model-of-Pancreatic-Islets/"
 env = {'config': path + "Configuration/", 'gid': "1_0", 'mech': path + "Mechanisms/", 'output': path + "Outputs/", 'rid': "0", 'wd': path + "Main/Run/" }
+simtime = 5000
+# 0 to glucose_changes[1] represents the interval over which glucose level is 1mM, glucose_changes[1] to glucose_changes[2] represents the interval over which the glucose level is 7mM, and glucose_changes[2] to simtime 11mM
+glucose_changes = [50, 2000]
 
 class Islet:
     def __init__(self, probabilities, config, n, id=-1, compile=False):
@@ -40,10 +43,16 @@ class Islet:
         print(str(datetime.datetime.now()) + '\tIslet.run Initialize neuron mechanisms: path', os.getcwd())
         neuron.h.finitialize()
         print(str(datetime.datetime.now()) + '\tIslet.run Run simulation')
-        neuron.h.continuerun(500)
+        for i in range(simtime):
+            neuron.h.fadvance()
+            # change glucose level according to: https://github.com/artielbm/artielbm.github.io/blob/master/Models/BAD/Figures3-5.ode
+            if i in glucose_changes:
+                self.space.setGlucose(glucose_changes, i)
+            # neuron.h.continuerun(500)
         print(str(datetime.datetime.now()) + '\tIslet.run Write data')
         self.space.writeDataPhysiology()
         # self.space.plot()
+
     def spatialConfig(self, temp):
         """Create templates/spatial configuration and write result, but do not create cells"""
         print(str(datetime.datetime.now()) + '\tIslet.spatialConfig Enter radial setup')
