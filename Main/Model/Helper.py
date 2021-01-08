@@ -58,7 +58,6 @@ def writeMechanismsCell(file_mechanisms, mechanisms, cell):
             if write:
                 if '=' in old_mech:
                     temp = old_mech.replace('=', cell_num + '=')
-                    temp = temp.replace('"]', cell_num + '"]')
                     new_mech += temp
                 elif '[' not in old_mech:
                     new_mech += old_mech.rstrip() + cell_num + '\n'

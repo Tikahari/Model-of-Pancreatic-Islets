@@ -10,25 +10,23 @@ from neuron import rxd
 # path to initialization file, mechanisms, output, and generation identifier
 # path = "/mnt/c/Users/Robert/Desktop/Model-of-Pancreatic-Islets/"
 path = "/home/tk/Desktop/Model-of-Pancreatic-Islets/"
-env = {'config': path + "Configuration/", 'gid': "1_0", 'mech': path + "Mechanisms/", 'output': path + "Outputs/", 'rid': "0", 'wd': path + "Main/Run/" }
-simtime = 5000
+env = {'config': path + "Configuration/", 'id': "model", 'mech': path + "Mechanisms/", 'output': path + "Outputs/", 'wd': path + "Main/Run/" }
 # 0 to glucose_changes[1] represents the interval over which glucose level is 1mM, glucose_changes[1] to glucose_changes[2] represents the interval over which the glucose level is 7mM, and glucose_changes[2] to simtime 11mM
-glucose_changes = [50, 2000]
-
+glucose_changes = [999999999, 999999999]
+ 
 class Islet:
-    def __init__(self, probabilities, config, n, id=-1, compile=False):
+    def __init__(self, probabilities, config, n, compile=False, simulation_time=0):
         """Initialize islet instance"""
         # path to initialization file, mechanisms, output, and generation identifier
         self.env = env
-        self.id = id
         self.n = n
+        self.simulation_time = simulation_time
         neuron.h.load_file('stdrun.hoc')
-        print('wd is', self.env['wd'])
         # when compile option is set, cell instances will be made
         if compile:
             print(str(datetime.datetime.now()) + '\tIslet.init Compile mod files: wd', self.env['wd'])
             self.space = Space.Space(probabilities, config, n, compile)
-            self.space.configSetup(self.id)
+            self.space.configSetup()
         else:
             dll = self.env['wd'] + '.r/'
             ret = neuron.load_mechanisms(dll)
@@ -38,26 +36,27 @@ class Islet:
     def run(self):
         """Simulate and write data for this islet"""
         print(str(datetime.datetime.now()) + '\tIslet.run Run islet instance')
-        self.space.configSetup(self.id)
+        self.space.configSetup()
         self.space.rxd()
         print(str(datetime.datetime.now()) + '\tIslet.run Initialize neuron mechanisms: path', os.getcwd())
         neuron.h.finitialize()
         print(str(datetime.datetime.now()) + '\tIslet.run Run simulation')
-        for i in range(simtime):
+        for i in range(self.simulation_time):
             neuron.h.fadvance()
             # change glucose level according to: https://github.com/artielbm/artielbm.github.io/blob/master/Models/BAD/Figures3-5.ode
             if i in glucose_changes:
                 self.space.setGlucose(glucose_changes, i)
-            # neuron.h.continuerun(500)
+            # output time every 500ms
+            if i%500 == 0:
+                print(str(datetime.datetime.now()) + '\t' + str(i) + 'ms')
         print(str(datetime.datetime.now()) + '\tIslet.run Write data')
         self.space.writeDataPhysiology()
         # self.space.plot()
-
-    def spatialConfig(self, temp):
+    def spatialConfig(self):
         """Create templates/spatial configuration and write result, but do not create cells"""
         print(str(datetime.datetime.now()) + '\tIslet.spatialConfig Enter radial setup')
         self.space.radialSetup()
-        self.space.writeDataOrientation(temp)
+        self.space.writeDataOrientation()
 if __name__ == '__main__':
     # test
     # python Islet.py

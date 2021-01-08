@@ -100,16 +100,15 @@ class Space:
                     c += 1
                     k += 1
                 k = 0
-    def configSetup(self, id):
+    def configSetup(self):
         """Set up the islet from configuration file"""
-        print(str(datetime.datetime.now()) + '\tSpace.configSetup Create islet instance: id', id, 'wd', Islet.env['wd'])
+        print(str(datetime.datetime.now()) + '\tSpace.configSetup Create islet instance: id', Islet.env['id'], 'wd', Islet.env['wd'])
         self.rxd()
-        Islet.env['gid'] = id
         owd = Islet.env['wd']
         for cell in os.listdir(Islet.env['wd']):
             # print
             if os.path.isdir(Islet.env['wd'] + cell) and 'Islet_' in (Islet.env['wd'] + cell):
-                values_cell_path = Islet.env['config'] + 'Values/Islet_' + str(id) + '/' + cell + '.ini'
+                values_cell_path = Islet.env['config'] + 'Values/Islet_' + Islet.env['id'] + '/' + cell + '.ini'
                 print('path', values_cell_path)
                 config = configparser.ConfigParser()
                 config = configparser.ConfigParser(allow_no_value= True)
@@ -192,10 +191,10 @@ class Space:
         #                                                 custom_dynamics=True)  
         # Islet.neuron.h.setpointer(sst.nodes[0]._ref_concentration, 'Sstpnt', sst_syn)  
     def setGlucose(self, glucose_changes, i):
-        print(str(datetime.datetime.now()) + '\tsetGlucose: time = ' + i)       
+        print(str(datetime.datetime.now()) + '\tSpace.setGlucose: time = ' + str(i) + 'ms')       
         # change glucose to 7mM
         if glucose_changes[0] == i:
-            print(str(datetime.datetime.now()) + '\tset to 7mM')
+            print(str(datetime.datetime.now()) + '\tGlucose set to 7mM')
             for i in range(self.dimensions):
                 for j in range(self.dimensions):
                     for k in range(self.dimensions):
@@ -211,7 +210,7 @@ class Space:
                             gkatpbard = getattr(self.cells[i][j][k].cell, 'gkatpbard_D_KATP' + self.cells[i][j][k].id)        
                             gkatpbard = 0.27           
         else:
-            print(str(datetime.datetime.now()) + '\tset to 11mM')
+            print(str(datetime.datetime.now()) + '\tGlucose set to 11mM')
             for i in range(self.dimensions):
                 for j in range(self.dimensions):
                     for k in range(self.dimensions):
@@ -226,42 +225,10 @@ class Space:
                         elif self.cells[i][j][k] is not None:
                             gkatpbard = getattr(self.cells[i][j][k].cell, 'gkatpbard_D_KATP' + self.cells[i][j][k].id)        
                             gkatpbard = 0.18
-
-    def plot(self):
-        """Visualize the islet"""
-        print(str(datetime.datetime.now()) + '\tSpace.plot Plotting:')
-        plot_path = Islet.env['output'] + 'Islet_' + Islet.env['rid'] + '_' + Islet.env['gid'].split('_')[0] + '/Islet_'
-        x = {'A': [], 'B': [], 'D': []}
-        y = {'A': [], 'B': [], 'D': []}
-        z = {'A': [], 'B': [], 'D': []}
-        s = {'A': [], 'B': [], 'D': []}
-        for i in self.cell_positions:
-            x[i[0]].append(i[1])
-            y[i[0]].append(i[2])
-            z[i[0]].append(i[3])
-            s[i[0]].append(self.cells[i[1]][i[2]][i[3]].diam)
-        fig = plt.figure()
-        a = mpatches.Patch(color='red', label='Alpha')
-        b = mpatches.Patch(color='blue', label='Beta')
-        d = mpatches.Patch(color='green', label='Delta')
-        ax = fig.add_subplot(111, projection='3d')
-        ax.legend(handles=[a,b,d])
-        ax.set_title('Spatial Representation of Islet')
-        # ax.axis('off')
-        ax.scatter(x['A'], y['A'], z['A'], c='red', s=s['A'])
-        ax.scatter(x['B'], y['B'], z['B'], c='blue', s=s['B'])
-        ax.scatter(x['D'], y['D'], z['D'], c='green', s=s['D'])
-        dat = [x, y, z, s]
-        plt.savefig(plot_path + Islet.env['gid'] + '.png', 'w')
-        f_plt = open(plot_path + Islet.env['gid'] + '.plt', 'wb')
-        f_dat = open(plot_path + Islet.env['gid'] + '.dat', 'wb')
-        pickle.dump(fig, f_plt)
-        pickle.dump(dat, f_dat)
-        # plt.show()
-    def writeDataOrientation(self, temp):
+    def writeDataOrientation(self):
         """Write a template orienation"""
         print(str(datetime.datetime.now()) + '\tSpace.writeDataOrientation Write orientation data: number of cells', len(self.cell_positions))
-        template_config_path = Islet.env['config'] + 'Values/Template_' + Islet.env['rid'] + '_' + str(temp) + '/config.txt'
+        template_config_path = Islet.env['config'] + 'Values/Template_' + Islet.env['id'] + '/config.txt'
         # write template orientations
         probabilities = ''
         sizes = ''
@@ -287,8 +254,12 @@ class Space:
     def writeDataPhysiology(self):
         """Write physiological data for each cell"""
         print(str(datetime.datetime.now()) + '\tSpace.writeDataPhysiology Write physiology data: number of columns in 3d matrix of cells', len(self.cells), 'number of rows in x direction', len(self.cells[0]), 'number of rows in y direction', len(self.cells[0][0]))
-        print(str(datetime.datetime.now()) + '\tSpace.writeDataPhysiology Output folder: ' + Islet.env['output'] + 'Islet_' + Islet.env['rid'] + Islet.env['gid'])
-        output_islet_path = Islet.env['output'] + 'Islet_' + Islet.env['rid'] + '_' + Islet.env['gid']
+        print(str(datetime.datetime.now()) + '\tSpace.writeDataPhysiology Output folder: ' + Islet.env['output'] + 'Islet_' + Islet.env['id'])
+        output_islet_path = Islet.env['output'] + 'Islet_' + Islet.env['id']
+        # Exclude variables that change throughout the simulation and to not include constants
+        configc = configparser.ConfigParser(allow_no_value= True)
+        configc.optionxform = str
+        configc.read(Islet.env['config'] + '/Values/constants.ini')
         # create output folder
         os.system('mkdir -p ' + output_islet_path)
         data = []
@@ -318,7 +289,7 @@ class Space:
                                     for q in self.cells[i][j][k].rec:
                                         data.append(self.cells[i][j][k].rec[q][0][z])
                                     writer.writerow(data)
-                            print(str(datetime.datetime.now()) + '\tSpace.writeDataPhysiology Wrote data: cell', self.cells[i][j][k], 'islet Islet_' + Islet.env['gid'], 'path', Islet.env['output'] + 'Islet_' + Islet.env['rid'] + '_' + Islet.env['gid'] + '/' + self.cells[i][j][k].type.lower() + '_' + self.cells[i][j][k].id + '.csv')
+                            print(str(datetime.datetime.now()) + '\tSpace.writeDataPhysiology Wrote data: cell', self.cells[i][j][k], 'islet Islet_' + Islet.env['id'], 'path', Islet.env['output'] + 'Islet_' + Islet.env['id'] + '/' + self.cells[i][j][k].type.lower() + '_' + self.cells[i][j][k].id + '.csv')
     def getCell(self, rand, x, y, z):
         """Randomly select one cell"""
         print(str(datetime.datetime.now()) + '\tSpace.getCell rand =', rand, 'x =', x, 'y =', y, 'z =', z, 'Probability of alpha/beta at this x/y/z position', self.probabilities[x][y][z])

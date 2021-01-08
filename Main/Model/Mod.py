@@ -60,7 +60,7 @@ def writeMod(ini, mod):
         if 'INITIAL' in line:
             init = True
         new += line
-        if 'SUFFIX' in line:
+        if 'SUFFIX' in line or 'POINT_PROCESS' in line:
             # add cell id# to end of mechanism name so it can be uniquely identified and added for every islet run
             new = new[:len(new)-1].strip() + re.split('_|\.', ini)[len(re.split('_|\.', ini)) - 2] + '\n'
     filer.close()

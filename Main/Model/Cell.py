@@ -38,7 +38,6 @@ class Cell:
         self.pointers = {}
         # get properties from ini
         self.readData()
-        print('pointers', self.pointers)
         if not self.compile:
             print(str(datetime.datetime.now()) + '\tCells.setup Do not compile/Do run')
             self.addMechanisms()
@@ -46,8 +45,8 @@ class Cell:
             self.record()
     def readData(self):
         """Read mechanisms and parameters for this cell from its configuration file"""
-        ini_path = Islet.env['config'] + 'Values/Islet_' + Islet.env['gid'] + '/' + self.type.lower() + '_' + str(self.id) + '.ini'
-        config_path = Islet.env['config'] + '/Mechanisms/Islet_' + Islet.env['gid'] + '/' + self.type.lower() + '_' + str(self.id) + '.ini'
+        ini_path = Islet.env['config'] + 'Values/Islet_' + Islet.env['id'] + '/' + self.type.lower() + '_' + str(self.id) + '.ini'
+        config_path = Islet.env['config'] + '/Mechanisms/Islet_' + Islet.env['id'] + '/' + self.type.lower() + '_' + str(self.id) + '.ini'
         print(str(datetime.datetime.now()) + '\tCells.readData Reading from configuration: configuration file', config_path)
         # read mechanism configuration
         config = configparser.ConfigParser(allow_no_value= True)
@@ -57,7 +56,9 @@ class Cell:
         print(str(datetime.datetime.now())+ '\tself type', self.type)
         for i in config[types[self.type]]:
             print(str(datetime.datetime.now()) + '\tCells.readData Writing "INITIAL" blocks of appropriate mod files for mechanisms: mechanism', i, 'cell type', self.type, types[self.type])
-            self.mechs.append(i)
+            if re.split('[0-9]',i)[0] not in ['Glucagon', 'Somatostatin', 'Insulin']: 
+                self.mechs.append(i)
+            # add pointers in config files to self.pointers
             if config[types[self.type]][i] is not None:
                 self.pointers[i] = ast.literal_eval(config[types[self.type]][i])
             # only write mod files when those mod files will be compiled
@@ -68,16 +69,20 @@ class Cell:
                 Mod.writeMod(ini_path, mod_path)
     def addMechanisms(self):
         """Add mechanism to section"""
+        # manually set point processes, reaction diffusion variables, and capacitances of each cell
         if self.type == 'A':
-            self.pp = Islet.neuron.h.A_Glucagon(self.cell(0.5))
+            glucagon = getattr(Islet.neuron.h, 'A_Glucagon' + self.id)
+            self.pp = glucagon(self.cell(0.5))
             Islet.neuron.h.setpointer(self.glucagon.nodes[0]._ref_concentration, 'Gpnt', self.pp)
             self.cell.cm = 5
         elif self.type == 'B':
-            self.pp = Islet.neuron.h.B_Insulin(self.cell(0.5))
+            insulin = getattr(Islet.neuron.h, 'B_Insulin' + self.id)
+            self.pp = insulin(self.cell(0.5))
             Islet.neuron.h.setpointer(self.insulin.nodes[0]._ref_concentration, 'Inspnt', self.pp)
             self.cell.cm = 5300e3
         else:
-            self.pp = Islet.neuron.h.D_Somatostatin(self.cell(0.5))
+            somatostatin = getattr(Islet.neuron.h, 'D_Somatostatin' + self.id)
+            self.pp = somatostatin(self.cell(0.5))
             Islet.neuron.h.setpointer(self.sst.nodes[0]._ref_concentration, 'Sstpnt', self.pp)
             self.cell.cm = 5e6
         for i in self.mechs:
@@ -88,13 +93,12 @@ class Cell:
         for i in self.pointers:
             for j in self.pointers[i]:
                 for k in self.cell:
-                    temp = j.split('_')
                     point_to = self.type+"_"+i
-                    point_from = "_ref_"+temp[0]
-                    print(str(datetime.datetime.now()) + '\tCells.setPointers Setting pointers: point from', point_from, 'to', point_to, 'with pointer name', temp[0])
+                    point_from = "_ref_"+j
+                    print(str(datetime.datetime.now()) + '\tCells.setPointers Setting pointers: point from', point_from, 'to', point_to, 'with pointer name', j)
                     from_ = getattr(self.pp, point_from)
                     to_ = getattr(k, point_to)
-                    Islet.neuron.h.setpointer(from_, temp[0], to_)
+                    Islet.neuron.h.setpointer(from_, j, to_)
         # delta cells have additional pointers
         if self.type == 'D':
             from_ = getattr(self.cell(0.5), '_ref_mcapqd_D_CaPQ' + self.id)
@@ -153,8 +157,7 @@ if __name__ == '__main__':
     i_id = '1_0'
     # set environment
     Islet.env['wd'] += 'Islet_' + r_id + '_' + i_id + '/'
-    Islet.env['rid'] = r_id
-    Islet.env['gid'] = i_id
+    Islet.env['id'] = i_id
     dll = Islet.env['wd'] + '.r/'
     ret = Islet.neuron.load_mechanisms(dll)
     print(str(datetime.datetime.now()) + '\tCells.py Load mechanisms: path', dll, ret)
