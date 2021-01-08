@@ -141,11 +141,11 @@ class Cell:
                     if ex in j:
                         _exclude = False
                 if(_exclude):
-                    self.header.append(self.type + '_' + n + '_'+ j + self.id)
+                    self.header.append(self.type + '_' + n + '_'+ j + '_' + self.id)
                     molecule = getattr(i, '_ref_' + j)
-                    self.rec[str(self.type + '_' + n + '_'+ j + self.id)] = []
-                    self.rec[str(self.type + '_' + n + '_'+ j + self.id)].append(Islet.neuron.h.Vector().record(molecule))
-                    print(str(datetime.datetime.now()) + '\tCells.record Record point process ' + self.type + '_' + n + '_'+ j + self.id)
+                    self.rec[str(self.type + '_' + n + '_'+ j + '_' + self.id)] = []
+                    self.rec[str(self.type + '_' + n + '_'+ j + '_' + self.id)].append(Islet.neuron.h.Vector().record(molecule))
+                    print(str(datetime.datetime.now()) + '\tCells.record Record point process ' + self.type + '_' + n + '_'+ j + '_' + self.id)
     def __repr__(self):
         return '{}{}'.format(self.type, self.id)
 if __name__ == '__main__':

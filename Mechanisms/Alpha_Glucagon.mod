@@ -4,20 +4,24 @@ NEURON{
     USEION cala READ icala
     USEION cata READ icata
     USEION capqa READ icapqa
-    USEION sst READ ssti VALENCE 1
-    USEION insulin READ insulini VALENCE 1
+    USEION sst READ ssti,ssto VALENCE 1
+    USEION insulin READ insulini,insulino VALENCE 1
     RANGE vc, caerbara, ssoca, vsoca, k1a, km1a, r1a, rm1a, r20a, r30a, rm3a, u1a, u2a, u3a, kpa, kp2a, GlucFacta, vcella, vmdpqa, fVpqa, fmda, Ba, alphaa, kpmcaa, fcyta, fera, pleaka, sigmava, fa, gsocbara, ksercaa, tmsb, knockoutda, ra, sombara, rako, ssom
     RANGE rm2a, cinfa, JLa, JPQa, JTa, Jmema, Jsercaa, Jleaka, Jera, r2a, r3a, JGS, isoca
-    RANGE Sst, I
+    RANGE Sst, I, Io, Ssto
     POINTER Gpnt
 }
 
 PARAMETER{
     ssti
+    ssto
     insulini
+    insulino
     Gpnt
     Sst
+    Ssto
     I
+    Io
     icala
     icata
     icapqa
@@ -150,7 +154,9 @@ INITIAL{
 BREAKPOINT{
     SOLVE states METHOD cnexp
     Sst = ssti
+    Ssto = ssto
     I = insulini
+    Io = insulino
     Gpnt = G
     rm2a=(1-knockoutda)*ra/(1+exp(-(Sst-sombara)/ssom))+knockoutda*rako
     cinfa = 1/(1+exp(-(cera-caerbara)/ssoca))
