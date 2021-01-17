@@ -3,6 +3,8 @@
 # For cell_types, give a vector of cell types e.g., c("A", "D") for alpha and delta
 # If average set to TRUE then the function will output the average membrane potential across time for each cell type
 
+source("grab_vars_of_interest.R")
+
 voltage_plots <- function(data, var_yaml, cell_types, average) {
   data <- grab_vars_of_interest(data, "voltage", var_yaml)
   if (average == F) {

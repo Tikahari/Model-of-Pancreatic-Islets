@@ -6,6 +6,8 @@
 # If average set to TRUE then the function will output the average hormone concentration across time for each cell type
 # There are issues with the average plot as of now
 
+source("grab_vars_of_interest.R")
+
 hormone_plots <- function(data, var_yaml, cell_types, hormones, average) {
   data <- grab_vars_of_interest(data, "hormone", var_yaml)
   count <- 1

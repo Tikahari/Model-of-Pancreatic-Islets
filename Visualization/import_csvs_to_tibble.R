@@ -9,6 +9,6 @@ import_csvs_to_tibble <- function(file_path) {
   list.files(path = file_path,
              pattern = "*.csv",
              full.names = T) %>% 
-    set_names(nm = (basename(.) %>% tools::file_path_sans_ext())) %>% 
-    map_dfc(read_csv)
+             set_names(nm = (basename(.) %>% tools::file_path_sans_ext())) %>% 
+             map_dfc(read_csv)
 }
