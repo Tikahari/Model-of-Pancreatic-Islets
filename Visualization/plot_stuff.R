@@ -1,7 +1,8 @@
 # This is the main visualization function
 # it takes in the path of where the output csv's are located
 # See the different plot functions for details
-# It is likely the different plot functions can be combined into one since they are all so similar.
+# It is likely the different plot functions can be
+# combined into one since they are all so similar.
 
 source("import_csvs_to_tibble.R")
 source("voltage_plots.R")
