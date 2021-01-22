@@ -4,20 +4,12 @@
 # It is likely the different plot functions can be
 # combined into one since they are all so similar.
 
-source("import_csvs_to_tibble.R")
-source("voltage_plots.R")
-source("current_plots.R")
-source("calcium_plots.R")
-source("hormone_plots.R")
-
-args <- commandArgs(trailingOnly = TRUE)
-
-print(args[1])
-print(args[2])
-print(args[3])
-print(args[4])
-print(args[5])
-print(args[6])
+source("/blue/lamb/robert727/temp/Model-of-Pancreatic-Islets/Visualization/import_csvs_to_tibble.R")
+source("/blue/lamb/robert727/temp/Model-of-Pancreatic-Islets/Visualization/grab_vars_of_interest.R")
+source("/blue/lamb/robert727/temp/Model-of-Pancreatic-Islets/Visualization/voltage_plots.R")
+source("/blue/lamb/robert727/temp/Model-of-Pancreatic-Islets/Visualization/current_plots.R")
+source("/blue/lamb/robert727/temp/Model-of-Pancreatic-Islets/Visualization/calcium_plots.R")
+source("/blue/lamb/robert727/temp/Model-of-Pancreatic-Islets/Visualization/hormone_plots.R")
 
 plot_stuff <- function(path, variable, var_yaml, cell_types, hormones, average) {
   data <- import_csvs_to_tibble(path)
@@ -31,5 +23,3 @@ plot_stuff <- function(path, variable, var_yaml, cell_types, hormones, average) 
     hormone_plots(data, var_yaml, cell_types, hormones, average)
   }
 }
-
-plot_stuff(args[1], args[2], args[3], args[4], args[5], args[6])

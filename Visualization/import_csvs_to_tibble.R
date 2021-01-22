@@ -5,7 +5,6 @@
 # This leaves the files with names like a_21, d_3, etc.
 # map_dfc applies the function read_csv to all of the files in the list
 # and then combines them columnwise (i.e., dfr vs. dfr for row)
-install.packages("tidyverse")
 
 import_csvs_to_tibble <- function(file_path) {
   list.files(path = file_path,

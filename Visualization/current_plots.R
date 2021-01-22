@@ -3,7 +3,6 @@
 # For cell_types, give a vector of cell types e.g., c("A", "D") for alpha and delta
 # If average set to TRUE then the function will output the average current across time for each cell and current type
 
-source("grab_vars_of_interest.R")
 
 current_plots <- function(data, var_yaml, cell_types, average) {
   data <- grab_vars_of_interest(data, "current", var_yaml)

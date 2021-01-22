@@ -3,7 +3,6 @@
 # For cell_types, give a vector of cell types e.g., c("A", "D") for alpha and delta
 # If average set to TRUE then the function will output the average calcium concentration across time for each cell type
 
-source("grab_vars_of_interest.R")
 
 calcium_plots <- function(data, var_yaml, cell_types, average) {
   data <- grab_vars_of_interest(data, "calcium", var_yaml)

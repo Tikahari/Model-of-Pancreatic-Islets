@@ -1,45 +1,19 @@
-Alpha:
-  - Time
-  - Vm_
-  - icala
-  - ca_
-  - icapqa
-  - icata
-  - iGIRKa
-  - SSt
-  - ssti
-  - ikaa
-  - gkatp
-  - ikapta
-  - I
-  - insulin
-  - ikdra
-  - ilaa
-  - inaa
-  - ikcaa
-  - G
-  - iKa
-  - iGABAa
-  - JGS
-Beta:
-  - ica
-  - iGIRK
-  - I
-  - insulin
-  - ik
-  - Sst
-  - G
-  - c_
-Delta:
-  - icald
-  - icapqd
-  - iGABAd
-  - ikd
-  - ikatpd
-  - ikdrd
-  - ild
-  - inad
-  - Sst
-  - G
-  - I
-  - cad_
+Current:
+  - Time...1
+  - _i
+Voltage:
+  - Time...1
+  - _Vm_
+Calcium:
+  - Time...1
+  - _c_
+  - _ca_
+  - _cd_
+Hormones:
+  - Time...1
+  - _pp_I_
+  - _pp_Io_
+  - _pp_G_
+  - _pp_Go_
+  - _pp_Sst_
+  - _pp_Ssto_

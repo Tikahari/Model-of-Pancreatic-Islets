@@ -1,4 +1,4 @@
-#!/usr/bin/Rscript
+
 # To install R packages sudo add-apt-repository ppa:marutter/c2d4u3.
 
 install.packages("tidyverse")

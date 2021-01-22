@@ -7,8 +7,8 @@ grab_vars_of_interest <- function(data, var, var_yaml) {
       # Find cleaner way to name variables.
       # This gets rid of point process version of currents
       select(-contains("B_pp_iCa_", ignore.case = F),
-             -contains("B_pp_iCaL_", ignore.case = F),
-             -contains("B_pp_iCaR_", ignore.case = F)) %>%
+             -contains("B_pp_ikca_", ignore.case = F),
+             -contains("B_pp_ikatp_", ignore.case = F)) %>%
       select(contains(var_yaml$Current, ignore.case = F),
              # ideally find way to merge all time columns together
              # Time...1 is specified because when combining all

@@ -9,7 +9,7 @@ from neuron import rxd
 
 # path to initialization file, mechanisms, output, and generation identifier
 # path = "/mnt/c/Users/Robert/Desktop/Model-of-Pancreatic-Islets/"
-path = "/home/tk/Desktop/Model-of-Pancreatic-Islets/"
+path = "/home/robert727/lamb_robert727/temp/Model-of-Pancreatic-Islets/" 
 env = {'config': path + "Configuration/", 'id': "model", 'mech': path + "Mechanisms/", 'output': path + "Outputs/", 'wd': path + "Main/Run/" }
 # 0 to glucose_changes[1] represents the interval over which glucose level is 1mM, glucose_changes[1] to glucose_changes[2] represents the interval over which the glucose level is 7mM, and glucose_changes[2] to simtime 11mM
 glucose_changes = [999999999, 999999999]
