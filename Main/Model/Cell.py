@@ -79,12 +79,12 @@ class Cell:
             insulin = getattr(Islet.neuron.h, 'B_Insulin' + self.id)
             self.pp = insulin(self.cell(0.5))
             Islet.neuron.h.setpointer(self.insulin.nodes[0]._ref_concentration, 'Inspnt', self.pp)
-            self.cell.cm = 5300e3
+            self.cell.cm = 5300
         else:
             somatostatin = getattr(Islet.neuron.h, 'D_Somatostatin' + self.id)
             self.pp = somatostatin(self.cell(0.5))
             Islet.neuron.h.setpointer(self.sst.nodes[0]._ref_concentration, 'Sstpnt', self.pp)
-            self.cell.cm = 5e6
+            self.cell.cm = 5
         for i in self.mechs:
             print(str(datetime.datetime.now()) + '\tCells.addMechanisms Adding mechanisms: cell type', self.type, 'mechanism', i, 'cwd', os.getcwd())
             self.cell.insert(self.type+'_'+i)

@@ -11,7 +11,7 @@ calcium_plots <- function(data, var_yaml, cell_types, average) {
       plot <-  data %>% 
         filter(`Cell Type` == cell) %>% 
         ggplot(aes(Time, `[Ca2+] Cytosol`, color = ID)) +
-        geom_path(size=0.1)
+        geom_path(size=0.3)
       print(plot)
     }
   } else {
@@ -19,14 +19,14 @@ calcium_plots <- function(data, var_yaml, cell_types, average) {
       plot <-  data %>% 
         filter(`Cell Type` == cell) %>% 
         ggplot(aes(Time, `[Ca2+] Cytosol`, color = ID)) +
-        geom_path(size=0.1)
+        geom_path(size=0.3)
       print(plot)
     }
     plot <- data %>% 
       group_by(Time, `Cell Type`) %>% 
       summarise("Avg [Ca2+] Cytosol" = mean(`[Ca2+] Cytosol`)) %>% 
       ggplot(aes(Time, `Avg [Ca2+] Cytosol`, color = `Cell Type`)) +
-      geom_path(size=0.1)
+      geom_path(size=0.3)
     print(plot)
   }
 }

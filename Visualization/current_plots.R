@@ -11,7 +11,7 @@ current_plots <- function(data, var_yaml, cell_types, average) {
       plot <-  data %>% 
         filter(`Cell Type` == cell) %>% 
         ggplot(aes(Time, `Current (pA)`, color = Current)) +
-        geom_path(size=0.1) +
+        geom_path(size=0.3) +
         facet_wrap(facets = vars(ID))
       print(plot)
     }
@@ -20,7 +20,7 @@ current_plots <- function(data, var_yaml, cell_types, average) {
       plot <-  data %>% 
         filter(`Cell Type` == cell) %>% 
         ggplot(aes(Time, `Current (pA)`, color = Current)) +
-        geom_path(size=0.1) +
+        geom_path(size=0.3) +
         facet_wrap(facets = vars(ID))
       print(plot)
     }
@@ -28,7 +28,7 @@ current_plots <- function(data, var_yaml, cell_types, average) {
       group_by(Time, Current, `Cell Type`) %>% 
       summarise("Current Avg (pA)" = mean(`Current (pA)`)) %>% 
       ggplot(aes(Time, `Current Avg (pA)`, color = Current)) +
-      geom_path(size=0.1) +
+      geom_path(size=0.3) +
       facet_wrap(facets = vars(`Cell Type`))
     print(plot)
   } 

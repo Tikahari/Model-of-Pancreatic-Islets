@@ -16,7 +16,7 @@ hormone_plots <- function(data, var_yaml, cell_types, hormones, average) {
         filter(`Cell Type` == cell,
                Hormone == hormones[count]) %>% 
         ggplot(aes(Time, `Concentration (pM)`, color = ID)) +
-        geom_path(size=0.1, aes(linetype = Location))
+        geom_path(size=0.3, aes(linetype = Location))
       count= count + 1
       print(plot)
     }
@@ -26,7 +26,7 @@ hormone_plots <- function(data, var_yaml, cell_types, hormones, average) {
         filter(`Cell Type` == cell,
                Hormone == hormones[count]) %>% 
         ggplot(aes(Time, `Concentration (pM)`, color = ID)) +
-        geom_path(size=0.1, aes(linetype = Location))
+        geom_path(size=0.3, aes(linetype = Location))
       count= count + 1
       print(plot)
     }
@@ -38,7 +38,7 @@ hormone_plots <- function(data, var_yaml, cell_types, hormones, average) {
       group_by(Time, `Cell Type`, Hormone, Location) %>% 
       summarise("Avg Concentration (pM)" = mean(`Concentration (pM)`)) %>% 
       ggplot(aes(Time, `Avg Concentration (pM)`, color = `Cell Type`, linetype = Location)) +
-      geom_path(size=0.1)
+      geom_path(size=0.3)
     print(plot)
   }
 }

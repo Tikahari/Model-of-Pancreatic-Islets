@@ -262,6 +262,13 @@ class Space:
         configc.read(Islet.env['config'] + '/Values/constants.ini')
         # create output folder
         os.system('mkdir -p ' + output_islet_path)
+        # Create plots folder
+        os.system('mkdir -p' + output_islet_path + "Plots")
+        # Create subfolders for different types of plots
+        os.system('mkdir -p' + output_islet_path + "Plots/" + "Voltage")
+        os.system('mkdir -p' + output_islet_path + "Plots/" + "Currents")
+        os.system('mkdir -p' + output_islet_path + "Plots/" + "Calcium")
+        os.system('mkdir -p' + output_islet_path + "Plots/" + "Hormones")
         data = []
         t = []
         # get time variable

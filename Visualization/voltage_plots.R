@@ -11,7 +11,7 @@ voltage_plots <- function(data, var_yaml, cell_types, average) {
       plot <-  data %>% 
         filter(`Cell Type` == cell) %>% 
         ggplot(aes(Time, `Vm (mV)`, color = ID)) +
-        geom_path(size=0.1)
+        geom_path(size=0.3)
       print(plot)
     }
   } else {
@@ -19,14 +19,14 @@ voltage_plots <- function(data, var_yaml, cell_types, average) {
       plot <-  data %>% 
         filter(`Cell Type` == cell) %>% 
         ggplot(aes(Time, `Vm (mV)`, color = ID)) +
-        geom_path(size=0.1)
+        geom_path(size=0.3)
       print(plot)
     }
     plot <- data %>% 
       group_by(Time, `Cell Type`) %>% 
       summarise("Vm Avg (mV)" = mean(`Vm (mV)`)) %>% 
       ggplot(aes(Time, `Vm Avg (mV)`, color = `Cell Type`)) +
-      geom_path(size=0.1)
+      geom_path(size=0.3)
     print(plot)
   }
 }

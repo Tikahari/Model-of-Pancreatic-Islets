@@ -1,12 +1,16 @@
 #!/bin/bash
-
-id="model_5x5x5_10000ms_0.35_0.50_0.15"
+# ml ufrc; srundev --time=10:00:00 --mem=24GB
+# Values for each glucose level
+# G1 gkatpbara=3, gkatpb=150, gkatpbard=0.29, kserca=0.05
+# G7 gkatpbara=0.6, gkatpb=85, gkatpbard=0.27, kserca=0.5
+# G11 gkatpbara=0.15, gkatpb=25, gkatpbard=0.18, kserca=0.5
 size="4"
-simulation_time=15000
+simulation_time=500
 alpha_probability=0.35
 beta_probability=0.50
 delta_probability=0.15
 alpha_beta_combined=$(echo "$alpha_probability + $beta_probability" | bc)
+id="model_${size}_${simulation_time}_${alpha_probability}_${beta_probability}_${delta_probability}_3"
 total=$(echo "$alpha_probability + $beta_probability + $delta_probability" | bc)
 if [[ $total != 1.00 ]]
 then

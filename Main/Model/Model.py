@@ -12,7 +12,7 @@ from matplotlib import pyplot as plt
 import Islet
 from Helper import *
 
-class Model:
+class Model: 
     def __init__(self, islet_id, n, simulation_time, alpha, beta):
         """Initialize model instance"""
         print(str(datetime.datetime.now()) + '\tModel.init')

@@ -57,8 +57,9 @@ grab_vars_of_interest <- function(data, var, var_yaml) {
                    names_to = "Temp",
                    values_to = "Concentration (pM)") %>%
       separate(Temp,
-               into = c("Cell Type", "Hormone", "ID"),
+               into = c("Cell Type", "temp", "Hormone", "ID"),
                sep = "_") %>%
+      select(-temp) %>% 
                # create new column specifying intracellular or extracellular.
                # Whenever an entry in the Hormone column
                # ends in "o" it will have the value Extracellular

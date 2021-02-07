@@ -8,8 +8,9 @@ import neuron
 from neuron import rxd
 
 # path to initialization file, mechanisms, output, and generation identifier
-# path = "/mnt/c/Users/Robert/Desktop/Model-of-Pancreatic-Islets/"
-path = "/home/robert727/lamb_robert727/temp/Model-of-Pancreatic-Islets/" 
+path = "/blue/lamb/robert727/temp/Model-of-Pancreatic-Islets/"
+# path = "/home/tk/Desktop/Model-of-Pancreatic-Islets/"
+# path = "/home/tikaharikhanal/lamb_tikaharikhanal/Model-of-Pancreatic-Islets/"
 env = {'config': path + "Configuration/", 'id': "model", 'mech': path + "Mechanisms/", 'output': path + "Outputs/", 'wd': path + "Main/Run/" }
 # 0 to glucose_changes[1] represents the interval over which glucose level is 1mM, glucose_changes[1] to glucose_changes[2] represents the interval over which the glucose level is 7mM, and glucose_changes[2] to simtime 11mM
 glucose_changes = [999999999, 999999999]
@@ -41,14 +42,14 @@ class Islet:
         print(str(datetime.datetime.now()) + '\tIslet.run Initialize neuron mechanisms: path', os.getcwd())
         neuron.h.finitialize()
         print(str(datetime.datetime.now()) + '\tIslet.run Run simulation')
-        for i in range(self.simulation_time):
+        for i in range(40 * self.simulation_time):
             neuron.h.fadvance()
             # change glucose level according to: https://github.com/artielbm/artielbm.github.io/blob/master/Models/BAD/Figures3-5.ode
             if i in glucose_changes:
                 self.space.setGlucose(glucose_changes, i)
             # output time every 500ms
-            if i%500 == 0:
-                print(str(datetime.datetime.now()) + '\t' + str(i) + 'ms')
+            if i%(40*500) == 0:
+                print(str(datetime.datetime.now()) + '\t' + str(i/40) + 'ms')
         print(str(datetime.datetime.now()) + '\tIslet.run Write data')
         self.space.writeDataPhysiology()
         # self.space.plot()

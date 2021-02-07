@@ -45,7 +45,6 @@ INITIAL{
     tcatm2a=0
     tcath1a=20
     tcath2a=5
-
     taucatma = 0.5
     taucatha = 0.5
 }

@@ -41,7 +41,6 @@ INITIAL{
     gcapqa=0.6
     tcapqh1a=60
     tcapqh2a=51
-
     taucapqma = 0.5
     taucapqha = 0.5
 }

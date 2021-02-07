@@ -60,7 +60,7 @@ STATE{
     cmdld
     cmdpqd
     cerd
-    S
+    Sst
 }
 
 INITIAL{
@@ -68,7 +68,7 @@ INITIAL{
     cmdld=19.82903375122306  
     cmdpqd=27.93917378868966  
     cerd=413.8135591677398  
-    S=18.71318922819339
+    Sst=18.71318922819339
     con=0.00000000594
     bas=0.0009
     cma=5
@@ -89,12 +89,11 @@ INITIAL{
     fd= 0.003
     vmdpqd=1.41e-15
     vmdld=2.12e-15
-    S = 300
 }
 
 BREAKPOINT{
     SOLVE states METHOD cnexp
-    Sstpnt = S
+    Sstpnt = Sst
     I = insulini
     Io = insulino
     JLd=-alphad*icald/vmdld
@@ -113,5 +112,5 @@ DERIVATIVE states{
     cmdld'=fmdd*JLd-fmdd*Bd*(cmdld-cd)
     cmdpqd'=fmdd*JPQd-fmdd*Bd*(cmdpqd-cd)
     cerd' = -ferd*sigmavd*Jerd
-    S'=JSS/vc-fd*S
+    Sst'=JSS/vc-fd*Sst
 }

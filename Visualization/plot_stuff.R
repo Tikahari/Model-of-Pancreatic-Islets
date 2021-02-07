@@ -11,8 +11,8 @@ source("/blue/lamb/robert727/temp/Model-of-Pancreatic-Islets/Visualization/curre
 source("/blue/lamb/robert727/temp/Model-of-Pancreatic-Islets/Visualization/calcium_plots.R")
 source("/blue/lamb/robert727/temp/Model-of-Pancreatic-Islets/Visualization/hormone_plots.R")
 
-plot_stuff <- function(path, variable, var_yaml, cell_types, hormones, average) {
-  data <- import_csvs_to_tibble(path)
+plot_stuff <- function(data, variable, var_yaml, cell_types, hormones, average) {
+  #data <- import_csvs_to_tibble(path)
   if (variable == "voltage") {
     voltage_plots(data, var_yaml, cell_types, average)
   } else if (variable == "current") {
