@@ -1,5 +1,6 @@
-visualize_hormones <- function(data, var_yaml, islet_path, hormones) {
-  data <- grab_vars_of_interest(data, "hormone", var_yaml)
+visualize_hormones <- function(data, islet_path) {
+  hormones = c("G", "I", "Sst") 
+  data <- grab_vars_of_interest(data, "hormone")
   count <- 1
     for (cell in c("A", "B", "D")) {
       plot <-  data %>% 
@@ -23,5 +24,5 @@ visualize_hormones <- function(data, var_yaml, islet_path, hormones) {
       geom_path(size=0.3)
     ggsave(filename = "Hormones_Avg.png",
              device = "png",
-             path = path = str_c(islet_path, "/Plots/Hormones"))
+             path = str_c(islet_path, "/Plots/Hormones"))
   }

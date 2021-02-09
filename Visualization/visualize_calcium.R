@@ -1,5 +1,5 @@
-visualize_calcium <- function(data, var_yaml, islet_path) {
-  data <- grab_vars_of_interest(data, "calcium", var_yaml)
+visualize_calcium <- function(data, islet_path) {
+  data <- grab_vars_of_interest(data, "calcium")
   for (cell in c("A", "B", "D")) {
       plot <-  data %>% 
         filter(`Cell Type` == cell) %>% 

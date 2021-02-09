@@ -1,7 +1,8 @@
 # This function takes in the output of import_csvs_to_tibble
 # It grabs the var you specify for each cell type
 
-grab_vars_of_interest <- function(data, var, var_yaml) {
+grab_vars_of_interest <- function(data, var) {
+  var_yaml = read_yaml('/blue/lamb/robert727/temp/Model-of-Pancreatic-Islets/Visualization/variables.yaml')
   if (var == "current") {
     data %>%
       # Find cleaner way to name variables.

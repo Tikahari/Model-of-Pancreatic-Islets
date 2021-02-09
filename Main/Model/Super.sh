@@ -12,6 +12,8 @@ delta_probability=0.15
 alpha_beta_combined=$(echo "$alpha_probability + $beta_probability" | bc)
 id="model_${size}_${simulation_time}_${alpha_probability}_${beta_probability}_${delta_probability}_3"
 total=$(echo "$alpha_probability + $beta_probability + $delta_probability" | bc)
+islet_path="/blue/lamb/robert727/temp/Model-of-Pancreatic-Islets/Outputs/Islet_${id}"
+hormones="c('G', 'I', 'Sst')"
 if [[ $total != 1.00 ]]
 then
     echo "ERROR: probabilities add to $total"
@@ -21,9 +23,12 @@ echo -e "\nRunning model with:\nid=$id\nsize=$size\nsimulation_time=$simulation_
 read -n 1 -p "Verify with enter"
 touch log.txt
 ml neuron
+ml R
 python3 Super.py $id $size 
 echo "------------ Super.py complete ----------"
 python3 Compile.py $id $size
 echo "------------ Compile.py complete ----------"
 python3 Model.py $id $size $simulation_time $alpha_probability $alpha_beta_combined
 echo "------------ Model.py complete ----------"
+Rscript /blue/lamb/robert727/temp/Model-of-Pancreatic-Islets/Visualization/visualize_islet.R $islet_path
+echo "------------ visualize_islets.R complete ----------"

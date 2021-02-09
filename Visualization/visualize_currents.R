@@ -1,5 +1,5 @@
-visualize_currents <- function(data, var_yaml, islet_path) {
-  data <- grab_vars_of_interest(data, "current", var_yaml)
+visualize_currents <- function(data, islet_path) {
+  data <- grab_vars_of_interest(data, "current")
   for (cell in c("A", "B", "D")) {
       plot <-  data %>% 
         filter(`Cell Type` == cell) %>% 

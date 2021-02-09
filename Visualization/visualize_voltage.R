@@ -1,5 +1,5 @@
-visualize_voltage <- function(data, var_yaml, islet_path) {
-  data <- grab_vars_of_interest(data, "voltage", var_yaml)
+visualize_voltage <- function(data, islet_path) {
+  data <- grab_vars_of_interest(data, "voltage")
   for (cell in c("A", "B", "D")) {
     plot <-  data %>% 
         filter(`Cell Type` == cell) %>% 

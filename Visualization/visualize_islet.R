@@ -5,10 +5,17 @@ source("/blue/lamb/robert727/temp/Model-of-Pancreatic-Islets/Visualization/visua
 source("/blue/lamb/robert727/temp/Model-of-Pancreatic-Islets/Visualization/visualize_calcium.R")
 source("/blue/lamb/robert727/temp/Model-of-Pancreatic-Islets/Visualization/visualize_hormones.R")
 
-visualize_islet <- function(islet_path, var_yaml, hormones) {
+library(tidyverse)
+library(yaml)
+
+args = commandArgs(trailingOnly=TRUE)
+
+
+visualize_islet <- function(islet_path) {
   data <- import_csvs_to_tibble(islet_path)
-  visualize_voltage(data, var_yaml, islet_path)
-  visualize_currents(data, var_yaml, islet_path)
-  visualize_calcium(data, var_yaml, islet_path)
-  visualize_hormones(data, var_yaml, islet_path, hormones)
+  visualize_voltage(data, islet_path)
+  visualize_currents(data, islet_path)
+  visualize_calcium(data, islet_path)
+  visualize_hormones(data, islet_path)
 }
+visualize_islet(args[1])
