@@ -43,7 +43,7 @@ class Space:
         self.num_cells = num_cells
         self.compile = compile
         self.cells = [[[None for i in range(self.islet_radius)] for j in range(self.islet_radius)] for k in range(self.islet_radius)]
-
+        self.cells_and_locations = []	
     def robert_setup(self):
         """Set cells, probabilities and plotting variables"""
         # Hard coding these for now. 
@@ -77,7 +77,8 @@ class Space:
                     # If location unique, append it to the locations list
                     locations.append((x[0],y[0],z[0]))
                     # If location unique, append it along with its' cell type to cells_and_locations list
-                    cells_and_locations.append([count, x[0], y[0], z[0], cells[count]])
+                    cell_obj = Cell.Cell(count, x[0], y[0], z[0], cells[count]) 
+                    cells_and_locations.append([count, x[0], y[0], z[0], cells[count], cell_obj])
                     count += 1
         self.cells_and_locations = cells_and_locations
         # for i in cells_and_locations:
@@ -130,7 +131,7 @@ class Space:
                         print(str(datetime.datetime.now()) + '\tSpace.configSetup Set up cell from configuration file: configuration file', cell, 'cell type', cell_type, 'id', cell_num, 'position', pos, 'wd', Islet.env['wd'])
                         cell_obj = Cell.Cell(cell_num, pos[0], pos[1], pos[2], cell_type[0].upper(), True, self.compile, self.insulin, self.glucagon, self.sst)
                         # cell_obj = Cell.Cell(cell_num, pos[0], pos[1], pos[2], cell_type[0].upper(), True)
-                        self.cells_and_locations.append(cell_obj)
+                        self.cells_and_locations.append([cell_num, pos[0], pos[1], pos[2], cell_type[0].upper(), cell_obj])
                         # store type and position
                         #self.cell_positions.append([cell_type[0].upper(), pos[0], pos[1], pos[2]])
                         #self.cell_sizes.append(cell_obj.diam)
@@ -269,40 +270,36 @@ class Space:
         # create output folder
         os.system('mkdir -p ' + output_islet_path)
         # Create plots folder
-        os.system('mkdir -p' + output_islet_path + "Plots")
+        os.system('mkdir -p ' + output_islet_path + "/Plots")
         # Create subfolders for different types of plots
-        os.system('mkdir -p' + output_islet_path + "Plots/" + "Voltage")
-        os.system('mkdir -p' + output_islet_path + "Plots/" + "Currents")
-        os.system('mkdir -p' + output_islet_path + "Plots/" + "Calcium")
-        os.system('mkdir -p' + output_islet_path + "Plots/" + "Hormones")
+        os.system('mkdir -p ' + output_islet_path + "/Plots/" + "Voltage")
+        os.system('mkdir -p ' + output_islet_path + "/Plots/" + "Currents")
+        os.system('mkdir -p ' + output_islet_path + "/Plots/" + "Calcium")
+        os.system('mkdir -p ' + output_islet_path + "/Plots/" + "Hormones")
         data = []
         t = []
         # get time variable
-        for i in range(len(self.cells)):
-            for j in range(len(self.cells[i])):
-                for k in range(len(self.cells[i][j])):
-                    # get time
-                    if self.cells[i][j][k] is not None and int(self.cells[i][j][k].id) == 0:
-                            t = self.cells[i][j][k].t
-                            print(str(datetime.datetime.now()) + '\tSpace.writeDataPhysiology Obtained reference to time variable: length', len(t))
-        for i in range(len(self.cells)):
-                for j in range(len(self.cells[i])):
-                    for k in range(len(self.cells[i][j])):
-                        if self.cells[i][j][k] is not None:
-                            # get header
-                            header = ['Time']
-                            header.extend(self.cells[i][j][k].header)
-                            output_cell_path = self.cells[i][j][k].type.lower() + '_' + self.cells[i][j][k].id + '.csv'
-                            # write to csv
-                            with open(output_islet_path + '/' + output_cell_path,'w+') as file:
-                                writer = csv.writer(file, quoting = csv.QUOTE_NONE,escapechar=' ')
-                                writer.writerow(header)
-                                for z in range(len(t)):
-                                    data = [t[z]]
-                                    for q in self.cells[i][j][k].rec:
-                                        data.append(self.cells[i][j][k].rec[q][0][z])
-                                    writer.writerow(data)
-                            print(str(datetime.datetime.now()) + '\tSpace.writeDataPhysiology Wrote data: cell', self.cells[i][j][k], 'islet Islet_' + Islet.env['id'], 'path', Islet.env['output'] + 'Islet_' + Islet.env['id'] + '/' + self.cells[i][j][k].type.lower() + '_' + self.cells[i][j][k].id + '.csv')
+        for i in self.cells_and_locations:
+            # get time
+            if int(i[5].id) == 0:
+                t = i[5].t
+                print(str(datetime.datetime.now()) + '\tSpace.writeDataPhysiology Obtained reference to time variable: length', len(t))
+        for i in self.cells_and_locations:
+            if i[5] is not None:
+                # get header
+                header = ['Time']
+                header.extend(i[5].header)
+                output_cell_path = i[5].type.lower() + '_' + i[5].id + '.csv'
+                # write to csv
+                with open(output_islet_path + '/' + output_cell_path,'w+') as file:
+                    writer = csv.writer(file, quoting = csv.QUOTE_NONE,escapechar=' ')
+                    writer.writerow(header)
+                    for z in range(len(t)):
+                        data = [t[z]]
+                        for q in i[5].rec:
+                            data.append(i[5].rec[q][0][z])
+                            writer.writerow(data)
+                print(str(datetime.datetime.now()) + '\tSpace.writeDataPhysiology Wrote data: cell', i[5], 'islet Islet_' + Islet.env['id'], 'path', Islet.env['output'] + 'Islet_' + Islet.env['id'] + '/' + i[5].type.lower() + '_' + i[5].id + '.csv')
     def getCell(self, rand, x, y, z):
         """Randomly select one cell"""
         print(str(datetime.datetime.now()) + '\tSpace.getCell rand =', rand, 'x =', x, 'y =', y, 'z =', z, 'Probability of alpha/beta at this x/y/z position', self.probabilities[x][y][z])
