@@ -4,20 +4,21 @@ import sys
 import Islet
 from Helper import *
 
-def Super(islet_id, size):
+def Super(islet_id, islet_radius, num_cells, alpha_probability, beta_probability):
     print(str(datetime.datetime.now()) + '\tSuper.py')
     # id of islets
-    Islet.env['id'] = islet_id
-    # size of islets (dimensions of cube which will contain it)
-    size = int(size)
+    Islet.env['id'] = islet_id 
+    # islet_radius of islets (dimensions of cube which will contain it)
+    islet_radius = int(islet_radius)
     # default probability of each cell type [P(A), P(A) + P(B)]
-    probabilities = [0.15, 0.75]
+    probabilities = [float(alpha_probability), float(beta_probability)]
+    num_cells = int(num_cells)
     # create template spatial configuration
     template_path = Islet.env['config'] + 'Values/Template_' + Islet.env['id']
     # create folder to write config files to and update Islet env variable
     os.system('mkdir -p ' + template_path)
-    # generate islet with random size
-    islet = Islet.Islet(probabilities, None, size)
+    # generate islet with random islet_radius
+    islet = Islet.Islet(probabilities, None, islet_radius, num_cells)
     islet.spatialConfig()
     print(str(datetime.datetime.now()) + '\tSuper.setTemplates Create islet: id', Islet.env['id'])
     # get parameter values, mechanisms for each cell type
@@ -52,4 +53,4 @@ def Super(islet_id, size):
         writeMechanismsCell(file_mechanisms, mechanisms, cell)
 if __name__ == '__main__':
     # Super.py 1_0 5
-    Super(sys.argv[1], sys.argv[2])
+    Super(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])

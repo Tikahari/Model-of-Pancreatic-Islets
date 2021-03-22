@@ -20,64 +20,69 @@ center_prob = 1
 
 # wrapper class to store probability a point is alpha/beta/delta
 class Probability:
-    def __init__(self, a, b, radius):
+    def __init__(self, a, a_plus_b, radius):
         """Initialize probability for point"""
         # set object variables
-        self.b = b - a
+        self.b = a_plus_b - a
         # ratio of delta to alpha cells
-        d = 1 - b
+        d = 1 - a_plus_b
         self.ratio = d / a
         self.radius = radius
-    def getProbability(self, x, y, z):
+    def getProbability(self):
         """Get probability at point"""
         # uniform distribution
         return [(1-self.b)/(1+self.ratio), self.b + (1-self.b)/(1+self.ratio)]
 
 class Space:
-    def __init__(self, cell_probabilities, config, dimensions, compile=False):
+    def __init__(self, cell_probabilities, config, islet_radius, num_cells, compile=False):
         """Initialize Space instance"""
         # set object variables
-        self.cell_types = cell_probabilities
+        self.cell_probabilities = cell_probabilities
         self.config = config
-        self.dimensions = dimensions
+        self.islet_radius = islet_radius
+        self.num_cells = num_cells
         self.compile = compile
-        self.setup()
-    def setup(self):
+        self.cells = [[[None for i in range(self.islet_radius)] for j in range(self.islet_radius)] for k in range(self.islet_radius)]
+
+    def robert_setup(self):
         """Set cells, probabilities and plotting variables"""
-        # probability distribution
-        self.distribution = Probability(self.cell_types[0], self.cell_types[1], self.dimensions/2)
-        # the following two variables simplify plotting
-        # position of cells
-        self.cell_positions = []
-        # size of cells
-        self.cell_sizes = []
-        # cells by type
-        # self.cell_types = {'A': [], 'B': [], 'D': []}
-        # 3d matrix of cells (initialized to None)
-        self.cells = [[[None for i in range(self.dimensions)] for j in range(self.dimensions)] for k in range(self.dimensions)]
-        # 3d matrix of probabilities (initialized to None then whatever probability is given by the distribution at the corresponding point)
-        self.probabilities = [[[None for i in range(self.dimensions)] for j in range(self.dimensions)] for k in range(self.dimensions)]
-        for i in range(self.dimensions):
-            for j in range(self.dimensions):
-                for k in range(self.dimensions):
-                    self.probabilities[i][j][k] = self.distribution.getProbability(i,j,k)
-    def randomSetup(self):
-        """Set up the islet such that the position of each cell is random"""
-        c = 0
-        while c < self.dimensions:
-            # x/y/z coordinates
-            pos = random.sample(range(0, self.dimensions), 3)
-            # check if cell exists
-            if(self.cells[pos[0]][pos[1]][pos[2]] == None):
-                continue
-            # if position is vacant, add cell to space
-            typ = self.getCell(random.random(), x, y, z)
-            cell = Cell.Cell(c, pos[0], pos[1], pos[2], typ)
-            self.cells[pos[0]][pos[1]][pos[2]] = cell
-            # store type and position
-            self.cell_positions.append([typ, pos[0], pos[1], pos[2]])
-            self.cell_sizes.append(cell.diam)
-            c += 1
+        # Hard coding these for now. 
+        # nx. ny, nz decides how many possible location points we want in each dimension
+        prob_beta = self.cell_probabilities[1]
+        prob_alpha = self.cell_probabilities[0]
+        nx, ny, nz = (50,50,50)
+        # The below statements take a line from -radius to radius and chops it up into n segments
+        x_coords = np.linspace(-self.islet_radius, self.islet_radius, nx)
+        y_coords = np.linspace(-self.islet_radius, self.islet_radius, ny)
+        z_coords = np.linspace(-self.islet_radius, self.islet_radius, nz)
+        num_betas = math.ceil(self.num_cells * prob_beta)
+        num_alphas = math.floor(self.num_cells * prob_alpha)
+        num_deltas = self.num_cells - num_betas - num_alphas
+        betas = ["B"] * num_betas
+        alphas = ["A"] * num_alphas
+        deltas = ["D"] * num_deltas
+        cells = betas + alphas + deltas
+        locations = []
+        cells_and_locations = []
+        count = 0
+        while count < self.num_cells:
+            # Select a random value for x, y, and z coordinates
+            x,y,z = np.random.choice(x_coords, 1), np.random.choice(y_coords, 1), np.random.choice(z_coords, 1)
+            # Check if the point is within the islet sphere
+            if math.sqrt(x**2 + y**2 + z**2) < self.islet_radius:
+                # Check if random coordinates chosen are unique so not two cells have the same location
+                if any(location == [x[0],y[0],z[0]] for location in locations): 
+                    continue
+                else:
+                    # If location unique, append it to the locations list
+                    locations.append((x[0],y[0],z[0]))
+                    # If location unique, append it along with its' cell type to cells_and_locations list
+                    cells_and_locations.append([count, x[0], y[0], z[0], cells[count]])
+                    count += 1
+        self.cells_and_locations = cells_and_locations
+        # for i in cells_and_locations:
+        #     cell_obj = Cell.Cell(i[0], i[1], i[2], i[3], i[4])
+        #     self.cells[i[1]][i[2]][i[3]] = cell_obj
     def radialSetup(self):
         """Set up the islet such that the distance of any cell from the center is one-half the radius"""
         [k, c] = [0, 0]
@@ -100,6 +105,7 @@ class Space:
                     c += 1
                     k += 1
                 k = 0
+                
     def configSetup(self):
         """Set up the islet from configuration file"""
         print(str(datetime.datetime.now()) + '\tSpace.configSetup Create islet instance: id', Islet.env['id'], 'wd', Islet.env['wd'])
@@ -124,10 +130,10 @@ class Space:
                         print(str(datetime.datetime.now()) + '\tSpace.configSetup Set up cell from configuration file: configuration file', cell, 'cell type', cell_type, 'id', cell_num, 'position', pos, 'wd', Islet.env['wd'])
                         cell_obj = Cell.Cell(cell_num, pos[0], pos[1], pos[2], cell_type[0].upper(), True, self.compile, self.insulin, self.glucagon, self.sst)
                         # cell_obj = Cell.Cell(cell_num, pos[0], pos[1], pos[2], cell_type[0].upper(), True)
-                        self.cells[pos[0]][pos[1]][pos[2]] = cell_obj
+                        self.cells_and_locations.append(cell_obj)
                         # store type and position
-                        self.cell_positions.append([cell_type[0].upper(), pos[0], pos[1], pos[2]])
-                        self.cell_sizes.append(cell_obj.diam)
+                        #self.cell_positions.append([cell_type[0].upper(), pos[0], pos[1], pos[2]])
+                        #self.cell_sizes.append(cell_obj.diam)
             Islet.env['wd'] = owd       
         # self.rxd()
     def rxd(self):
@@ -227,7 +233,7 @@ class Space:
                             gkatpbard = 0.18
     def writeDataOrientation(self):
         """Write a template orienation"""
-        print(str(datetime.datetime.now()) + '\tSpace.writeDataOrientation Write orientation data: number of cells', len(self.cell_positions))
+        print(str(datetime.datetime.now()) + '\tSpace.writeDataOrientation Write orientation data: number of cells', len(self.cells_and_locations))
         template_config_path = Islet.env['config'] + 'Values/Template_' + Islet.env['id'] + '/config.txt'
         # write template orientations
         probabilities = ''
@@ -235,20 +241,20 @@ class Space:
         c = [0, ['A', 'B', 'D']]
         cells_p = ['Probability_Alpha', 'Probability_Beta', 'Probability_Delta']
         cells_s = ['Size_Alpha', 'Size_Beta', 'Size_Delta']
-        for i in range(len(self.cell_types)):
-            x = self.cell_types[i]*100 - c[0]
-            c[0] += x
-            probabilities += cells_p[i] + ' = ' + str(x) + '\n'
-        spatial_configuration = '[Config]\n'+\
-        'dimensions=' + str(self.dimensions) + '\n' + probabilities + sizes
+        # for i in range(len(self.cells)):
+        #     x = self.cells[i]*100 - c[0]
+        #     c[0] += x
+        #     probabilities += cells_p[i] + ' = ' + str(x) + '\n'
+        # spatial_configuration = '[Config]\n'+\
+        # 'dimensions=' + str(self.islet_radius) + '\n' + probabilities + sizes
         spatial_data = '[Data]\n'
         id = 0
-        for cell_position in self.cell_positions:
-            spatial_data += str(cell_position[0]).lower() + '_' + str(id) + ' = [' + str(cell_position[1])+', '+str(cell_position[2])+', '+str(cell_position[3])+']\n'
+        for cell_position in self.cells_and_locations:
+            spatial_data += cell_position[4].lower() + '_' + str(cell_position[0]) + ' = [' + str(cell_position[1])+', '+str(cell_position[2])+', '+str(cell_position[3])+']\n'
             id += 1
         # write to text    
         template_config_file = open(template_config_path, 'w')
-        template_config_file.write(spatial_configuration)
+        #template_config_file.write(spatial_configuration)
         template_config_file.write(spatial_data)
         template_config_file.close()
     def writeDataPhysiology(self):

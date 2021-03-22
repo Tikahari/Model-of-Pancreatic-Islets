@@ -4,14 +4,14 @@ import sys
 import os
 import Islet
 
-def Compile(islet_id, dimensions):
+def Compile(islet_id, size):
     """Compile and move all mod files for all cells such that an islet instance can be run from one library"""
     # create temp folder for mods
     Islet.env['wd'] += 'Islet_' + islet_id + '/'
     Islet.env['id'] = islet_id
     print(str(datetime.datetime.now()) + '\tCompile.py Compile mod files in: wd', Islet.env['wd'])
     # create islet instance with compile set to true
-    islet = Islet.Islet([1 , 1], None, int(dimensions), True)
+    islet = Islet.Islet([1 , 1], None, int(size), True)
     for cell in os.listdir(Islet.env['wd']):
         # create '.r' folder that will contain all mechanisms of an islet instance
         os.system('mkdir -p ' + Islet.env['wd'] + '.r/')

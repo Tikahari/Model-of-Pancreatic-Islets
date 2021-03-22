@@ -4,31 +4,32 @@
 # G1 gkatpbara=3, gkatpb=150, gkatpbard=0.29, kserca=0.05
 # G7 gkatpbara=0.6, gkatpb=85, gkatpbard=0.27, kserca=0.5
 # G11 gkatpbara=0.15, gkatpb=25, gkatpbard=0.18, kserca=0.5
-size="4"
-simulation_time=500
+num_cells=3
+islet_radius="1"
+simulation_time=200
 alpha_probability=0.35
 beta_probability=0.50
 delta_probability=0.15
 alpha_beta_combined=$(echo "$alpha_probability + $beta_probability" | bc)
-id="model_${size}_${simulation_time}_${alpha_probability}_${beta_probability}_${delta_probability}_3"
+id="model_${islet_radius}_${simulation_time}_${alpha_probability}_${beta_probability}_${delta_probability}_3"
 total=$(echo "$alpha_probability + $beta_probability + $delta_probability" | bc)
-islet_path="/blue/lamb/robert727/temp/Model-of-Pancreatic-Islets/Outputs/Islet_${id}"
+islet_path="/blue/lamb/robert727/temp/Model-of-Pancreatic-Islets/Outputs/Islet_model_${id}"
 hormones="c('G', 'I', 'Sst')"
 if [[ $total != 1.00 ]]
 then
     echo "ERROR: probabilities add to $total"
     exit
 fi
-echo -e "\nRunning model with:\nid=$id\nsize=$size\nsimulation_time=$simulation_time\nalpha_probability=$alpha_probability\nbeta_proability=$beta_probability\ndelta_probability=$delta_probability\n"
+echo -e "\nRunning model with:\nid=$id\nsize=$islet_radius\nsimulation_time=$simulation_time\nalpha_probability=$alpha_probability\nbeta_proability=$beta_probability\ndelta_probability=$delta_probability\n"
 read -n 1 -p "Verify with enter"
 touch log.txt
 ml neuron
-ml R
-python3 Super.py $id $size 
+python3 Super.py $id $islet_radius $num_cells $alpha_probability $beta_probability
 echo "------------ Super.py complete ----------"
-python3 Compile.py $id $size
+python3 Compile.py $id $islet_radius
 echo "------------ Compile.py complete ----------"
-python3 Model.py $id $size $simulation_time $alpha_probability $alpha_beta_combined
+python3 Model.py $id $islet_radius $simulation_time $alpha_probability $beta_probability
 echo "------------ Model.py complete ----------"
+ml R
 Rscript /blue/lamb/robert727/temp/Model-of-Pancreatic-Islets/Visualization/visualize_islet.R $islet_path
 echo "------------ visualize_islets.R complete ----------"
