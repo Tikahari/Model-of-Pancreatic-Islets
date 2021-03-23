@@ -55,8 +55,8 @@ class Space:
         x_coords = np.linspace(-self.islet_radius, self.islet_radius, nx)
         y_coords = np.linspace(-self.islet_radius, self.islet_radius, ny)
         z_coords = np.linspace(-self.islet_radius, self.islet_radius, nz)
-        num_betas = math.ceil(self.num_cells * prob_beta)
-        num_alphas = math.floor(self.num_cells * prob_alpha)
+        num_betas = math.floor(self.num_cells * prob_beta)
+        num_alphas = math.ceil(self.num_cells * prob_alpha)
         num_deltas = self.num_cells - num_betas - num_alphas
         betas = ["B"] * num_betas
         alphas = ["A"] * num_alphas
@@ -298,7 +298,7 @@ class Space:
                         data = [t[z]]
                         for q in i[5].rec:
                             data.append(i[5].rec[q][0][z])
-                            writer.writerow(data)
+                        writer.writerow(data)
                 print(str(datetime.datetime.now()) + '\tSpace.writeDataPhysiology Wrote data: cell', i[5], 'islet Islet_' + Islet.env['id'], 'path', Islet.env['output'] + 'Islet_' + Islet.env['id'] + '/' + i[5].type.lower() + '_' + i[5].id + '.csv')
     def getCell(self, rand, x, y, z):
         """Randomly select one cell"""

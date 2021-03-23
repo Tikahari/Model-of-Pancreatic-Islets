@@ -8,9 +8,9 @@ import neuron
 from neuron import rxd
 
 # path to initialization file, mechanisms, output, and generation identifier
-# path = "/blue/lamb/robert727/temp/Model-of-Pancreatic-Islets/"
+path = "/blue/lamb/robert727/temp/Model-of-Pancreatic-Islets/"
 # path = "/home/tk/Desktop/Model-of-Pancreatic-Islets/"
-path = "/home/tikaharikhanal/lamb_tikaharikhanal/Model-of-Pancreatic-Islets/"
+# path = "/home/tikaharikhanal/lamb_tikaharikhanal/Model-of-Pancreatic-Islets/"
 env = {'config': path + "Configuration/", 'id': "", 'mech': path + "Mechanisms/", 'output': path + "Outputs/", 'wd': path + "Main/Run/" }
 # 0 to glucose_changes[1] represents the interval over which glucose level is 1mM, glucose_changes[1] to glucose_changes[2] represents the interval over which the glucose level is 7mM, and glucose_changes[2] to simtime 11mM
 glucose_changes = [999999999, 999999999]
