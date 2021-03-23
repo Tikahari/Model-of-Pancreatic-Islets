@@ -7,9 +7,9 @@
 num_cells=3
 islet_radius="1"
 simulation_time=200
-alpha_probability=0.35
-beta_probability=0.50
-delta_probability=0.15
+alpha_probability=0.33
+beta_probability=0.34
+delta_probability=0.33
 alpha_beta_combined=$(echo "$alpha_probability + $beta_probability" | bc)
 id="model_${islet_radius}_${simulation_time}_${alpha_probability}_${beta_probability}_${delta_probability}_3"
 total=$(echo "$alpha_probability + $beta_probability + $delta_probability" | bc)
