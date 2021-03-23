@@ -26,9 +26,9 @@ touch log.txt
 ml neuron
 python3 Super.py $id $islet_radius $num_cells $alpha_probability $beta_probability
 echo "------------ Super.py complete ----------"
-python3 Compile.py $id $islet_radius
+python3 Compile.py $id $islet_radius $num_cells
 echo "------------ Compile.py complete ----------"
-python3 Model.py $id $islet_radius $simulation_time $alpha_probability $beta_probability
+python3 Model.py $id $islet_radius $num_cells $simulation_time $alpha_probability $beta_probability
 echo "------------ Model.py complete ----------"
 ml R
 Rscript /blue/lamb/robert727/temp/Model-of-Pancreatic-Islets/Visualization/visualize_islet.R $islet_path

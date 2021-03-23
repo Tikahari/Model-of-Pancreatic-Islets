@@ -13,7 +13,7 @@ import Islet
 from Helper import *
 
 class Model: 
-    def __init__(self, islet_id, n, simulation_time, alpha, beta):
+    def __init__(self, islet_id, islet_radius, num_cells, simulation_time, alpha, beta):
         """Initialize model instance"""
         print(str(datetime.datetime.now()) + '\tModel.init')
         # set environment variables
@@ -22,7 +22,7 @@ class Model:
         os.chdir(Islet.env['wd'])
         # create and run islet instance
         print(str(datetime.datetime.now()) + '\tModel.init Create islet', Islet.env['wd'])
-        self.islet = Islet.Islet([float(alpha), float(beta)], None, int(n), False, int(simulation_time))
+        self.islet = Islet.Islet([float(alpha), float(beta)], None, int(islet_radius), int(num_cells), False, int(simulation_time))
         self.islet.run()
         # self.clean()
     def clean(self):
@@ -41,4 +41,4 @@ class Model:
 if __name__ == '__main__':
     # run from command line
     # python Model.py 500 1_0 5 0.15 0.75
-    Model(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
+    Model(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6])
