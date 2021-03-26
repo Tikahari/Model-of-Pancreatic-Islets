@@ -1,0 +1,175 @@
+---
+title: "Data Visualization"
+author: "Robert C"
+date: "1/21/2021"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(readxl)
+library(yaml)
+source("/blue/lamb/robert727/temp/Model-of-Pancreatic-Islets/Visualization/plot_stuff.R")
+```
+
+# Visualizing Islet_model_4_5000_0.35_0.50_0.15 at 1 mm glucose
+
+Note that when running the model for 15000  and 10000 ms it got killed. This was likely due to my dev session specs though.
+
+```{r messageF, warning=F}
+# Load in data. Just two cells of each time to peak around
+data <- import_csvs_to_tibble("/blue/lamb/robert727/temp/Model-of-Pancreatic-Islets/Outputs/Islet_model_4_5000_0.35_0.50_0.15/temp")
+varyaml <- read_yaml("/blue/lamb/robert727/temp/Model-of-Pancreatic-Islets/Visualization/variables.yaml")
+```
+
+## Voltage
+
+```{r echo=FALSE}
+plot_stuff(data, "voltage", varyaml, c("A", "B", "D"), average=T)
+```
+
+Comparing this to the Watts output, the alpha cell is spiking within a similar range but appears to be spiking close to twice as often. Watts alpha cell at 1 mM glucose has 8 spikes/s. We shouldn't see as much spiking with the beta cell. The Watts model has a flat line, we don't. This may be in physiological range of possibility but I need to brush up on the literature some more to see what spiking patters are like at low glucose. Delta cell shouldn't be spiking this much. It seems to have very similar behavior to the alpha cell. And delta cell excitation inhibits alpha cells (through GIRK channels) so that mechanism may be off as well.
+
+## Currents
+
+```{r echo=FALSE}
+plot_stuff(data, "current", varyaml, c("A", "B", "D"), average=T)
+```
+
+There are huge dips in the calcium current which I don't think seem right. These are more than likely driving the spikes since the times line up and influx of calcium is needed. There are huge spikes in the katpd and kad currents. Alpha cell average plot probably looks flat because of the massive scale difference.
+
+## Calcium
+
+```{r echo=FALSE}
+plot_stuff(data, "calcium", varyaml, c("A", "B", "D"), average=T)
+```
+
+Alpha cells are similar to those in Watts, but again appear to oscillate much more in calcium concentration. It's interesting that one cell is increasing over time whereas the other is staying consistent. We can see that cell 12 spikes a bit higher in terms of Vm and current. In Watts the beta calcium stays flat a bit below 0.1 which ours dips to after increasing. Calcium in the delta cell increasing non-stop, but is oscillating as seen in Watts. Needs to be investigated.
+
+## Hormones
+
+```{r echo=FALSE}
+plot_stuff(data, "hormone", varyaml, c("A", "B", "D"), c("G", "I", "Sst"), average=T)
+```
+
+# Visualizing Islet_model_4_500_0.35_0.50_0.15 at 1 mm glucose
+
+We noticed that the capacitance for the delta cell should be the same as the alpha cell but was different by a factor of a million (5e6 vs 5 resp.). So I will run a short simulation where I change the delta cell capacitance to 5 to match alpha. Beta cell should be 5300 according to Watts but it is 5300e3 in our model so that may need to change as well.
+
+```{r}
+data1 <- import_csvs_to_tibble("/blue/lamb/robert727/temp/Model-of-Pancreatic-Islets/Outputs/Islet_model_4_500_0.35_0.50_0.15/temp")
+```
+
+## Voltage
+
+```{r echo=FALSE}
+plot_stuff(data1, "voltage", varyaml, c("A", "B", "D"), average=T)
+```
+
+Again with the alpha cell we see 32 spikes per second versus 8 seen in  Watts at this level of glucose. Spikes from the beta cell seem similar to the previous run given the timescale difference. We still see a lot of spiking in the delta cell where we shouldn't. It appears that changing the capacitance of the delta cell by a factor of a million didn't have much effect on Vm which is odd.
+
+## Currents
+
+```{r echo=FALSE}
+plot_stuff(data1, "current", varyaml, c("A", "B", "D"), average=T)
+```
+
+The spikes in iCa are still seen in the beta cell.
+
+## Calcium
+
+```{r echo=FALSE}
+plot_stuff(data1, "calcium", varyaml, c("A", "B", "D"), average=T)
+```
+
+Two alpha cells exhibit differing oscillatory behavior in terms of change in cytosolic calcium concentration. Beta cell calcium concentration appears normal initially but then begins to increase. Similar to what we saw in the previous run. The change in delta cell capacitance didn't change the behavior of cytosolic calcium in delta cells.
+
+## Hormones
+
+```{r echo=FALSE}
+plot_stuff(data1, "hormone", varyaml, c("A", "B", "D"), c("G", "I", "Sst"), average=T)
+```
+
+It looks like insulin levels are staying 0 for 4 timepoints and then increasing drastically. Sst still increasing drastically. Alpha cells within range of normality. In watts, insulin stays constant around ~100 - 200 pM and here we get up to around 700. 
+
+# Visualizing Islet_model_4_500_0.35_0.50_0.15_2 at 1 mm glucose
+
+I changed the beta cell capacitance to 5300 from 5300e3
+
+```{r}
+data2 <- import_csvs_to_tibble("/blue/lamb/robert727/temp/Model-of-Pancreatic-Islets/Outputs/Islet_model_4_500_0.35_0.50_0.15_2/temp")
+```
+
+## Voltage
+
+```{r echo=FALSE}
+plot_stuff(data2, "voltage", varyaml, c("A", "B", "D"), average=T)
+```
+
+
+
+## Currents
+
+```{r echo=FALSE}
+plot_stuff(data2, "current", varyaml, c("A", "B", "D"), average=T)
+```
+
+
+
+## Calcium
+
+```{r echo=FALSE}
+plot_stuff(data2, "calcium", varyaml, c("A", "B", "D"), average=T)
+```
+
+
+
+## Hormones
+
+```{r echo=FALSE}
+plot_stuff(data2, "hormone", varyaml, c("A", "B", "D"), c("G", "I", "Sst"), average=T)
+```
+
+
+
+## Testing ggsave
+
+```{r}
+test <- tibble(x = c(1,2,3,4,5,6,7,8),
+y = c(8,7,6,5,4,3,2,1))
+test %>% 
+  ggplot(aes(x,y)) +
+  geom_point()
+ggsave(filename = "test",
+       device = "png",
+       path = "/blue/lamb/robert727/temp/Model-of-Pancreatic-Islets/Outputs/Islet_model_4_5000_0.35_0.50_0.15/Plots")
+```
+
+```{r}
+data1 <- import_csvs_to_tibble("/blue/lamb/robert727/temp/Model-of-Pancreatic-Islets/Outputs/Islet_model_4_500_0.35_0.50_0.15/temp")
+```
+
+```{r}
+source('/blue/lamb/robert727/temp/Model-of-Pancreatic-Islets/Visualization/visualize_islet.R')
+visualize_islet("/blue/lamb/robert727/temp/Model-of-Pancreatic-Islets/Outputs/Islet_model_4_500_0.35_0.50_0.15")
+```
+
+# Visualizing Islet_model_4_500_0.35_0.50_0.15_3 at 1 mm glucose
+
+Probably not the main issue, but still an issue is the initial concentrations of the different hormones. In Watts they are:
+
+* I(0) = 48.0249
+* G(0) = 31.7372
+* Sst(0) = 18.7132
+
+In our model runs they were
+
+* I(0) = 1500
+* G(0) = 31.7372
+* Sst(0) = 18.7132
+
+It appears I went down to where it should be, but just to rule out this is the issue and to have appropriate scaling, I'll run another 500 ms model.
+
