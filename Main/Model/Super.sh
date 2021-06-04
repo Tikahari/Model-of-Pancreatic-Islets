@@ -6,12 +6,13 @@
 # G11 gkatpbara=0.15, gkatpb=25, gkatpbard=0.18, kserca=0.5
 num_cells=3
 islet_radius="1"
-simulation_time=10000
+simulation_time=500
 alpha_probability=0.33
 beta_probability=0.34
 delta_probability=0.33
+
 alpha_beta_combined=$(echo "$alpha_probability + $beta_probability" | bc)
-id="model_${islet_radius}_${simulation_time}_${alpha_probability}_${beta_probability}_${delta_probability}_3"
+id="model_${islet_radius}_${simulation_time}_${alpha_probability}_${beta_probability}_${delta_probability}"
 total=$(echo "$alpha_probability + $beta_probability + $delta_probability" | bc)
 islet_path="/blue/lamb/robert727/temp/Model-of-Pancreatic-Islets/Outputs/Islet_${id}"
 hormones="c('G', 'I', 'Sst')"

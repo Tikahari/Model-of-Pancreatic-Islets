@@ -166,12 +166,12 @@ class Space:
         insecs = insulin[ecs]
         self.insulin = insulin
 
-        # # production
+        # # # production
         # gluc_param = Islet.neuron.rxd.Parameter(cyt, initial=1)
         # createX = Islet.neuron.rxd.Rate(gcyt, gluc_param[cyt] * 1.0/(10.0 + gcyt))
 
 
-        # # uptake and release
+        # # # uptake and release
         # R = 1e1     # release rate [molecules per square micron per ms]
         # U = 1e1     # uptake rate [molecules per square micron per ms]
 
@@ -188,7 +188,7 @@ class Space:
         # insulin_release = Islet.neuron.rxd.MultiCompartmentReaction(inscyt, insecs, rratei, uratei,
         #                                                 membrane=mem, 
         #                                                 custom_dynamics=True)
-        # # Islet.neuron.h.setpointer(insulin.nodes[0]._ref_concentration, 'Inspnt', ins_syn)
+        # Islet.neuron.h.setpointer(insulin.nodes[0]._ref_concentration, 'Inspnt', ins_syn)
 
 
         # rrates = R*sstcyt    
@@ -308,6 +308,7 @@ class Space:
         elif rand <= self.probabilities[x][y][z][1]:
             return 'B'
         return 'D'
+# Test space for determining script works properly, doesn't affect how algorithm runs
 if __name__ == '__main__':
     # test
     # python Space.py

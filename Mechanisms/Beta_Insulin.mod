@@ -4,7 +4,7 @@ NEURON{
     USEION kca WRITE ikca VALENCE 1
     USEION glucagon READ glucagoni,glucagono VALENCE 1
     USEION sst READ ssti,ssto VALENCE 1
-    RANGE gthresh,sombarb,ssomb,rb,fb,Jgk,factor,gkatpb,bas_r3,amplify,cm,gkca,k4,gkatpbar,kd,nca,raL,vca,vm,sm,gca,vk,kdd,ktd,ktt,fcyt,fer,fmd,kpmca,cbas,B,per,kserca3,kserca2b,sigmav,vmd,vcell,alpha,phigk,KGPDH,k1,k2,k3,f13,f43,f23,f42,f41,lambda,taua,VmaxPFK,kappa,Jgpdh_bas,fmito,gamma,p21,p22,exo_k1,bas_cmd,p23,p24,Amtot,NADmtot
+    RANGE gthresh,sombarb,ssomb,rb,fb,Jgk,factor,gkatpb,bas_r3,amplify,gkca,k4,gkatpbar,kd,nca,raL,vca,vm,sm,gca,vk,kdd,ktd,ktt,fcyt,fer,fmd,kpmca,cbas,B,per,kserca3,kserca2b,sigmav,vmd,vcell,alpha,phigk,KGPDH,k1,k2,k3,f13,f43,f23,f42,f41,lambda,taua,VmaxPFK,kappa,Jgpdh_bas,fmito,gamma,p21,p22,exo_k1,bas_cmd,p23,p24,Amtot,NADmtot
     RANGE p1,p2,p3,Cmito,p17,p18,p4,p5,p6,p7,p8,p9,p10,p11,p13,p14,p15,p16,p19,p20,khyd,JhydSS,amp,atot,km1,r1,rm1,r30,rm3,u1,u2,u3,Kp,Kp2,tmsb,max_cmd,cmdp,kcmd,delta,vc,knockoutdb
     RANGE EffSb,r20,minf,IcaL,IcaR,ninf,topo,bottomo,katpo,vmdcyt,JL,JR,Jmem,Jserca,Jleak,Jer,f6p,Jgpdh,Jgk_ms,mod_cmd,weight1,topa1,bottom1,weight2,topa2,bottom2,weight3,topa3,bottom3,weight4,topa4,bottom4,weight5,topa5,bottom5,weight6,topa6,bottom6,weight7,topa7,bottom7,weight8,topa8,bottom8,weight9,topa9,bottom9,weight10,topa10,bottom10,weight11,topa11,bottom11,weight12,topa12,bottom12,weight13,topa13,bottom13,weight14,topa14
     RANGE bottom14,weight15,topa15,topb,bottom15,weight16,topa16,bottom16,pfk,pfk_ms,Juni,JNaCa,Jmito,NADm,ATPm,RATm,Jpdh,JHleak,MM1,JO,MM2,JHres,b2,JF1F0,JHatp,FRT,Jant,atp,Jhyd,mgadp,adp3m,atp4m,ampfactor,r3,r2,JIS,rm2b
@@ -34,7 +34,6 @@ factor
 gkatpb
 bas_r3
 amplify
-cm
 gkca
 k4
 gkatpbar
@@ -295,7 +294,6 @@ gkatpb=85
 
 bas_r3=0.032
 amplify=1
-cm=5300
 gkca=280
 k4=150
 gkatpbar=7000

@@ -21,7 +21,12 @@ class Cell:
         self.sp = secretion_pointer[self.type]
         self.compile = writeMod
         # for plotting
-        self.diam = 1
+        if typ == "A":
+            self.diam = 8
+        elif typ == "D":
+            self.diam = 8
+        else:
+            self.diam = 15.5
         self.insulin = insulin
         self.glucagon = glucagon
         self.sst = sst
@@ -74,17 +79,20 @@ class Cell:
             glucagon = getattr(Islet.neuron.h, 'A_Glucagon' + self.id)
             self.pp = glucagon(self.cell(0.5))
             Islet.neuron.h.setpointer(self.glucagon.nodes[0]._ref_concentration, 'Gpnt', self.pp)
-            self.cell.cm = 5
+            #self.cell.cm = 0.000005 # Was 5 pF (watts) now is in microfarads
+            self.cell.cm = 201.06176
         elif self.type == 'B':
             insulin = getattr(Islet.neuron.h, 'B_Insulin' + self.id)
             self.pp = insulin(self.cell(0.5))
             Islet.neuron.h.setpointer(self.insulin.nodes[0]._ref_concentration, 'Inspnt', self.pp)
-            self.cell.cm = 5300
+            #self.cell.cm = 0.0053 # Was 5300 pF (watts) now is in microfarads
+            self.cell.cm = 754.8
         else:
             somatostatin = getattr(Islet.neuron.h, 'D_Somatostatin' + self.id)
             self.pp = somatostatin(self.cell(0.5))
             Islet.neuron.h.setpointer(self.sst.nodes[0]._ref_concentration, 'Sstpnt', self.pp)
-            self.cell.cm = 5
+            #self.cell.cm = 0.000005 # Was 5 pF (watts) now is in microfarads
+            self.cell.cm = 201.06176
         for i in self.mechs:
             print(str(datetime.datetime.now()) + '\tCells.addMechanisms Adding mechanisms: cell type', self.type, 'mechanism', i, 'cwd', os.getcwd())
             self.cell.insert(self.type+'_'+i)

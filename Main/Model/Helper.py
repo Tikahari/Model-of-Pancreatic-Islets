@@ -10,8 +10,8 @@ def readInit(values_path, mechanisms_path):
     """Read the 'super' initialization files which include all mechanisms and parameters of all cells of an islet"""
     print(str(datetime.datetime.now()) + '\tHelper.readInit Read mechanisms and values initialization file')
     config_values = configparser.ConfigParser()
-    config_values .optionxform = str
-    config_values .read(values_path)
+    config_values.optionxform = str
+    config_values.read(values_path)
     values = {'Alpha': {}, 'Beta': {}, 'Delta': {}}
     # get all values
     for cell_type in config_values:
@@ -32,7 +32,7 @@ def writeValuesCell(file_values, values, cell, config):
         # iterate through all variables for cell type
         for var in values[cell_type]:
             if(type(values[cell_type][var]) is list):
-                val = random.random() * (values[cell_type][var][1] - values[cell_type][var][0]) + values[cell_type][var][0]
+                val = random.uniform(values[cell_type][var][0], values[cell_type][var][1])
             else:
                 val = values[cell_type][var]
             ini.write(var + ' = ' + str(val) + '\n')

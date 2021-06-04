@@ -5,7 +5,7 @@ NEURON{
     USEION insulin READ insulini,insulino VALENCE 1
     POINTER mcapqd
     POINTER hcapqd
-    RANGE con, bas, cma, vc, tmsb, tausom, pleakd, fVld, fVpqd, fmdd, Bd, alphad, kpmcad, fcytd, ferd, sigmavd, ksercad, fd, vmdpqd, vmdld
+    RANGE con, bas, vc, tmsb, tausom, pleakd, fVld, fVpqd, fmdd, Bd, alphad, kpmcad, fcytd, ferd, sigmavd, ksercad, fd, vmdpqd, vmdld
     RANGE JLd, JPQd, Jmemd, Jsercad, Jleakd, Jerd, y, Som, JSS
     RANGE I, Io
     POINTER Sstpnt
@@ -23,7 +23,6 @@ PARAMETER{
     Io
     con
     bas
-    cma
     vc
     tmsb
     tausom
@@ -71,7 +70,6 @@ INITIAL{
     Sst=18.71318922819339
     con=0.00000000594
     bas=0.0009
-    cma=5
     vc = 1e-13
     tmsb=0.001
     tausom=2000
