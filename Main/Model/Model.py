@@ -1,14 +1,7 @@
 """The 'Model' object will be used to configure and run a simulation for one islet. Instances are intended to be run in parallel and update a database file upon completion"""
-import pickle
-import configparser
-import ast
 import sys
 import os
-import sqlite3
 import datetime
-import numpy as np
-import re
-from matplotlib import pyplot as plt
 import Islet
 from Helper import *
 
@@ -25,6 +18,7 @@ class Model:
         self.islet = Islet.Islet([float(alpha), float(beta)], None, int(islet_radius), int(num_cells), False, int(simulation_time))
         self.islet.run()
         # self.clean()
+    # Function clean here in case files get too big, it clears out unnecesary files before finishing the simulation.
     def clean(self):
         """Compress and remove folders"""
         print(str(datetime.datetime.now()) + '\tModel.clean Compress folders: output folder', Islet.env['output'] + 'Islet_' + Islet.env['id'], 'run folder', Islet.env['wd'][:len(Islet.env['wd'])-1])

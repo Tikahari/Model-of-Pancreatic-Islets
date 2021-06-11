@@ -1,8 +1,6 @@
 """The 'Islet' object will provide a high level interface that will allow the GA to perform the major steps in the simulation (set up islet, simulate, and write data)"""
 import os
-import csv
 import datetime
-import numpy as np
 import Space
 import neuron
 from neuron import rxd

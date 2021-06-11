@@ -1,7 +1,6 @@
 """The 'Cell' object will store information unique to each cell, the reference to corresponding NEURON segment, and the values of all relevant variables associated with that segment"""
 import configparser
 import ast
-import random
 import datetime
 import os
 import re
@@ -69,7 +68,7 @@ class Cell:
             # only write mod files when those mod files will be compiled
             if self.compile:
                 print(str(datetime.datetime.now()) + '\tCells.readData Write mod file: cell', self.cell)
-                modname = re.split('1|2|3|4|5|6|7|8|9|0', i)[0]
+                modname = re.split('[0-9]', i)[0]
                 mod_path = Islet.env['wd'] + types[self.type] + '_' + modname + '.mod'
                 Mod.writeMod(ini_path, mod_path)
     def addMechanisms(self):

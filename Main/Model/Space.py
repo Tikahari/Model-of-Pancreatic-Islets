@@ -1,18 +1,11 @@
 """The 'Space' object is used to determine the probability and spatial distribution of cells. A probability object is introduced to handle non-uniform distributions."""
 import numpy as np
-from matplotlib import pyplot as plt
-from matplotlib import patches as mpatches
-from mpl_toolkits.mplot3d import Axes3D
 import configparser
-import random
 import math
 import ast
-import sys
-import pickle
 import csv
 import Cell
 import os
-import re
 import datetime
 import Islet
 
@@ -84,29 +77,7 @@ class Space:
         # for i in cells_and_locations:
         #     cell_obj = Cell.Cell(i[0], i[1], i[2], i[3], i[4])
         #     self.cells[i[1]][i[2]][i[3]] = cell_obj
-    def radialSetup(self):
-        """Set up the islet such that the distance of any cell from the center is one-half the radius"""
-        [k, c] = [0, 0]
-        for i in range(self.dimensions):
-            for j in range(self.dimensions):
-                while k < self.dimensions:
-                    # only create cells if within some distance of the center
-                    if(math.sqrt((self.dimensions/2-i)**2+(self.dimensions/2-j)**2+(self.dimensions/2-k)**2) > self.dimensions/2):
-                        k += 1
-                        continue
-                    typ = self.getCell(random.random(), i, j, k)
-                    # if position is vacant, add cell to space
-                    # create cell
-                    cell_obj = Cell.Cell(c, i, j, k, typ)
-                    print(str(datetime.datetime.now()) + '\tSpace.RadialSetup Added cell to islet: id', cell_obj)
-                    self.cells[i][j][k] = cell_obj
-                    # store type and position
-                    self.cell_positions.append([typ, i, j, k])
-                    self.cell_sizes.append(cell_obj.diam)
-                    c += 1
-                    k += 1
-                k = 0
-                
+
     def configSetup(self):
         """Set up the islet from configuration file"""
         print(str(datetime.datetime.now()) + '\tSpace.configSetup Create islet instance: id', Islet.env['id'], 'wd', Islet.env['wd'])
@@ -117,13 +88,12 @@ class Space:
             if os.path.isdir(Islet.env['wd'] + cell) and 'Islet_' in (Islet.env['wd'] + cell):
                 values_cell_path = Islet.env['config'] + 'Values/Islet_' + Islet.env['id'] + '/' + cell + '.ini'
                 print('path', values_cell_path)
-                config = configparser.ConfigParser()
                 config = configparser.ConfigParser(allow_no_value= True)
                 config.optionxform = str
                 config.read(values_cell_path)
                 for cell_type in config:
                     # get cell number
-                    cell_num = re.split('_|\.', cell)[1]
+                    cell_num = cell.split('_')[1]
                     # every cell will have 'position' variable in configuration file
                     if 'position' in config[cell_type]:
                         pos = ast.literal_eval(config[cell_type]['position'])
@@ -135,8 +105,7 @@ class Space:
                         # store type and position
                         #self.cell_positions.append([cell_type[0].upper(), pos[0], pos[1], pos[2]])
                         #self.cell_sizes.append(cell_obj.diam)
-            Islet.env['wd'] = owd       
-        # self.rxd()
+            Islet.env['wd'] = owd
     def rxd(self):
         print(str(datetime.datetime.now()) + '\tSpace.rxd Set up reaction diffusion')
         # the intracellular spaces
@@ -237,17 +206,6 @@ class Space:
         print(str(datetime.datetime.now()) + '\tSpace.writeDataOrientation Write orientation data: number of cells', len(self.cells_and_locations))
         template_config_path = Islet.env['config'] + 'Values/Template_' + Islet.env['id'] + '/config.txt'
         # write template orientations
-        probabilities = ''
-        sizes = ''
-        c = [0, ['A', 'B', 'D']]
-        cells_p = ['Probability_Alpha', 'Probability_Beta', 'Probability_Delta']
-        cells_s = ['Size_Alpha', 'Size_Beta', 'Size_Delta']
-        # for i in range(len(self.cells)):
-        #     x = self.cells[i]*100 - c[0]
-        #     c[0] += x
-        #     probabilities += cells_p[i] + ' = ' + str(x) + '\n'
-        # spatial_configuration = '[Config]\n'+\
-        # 'dimensions=' + str(self.islet_radius) + '\n' + probabilities + sizes
         spatial_data = '[Data]\n'
         id = 0
         for cell_position in self.cells_and_locations:

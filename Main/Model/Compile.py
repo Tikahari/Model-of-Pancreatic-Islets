@@ -18,7 +18,7 @@ def Compile(islet_id, islet_radius, num_cells):
         # change directories so compiled library will exist in desired folder
         os.chdir(Islet.env['wd'] + cell)
         # compile mod files
-        os.system('nrnivmodl *mod > ' + Islet.env['wd'] + cell + '/compile_' + Islet.env['id'] + ' 2>&1')
+        # os.system('nrnivmodl *mod > ' + Islet.env['wd'] + cell + '/compile_' + Islet.env['id'] + ' 2>&1')
         # copy mechanisms to '.r' folder
         os.system('cp ' + Islet.env['wd'] + cell + '/*mod ' + Islet.env['wd'] + '.r/')
         print(str(datetime.datetime.now()) + '\tCompile.py Compiled', Islet.env['wd'] + cell)
