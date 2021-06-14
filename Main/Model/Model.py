@@ -11,7 +11,7 @@ class Model:
         print(str(datetime.datetime.now()) + '\tModel.init')
         # set environment variables
         Islet.env['id'] = islet_id
-        Islet.env['wd'] += 'Islet_' + Islet.env['id'] + '/'
+        #Islet.env['wd'] += 'Islet_' + Islet.env['id'] + '/'
         os.chdir(Islet.env['wd'])
         # create and run islet instance
         print(str(datetime.datetime.now()) + '\tModel.init Create islet', Islet.env['wd'])

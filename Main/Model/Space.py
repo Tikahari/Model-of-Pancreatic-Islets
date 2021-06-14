@@ -9,8 +9,6 @@ import os
 import datetime
 import Islet
 
-center_prob = 1
-
 # wrapper class to store probability a point is alpha/beta/delta
 class Probability:
     def __init__(self, a, a_plus_b, radius):
@@ -92,6 +90,7 @@ class Space:
                 config.optionxform = str
                 config.read(values_cell_path)
                 for cell_type in config:
+                    print(cell)
                     # get cell number
                     cell_num = cell.split('_')[1]
                     # every cell will have 'position' variable in configuration file
