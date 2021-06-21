@@ -9,20 +9,6 @@ import os
 import datetime
 import Islet
 
-# wrapper class to store probability a point is alpha/beta/delta
-class Probability:
-    def __init__(self, a, a_plus_b, radius):
-        """Initialize probability for point"""
-        # set object variables
-        self.b = a_plus_b - a
-        # ratio of delta to alpha cells
-        d = 1 - a_plus_b
-        self.ratio = d / a
-        self.radius = radius
-    def getProbability(self):
-        """Get probability at point"""
-        # uniform distribution
-        return [(1-self.b)/(1+self.ratio), self.b + (1-self.b)/(1+self.ratio)]
 
 class Space:
     def __init__(self, cell_probabilities, config, islet_radius, num_cells, compile=False):
@@ -79,7 +65,7 @@ class Space:
     def configSetup(self):
         """Set up the islet from configuration file"""
         print(str(datetime.datetime.now()) + '\tSpace.configSetup Create islet instance: id', Islet.env['id'], 'wd', Islet.env['wd'])
-        self.rxd()
+       # self.rxd()
         owd = Islet.env['wd']
         for cell in os.listdir(Islet.env['wd']):
             # print
@@ -91,6 +77,8 @@ class Space:
                 config.read(values_cell_path)
                 for cell_type in config:
                     print(cell)
+                    if cell == '.r':
+                        continue
                     # get cell number
                     cell_num = cell.split('_')[1]
                     # every cell will have 'position' variable in configuration file
@@ -98,41 +86,43 @@ class Space:
                         pos = ast.literal_eval(config[cell_type]['position'])
                         Islet.env['wd'] = owd + cell.split('.')[0] + '/'
                         print(str(datetime.datetime.now()) + '\tSpace.configSetup Set up cell from configuration file: configuration file', cell, 'cell type', cell_type, 'id', cell_num, 'position', pos, 'wd', Islet.env['wd'])
-                        cell_obj = Cell.Cell(cell_num, pos[0], pos[1], pos[2], cell_type[0].upper(), True, self.compile, self.insulin, self.glucagon, self.sst)
+                        #cell_obj = Cell.Cell(cell_num, pos[0], pos[1], pos[2], cell_type[0].upper(), True, self.compile, self.insulin, self.glucagon, self.sst)
+                        # Removing hormones for the time being to see if we can get simple 3 cell model to work properly
+                        cell_obj = Cell.Cell(cell_num, pos[0], pos[1], pos[2], cell_type[0].upper(), True, self.compile)                        
                         # cell_obj = Cell.Cell(cell_num, pos[0], pos[1], pos[2], cell_type[0].upper(), True)
                         self.cells_and_locations.append([cell_num, pos[0], pos[1], pos[2], cell_type[0].upper(), cell_obj])
                         # store type and position
                         #self.cell_positions.append([cell_type[0].upper(), pos[0], pos[1], pos[2]])
                         #self.cell_sizes.append(cell_obj.diam)
             Islet.env['wd'] = owd
-    def rxd(self):
-        print(str(datetime.datetime.now()) + '\tSpace.rxd Set up reaction diffusion')
-        # the intracellular spaces
-        cyt = Islet.neuron.rxd.Region(Islet.neuron.h.allsec(), name='cyt', nrn_region='i')
+    # def rxd(self):
+    #     print(str(datetime.datetime.now()) + '\tSpace.rxd Set up reaction diffusion')
+    #     # the intracellular spaces
+    #     cyt = Islet.neuron.rxd.Region(Islet.neuron.h.allsec(), name='cyt', nrn_region='i')
 
-        # plasma membrane 
-        mem = Islet.neuron.rxd.Region(Islet.neuron.h.allsec(), name='mem', geometry=Islet.neuron.rxd.membrane)
+    #     # plasma membrane 
+    #     mem = Islet.neuron.rxd.Region(Islet.neuron.h.allsec(), name='mem', geometry=Islet.neuron.rxd.membrane)
 
-        # the extracellular space
-        ecs = Islet.neuron.rxd.Extracellular(-20, -5, -5, 45, 5, 5, dx=1, volume_fraction=0.2, tortuosity=1.6)
+    #     # the extracellular space
+    #     ecs = Islet.neuron.rxd.Extracellular(-20, -5, -5, 45, 5, 5, dx=1, volume_fraction=0.2, tortuosity=1.6)
 
-        # glucagon
-        glucagon = Islet.neuron.rxd.Species([cyt, ecs], name='glucagon', charge=0, d=1.0, initial=31)
-        gcyt = glucagon[cyt]
-        gecs = glucagon[ecs]
-        self.glucagon = glucagon
-        # somatostatin
-        sst = Islet.neuron.rxd.Species([cyt, ecs], name='sst', charge=1, d=1.0, initial=19)
-        sstcyt = sst[cyt]
-        sstecs = sst[ecs]
-        self.sst = sst
+    #     # glucagon
+    #     glucagon = Islet.neuron.rxd.Species([cyt, ecs], name='glucagon', charge=0, d=1.0, initial=31)
+    #     gcyt = glucagon[cyt]
+    #     gecs = glucagon[ecs]
+    #     self.glucagon = glucagon
+    #     # somatostatin
+    #     sst = Islet.neuron.rxd.Species([cyt, ecs], name='sst', charge=0, d=1.0, initial=19)
+    #     sstcyt = sst[cyt]
+    #     sstecs = sst[ecs]
+    #     self.sst = sst
 
-        # insulin
-        insulin = Islet.neuron.rxd.Species([cyt, ecs], name='insulin', charge=0, d=1.0, initial=48)
-        # insulin = Islet.neuron.rxd.Species([cyt, ecs], name='insulin', charge=0, d=1.0, initial=lambda n: 48 if hasattr(n, 'sec') and n.segment in 'B' else 0)
-        inscyt = insulin[cyt]
-        insecs = insulin[ecs]
-        self.insulin = insulin
+    #     # insulin
+    #     insulin = Islet.neuron.rxd.Species([cyt, ecs], name='insulin', charge=0, d=1.0, initial=48)
+    #     # insulin = Islet.neuron.rxd.Species([cyt, ecs], name='insulin', charge=0, d=1.0, initial=lambda n: 48 if hasattr(n, 'sec') and n.segment in 'B' else 0)
+    #     inscyt = insulin[cyt]
+    #     insecs = insulin[ecs]
+    #     self.insulin = insulin
 
         # # # production
         # gluc_param = Islet.neuron.rxd.Parameter(cyt, initial=1)

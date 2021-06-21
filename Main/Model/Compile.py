@@ -26,6 +26,6 @@ def Compile(islet_id, islet_radius, num_cells):
     os.chdir(Islet.env['wd'] + '.r/')
     os.system('nrnivmodl *mod > ' + Islet.env['wd'] + '.r/compile 2>&1')
     print(str(datetime.datetime.now()) + '\tCompile.py Compiled', Islet.env['wd'] + '.r')
-if __name__ == '__main__':
-    # python Compile.py 1_0 5
-    Compile(sys.argv[1], sys.argv[2], sys.argv[3]) 
+# if __name__ == '__main__':
+#     # python Compile.py 1_0 5
+#     Compile(sys.argv[1], sys.argv[2], sys.argv[3]) 

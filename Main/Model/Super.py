@@ -36,7 +36,7 @@ input('Verify with enter')
 sep = '_'
 model_id_components = ["model", str(islet_radius), str(simulation_time), str(alpha_probability), str(beta_probability), str(delta_probability), '3']
 islet_id= sep.join(model_id_components)
-islet_path = Islet.env['output'] + islet_id
+islet_path = Islet.env['output'] + "Islet_" + islet_id
 
 def Super(islet_id, islet_radius, num_cells, alpha_probability, beta_probability):
     print(str(datetime.datetime.now()) + '\tSuper.py')
@@ -96,5 +96,6 @@ Model.Model(islet_id, islet_radius, num_cells, simulation_time, alpha_probabilit
 print('------- Model.py complete -------')
 # r = robjects.r
 # r.source(islet_path + 'visualize_islet.R')
-os.system('Rscript /blue/lamb/robert727/temp/Model-of-Pancreatic-Islets/Visualization/visualize_islet.R' + islet_path)
+os.system('ml R')
+os.system('Rscript /blue/lamb/robert727/temp/Model-of-Pancreatic-Islets/Visualization/visualize_islet.R ' + islet_path)
 print('------- visualize_islet.R complete -------')

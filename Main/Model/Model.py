@@ -32,7 +32,7 @@ class Model:
         # reduce size of output and run folders
         os.system('rm -r ' + output_islet_path)
         os.system('rm -r ' + run_islet_path)
-if __name__ == '__main__':
-    # run from command line
-    # python Model.py 500 1_0 5 0.15 0.75
-    Model(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6])
+# if __name__ == '__main__':
+#     # run from command line
+#     # python Model.py 500 1_0 5 0.15 0.75
+#     Model(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6])

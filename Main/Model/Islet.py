@@ -3,7 +3,7 @@ import os
 import datetime
 import Space
 import neuron
-from neuron import rxd
+#from neuron import rxd
 
 # path to initialization file, mechanisms, output, and generation identifier
 path = "/blue/lamb/robert727/temp/Model-of-Pancreatic-Islets/"
@@ -37,7 +37,7 @@ class Islet:
         """Simulate and write data for this islet"""
         print(str(datetime.datetime.now()) + '\tIslet.run Run islet instance')
         self.space.configSetup()
-        self.space.rxd()
+        #self.space.rxd()
         print(str(datetime.datetime.now()) + '\tIslet.run Initialize neuron mechanisms: path', os.getcwd())
         neuron.h.finitialize()
         print(str(datetime.datetime.now()) + '\tIslet.run Run simulation')
