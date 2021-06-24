@@ -2,15 +2,13 @@ import re
 from neuron import h
 import csv
 import logging, coloredlogs
-
 coloredlogs.install(level='DEBUG')
-
 
 class Cell:
     def __init__(self, gid, x, y, z, mechs):
         self._gid = gid
         self._setup_morphology()
-        self.all = self.soma.wholetree()
+        self.all = self.cell.wholetree()
         self._setup_biophysics(mechs)
         self.x, self.y, self.z = (0,0,0)
         h.define_shape()
@@ -38,26 +36,26 @@ class Cell:
         self.rec = {}
         # variable names we want to record
         rec_vars = ['icala', 'icapqa', 'icata', 'iGIRKa', 'gGIRKbara', 'isoca', 'ikaa', 'ikdra', 'ikatpa', 'gkatpa', 'inaa', 'ila', 'iGIRKb', 'gGIRKbarb', 'ikca', 'ikatp', 'ikb', 'iCa', 'IcaL', 'IcaR', 'icald', 'icapqd', 'iGABA', 'gGABAbar', 'ikad', 'ikatpd', 'ikdrd', 'ild', 'inad', 'EffId', 'EffIa', 'EffSb', 'EffSa', 'JIS', 'JSS', 'JGS', 'G', 'I', 'Sst', 'ca', 'c', 'cd']
-        for i in self.soma.psection()['density_mechs']:
-            for j in self.soma.psection()['density_mechs'][i]:
-                if j in rec_vars:
-                    logging.info(f"Recording '{j}' in mechanism '{i}'")
-                    head = re.split("[0-9]", i)[0]
-                    self.header.append(head + '_' + j + '_' + self._gid)
-                    self.rec[str(head + '_' + j + '_' + self._gid)] = []
+        for mechanism in self.cell.psection()['density_mechs']:
+            for variable in self.cell.psection()['density_mechs'][mechanism]:
+                if variable in rec_vars:
+                    logging.info(f"Recording '{variable}' in mechanism '{mechanism}'")
+                    head = re.split("[0-9]", mechanism)[0]
+                    self.header.append(head + '_' + variable + '_' + self._gid)
+                    self.rec[str(head + '_' + variable + '_' + self._gid)] = []
                     # record variables of every mechanism in every segment
-                    for k in self.soma:
+                    for k in self.cell:
                         # self.v.append(h.Vector().record(k._ref_v))
-                        mechRecord = getattr(k, '_ref_'+j+'_'+i)
-                        self.rec[str(head + '_' + j + '_' + self._gid)].append(h.Vector().record(mechRecord))
+                        mechRecord = getattr(k, '_ref_'+variable+'_'+mechanism)
+                        self.rec[str(head + '_' + variable + '_' + self._gid)].append(h.Vector().record(mechRecord))
         # fix header / record voltage of every segment
         count = 0
-        for i in self.soma:
+        for segment in self.cell:
             logging.info(f"Recording voltage for section {count}")
             temp = self._gid+'_Vm_'
             # ease writing to csv by keeping same format even though it is not necessary
             self.rec[temp] = []
-            self.rec[temp].append(h.Vector().record(i._ref_v))
+            self.rec[temp].append(h.Vector().record(segment._ref_v))
             count += 1
         self.header.append(temp)
         self.t = h.Vector().record(h._ref_t)
@@ -82,15 +80,15 @@ class Cell:
 class Alpha(Cell):
     name = 'Alpha'
     def _setup_morphology(self):
-        self.soma = h.Section(name='soma', cell=self)
-        self.soma.L = self.soma.diam = 14
+        self.cell = h.Section(name='soma', cell=self)
+        self.cell.L = self.cell.diam = 14
     def _setup_biophysics(self, mechs):
         self.mechs = mechs
         for sec in self.all:
             sec.Ra = 100    # Axial resistance in Ohm * cm
             sec.cm = 3.24806     # Membrane capacitance in micro Farads / cm^2
         for mech in mechs: 
-            self.soma.insert(mech)
+            self.cell.insert(mech)
 
 if __name__ == '__main__':
     try:
