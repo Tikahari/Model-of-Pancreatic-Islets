@@ -10,7 +10,7 @@ PARAMETER{
     sm
     gca
     vca
-    nca
+    nca :dimensionless
 }
 
 ASSIGNED{
