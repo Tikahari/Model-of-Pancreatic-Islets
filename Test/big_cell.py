@@ -41,13 +41,13 @@ class Cell:
                 if variable in rec_vars:
                     logging.info(f"Recording '{variable}' in mechanism '{mechanism}'")
                     head = re.split("[0-9]", mechanism)[0]
-                    self.header.append(head + '_' + variable + '_' + self._gid)
-                    self.rec[str(head + '_' + variable + '_' + self._gid)] = []
+                    self.header.append(head + '_' + variable)
+                    self.rec[str(head + '_' + variable)] = []
                     # record variables of every mechanism in every segment
                     for k in self.cell:
                         # self.v.append(h.Vector().record(k._ref_v))
                         mechRecord = getattr(k, '_ref_'+variable+'_'+mechanism)
-                        self.rec[str(head + '_' + variable + '_' + self._gid)].append(h.Vector().record(mechRecord))
+                        self.rec[str(head + '_' + variable)].append(h.Vector().record(mechRecord))
         # fix header / record voltage of every segment
         count = 0
         for segment in self.cell:
@@ -93,11 +93,11 @@ class Alpha(Cell):
 if __name__ == '__main__':
     try:
         # output file path
-        alpha_output = "alpha_output.csv"
+        alpha_output = "simulation_output.csv"
         # simulation time steps (.025ms each)
         simulation_time = 1000
         alpha_mechs = ['one']
-        alpha = Alpha('alpha_cell', 0, 0, 0, alpha_mechs)
+        alpha = Alpha('cell', 0, 0, 0, alpha_mechs)
         h.finitialize()
         for i in range(40 * simulation_time):
             h.fadvance()
