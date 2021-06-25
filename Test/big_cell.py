@@ -35,7 +35,7 @@ class Cell:
         # dictionary that will store values (key will be the variable name, value will be a list of vectors as defined by neuron)
         self.rec = {}
         # variable names we want to record
-        rec_vars = ['icala', 'icapqa', 'icata', 'iGIRKa', 'gGIRKbara', 'isoca', 'ikaa', 'ikdra', 'ikatpa', 'gkatpa', 'inaa', 'ila', 'iGIRKb', 'gGIRKbarb', 'ikca', 'ikatp', 'ikb', 'iCa', 'IcaL', 'IcaR', 'icald', 'icapqd', 'iGABA', 'gGABAbar', 'ikad', 'ikatpd', 'ikdrd', 'ild', 'inad', 'EffId', 'EffIa', 'EffSb', 'EffSa', 'JIS', 'JSS', 'JGS', 'G', 'I', 'Sst', 'ca', 'c', 'cd']
+        rec_vars = ['va', 'vb', 'vd', 'icala', 'icapqa', 'icata', 'iGIRKa', 'gGIRKbara', 'isoca', 'ikaa', 'ikdra', 'ikatpa', 'gkatpa', 'inaa', 'ila', 'iGIRKb', 'gGIRKbarb', 'ikca', 'ikatp', 'ikb', 'iCa', 'IcaL', 'IcaR', 'icald', 'icapqd', 'iGABA', 'gGABAbar', 'ikad', 'ikatpd', 'ikdrd', 'ild', 'inad', 'EffId', 'EffIa', 'EffSb', 'EffSa', 'JIS', 'JSS', 'JGS', 'G', 'I', 'Sst', 'ca', 'c', 'cd']
         for mechanism in self.cell.psection()['density_mechs']:
             for variable in self.cell.psection()['density_mechs'][mechanism]:
                 if variable in rec_vars:

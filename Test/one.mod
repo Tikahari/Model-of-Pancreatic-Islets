@@ -897,27 +897,29 @@ INITIAL{
 	cm=5300
 	cma=5
 
-    taucalma = 0.5
-    taucalha = 0.5
-    taucapqma = 0.5
-    taucapqha = 0.5
-    taucatma = 0.5
-    taucatha = 0.5
     :taukama = 0.5
-    taukaha = 0.5
-    taukdrma = 0.5
-    taunama = 0.5
-    taunaha = 0.5
     :taun = 0.5
-    taucalmd = 0.5
-    taucalhd = 0.5
-    taucapqmd = 0.5
-    taucapqhd = 0.5
     :taukamd = 0.5
-    taukahd = 0.5
-    taukdrmd = 0.5
-    taunamd = 0.5
-    taunahd = 0.5
+
+    taucalma=0.3032811940166806
+    taucalha=56.12989393816361
+    taucapqma=0.3032811940166806
+    taucapqha=56.12989393816361
+    taucatma=7.475932505911923
+    taucatha=14.979442612364645
+    taukaha=9.00677536264756
+    taukdrma=15.30146142661036
+    taunama=3.036153418307839
+    taunaha=60.06822869326301
+    taucalmd=0.5229606925470396
+    taucalhd=73.2304683206763
+    taucapqmd=0.5229606925470396
+    taucapqhd=73.2304683206763
+    taukahd=23.509361336319593
+    taukdrmd=15.72702251180529
+    taunamd=0.255456748187674
+    taunahd=2.2698475854851585
+
 }
 
 BREAKPOINT{
