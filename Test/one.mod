@@ -1170,7 +1170,8 @@ DERIVATIVE states{
     cmdld'=fmdd*JLd-fmdd*Bd*(cmdld-cd)
     cmdpqd'=fmdd*JPQd-fmdd*Bd*(cmdpqd-cd)
     cerd' = -ferd*sigmavd*Jerd
-    Sst'=JSS/vc-fd*Sst
+    :Sst'=JSS/vc-fd*Sst
+    Sst' = 0
 	vb' = -(ikb + iCa + ikca + ikatp+iGIRKb)/cm 
 	va'=-(icala+icata+icapqa+inaa+ikdra+ikatpa+ikaa+ila+isoca+iGIRKa)/cma
 	vd'=-(icald+icapqd+inad+ikdrd+ikatpd+ikad+ild+iGABA)/cma
