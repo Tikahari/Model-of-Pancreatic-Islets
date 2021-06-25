@@ -1,27 +1,5 @@
 NEURON{
     SUFFIX one
-    RANGE cala 
-	RANGE capqa
-    RANGE cata 
-    RANGE GIRKa
-    RANGE soca
-    RANGE kaa
-    RANGE katpa
-    RANGE kdra
-    RANGE la
-    RANGE naa
-    RANGE Ca
-    RANGE GIRKb
-    RANGE kca
-    RANGE kb 
-    RANGE cald
-    RANGE capqd
-    RANGE GABA
-    RANGE kad
-    RANGE katpd
-    RANGE kdrd
-    RANGE ld
-    RANGE nad
     RANGE vcaa, gcala, tcalh1a, tcalh2a, vcalma, scalma, vcalha, scalha
     RANGE taucalma, taucalha, mcalinfa, hcalinfa, icala
     RANGE tcapqh1a, tcapqh2a, vcapqma, scapqma, vcapqha, scapqha, gcapqa
@@ -918,6 +896,28 @@ INITIAL{
 	vd=-16.26895428994972 
 	cm=5300
 	cma=5
+
+    taucalma = 0.5
+    taucalha = 0.5
+    taucapqma = 0.5
+    taucapqha = 0.5
+    taucatma = 0.5
+    taucatha = 0.5
+    taukama = 0.5
+    taukaha = 0.5
+    taukdrma = 0.5
+    taunama = 0.5
+    taunaha = 0.5
+    taun = 0.5
+    taucalmd = 0.5
+    taucalhd = 0.5
+    taucapqmd = 0.5
+    taucapqhd = 0.5
+    taukamd = 0.5
+    taukahd = 0.5
+    taukdrmd = 0.5
+    taunamd = 0.5
+    taunahd = 0.5
 }
 
 BREAKPOINT{
