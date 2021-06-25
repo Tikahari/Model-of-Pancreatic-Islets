@@ -1,27 +1,27 @@
 NEURON{
     SUFFIX one
-    USEION cala WRITE icala VALENCE 2
-	USEION capqa WRITE icapqa VALENCE 2
-    USEION cata WRITE icata VALENCE 2
-    USEION GIRKa WRITE iGIRKa VALENCE 1
-    USEION soca WRITE isoca VALENCE 1
-    USEION kaa WRITE ikaa VALENCE 1
-    USEION katpa WRITE ikatpa VALENCE 1
-    USEION kdra WRITE ikdra VALENCE 1
-    USEION la WRITE ila VALENCE 1
-    USEION naa WRITE inaa VALENCE 1
-    USEION Ca WRITE iCa VALENCE 2
-    USEION GIRKb WRITE iGIRKb VALENCE 1
-    USEION kca WRITE ikca VALENCE 1
-    USEION kb WRITE ikb VALENCE 1
-    USEION cald WRITE icald VALENCE 2
-    USEION capqd WRITE icapqd VALENCE 2
-    USEION GABA WRITE iGABA VALENCE 1
-    USEION kad WRITE ikad VALENCE 1
-    USEION katpd WRITE ikatpd VALENCE 1
-    USEION kdrd WRITE ikdrd VALENCE 1
-    USEION ld WRITE ild VALENCE 1
-    USEION nad WRITE inad VALENCE 1
+    RANGE cala 
+	RANGE capqa
+    RANGE cata 
+    RANGE GIRKa
+    RANGE soca
+    RANGE kaa
+    RANGE katpa
+    RANGE kdra
+    RANGE la
+    RANGE naa
+    RANGE Ca
+    RANGE GIRKb
+    RANGE kca
+    RANGE kb 
+    RANGE cald
+    RANGE capqd
+    RANGE GABA
+    RANGE kad
+    RANGE katpd
+    RANGE kdrd
+    RANGE ld
+    RANGE nad
     RANGE vcaa, gcala, tcalh1a, tcalh2a, vcalma, scalma, vcalha, scalha
     RANGE taucalma, taucalha, mcalinfa, hcalinfa, icala
     RANGE tcapqh1a, tcapqh2a, vcapqma, scapqma, vcapqha, scapqha, gcapqa
