@@ -35,19 +35,19 @@ class Cell:
         # dictionary that will store values (key will be the variable name, value will be a list of vectors as defined by neuron)
         self.rec = {}
         # variable names we want to record
-        rec_vars = ['va', 'vb', 'vd', 'icala', 'icapqa', 'icata', 'iGIRKa', 'gGIRKbara', 'isoca', 'ikaa', 'ikdra', 'ikatpa', 'gkatpa', 'inaa', 'ila', 'iGIRKb', 'gGIRKbarb', 'ikca', 'ikatp', 'ikb', 'iCa', 'IcaL', 'IcaR', 'icald', 'icapqd', 'iGABA', 'gGABAbar', 'ikad', 'ikatpd', 'ikdrd', 'ild', 'inad', 'EffId', 'EffIa', 'EffSb', 'EffSa', 'JIS', 'JSS', 'JGS', 'G', 'I', 'Sst', 'ca', 'c', 'cd']
+      #  rec_vars = ['mcapqd', 'hcapqd', 'y', 'cmdpqd', 'va', 'vb', 'vd', 'icala', 'icapqa', 'icata', 'iGIRKa', 'gGIRKbara', 'isoca', 'ikaa', 'ikdra', 'ikatpa', 'gkatpa', 'inaa', 'ila', 'iGIRKb', 'gGIRKbarb', 'ikca', 'ikatp', 'ikb', 'iCa', 'IcaL', 'IcaR', 'icald', 'icapqd', 'iGABA', 'gGABAbar', 'ikad', 'ikatpd', 'ikdrd', 'ild', 'inad', 'EffId', 'EffIa', 'EffSb', 'EffSa', 'JIS', 'JSS', 'JGS', 'G', 'I', 'Sst', 'ca', 'c', 'cd']
         for mechanism in self.cell.psection()['density_mechs']:
             for variable in self.cell.psection()['density_mechs'][mechanism]:
-                if variable in rec_vars:
-                    logging.info(f"Recording '{variable}' in mechanism '{mechanism}'")
-                    head = re.split("[0-9]", mechanism)[0]
-                    self.header.append(head + '_' + variable)
-                    self.rec[str(head + '_' + variable)] = []
-                    # record variables of every mechanism in every segment
-                    for k in self.cell:
-                        # self.v.append(h.Vector().record(k._ref_v))
-                        mechRecord = getattr(k, '_ref_'+variable+'_'+mechanism)
-                        self.rec[str(head + '_' + variable)].append(h.Vector().record(mechRecord))
+                #if variable in rec_vars:
+                logging.info(f"Recording '{variable}' in mechanism '{mechanism}'")
+                head = re.split("[0-9]", mechanism)[0]
+                self.header.append(head + '_' + variable)
+                self.rec[str(head + '_' + variable)] = []
+                # record variables of every mechanism in every segment
+                for k in self.cell:
+                    # self.v.append(h.Vector().record(k._ref_v))
+                    mechRecord = getattr(k, '_ref_'+variable+'_'+mechanism)
+                    self.rec[str(head + '_' + variable)].append(h.Vector().record(mechRecord))
         # fix header / record voltage of every segment
         count = 0
         for segment in self.cell:
