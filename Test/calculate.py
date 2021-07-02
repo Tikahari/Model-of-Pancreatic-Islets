@@ -78,7 +78,11 @@ vGABA=0
 
 tausom=2000
 vc = 1e-13
-gkatpbara=3
+
+# 1, 7, 11 mM glucose value respectively 
+#gkatpbara=3
+#gkatpbara=0.6
+gkatpbara=0.15
 ka1=0.1
 
 
@@ -104,7 +108,10 @@ rb=0.002
 fb = 2000
 Jgk=0.4
 factor=14
-gkatpb=150
+# 1, 7, 11 mM glucose value respectively
+#gkatpb=150
+#gkatpb=85
+gkatpb=25
 bas_r3=0.032
 amplify=1
 cm=5300
@@ -205,6 +212,9 @@ kcmd=3
 
 fa= 150
 gsocbara=0.025
+# 1, 7, 11 mM glucose value respectively
+#ksercaa=0.05
+#ksercaa=0.5
 ksercaa=0.5
 vnaa=70
 vka=-75
@@ -283,7 +293,10 @@ GlucFacta=0.05
 
 
 fd= 0.003
-gkatpbard=0.29
+# 1, 7, 11 mM glucose value respectively
+#gkatpbard=0.29
+#gkatpbard=0.27
+gkatpbard=0.18
 vnad=70 
 vkd=-75 
 vcad=65
@@ -394,22 +407,22 @@ taunama=(6/(np.exp(-(va+50)/10)+np.exp((va+50)/10)))+0.05
 taunaha=(tnah1a/(np.exp(-(va+50)/8)+np.exp((va+50)/8)))+tnah2a
 inaa=gnaa*(mnaa**3)*hnaa*(va-vnaa)
 minf = 1/(1+np.exp((vm-vb)/sm))
-iCa = gca*nca*minf*(vb-vca)
+ica = gca*nca*minf*(vb-vca)
 gGIRKbarb=(1-knockoutdb)*10+knockoutdb*0
 EffSb=1/(1+np.exp(-(S-sombarb2)/10))
 iGIRKb=gGIRKbarb*EffSb*(vb-vGIRK)
 r20=0.004/(1+np.exp(-G+gthresh))+0.006
 rm2b=(1-knockoutdb)*rb/(1+np.exp(-(S-sombarb)/ssomb))+knockoutdb*0.001
 ikca = gkca/(1+(kd/c)**2)*(vb-vk)
-IcaL = raL*iCa
-IcaR = (1-raL)*iCa
+ical = raL*ica
+icar = (1-raL)*ica
 topo = 0.08*(1+2*mgadp/kdd) + 0.89*(mgadp/kdd)**2
 bottomo = (1+mgadp/kdd)**2 * (1+adp3m/ktd+atp4m/ktt)
 katpo = (topo/bottomo)
 ikatp = gkatpb*(vb-vk)
 vmdcyt=vmd/vcell
-JL = -alpha*IcaL/vmd
-JR = -alpha*IcaR/vcell
+JL = -alpha*ical/vmd
+JR = -alpha*icar/vcell
 Jmem = JR+vmdcyt*B*(cmd-c)-kpmca*(c-cbas)
 Jserca = kserca2b+kserca3*c
 Jleak = per*(cer - c)
@@ -498,7 +511,7 @@ r2 = r20*c/(c + Kp2)
 
 JIS=tmsb*u3*nr*0.0016
 ninf = 1/(1+np.exp((vn-vb)/sn))
-ikb = gk*n*(vb-vk)
+ik = gk*n*(vb-vk)
 mcalinfd=1/(1+np.exp(-(vd-vcalmd)/scalmd))
 hcalinfd=1/(1+np.exp(-(vd-vcalhd)/scalhd))
 taucalmd=(1/(np.exp(-(vd+23)/20)+np.exp((vd+23)/20)))+0.05
@@ -585,22 +598,22 @@ taunama={(6/(np.exp(-(va+50)/10)+np.exp((va+50)/10)))+0.05}
 taunaha={(tnah1a/(np.exp(-(va+50)/8)+np.exp((va+50)/8)))+tnah2a}
 inaa={gnaa*(mnaa**3)*hnaa*(va-vnaa)}
 minf ={ 1/(1+np.exp((vm-vb)/sm))}
-iCa ={ gca*nca*minf*(vb-vca)}
+ica ={ gca*nca*minf*(vb-vca)}
 gGIRKbarb={(1-knockoutdb)*10+knockoutdb*0}
 EffSb={1/(1+np.exp(-(S-sombarb2)/10))}
 iGIRKb={gGIRKbarb*EffSb*(vb-vGIRK)}
 r20={0.004/(1+np.exp(-G+gthresh))+0.006}
 rm2b={(1-knockoutdb)*rb/(1+np.exp(-(S-sombarb)/ssomb))+knockoutdb*0.001}
 ikca ={ gkca/(1+(kd/c)**2)*(vb-vk)}
-IcaL ={ raL*iCa}
-IcaR ={ (1-raL)*iCa}
+ical ={ raL*ica}
+icar ={ (1-raL)*ica}
 topo ={ 0.08*(1+2*mgadp/kdd) + 0.89*(mgadp/kdd)**2}
 bottomo ={ (1+mgadp/kdd)**2 * (1+adp3m/ktd+atp4m/ktt)}
 katpo ={ (topo/bottomo)}
 ikatp ={ gkatpb*(vb-vk)}
 vmdcyt={vmd/vcell}
-JL ={ -alpha*IcaL/vmd}
-JR ={ -alpha*IcaR/vcell}
+JL ={ -alpha*ical/vmd}
+JR ={ -alpha*icar/vcell}
 Jmem ={ JR+vmdcyt*B*(cmd-c)-kpmca*(c-cbas)}
 Jserca ={ kserca2b+kserca3*c}
 Jleak ={ per*(cer - c)}
@@ -689,7 +702,7 @@ r2 ={ r20*c/(c + Kp2)}
 
 JIS={tmsb*u3*nr*0.0016}
 ninf ={ 1/(1+np.exp((vn-vb)/sn))}
-ikb ={ gk*n*(vb-vk)}
+ik ={ gk*n*(vb-vk)}
 mcalinfd={1/(1+np.exp(-(vd-vcalmd)/scalmd))}
 hcalinfd={1/(1+np.exp(-(vd-vcalhd)/scalhd))}
 taucalmd={(1/(np.exp(-(vd+23)/20)+np.exp((vd+23)/20)))+0.05}
