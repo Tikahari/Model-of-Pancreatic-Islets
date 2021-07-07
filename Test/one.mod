@@ -29,278 +29,290 @@ NEURON{
 
 PARAMETER{
     : Islet interactions
-    knockoutbd
-    knockoutba
-    knockoutdb
-    knockoutda
+    knockoutbd=0
+    knockoutba=0
+    knockoutdb=0
+    knockoutda=0
 
     : Beta stimulating delta
-    vGABA
+    vGABA=0
 
     : Beta inhibiting alpha
-    tausom
-    vc 
-    gkatpbara
-    ka1
+    tausom=2000
+    vc = 1e-13
+    : 1, 7, 11 mM glucose value respectively
+    :gkatpbara=3
+    gkatpbara=0.6
+    :gkatpbara=0.15
+    ka1=0.1
 
     : Delta inhibiting alpha
-    gGIRKko
-    vGIRK
-    sombara2
-    ssom2
-    ra
-    sombara
-    rako
-    ssom
+    gGIRKko=0
+    vGIRK=-80
+    sombara2=35
+    ssom2=10
+    ra=4.5
+    sombara=50
+    rako=0.001
+    ssom=15
 
     : Alpha Stimulating beta
-    gthresh
+    gthresh=40
 
     : Delta inhibiting beta
-    sombarb2
-    sombarb
-    ssomb
-    rb
+    sombarb2=35
+    sombarb=50
+    ssomb=15
+    rb=0.002
 
     : Parameters beta cell
-    fb 
-    Jgk
-    factor
-    gkatpb
-    bas_r3
-    amplify
-    cm
-    gkca
-    k4
-    kd
-    nca
-    raL
-    vca
-    vm
-    sm
-    gca
-    vk
-    gk
-    vn
-    sn
-    taun
-    kdd
-    ktd
-    ktt
-    fcyt
-    fer
-    fmd
-    kpmca
-    cbas
-    B
-    per
-    kserca3
-    kserca2b
-    sigmav
-    vmd
-    vcell
-    alpha
-    phigk
-    KGPDH
-    k1
-    k2
-    k3
-    f13
-    f43
-    f23
-    f42
-    f41
-    lambda
-    taua
-    VmaxPFK
-    kappa
-    Jgpdh_bas
-    fmito
-    gamma
-    p21
-    p22
-    exo_k1
-    bas_cmd
-    p23
-    p24
-    Amtot
-    NADmtot
-    p1
-    p2
-    p3
-    Cmito
-    p17
-    p18
-    p4
-    p5
-    p6
-    p7
-    p8
-    p9
-    p10
-    p11
-    p13
-    p14
-    p15
-    p16
-    p19
-    p20
-    khyd
-    JhydSS
-    amp
-    atot
-    km1
-    r1
-    rm1
-    r30
-    rm3
-    u1
-    u2
-    u3
-    Kp
-    Kp2
-    tmsb
-    max_cmd
-    cmdp
-    kcmd
-    weight1
-    topa1
-    bottom1
+    fb = 2000
+    Jgk=0.4
+    factor=14
+    : 1, 7, 11 mM glucose value respectively
+    :gkatpb=150
+    gkatpb=85
+    :gkatpb=25
+    bas_r3=0.032
+    amplify=1
+    cm=5300
+    gkca=280
+    k4=150
+    kd=0.5
+    nca=590
+    raL=0.5
+    vca=25
+    vm=-6
+    sm=10
+    gca=7
+    vk=-75
+    gk=1800
+    vn=-16
+    sn=6
+    taun=5
+    kdd=17
+    ktd=26
+    ktt=1
+    fcyt=0.01
+    fer=0.01
+    fmd=0.01
+    kpmca=0.2
+    cbas=0.05
+    B=1
+    per=0.0002
+    kserca3=0.1
+    kserca2b=0.01
+    sigmav=30
+    vmd=4.2e-3
+    vcell=1.15
+    alpha=5.18e-6
+    phigk=0.3
+    KGPDH=0.0005
+    k1=30
+    k2=1
+    k3=50000
+    f13=0.02
+    f43=20
+    f23=0.2
+    f42=20
+    f41=20
+    lambda=0.06
+    taua=5
+    VmaxPFK=5
+    kappa=0.001
+    Jgpdh_bas=0.0005
+    fmito=0.01
+    gamma=0.001
+    p21=0.04
+    p22=1.1
+    exo_k1=20
+    bas_cmd=0.06935
+    p23=0.01 
+    p24=0.016 
+    Amtot=15 
+    NADmtot=10 
+    p1=400
+    p2=1
+    p3=0.01
+    Cmito=1.8
+    p17=0.002
+    p18=-0.03
+    p4=0.6
+    p5=0.1
+    p6=177
+    p7=5
+    p8=7
+    p9=0.1
+    p10=177
+    p11=5
+    p13=10
+    p14=190
+    p15=8.5
+    p16=35
+    p19=0.35
+    p20=2
+    khyd=0.00005 
+    JhydSS=0.00005
+    amp=500
+    atot=2500
+    km1=100 
+    r1=0.6
+    rm1=1
+    r30=1.205
+    rm3=0.0001
+    u1=2000 
+    u2=3 
+    u3=0.02
+    Kp=2.3 
+    Kp2=2.3
+    tmsb=0.001
+    max_cmd=32 
+    cmdp=4
+    kcmd=3
+    weight1=1
+    topa1=0
+    bottom1=1
 
     : Parameters alpha cell
-    fa
-    gsocbara
-    ksercaa
-    vnaa
-    vka
-    vcaa
-    vla
-    cma
-    gcala
-    gcapqa
-    gcata
-    gnaa
-    gkaa
-    gkdra
-    gla
-    vcella
-    vmdpqa
-    fVpqa
-    fmda
-    Ba
-    alphaa
-    kpmcaa
-    fcyta
-    fera
-    pleaka
-    sigmava
-    vcalma
-    scalma
-    vcalha
-    scalha
-    tcalh1a
-    tcalh2a
-    vcatma
-    scatma
-    vcatha
-    scatha
-    tcatm1a
-    tcatm2a
-    tcath1a
-    tcath2a
-    vcapqma
-    scapqma
-    vcapqha
-    scapqha
-    tcapqh1a
-    tcapqh2a
-    vnama
-    vnaha
-    snama
-    snaha
-    tnah1a
-    tnah2a
-    vkama
-    skama
-    vkaha
-    skaha
-    taukama
-    tkah1a
-    tkah2a
-    vkdrma
-    skdrma
-    caerbara
-    ssoca
-    vsoca
-    k1a
-    km1a
-    r1a
-    rm1a
-    r20a
-    r30a
-    rm3a
-    u1a
-    u2a
-    u3a
-    kpa
-    kp2a
-    GlucFacta
+    fa= 150
+    gsocbara=0.025
+    : 1, 7, 11 mM glucose value respectively
+    :ksercaa=0.05
+    ksercaa=0.5
+    :ksercaa=0.5
+    vnaa=70
+    vka=-75
+    vcaa=65
+    vla=-20
+    cma=5
+    gcala=0.7 
+    gcapqa=0.6
+    gcata=0.5
+    gnaa=11
+    gkaa=1
+    gkdra=4.5 
+    gla=0.2
+    vcella=0.624e-12 
+    vmdpqa=1.41e-15
+    fVpqa=0.00226
+    fmda=0.01
+    Ba=1
+    alphaa=5.18e-15 
+    kpmcaa=0.3 
+    fcyta=0.01 
+    fera=0.01
+    pleaka=0.0003 
+    sigmava=31
+    vcalma=-30
+    scalma=10
+    vcalha=-33
+    scalha=-5
+    tcalh1a=60
+    tcalh2a=51
+    vcatma=-49
+    scatma=4
+    vcatha=-52
+    scatha=-5
+    tcatm1a=15
+    tcatm2a=0
+    tcath1a=20
+    tcath2a=5
+    vcapqma=-5
+    scapqma=10
+    vcapqha=-33
+    scapqha=-5
+    tcapqh1a=60
+    tcapqh2a=51
+    vnama=-30
+    vnaha=-52
+    snama=4
+    snaha=-8
+    tnah1a=120
+    tnah2a=0.5
+    vkama=-45
+    skama=10
+    vkaha=-68
+    skaha=-10
+    taukama=0.1
+    tkah1a=60
+    tkah2a=5
+    vkdrma=-25
+    skdrma=23
+    caerbara=70 
+    ssoca=-20
+    vsoca=0
+    k1a=20
+    km1a=100 
+    r1a=0.6
+    rm1a=1 
+    r20a=0.006
+    r30a=1.205 
+    rm3a=0.0001
+    u1a=2000 
+    u2a=3
+    u3a=0.025
+    kpa=2.3 
+    kp2a=2.3 
+    GlucFacta=0.05
 
     :Parameters delta cell
-    fd
-    gkatpbard
-    vnad
-    vkd
-    vcad
-    vld
-    gcald
-    gcapqd
-    gnad
-    gkad
-    gkdrd
-    gld
-    vmdpqd
-    vmdld
-    fVld
-    fVpqd
-    fmdd
-    Bd
-    alphad
-    kpmcad
-    fcytd
-    ferd
-    pleakd
-    sigmavd
-    ksercad
-    vcalmd
-    scalmd
-    vcalhd
-    scalhd
-    tcalh1d
-    tcalh2d
-    vcapqmd
-    scapqmd
-    vcapqhd
-    scapqhd
-    tcapqh1d
-    tcapqh2d
-    vnamd
-    vnahd
-    snamd
-    snahd
-    tnah1d
-    tnah2d
-    vkamd
-    skamd
-    vkahd
-    skahd
-    taukamd
-    tkah1d
-    tkah2d
-    vkdrmd
-    skdrmd
-    con
-    bas
+    fd= 0.003
+    : 1, 7, 11 mM glucose value respectively
+    :gkatpbard=0.29
+    gkatpbard=0.27
+    :gkatpbard=0.18
+    vnad=70 
+    vkd=-75 
+    vcad=65
+    vld=-20 
+    gcald=0.7 
+    gcapqd=0.7
+    gnad=5 
+    gkad=0.5 
+    gkdrd=7.5
+    gld=0.2
+    vmdpqd=1.41e-15
+    vmdld=2.12e-15
+    fVld=0.00340
+    fVpqd=0.00226 
+    fmdd=0.01 
+    Bd=1 
+    alphad=5.18e-15
+    kpmcad=0.3 
+    fcytd=0.01 
+    ferd=0.01
+    pleakd=0.0003 
+    sigmavd=31 
+    ksercad=0.4
+    vcalmd=-30 
+    scalmd=10
+    vcalhd=-33
+    scalhd=-5
+    tcalh1d=60
+    tcalh2d=51
+    vcapqmd=-15
+    scapqmd=10
+    vcapqhd=-33
+    scapqhd=-5
+    tcapqh1d=60
+    tcapqh2d=51
+    vnamd=-30
+    vnahd=-52
+    snamd=4
+    snahd=-8
+    tnah1d=120
+    tnah2d=0.5
+    vkamd=-45
+    skamd=10
+    vkahd=-68
+    skahd=-10
+    taukamd=0.1
+    tkah1d=60
+    tkah2d=5
+    vkdrmd=-25
+    skdrmd=23
+    con=0.00000000594
+    bas=0.0009
 }
 
 ASSIGNED{	
@@ -510,8 +522,8 @@ ASSIGNED{
 
 STATE{
     : Beta
-    vb
-    n 
+    vb 
+    n <1e-10>
     c 
     cer 
     cmd 
@@ -525,7 +537,7 @@ STATE{
     n1 
     n2 
     n3 
-    n4 
+    n4 <1e-10>
     n5 
     n6 
     nf 
@@ -534,24 +546,24 @@ STATE{
 
     : Alpha
     va
-    mcala
-    hcala
-    mcata
-    hcata
-    mcapqa
-    hcapqa
-    mnaa
-    hnaa
-    mkaa
-    hkaa
-    mkdra
+    mcala 
+    hcala 
+    mcata 
+    hcata 
+    mcapqa 
+    hcapqa 
+    mnaa 
+    hnaa 
+    mkaa 
+    hkaa 
+    mkdra 
     ca
     cmdpqa
     cera
-    n1a 
-    n2a 
-    n3a 
-    n4a 
+    n1a <1e-10>
+    n2a <1e-10>
+    n3a <1e-10>
+    n4a <1e-10>
     n5a 
     n6a 
     nfa 
@@ -560,15 +572,15 @@ STATE{
 
     : Delta
     vd
-    mcald
-    hcald
-    mcapqd
-    hcapqd
-    mnad
-    hnad
-    mkad
-    hkad
-    mkdrd
+    mcald 
+    hcald 
+    mcapqd 
+    hcapqd 
+    mnad 
+    hnad 
+    mkad 
+    hkad 
+    mkdrd 
     cd 
     cmdld
     cmdpqd
@@ -646,277 +658,6 @@ INITIAL{
     G=31.73727470720019 
     S=18.71318922819339
 
-    : Islet interactions
-    knockoutbd=0
-    knockoutba=0
-    knockoutdb=0
-    knockoutda=0
-
-    : Beta stimulating delta
-    vGABA=0
-
-    : Beta inhibiting alpha
-    tausom=2000
-    vc = 1e-13
-    gkatpbara=3
-    ka1=0.1
-
-    : Delta inhibiting alpha
-    gGIRKko=0
-    vGIRK=-80
-    sombara2=35
-    ssom2=10
-    ra=4.5
-    sombara=50
-    rako=0.001
-    ssom=15
-
-    : Alpha Stimulating beta
-    gthresh=40
-
-    : Delta inhibiting beta
-    sombarb2=35
-    sombarb=50
-    ssomb=15
-    rb=0.002
-
-    : Parameters beta cell
-    fb = 2000
-    Jgk=0.4
-    factor=14
-    gkatpb=150
-    bas_r3=0.032
-    amplify=1
-    cm=5300
-    gkca=280
-    k4=150
-    kd=0.5
-    nca=590
-    raL=0.5
-    vca=25
-    vm=-6
-    sm=10
-    gca=7
-    vk=-75
-    gk=1800
-    vn=-16
-    sn=6
-    taun=5
-    kdd=17
-    ktd=26
-    ktt=1
-    fcyt=0.01
-    fer=0.01
-    fmd=0.01
-    kpmca=0.2
-    cbas=0.05
-    B=1
-    per=0.0002
-    kserca3=0.1
-    kserca2b=0.01
-    sigmav=30
-    vmd=4.2e-3
-    vcell=1.15
-    alpha=5.18e-6
-    phigk=0.3
-    KGPDH=0.0005
-    k1=30
-    k2=1
-    k3=50000
-    f13=0.02
-    f43=20
-    f23=0.2
-    f42=20
-    f41=20
-    lambda=0.06
-    taua=5
-    VmaxPFK=5
-    kappa=0.001
-    Jgpdh_bas=0.0005
-    fmito=0.01
-    gamma=0.001
-    p21=0.04
-    p22=1.1
-    exo_k1=20
-    bas_cmd=0.06935
-    p23=0.01 
-    p24=0.016 
-    Amtot=15 
-    NADmtot=10 
-    p1=400
-    p2=1
-    p3=0.01
-    Cmito=1.8
-    p17=0.002
-    p18=-0.03
-    p4=0.6
-    p5=0.1
-    p6=177
-    p7=5
-    p8=7
-    p9=0.1
-    p10=177
-    p11=5
-    p13=10
-    p14=190
-    p15=8.5
-    p16=35
-    p19=0.35
-    p20=2
-    khyd=0.00005 
-    JhydSS=0.00005
-    amp=500
-    atot=2500
-    km1=100
-    r1=0.6
-    rm1=1
-    r30=1.205
-    rm3=0.0001
-    u1=2000 
-    u2=3 
-    u3=0.02
-    Kp=2.3 
-    Kp2=2.3
-    tmsb=0.001
-    max_cmd=32 
-    cmdp=4
-    kcmd=3
-
-    : Parameters alpha cell
-    fa= 150
-    gsocbara=0.025
-    ksercaa=0.5
-    vnaa=70
-    vka=-75
-    vcaa=65
-    vla=-20
-    cma=5
-    gcala=0.7 
-    gcapqa=0.6
-    gcata=0.5
-    gnaa=11
-    gkaa=1
-    gkdra=4.5 
-    gla=0.2
-    vcella=0.624e-12 
-    vmdpqa=1.41e-15
-    fVpqa=0.00226
-    fmda=0.01
-    Ba=1
-    alphaa=5.18e-15 
-    kpmcaa=0.3 
-    fcyta=0.01 
-    fera=0.01
-    pleaka=0.0003 
-    sigmava=31
-    vcalma=-30
-    scalma=10
-    vcalha=-33
-    scalha=-5
-    tcalh1a=60
-    tcalh2a=51
-    vcatma=-49
-    scatma=4
-    vcatha=-52
-    scatha=-5
-    tcatm1a=15
-    tcatm2a=0
-    tcath1a=20
-    tcath2a=5
-    vcapqma=-5
-    scapqma=10
-    vcapqha=-33
-    scapqha=-5
-    tcapqh1a=60
-    tcapqh2a=51
-    vnama=-30
-    vnaha=-52
-    snama=4
-    snaha=-8
-    tnah1a=120
-    tnah2a=0.5
-    vkama=-45
-    skama=10
-    vkaha=-68
-    skaha=-10
-    taukama=0.1
-    tkah1a=60
-    tkah2a=5
-    vkdrma=-25
-    skdrma=23
-    caerbara=70 
-    ssoca=-20
-    vsoca=0
-    k1a=20
-    km1a=100 
-    r1a=0.6
-    rm1a=1 
-    r20a=0.006
-    r30a=1.205 
-    rm3a=0.0001
-    u1a=2000 
-    u2a=3
-    u3a=0.025
-    kpa=2.3 
-    kp2a=2.3 
-    GlucFacta=0.05
-
-    :Parameters delta cell
-    fd= 0.003
-    gkatpbard=0.29
-    vnad=70 
-    vkd=-75 
-    vcad=65
-    vld=-20 
-    gcald=0.7 
-    gcapqd=0.7
-    gnad=5 
-    gkad=0.5 
-    gkdrd=7.5
-    gld=0.2
-    vmdpqd=1.41e-15
-    vmdld=2.12e-15
-    fVld=0.00340
-    fVpqd=0.00226 
-    fmdd=0.01 
-    Bd=1 
-    alphad=5.18e-15
-    kpmcad=0.3 
-    fcytd=0.01 
-    ferd=0.01
-    pleakd=0.0003 
-    sigmavd=31 
-    ksercad=0.4
-    vcalmd=-30 
-    scalmd=10
-    vcalhd=-33
-    scalhd=-5
-    tcalh1d=60
-    tcalh2d=51
-    vcapqmd=-15
-    scapqmd=10
-    vcapqhd=-33
-    scapqhd=-5
-    tcapqh1d=60
-    tcapqh2d=51
-    vnamd=-30
-    vnahd=-52
-    snamd=4
-    snahd=-8
-    tnah1d=120
-    tnah2d=0.5
-    vkamd=-45
-    skamd=10
-    vkahd=-68
-    skahd=-10
-    taukamd=0.1
-    tkah1d=60
-    tkah2d=5
-    vkdrmd=-25
-    skdrmd=23
-    con=0.00000000594
-    bas=0.0009
-
     : Initialization variables not included in BAD model XPP file
     : Generated from calculate.py
     taucalma=0.3032811940166806
@@ -955,8 +696,8 @@ INITIAL{
     taukaha=9.00677536264756
     ikaa=1.4266606033882763
     EffIa=0.10001054147411872
-    gkatpa=0.015001581221117808
-    ikatpa=0.3894806077327209
+    gkatpa=0.06000632488447123
+    ikatpa=1.5579224309308837
     mkdrinfa=0.26016661765554117
     taukdrma=15.30146142661036
     ikdra=0.5978867667431156
@@ -979,7 +720,7 @@ INITIAL{
     topo =309.906384691809
     bottomo =15423.383945456666
     katpo =0.020093280812288894
-    ikatp =91.55500579514388
+    ikatp =311.2870197034892
     vmdcyt=0.0036521739130434784
     JL =0.3561081142148523
     JR =0.001300568764958591
@@ -991,9 +732,6 @@ INITIAL{
     Jgpdh =0.00014390830872351902
     Jgk_ms=0.0004
     mod_cmd=0.08150591626797878
-    weight1=1
-    topa1=0
-    bottom1=1
     weight2=2296.370661399967
     topa2=0
     bottom2=2297.370661399967
@@ -1089,7 +827,7 @@ INITIAL{
     hkainfd=0.005635014702807043
     taukahd=23.509361336319593
     ikad=0.7717349514854953
-    ikatpd=10.57158822780905
+    ikatpd=15.857382341713578
     mkdrinfd=0.5937792009880476
     taukdrmd=15.72702251180529
     ikdrd=47.07604938593722

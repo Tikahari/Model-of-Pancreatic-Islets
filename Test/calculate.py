@@ -81,8 +81,8 @@ vc = 1e-13
 
 # 1, 7, 11 mM glucose value respectively 
 #gkatpbara=3
-#gkatpbara=0.6
-gkatpbara=0.15
+gkatpbara=0.6
+#gkatpbara=0.15
 ka1=0.1
 
 
@@ -110,8 +110,8 @@ Jgk=0.4
 factor=14
 # 1, 7, 11 mM glucose value respectively
 #gkatpb=150
-#gkatpb=85
-gkatpb=25
+gkatpb=85
+#gkatpb=25
 bas_r3=0.032
 amplify=1
 cm=5300
@@ -208,14 +208,16 @@ tmsb=0.001
 max_cmd=32 
 cmdp=4
 kcmd=3
-
+weight1=1
+topa1=0
+bottom1=1
 
 fa= 150
 gsocbara=0.025
 # 1, 7, 11 mM glucose value respectively
 #ksercaa=0.05
-#ksercaa=0.5
 ksercaa=0.5
+#ksercaa=0.5
 vnaa=70
 vka=-75
 vcaa=65
@@ -295,8 +297,8 @@ GlucFacta=0.05
 fd= 0.003
 # 1, 7, 11 mM glucose value respectively
 #gkatpbard=0.29
-#gkatpbard=0.27
-gkatpbard=0.18
+gkatpbard=0.27
+#gkatpbard=0.18
 vnad=70 
 vkd=-75 
 vcad=65
@@ -431,9 +433,6 @@ f6p = phigk*g6p
 Jgpdh = KGPDH*np.sqrt(fbp) 
 Jgk_ms=kappa*Jgk
 mod_cmd=bas_cmd + max_cmd*cmd**cmdp/(cmd**cmdp+kcmd**cmdp)
-weight1=1
-topa1=0
-bottom1=1
 weight2=atp**2/k4
 topa2=topa1
 bottom2=bottom1+weight2
@@ -622,9 +621,6 @@ f6p ={ phigk*g6p}
 Jgpdh ={ KGPDH*np.sqrt(fbp) }
 Jgk_ms={kappa*Jgk}
 mod_cmd={bas_cmd + max_cmd*cmd**cmdp/(cmd**cmdp+kcmd**cmdp)}
-weight1={1}
-topa1={0}
-bottom1={1}
 weight2={atp**2/k4}
 topa2={topa1}
 bottom2={bottom1+weight2}

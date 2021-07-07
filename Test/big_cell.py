@@ -93,16 +93,24 @@ class Alpha(Cell):
 if __name__ == '__main__':
     try:
         # output file path
-        alpha_output = "simulation_output.csv"
+        alpha_output = "BAD_figs_3-5_7mM_15000.csv"
         # simulation time steps (.025ms each)
-        simulation_time = 1000
+        simulation_time = 15000
         alpha_mechs = ['one']
         alpha = Alpha('cell', 0, 0, 0, alpha_mechs)
+        # cvode = h.CVode()
+        # cvode.active(True)
+        # cvode.atol(1.0E-10)
+        # cvode.rtol(1.0E-10)
+        # cvode.debug_event(1)
+        #h.dt = 0.0125
         h.finitialize()
+        #h.secondorder = 2
         for i in range(40 * simulation_time):
             h.fadvance()
-            if i%(2000) == 0:
-                logging.info(f"simulation time: {i} ms")
+            if i%(4000) == 0:
+                temp = i * 0.025
+                logging.info(f"simulation time: {temp} ms")
         alpha.writeData(alpha_output)
     except Exception as e:
         logging.error(f"Error occured\n{e}")
