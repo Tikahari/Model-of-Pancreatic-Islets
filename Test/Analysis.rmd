@@ -1,0 +1,76 @@
+---
+title: "Analysis"
+author: "Robert C, Tikahari K"
+date: "7/7/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(ggpubr)
+```
+
+# Small scripts for visualization
+
+This will create plots in the same form as in the paper. You enter in the data frame name and cell type as either "A", "B", or "D".
+
+```{r}
+BAD_plots <- function(df, cell_type){
+  if (cell_type == "A"){
+    voltage <- df %>% 
+      ggplot(aes(Time, one_va)) +
+      geom_path() +
+      labs(x = "Time (ms)",
+           y = "Vm (mV)")
+    calcium <- df %>% 
+      ggplot(aes(Time, one_ca)) +
+      geom_path() +
+      labs(x = "Time (ms)",
+           y = expression(paste("C (", mu, "M)")))
+    hormone <- df %>% 
+      ggplot(aes(Time, one_G)) +
+      geom_path() +
+      labs(x = "Time (ms)",
+           y = "G (pM)")
+    ggarrange(voltage, calcium, hormone)
+  } else if (cell_type == "B"){
+    voltage <- df %>% 
+      ggplot(aes(Time, one_vb)) +
+      geom_path() +
+      labs(x = "Time (ms)",
+           y = "Vm (mV)")
+    calcium <- df %>% 
+      ggplot(aes(Time, one_c)) +
+      geom_path() +
+      labs(x = "Time (ms)",
+           y = expression(paste("C (", mu, "M)")))
+    hormone <- df %>% 
+      ggplot(aes(Time, one_I)) +
+      geom_path() +
+      labs(x = "Time (ms)",
+           y = "I (pM)")
+    ggarrange(voltage, calcium, hormone)
+  } else {
+    voltage <- df %>% 
+      ggplot(aes(Time, one_vd)) +
+      geom_path() +
+      labs(x = "Time (ms)",
+           y = "Vm (mV)")
+    calcium <- df %>% 
+      ggplot(aes(Time, one_cd)) +
+      geom_path() +
+      labs(x = "Time (ms)",
+           y = expression(paste("C (", mu, "M)")))
+    hormone <- df %>% 
+      ggplot(aes(Time, one_S)) +
+      geom_path() +
+      labs(x = "Time (ms)",
+           y = "S (pM)")
+    ggarrange(voltage, calcium, hormone)
+  }
+}
+```
+
+
+

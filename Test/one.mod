@@ -41,8 +41,8 @@ PARAMETER{
     tausom=2000
     vc = 1e-13
     : 1, 7, 11 mM glucose value respectively
-    :gkatpbara=3
-    gkatpbara=0.6
+    gkatpbara=3
+    :gkatpbara=0.6
     :gkatpbara=0.15
     ka1=0.1
 
@@ -70,8 +70,8 @@ PARAMETER{
     Jgk=0.4
     factor=14
     : 1, 7, 11 mM glucose value respectively
-    :gkatpb=150
-    gkatpb=85
+    gkatpb=150
+    :gkatpb=85
     :gkatpb=25
     bas_r3=0.032
     amplify=1
@@ -177,8 +177,8 @@ PARAMETER{
     fa= 150
     gsocbara=0.025
     : 1, 7, 11 mM glucose value respectively
-    :ksercaa=0.05
-    ksercaa=0.5
+    ksercaa=0.05
+    :ksercaa=0.5
     :ksercaa=0.5
     vnaa=70
     vka=-75
@@ -258,8 +258,8 @@ PARAMETER{
     :Parameters delta cell
     fd= 0.003
     : 1, 7, 11 mM glucose value respectively
-    :gkatpbard=0.29
-    gkatpbard=0.27
+    gkatpbard=0.29
+    :gkatpbard=0.27
     :gkatpbard=0.18
     vnad=70 
     vkd=-75 
@@ -685,9 +685,9 @@ INITIAL{
     JPQa=2.461199913234317
     JTa=0.017592597996299284
     Jmema =-0.051632659173903986
-    Jsercaa =0.17245741936299494
+    Jsercaa =0.017245741936299495
     Jleaka =0.017511621722332747
-    Jera =-0.1549457976406622
+    Jera =0.0002658797860332525
     r2a=0.0007824407054832726
     r3a=0.00785700875089453
     JGS=4.760591264376022e-10
@@ -696,8 +696,8 @@ INITIAL{
     taukaha=9.00677536264756
     ikaa=1.4266606033882763
     EffIa=0.10001054147411872
-    gkatpa=0.06000632488447123
-    ikatpa=1.5579224309308837
+    gkatpa=0.3000316244223562
+    ikatpa=7.789612154654419
     mkdrinfa=0.26016661765554117
     taukdrma=15.30146142661036
     ikdra=0.5978867667431156
@@ -720,7 +720,7 @@ INITIAL{
     topo =309.906384691809
     bottomo =15423.383945456666
     katpo =0.020093280812288894
-    ikatp =311.2870197034892
+    ikatp =549.3300347708633
     vmdcyt=0.0036521739130434784
     JL =0.3561081142148523
     JR =0.001300568764958591
@@ -827,7 +827,7 @@ INITIAL{
     hkainfd=0.005635014702807043
     taukahd=23.509361336319593
     ikad=0.7717349514854953
-    ikatpd=15.857382341713578
+    ikatpd=17.03200325591458
     mkdrinfd=0.5937792009880476
     taukdrmd=15.72702251180529
     ikdrd=47.07604938593722

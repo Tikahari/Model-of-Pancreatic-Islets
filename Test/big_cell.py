@@ -1,8 +1,9 @@
 import re
 from neuron import h
-import csv
-import logging, coloredlogs
-coloredlogs.install(level='DEBUG')
+import pickle
+# import logging, coloredlogs
+# coloredlogs.install(level='DEBUG')
+import matplotlib.pyplot as plt
 
 class Cell:
     def __init__(self, gid, x, y, z, mechs):
@@ -14,7 +15,7 @@ class Cell:
         h.define_shape()
         #self._rotate_z(theta)
         self._set_position(x,y,z)
-        self._record()
+        self.rec = {"Time": h.Vector().record(h._ref_t)}
     
     def __repr__(self):
         return '{}[{}]'.format(self.name, self._gid)
@@ -28,53 +29,6 @@ class Cell:
                                z - self.z + sec.z3d(i),
                                sec.diam3d(i))
         self.x, self.y, self.z = (0,0,0)
-
-    def _record(self):
-        # header of csv file (will store variable names)
-        self.header = []
-        # dictionary that will store values (key will be the variable name, value will be a list of vectors as defined by neuron)
-        self.rec = {}
-        # variable names we want to record
-      #  rec_vars = ['mcapqd', 'hcapqd', 'y', 'cmdpqd', 'va', 'vb', 'vd', 'icala', 'icapqa', 'icata', 'iGIRKa', 'gGIRKbara', 'isoca', 'ikaa', 'ikdra', 'ikatpa', 'gkatpa', 'inaa', 'ila', 'iGIRKb', 'gGIRKbarb', 'ikca', 'ikatp', 'ikb', 'iCa', 'IcaL', 'IcaR', 'icald', 'icapqd', 'iGABA', 'gGABAbar', 'ikad', 'ikatpd', 'ikdrd', 'ild', 'inad', 'EffId', 'EffIa', 'EffSb', 'EffSa', 'JIS', 'JSS', 'JGS', 'G', 'I', 'Sst', 'ca', 'c', 'cd']
-        for mechanism in self.cell.psection()['density_mechs']:
-            for variable in self.cell.psection()['density_mechs'][mechanism]:
-                #if variable in rec_vars:
-                logging.info(f"Recording '{variable}' in mechanism '{mechanism}'")
-                head = re.split("[0-9]", mechanism)[0]
-                self.header.append(head + '_' + variable)
-                self.rec[str(head + '_' + variable)] = []
-                # record variables of every mechanism in every segment
-                for k in self.cell:
-                    # self.v.append(h.Vector().record(k._ref_v))
-                    mechRecord = getattr(k, '_ref_'+variable+'_'+mechanism)
-                    self.rec[str(head + '_' + variable)].append(h.Vector().record(mechRecord))
-        # fix header / record voltage of every segment
-        count = 0
-        for segment in self.cell:
-            logging.info(f"Recording voltage for section {count}")
-            temp = self._gid+'_Vm_'
-            # ease writing to csv by keeping same format even though it is not necessary
-            self.rec[temp] = []
-            self.rec[temp].append(h.Vector().record(segment._ref_v))
-            count += 1
-        self.header.append(temp)
-        self.t = h.Vector().record(h._ref_t)
-    
-    def writeData(self, outputPath):
-        logging.info(f"Writing data for {self._gid}")
-        output_header = ['Time']
-        output_header.extend(self.header)
-        t = self.t
-        with open(outputPath, 'w') as file:
-            writer = csv.writer(file, quoting = csv.QUOTE_NONE,escapechar=' ')
-            writer.writerow(output_header)
-            for step in range(len(t)):
-                if step%(5000) == 0:
-                    logging.info(f"Writing values for time step {step}")
-                data = [t[step]]
-                for var in self.rec:
-                    data.append(self.rec[var][0][step])
-                writer.writerow(data)
 
 
 class Alpha(Cell):
@@ -90,27 +44,46 @@ class Alpha(Cell):
         for mech in mechs: 
             self.cell.insert(mech)
 
+def record_or_write(cell_name, write, outputPath = None):
+    if write:
+        with open(outputPath, 'wb') as f:
+            pickle.dump(cell_name.rec, f)
+    else:
+        for mechanism in cell_name.cell.psection()['density_mechs']:
+            for variable in cell_name.cell.psection()['density_mechs'][mechanism]:
+                #if variable in rec_vars:
+                head = re.split("[0-9]", mechanism)[0]
+                cell_name.rec[str(head + '_' + variable)] = []
+                # record variables of every mechanism in every segment
+                for k in cell_name.cell:
+                    mechRecord = getattr(k, '_ref_'+variable+'_'+mechanism)
+                    cell_name.rec[str(head + '_' + variable)].append(h.Vector().record(mechRecord))
+
+
+
 if __name__ == '__main__':
-    try:
-        # output file path
-        alpha_output = "BAD_figs_3-5_7mM_15000.csv"
-        # simulation time steps (.025ms each)
-        simulation_time = 15000
-        alpha_mechs = ['one']
-        alpha = Alpha('cell', 0, 0, 0, alpha_mechs)
-        # cvode = h.CVode()
-        # cvode.active(True)
-        # cvode.atol(1.0E-10)
-        # cvode.rtol(1.0E-10)
-        # cvode.debug_event(1)
-        #h.dt = 0.0125
-        h.finitialize()
-        #h.secondorder = 2
-        for i in range(40 * simulation_time):
-            h.fadvance()
-            if i%(4000) == 0:
-                temp = i * 0.025
-                logging.info(f"simulation time: {temp} ms")
-        alpha.writeData(alpha_output)
-    except Exception as e:
-        logging.error(f"Error occured\n{e}")
+    # try:
+    # output file path
+    alpha_output = "BAD_figs_3-5_1mM_new_write.csv"
+    # simulation time steps (.025ms each)
+    simulation_time = 2000
+    alpha_mechs = ['one']
+    alpha = Alpha('cell', 0, 0, 0, alpha_mechs)
+    record(alpha, write = False)
+    # cvode = h.CVode()
+    # cvode.active(True)
+    # cvode.atol(1.0E-10)
+    # cvode.rtol(1.0E-10)
+    # cvode.debug_event(1)
+    #h.dt = 0.0125
+    h.finitialize()
+    h.t = -1000
+    #h.secondorder = 2
+    for i in range(40 * simulation_time):
+        h.fadvance()
+        if i%(4000) == 0:
+            temp = i * 0.025
+            # logging.info(f"simulation time: {temp} ms")
+    record(alpha, write = True, outputPath = alpha_output)
+    # except Exception as e:
+        # logging.error(f"Error occured\n{e}")
