@@ -1,8 +1,8 @@
 import re
 from neuron import h
 import pickle
-# import logging, coloredlogs
-# coloredlogs.install(level='DEBUG')
+import logging, coloredlogs
+coloredlogs.install(level='DEBUG')
 import matplotlib.pyplot as plt
 
 class Cell:
@@ -45,6 +45,7 @@ class Alpha(Cell):
             self.cell.insert(mech)
 
 def record_or_write(cell_name, write, outputPath = None):
+    logging.info("writing data" if write else "recording data")
     if write:
         with open(outputPath, 'wb') as f:
             pickle.dump(cell_name.rec, f)
@@ -57,33 +58,34 @@ def record_or_write(cell_name, write, outputPath = None):
                 # record variables of every mechanism in every segment
                 for k in cell_name.cell:
                     mechRecord = getattr(k, '_ref_'+variable+'_'+mechanism)
+                    logging.info(f"recording {variable}_{mechanism} in {cell_name}")
                     cell_name.rec[str(head + '_' + variable)].append(h.Vector().record(mechRecord))
 
 
 
 if __name__ == '__main__':
-    # try:
+    try:
     # output file path
-    alpha_output = "BAD_figs_3-5_1mM_new_write.csv"
-    # simulation time steps (.025ms each)
-    simulation_time = 2000
-    alpha_mechs = ['one']
-    alpha = Alpha('cell', 0, 0, 0, alpha_mechs)
-    record(alpha, write = False)
-    # cvode = h.CVode()
-    # cvode.active(True)
-    # cvode.atol(1.0E-10)
-    # cvode.rtol(1.0E-10)
-    # cvode.debug_event(1)
-    #h.dt = 0.0125
-    h.finitialize()
-    h.t = -1000
-    #h.secondorder = 2
-    for i in range(40 * simulation_time):
-        h.fadvance()
-        if i%(4000) == 0:
-            temp = i * 0.025
-            # logging.info(f"simulation time: {temp} ms")
-    record(alpha, write = True, outputPath = alpha_output)
-    # except Exception as e:
-        # logging.error(f"Error occured\n{e}")
+        alpha_output = "BAD_figs_3-5_1mM_new_write.csv"
+        # simulation time steps (.025ms each)
+        simulation_time = 2000
+        alpha_mechs = ['one']
+        alpha = Alpha('cell', 0, 0, 0, alpha_mechs)
+        record(alpha, write = False)
+        # cvode = h.CVode()
+        # cvode.active(True)
+        # cvode.atol(1.0E-10)
+        # cvode.rtol(1.0E-10)
+        # cvode.debug_event(1)
+        #h.dt = 0.0125
+        h.finitialize()
+        h.t = -1000
+        #h.secondorder = 2
+        for i in range(40 * simulation_time):
+            h.fadvance()
+            if i%(4000) == 0:
+                temp = i * 0.025
+                logging.info(f"simulation time: {temp} ms")
+        record(alpha, write = True, outputPath = alpha_output)
+    except Exception as e:
+        logging.error(f"Error occured\n{e}")
