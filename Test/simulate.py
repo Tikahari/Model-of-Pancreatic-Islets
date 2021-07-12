@@ -51,6 +51,7 @@ class Alpha(Cell):
 # Function to setup recording variables and to pickle simulation output.
 # To write, set write to True, to just record set it to False.
 def record_or_write(cell_name, write, outputPath = None):
+    logging.info("writing data" if write else "recording data")
     if write:
         with open(outputPath, 'wb') as f:
             pickle.dump(cell_name.rec, f)
@@ -63,6 +64,7 @@ def record_or_write(cell_name, write, outputPath = None):
                 # record variables of every mechanism in every segment
                 for k in cell_name.cell:
                     mechRecord = getattr(k, '_ref_'+variable+'_'+mechanism)
+                    logging.info(f"recording {variable}_{mechanism} in {cell_name}")
                     cell_name.rec[str(head + '_' + variable)].append(h.Vector().record(mechRecord))
 
 
