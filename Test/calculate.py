@@ -80,9 +80,9 @@ tausom=2000
 vc = 1e-13
 
 # 1, 7, 11 mM glucose value respectively 
-gkatpbara=3
+#gkatpbara=3
 #gkatpbara=0.6
-#gkatpbara=0.15
+gkatpbara=0.15
 ka1=0.1
 
 
@@ -109,9 +109,9 @@ fb = 2000
 Jgk=0.4
 factor=14
 # 1, 7, 11 mM glucose value respectively
-gkatpb=150
+#gkatpb=150
 #gkatpb=85
-#gkatpb=25
+gkatpb=25
 bas_r3=0.032
 amplify=1
 cm=5300
@@ -215,9 +215,9 @@ bottom1=1
 fa= 150
 gsocbara=0.025
 # 1, 7, 11 mM glucose value respectively
-ksercaa=0.05
+#ksercaa=0.05
 #ksercaa=0.5
-#ksercaa=0.5
+ksercaa=0.5
 vnaa=70
 vka=-75
 vcaa=65
@@ -296,9 +296,9 @@ GlucFacta=0.05
 
 fd= 0.003
 # 1, 7, 11 mM glucose value respectively
-gkatpbard=0.29
+#gkatpbard=0.29
 #gkatpbard=0.27
-#gkatpbard=0.18
+gkatpbard=0.18
 vnad=70 
 vkd=-75 
 vcad=65
