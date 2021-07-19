@@ -849,7 +849,7 @@ INITIAL{
 }
 
 BREAKPOINT{
-    SOLVE states METHOD cnexp
+    SOLVE states METHOD derivimplicit
     : Beta stimulating delta
     gGABAbar=(1-knockoutbd)*0.1+knockoutbd*0
     EffId = 0.8/(1+exp(-(I-1500)/500))
