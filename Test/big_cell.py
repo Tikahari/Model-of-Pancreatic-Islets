@@ -193,7 +193,7 @@ def mV_C_horm(cell_rec_dict, var0, var1, var2, plot_path):
 
 if __name__ == '__main__':
     # output file path
-    simulation_setup = "BAD_figs_3-5_1mM_Glucose_2_seconds_cvode_true_derivimplicit"
+    simulation_setup = "BAD_figs_3-5_1mM_Glucose_10_min_dt_0.025"
     simulation_output = "Data/" + simulation_setup + ".pkl"
     os.system("mkdir Plots/" + simulation_setup)
     alpha_plot_path = 'Plots/' + simulation_setup + '/alpha.png'
@@ -201,18 +201,18 @@ if __name__ == '__main__':
     delta_plot_path = 'Plots/' + simulation_setup + '/delta.png'
     df_path = 'Plots/' + simulation_setup + '/metrics.png' 
     # simulation time steps (.025ms each)
-    simulation_time = 500
+    simulation_time = 2000
     alpha_mechs = ['one']
     alpha = Alpha('cell', 0, 0, 0, alpha_mechs)
     print("Set up recording variables")
     record_or_write(alpha, write = False)
     h.load_file('stdrun.hoc')
-    cvode = h.CVode()
-    cvode.active(True)
-    cvode.atol(1.0E-10)
-    cvode.rtol(1.0E-10)
+    # cvode = h.CVode()
+    # cvode.active(False)
+    # cvode.atol(1.0E-10)
+    # cvode.rtol(1.0E-10)
     # cvode.debug_event(1)
-    #h.dt = 0.0125
+    #h.dt = 0.0250
     h.finitialize()
     # h.t = -1000
     #h.secondorder = 2
