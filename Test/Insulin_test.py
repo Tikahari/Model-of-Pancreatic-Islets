@@ -1,9 +1,10 @@
-from neuron import h, units, rxd, load_mechanisms
-from neuron.units import mV, ms, um, mM
 import math
 from matplotlib import pyplot as plt
-h.load_file("stdrun.hoc")
 from itertools import product
+from neuron import h, units, rxd, load_mechanisms
+from neuron.units import mV, ms, um, mM
+h.load_file("stdrun.hoc")
+
 
 my_cell = h.Section(name = "my_cell")
 my_cell.insert("one")
