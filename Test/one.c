@@ -1538,6 +1538,8 @@ static void nrn_alloc(Prop* _prop) {
  "n4a_one", 1e-10,
  0,0
 };
+ static void _thread_mem_init(Datum*);
+ static void _thread_cleanup(Datum*);
  extern Symbol* hoc_lookup(const char*);
 extern void _nrn_thread_reg(int, int, void(*)(Datum*));
 extern void _nrn_thread_table_reg(int, void(*)(double*, Datum*, Datum*, _NrnThread*, int));
@@ -1547,9 +1549,13 @@ extern void _cvode_abstol( Symbol**, double*, int);
  void _one_reg() {
 	int _vectorized = 1;
   _initlists();
- 	register_mech(_mechanism, nrn_alloc,nrn_cur, nrn_jacob, nrn_state, nrn_init, hoc_nrnpointerindex, 1);
+ 	register_mech(_mechanism, nrn_alloc,nrn_cur, nrn_jacob, nrn_state, nrn_init, hoc_nrnpointerindex, 5);
+  _extcall_thread = (Datum*)ecalloc(4, sizeof(Datum));
+  _thread_mem_init(_extcall_thread);
  _mechtype = nrn_get_mechtype(_mechanism[1]);
      _nrn_setdata_reg(_mechtype, _setdata);
+     _nrn_thread_reg(_mechtype, 1, _thread_mem_init);
+     _nrn_thread_reg(_mechtype, 0, _thread_cleanup);
  #if NMODL_TEXT
   hoc_reg_nmodl_text(_mechtype, nmodl_file_text);
   hoc_reg_nmodl_filename(_mechtype, nmodl_filename);
@@ -1571,9 +1577,16 @@ static int _ninits = 0;
 static int _match_recurse=1;
 static void _modl_cleanup(){ _match_recurse=1;}
  
+#define _deriv1_advance _thread[0]._i
+#define _dith1 1
+#define _recurse _thread[2]._i
+#define _newtonspace1 _thread[3]._pvoid
+extern void* nrn_cons_newtonspace(int);
+ 
 static int _ode_spec1(_threadargsproto_);
 /*static int _ode_matsol1(_threadargsproto_);*/
- static int _slist1[60], _dlist1[60];
+ static int _slist2[60];
+  static int _slist1[60], _dlist1[60];
  static int states(_threadargsproto_);
  
 /*CVODE*/
@@ -1705,70 +1718,84 @@ static int _ode_spec1(_threadargsproto_);
   return 0;
 }
  /*END CVODE*/
- static int states (double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) { {
-    vb = vb - dt*(- ( ( - ( ik + ica + ikca + ikatp + iGIRKb ) ) / cm ) ) ;
-    n = n + (1. - exp(dt*(( ( ( - 1.0 ) ) ) / taun)))*(- ( ( ( ninf ) ) / taun ) / ( ( ( ( - 1.0 ) ) ) / taun ) - n) ;
-    c = c - dt*(- ( ( fcyt )*( ( Jmem + Jer + ( delta )*( Jmito ) ) ) ) ) ;
-    cer = cer - dt*(- ( ( ( - fer )*( sigmav ) )*( Jer ) ) ) ;
-    cmd = cmd + (1. - exp(dt*(( fmd )*( ( ( - ( B )*( ( 1.0 ) ) ) ) ))))*(- ( ( fmd )*( ( JL - ( B )*( ( ( - c ) ) ) ) ) ) / ( ( fmd )*( ( ( - ( B )*( ( 1.0 ) ) ) ) ) ) - cmd) ;
-    g6p = g6p - dt*(- ( Jgk_ms - pfk_ms ) ) ;
-    fbp = fbp - dt*(- ( pfk_ms - ( 0.5 )*( Jgpdh ) ) ) ;
-    adpm = adpm - dt*(- ( ( gamma )*( ( Jant - JF1F0 ) ) ) ) ;
-    cam = cam - dt*(- ( ( - fmito )*( Jmito ) ) ) ;
-    NADHm = NADHm - dt*(- ( ( gamma )*( ( Jpdh - JO ) ) ) ) ;
-    Psim = Psim - dt*(- ( ( ( JHres - JHatp - Jant - JHleak - JNaCa - ( 2.0 )*( Juni ) ) ) / Cmito ) ) ;
-    adp = adp - dt*(- ( ( ( ( - delta )*( Jant ) + Jhyd ) ) / taua ) ) ;
-    n1 = n1 + (1. - exp(dt*(( tmsb )*( ( ( - ( 3.0 * exo_k1 * mod_cmd + rm1 ) )*( 1.0 ) ) ))))*(- ( ( tmsb )*( ( ( km1 )*( n2 ) + ( r1 )*( n5 ) ) ) ) / ( ( tmsb )*( ( ( - ( ( ( 3.0 )*( exo_k1 ) )*( mod_cmd ) + rm1 ) )*( 1.0 ) ) ) ) - n1) ;
-    n2 = n2 + (1. - exp(dt*(( tmsb )*( ( ( - ( ( 2.0 * exo_k1 * mod_cmd + km1 ) )*( 1.0 ) ) ) ))))*(- ( ( tmsb )*( ( ( ( ( 3.0 )*( exo_k1 ) )*( mod_cmd ) )*( n1 ) + ( ( 2.0 )*( km1 ) )*( n3 ) ) ) ) / ( ( tmsb )*( ( ( - ( ( ( ( 2.0 )*( exo_k1 ) )*( mod_cmd ) + km1 ) )*( 1.0 ) ) ) ) ) - n2) ;
-    n3 = n3 + (1. - exp(dt*(( tmsb )*( ( ( - ( ( 2.0 * km1 + exo_k1 * mod_cmd ) )*( 1.0 ) ) ) ))))*(- ( ( tmsb )*( ( ( ( ( 2.0 )*( exo_k1 ) )*( mod_cmd ) )*( n2 ) + ( ( 3.0 )*( km1 ) )*( n4 ) ) ) ) / ( ( tmsb )*( ( ( - ( ( ( 2.0 )*( km1 ) + ( exo_k1 )*( mod_cmd ) ) )*( 1.0 ) ) ) ) ) - n3) ;
-    n4 = n4 + (1. - exp(dt*(( tmsb )*( ( ( - ( ( 3.0 * km1 + u1 ) )*( 1.0 ) ) ) ))))*(- ( ( tmsb )*( ( ( ( exo_k1 )*( mod_cmd ) )*( n3 ) ) ) ) / ( ( tmsb )*( ( ( - ( ( ( 3.0 )*( km1 ) + u1 ) )*( 1.0 ) ) ) ) ) - n4) ;
-    n5 = n5 + (1. - exp(dt*(( tmsb )*( ( ( - ( ( r1 + rm2b ) )*( 1.0 ) ) ) ))))*(- ( ( tmsb )*( ( ( rm1 )*( n1 ) + ( r2 )*( n6 ) ) ) ) / ( ( tmsb )*( ( ( - ( ( r1 + rm2b ) )*( 1.0 ) ) ) ) ) - n5) ;
-    n6 = n6 + (1. - exp(dt*(( tmsb )*( ( ( - ( ( rm3 + r2 ) )*( 1.0 ) ) ) ))))*(- ( ( tmsb )*( ( r3 + ( rm2b )*( n5 ) ) ) ) / ( ( tmsb )*( ( ( - ( ( rm3 + r2 ) )*( 1.0 ) ) ) ) ) - n6) ;
-    nf = nf + (1. - exp(dt*(( tmsb )*( ( ( - ( u2 )*( 1.0 ) ) ) ))))*(- ( ( tmsb )*( ( ( u1 )*( n4 ) ) ) ) / ( ( tmsb )*( ( ( - ( u2 )*( 1.0 ) ) ) ) ) - nf) ;
-    nr = nr + (1. - exp(dt*(( tmsb )*( ( ( - ( u3 )*( 1.0 ) ) ) ))))*(- ( ( tmsb )*( ( ( u2 )*( nf ) ) ) ) / ( ( tmsb )*( ( ( - ( u3 )*( 1.0 ) ) ) ) ) - nr) ;
-    I = I + (1. - exp(dt*(( - ( fb )*( 1.0 ) ))))*(- ( ( JIS ) / vc ) / ( ( - ( fb )*( 1.0 ) ) ) - I) ;
-    va = va - dt*(- ( ( - ( icala + icata + icapqa + inaa + ikdra + ikatpa + ikaa + ila + isoca + iGIRKa ) ) / cma ) ) ;
-    mcala = mcala + (1. - exp(dt*(( ( ( - 1.0 ) ) ) / taucalma)))*(- ( ( ( mcalinfa ) ) / taucalma ) / ( ( ( ( - 1.0 ) ) ) / taucalma ) - mcala) ;
-    hcala = hcala + (1. - exp(dt*(( ( ( - 1.0 ) ) ) / taucalha)))*(- ( ( ( hcalinfa ) ) / taucalha ) / ( ( ( ( - 1.0 ) ) ) / taucalha ) - hcala) ;
-    mcata = mcata + (1. - exp(dt*(( ( ( - 1.0 ) ) ) / taucatma)))*(- ( ( ( mcatinfa ) ) / taucatma ) / ( ( ( ( - 1.0 ) ) ) / taucatma ) - mcata) ;
-    hcata = hcata + (1. - exp(dt*(( ( ( - 1.0 ) ) ) / taucatha)))*(- ( ( ( hcatinfa ) ) / taucatha ) / ( ( ( ( - 1.0 ) ) ) / taucatha ) - hcata) ;
-    mcapqa = mcapqa + (1. - exp(dt*(( ( ( - 1.0 ) ) ) / taucapqma)))*(- ( ( ( mcapqinfa ) ) / taucapqma ) / ( ( ( ( - 1.0 ) ) ) / taucapqma ) - mcapqa) ;
-    hcapqa = hcapqa + (1. - exp(dt*(( ( ( - 1.0 ) ) ) / taucapqha)))*(- ( ( ( hcapqinfa ) ) / taucapqha ) / ( ( ( ( - 1.0 ) ) ) / taucapqha ) - hcapqa) ;
-    mnaa = mnaa + (1. - exp(dt*(( ( ( - 1.0 ) ) ) / taunama)))*(- ( ( ( mnainfa ) ) / taunama ) / ( ( ( ( - 1.0 ) ) ) / taunama ) - mnaa) ;
-    hnaa = hnaa + (1. - exp(dt*(( ( ( - 1.0 ) ) ) / taunaha)))*(- ( ( ( hnainfa ) ) / taunaha ) / ( ( ( ( - 1.0 ) ) ) / taunaha ) - hnaa) ;
-    mkaa = mkaa + (1. - exp(dt*(( ( ( - 1.0 ) ) ) / taukama)))*(- ( ( ( mkainfa ) ) / taukama ) / ( ( ( ( - 1.0 ) ) ) / taukama ) - mkaa) ;
-    hkaa = hkaa + (1. - exp(dt*(( ( ( - 1.0 ) ) ) / taukaha)))*(- ( ( ( hkainfa ) ) / taukaha ) / ( ( ( ( - 1.0 ) ) ) / taukaha ) - hkaa) ;
-    mkdra = mkdra + (1. - exp(dt*(( ( ( - 1.0 ) ) ) / taukdrma)))*(- ( ( ( mkdrinfa ) ) / taukdrma ) / ( ( ( ( - 1.0 ) ) ) / taukdrma ) - mkdra) ;
-    ca = ca - dt*(- ( ( fcyta )*( ( Jmema + Jera ) ) ) ) ;
-    cmdpqa = cmdpqa + (1. - exp(dt*(( - ( fmda * Ba )*( ( 1.0 ) ) ))))*(- ( ( fmda )*( JPQa ) - ( ( fmda )*( Ba ) )*( ( ( - ca ) ) ) ) / ( ( - ( ( fmda )*( Ba ) )*( ( 1.0 ) ) ) ) - cmdpqa) ;
-    cera = cera - dt*(- ( ( ( - fera )*( sigmava ) )*( Jera ) ) ) ;
-    n1a = n1a + (1. - exp(dt*(( tmsb )*( ( ( - ( 3.0 * k1a * cmdpqa + rm1a ) )*( 1.0 ) ) ))))*(- ( ( tmsb )*( ( ( km1a )*( n2a ) + ( r1a )*( n5a ) ) ) ) / ( ( tmsb )*( ( ( - ( ( ( 3.0 )*( k1a ) )*( cmdpqa ) + rm1a ) )*( 1.0 ) ) ) ) - n1a) ;
-    n2a = n2a + (1. - exp(dt*(( tmsb )*( ( ( - ( ( 2.0 * k1a * cmdpqa + km1a ) )*( 1.0 ) ) ) ))))*(- ( ( tmsb )*( ( ( ( ( 3.0 )*( k1a ) )*( cmdpqa ) )*( n1a ) + ( ( 2.0 )*( km1a ) )*( n3a ) ) ) ) / ( ( tmsb )*( ( ( - ( ( ( ( 2.0 )*( k1a ) )*( cmdpqa ) + km1a ) )*( 1.0 ) ) ) ) ) - n2a) ;
-    n3a = n3a + (1. - exp(dt*(( tmsb )*( ( ( - ( ( 2.0 * km1a + k1a * cmdpqa ) )*( 1.0 ) ) ) ))))*(- ( ( tmsb )*( ( ( ( ( 2.0 )*( k1a ) )*( cmdpqa ) )*( n2a ) + ( ( 3.0 )*( km1a ) )*( n4a ) ) ) ) / ( ( tmsb )*( ( ( - ( ( ( 2.0 )*( km1a ) + ( k1a )*( cmdpqa ) ) )*( 1.0 ) ) ) ) ) - n3a) ;
-    n4a = n4a + (1. - exp(dt*(( tmsb )*( ( ( - ( ( 3.0 * km1a + u1a ) )*( 1.0 ) ) ) ))))*(- ( ( tmsb )*( ( ( ( k1a )*( cmdpqa ) )*( n3a ) ) ) ) / ( ( tmsb )*( ( ( - ( ( ( 3.0 )*( km1a ) + u1a ) )*( 1.0 ) ) ) ) ) - n4a) ;
-    n5a = n5a + (1. - exp(dt*(( tmsb )*( ( ( - ( ( r1a + rm2a ) )*( 1.0 ) ) ) ))))*(- ( ( tmsb )*( ( ( rm1a )*( n1a ) + ( r2a )*( n6a ) ) ) ) / ( ( tmsb )*( ( ( - ( ( r1a + rm2a ) )*( 1.0 ) ) ) ) ) - n5a) ;
-    n6a = n6a + (1. - exp(dt*(( tmsb )*( ( ( - ( ( rm3a + r2a ) )*( 1.0 ) ) ) ))))*(- ( ( tmsb )*( ( r3a + ( rm2a )*( n5a ) ) ) ) / ( ( tmsb )*( ( ( - ( ( rm3a + r2a ) )*( 1.0 ) ) ) ) ) - n6a) ;
-    nfa = nfa + (1. - exp(dt*(( tmsb )*( ( ( - ( u2a )*( 1.0 ) ) ) ))))*(- ( ( tmsb )*( ( ( u1a )*( n4a ) ) ) ) / ( ( tmsb )*( ( ( - ( u2a )*( 1.0 ) ) ) ) ) - nfa) ;
-    nra = nra + (1. - exp(dt*(( tmsb )*( ( ( - ( u3a )*( 1.0 ) ) ) ))))*(- ( ( tmsb )*( ( ( u2a )*( nfa ) ) ) ) / ( ( tmsb )*( ( ( - ( u3a )*( 1.0 ) ) ) ) ) - nra) ;
-    G = G + (1. - exp(dt*(( - ( fa )*( 1.0 ) ))))*(- ( ( JGS ) / vc ) / ( ( - ( fa )*( 1.0 ) ) ) - G) ;
-    vd = vd - dt*(- ( ( - ( icald + icapqd + inad + ikdrd + ikatpd + ikad + ild + iGABA ) ) / cma ) ) ;
-    mcald = mcald + (1. - exp(dt*(( ( ( - 1.0 ) ) ) / taucalmd)))*(- ( ( ( mcalinfd ) ) / taucalmd ) / ( ( ( ( - 1.0 ) ) ) / taucalmd ) - mcald) ;
-    hcald = hcald + (1. - exp(dt*(( ( ( - 1.0 ) ) ) / taucalhd)))*(- ( ( ( hcalinfd ) ) / taucalhd ) / ( ( ( ( - 1.0 ) ) ) / taucalhd ) - hcald) ;
-    mcapqd = mcapqd + (1. - exp(dt*(( ( ( - 1.0 ) ) ) / taucapqmd)))*(- ( ( ( mcapqinfd ) ) / taucapqmd ) / ( ( ( ( - 1.0 ) ) ) / taucapqmd ) - mcapqd) ;
-    hcapqd = hcapqd + (1. - exp(dt*(( ( ( - 1.0 ) ) ) / taucapqhd)))*(- ( ( ( hcapqinfd ) ) / taucapqhd ) / ( ( ( ( - 1.0 ) ) ) / taucapqhd ) - hcapqd) ;
-    mnad = mnad + (1. - exp(dt*(( ( ( - 1.0 ) ) ) / taunamd)))*(- ( ( ( mnainfd ) ) / taunamd ) / ( ( ( ( - 1.0 ) ) ) / taunamd ) - mnad) ;
-    hnad = hnad + (1. - exp(dt*(( ( ( - 1.0 ) ) ) / taunahd)))*(- ( ( ( hnainfd ) ) / taunahd ) / ( ( ( ( - 1.0 ) ) ) / taunahd ) - hnad) ;
-    mkad = mkad + (1. - exp(dt*(( ( ( - 1.0 ) ) ) / taukamd)))*(- ( ( ( mkainfd ) ) / taukamd ) / ( ( ( ( - 1.0 ) ) ) / taukamd ) - mkad) ;
-    hkad = hkad + (1. - exp(dt*(( ( ( - 1.0 ) ) ) / taukahd)))*(- ( ( ( hkainfd ) ) / taukahd ) / ( ( ( ( - 1.0 ) ) ) / taukahd ) - hkad) ;
-    mkdrd = mkdrd + (1. - exp(dt*(( ( ( - 1.0 ) ) ) / taukdrmd)))*(- ( ( ( mkdrinfd ) ) / taukdrmd ) / ( ( ( ( - 1.0 ) ) ) / taukdrmd ) - mkdrd) ;
-    cd = cd - dt*(- ( ( fcytd )*( ( Jmemd + Jerd ) ) ) ) ;
-    cmdld = cmdld + (1. - exp(dt*(( - ( fmdd * Bd )*( ( 1.0 ) ) ))))*(- ( ( fmdd )*( JLd ) - ( ( fmdd )*( Bd ) )*( ( ( - cd ) ) ) ) / ( ( - ( ( fmdd )*( Bd ) )*( ( 1.0 ) ) ) ) - cmdld) ;
-    cmdpqd = cmdpqd + (1. - exp(dt*(( - ( fmdd * Bd )*( ( 1.0 ) ) ))))*(- ( ( fmdd )*( JPQd ) - ( ( fmdd )*( Bd ) )*( ( ( - cd ) ) ) ) / ( ( - ( ( fmdd )*( Bd ) )*( ( 1.0 ) ) ) ) - cmdpqd) ;
-    cerd = cerd - dt*(- ( ( ( - ferd )*( sigmavd ) )*( Jerd ) ) ) ;
-    S = S + (1. - exp(dt*(( - ( fd )*( 1.0 ) ))))*(- ( ( JSS ) / vc ) / ( ( - ( fd )*( 1.0 ) ) ) - S) ;
-   }
-  return 0;
-}
+ 
+static int states (double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {int _reset=0; int error = 0;
+ { double* _savstate1 = _thread[_dith1]._pval;
+ double* _dlist2 = _thread[_dith1]._pval + 60;
+ int _counte = -1;
+ if (!_recurse) {
+ _recurse = 1;
+ {int _id; for(_id=0; _id < 60; _id++) { _savstate1[_id] = _p[_slist1[_id]];}}
+ error = nrn_newton_thread(_newtonspace1, 60,_slist2, _p, states, _dlist2, _ppvar, _thread, _nt);
+ _recurse = 0; if(error) {abort_run(error);}}
+ {
+   Dvb = - ( ik + ica + ikca + ikatp + iGIRKb ) / cm ;
+   Dn = ( ninf - n ) / taun ;
+   Dc = fcyt * ( Jmem + Jer + delta * Jmito ) ;
+   Dcer = - fer * sigmav * Jer ;
+   Dcmd = fmd * ( JL - B * ( cmd - c ) ) ;
+   Dg6p = Jgk_ms - pfk_ms ;
+   Dfbp = pfk_ms - 0.5 * Jgpdh ;
+   Dadpm = gamma * ( Jant - JF1F0 ) ;
+   Dcam = - fmito * Jmito ;
+   DNADHm = gamma * ( Jpdh - JO ) ;
+   DPsim = ( JHres - JHatp - Jant - JHleak - JNaCa - 2.0 * Juni ) / Cmito ;
+   Dadp = ( - delta * Jant + Jhyd ) / taua ;
+   Dn1 = tmsb * ( - ( 3.0 * exo_k1 * mod_cmd + rm1 ) * n1 + km1 * n2 + r1 * n5 ) ;
+   Dn2 = tmsb * ( 3.0 * exo_k1 * mod_cmd * n1 - ( 2.0 * exo_k1 * mod_cmd + km1 ) * n2 + 2.0 * km1 * n3 ) ;
+   Dn3 = tmsb * ( 2.0 * exo_k1 * mod_cmd * n2 - ( 2.0 * km1 + exo_k1 * mod_cmd ) * n3 + 3.0 * km1 * n4 ) ;
+   Dn4 = tmsb * ( exo_k1 * mod_cmd * n3 - ( 3.0 * km1 + u1 ) * n4 ) ;
+   Dn5 = tmsb * ( rm1 * n1 - ( r1 + rm2b ) * n5 + r2 * n6 ) ;
+   Dn6 = tmsb * ( r3 + rm2b * n5 - ( rm3 + r2 ) * n6 ) ;
+   Dnf = tmsb * ( u1 * n4 - u2 * nf ) ;
+   Dnr = tmsb * ( u2 * nf - u3 * nr ) ;
+   DI = JIS / vc - fb * I ;
+   Dva = - ( icala + icata + icapqa + inaa + ikdra + ikatpa + ikaa + ila + isoca + iGIRKa ) / cma ;
+   Dmcala = ( mcalinfa - mcala ) / taucalma ;
+   Dhcala = ( hcalinfa - hcala ) / taucalha ;
+   Dmcata = ( mcatinfa - mcata ) / taucatma ;
+   Dhcata = ( hcatinfa - hcata ) / taucatha ;
+   Dmcapqa = ( mcapqinfa - mcapqa ) / taucapqma ;
+   Dhcapqa = ( hcapqinfa - hcapqa ) / taucapqha ;
+   Dmnaa = ( mnainfa - mnaa ) / taunama ;
+   Dhnaa = ( hnainfa - hnaa ) / taunaha ;
+   Dmkaa = ( mkainfa - mkaa ) / taukama ;
+   Dhkaa = ( hkainfa - hkaa ) / taukaha ;
+   Dmkdra = ( mkdrinfa - mkdra ) / taukdrma ;
+   Dca = fcyta * ( Jmema + Jera ) ;
+   Dcmdpqa = fmda * JPQa - fmda * Ba * ( cmdpqa - ca ) ;
+   Dcera = - fera * sigmava * Jera ;
+   Dn1a = tmsb * ( - ( 3.0 * k1a * cmdpqa + rm1a ) * n1a + km1a * n2a + r1a * n5a ) ;
+   Dn2a = tmsb * ( 3.0 * k1a * cmdpqa * n1a - ( 2.0 * k1a * cmdpqa + km1a ) * n2a + 2.0 * km1a * n3a ) ;
+   Dn3a = tmsb * ( 2.0 * k1a * cmdpqa * n2a - ( 2.0 * km1a + k1a * cmdpqa ) * n3a + 3.0 * km1a * n4a ) ;
+   Dn4a = tmsb * ( k1a * cmdpqa * n3a - ( 3.0 * km1a + u1a ) * n4a ) ;
+   Dn5a = tmsb * ( rm1a * n1a - ( r1a + rm2a ) * n5a + r2a * n6a ) ;
+   Dn6a = tmsb * ( r3a + rm2a * n5a - ( rm3a + r2a ) * n6a ) ;
+   Dnfa = tmsb * ( u1a * n4a - u2a * nfa ) ;
+   Dnra = tmsb * ( u2a * nfa - u3a * nra ) ;
+   DG = JGS / vc - fa * G ;
+   Dvd = - ( icald + icapqd + inad + ikdrd + ikatpd + ikad + ild + iGABA ) / cma ;
+   Dmcald = ( mcalinfd - mcald ) / taucalmd ;
+   Dhcald = ( hcalinfd - hcald ) / taucalhd ;
+   Dmcapqd = ( mcapqinfd - mcapqd ) / taucapqmd ;
+   Dhcapqd = ( hcapqinfd - hcapqd ) / taucapqhd ;
+   Dmnad = ( mnainfd - mnad ) / taunamd ;
+   Dhnad = ( hnainfd - hnad ) / taunahd ;
+   Dmkad = ( mkainfd - mkad ) / taukamd ;
+   Dhkad = ( hkainfd - hkad ) / taukahd ;
+   Dmkdrd = ( mkdrinfd - mkdrd ) / taukdrmd ;
+   Dcd = fcytd * ( Jmemd + Jerd ) ;
+   Dcmdld = fmdd * JLd - fmdd * Bd * ( cmdld - cd ) ;
+   Dcmdpqd = fmdd * JPQd - fmdd * Bd * ( cmdpqd - cd ) ;
+   Dcerd = - ferd * sigmavd * Jerd ;
+   DS = JSS / vc - fd * S ;
+   {int _id; for(_id=0; _id < 60; _id++) {
+if (_deriv1_advance) {
+ _dlist2[++_counte] = _p[_dlist1[_id]] - (_p[_slist1[_id]] - _savstate1[_id])/dt;
+ }else{
+_dlist2[++_counte] = _p[_slist1[_id]] - _savstate1[_id];}}}
+ } }
+ return _reset;}
  
 static int _ode_count(int _type){ return 60;}
  
@@ -1809,6 +1836,16 @@ static void _ode_matsol(_NrnThread* _nt, _Memb_list* _ml, int _type) {
     v = NODEV(_nd);
  _ode_matsol_instance1(_threadargs_);
  }}
+ 
+static void _thread_mem_init(Datum* _thread) {
+   _thread[_dith1]._pval = (double*)ecalloc(120, sizeof(double));
+   _newtonspace1 = nrn_cons_newtonspace(60);
+ }
+ 
+static void _thread_cleanup(Datum* _thread) {
+   free((void*)(_thread[_dith1]._pval));
+   nrn_destroy_newtonspace(_newtonspace1);
+ }
 
 static void initmodel(double* _p, Datum* _ppvar, Datum* _thread, _NrnThread* _nt) {
   int _i; double _save;{
@@ -2201,6 +2238,8 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
 static void nrn_state(_NrnThread* _nt, _Memb_list* _ml, int _type) {
 double* _p; Datum* _ppvar; Datum* _thread;
 Node *_nd; double _v = 0.0; int* _ni; int _iml, _cntml;
+double _dtsav = dt;
+if (secondorder) { dt *= 0.5; }
 #if CACHEVEC
     _ni = _ml->_nodeindices;
 #endif
@@ -2220,8 +2259,15 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
   }
  v=_v;
 {
- {   states(_p, _ppvar, _thread, _nt);
-  } {
+ {  _deriv1_advance = 1;
+ derivimplicit_thread(60, _slist1, _dlist1, _p, states, _ppvar, _thread, _nt);
+_deriv1_advance = 0;
+     if (secondorder) {
+    int _i;
+    for (_i = 0; _i < 60; ++_i) {
+      _p[_slist1[_i]] += dt*_p[_dlist1[_i]];
+    }}
+ } {
    gGABAbar = ( 1.0 - knockoutbd ) * 0.1 + knockoutbd * 0.0 ;
    EffId = 0.8 / ( 1.0 + exp ( - ( I - 1500.0 ) / 500.0 ) ) ;
    iGABA = gGABAbar * EffId * ( vd - vGABA ) ;
@@ -2409,7 +2455,7 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
    JSS = tmsb * Som * con ;
    }
 }}
-
+ dt = _dtsav;
 }
 
 static void terminal(){}
@@ -2478,6 +2524,66 @@ static void _initlists(){
  _slist1[57] = &(cmdpqd) - _p;  _dlist1[57] = &(Dcmdpqd) - _p;
  _slist1[58] = &(cerd) - _p;  _dlist1[58] = &(Dcerd) - _p;
  _slist1[59] = &(S) - _p;  _dlist1[59] = &(DS) - _p;
+ _slist2[0] = &(G) - _p;
+ _slist2[1] = &(I) - _p;
+ _slist2[2] = &(NADHm) - _p;
+ _slist2[3] = &(Psim) - _p;
+ _slist2[4] = &(S) - _p;
+ _slist2[5] = &(adp) - _p;
+ _slist2[6] = &(adpm) - _p;
+ _slist2[7] = &(cerd) - _p;
+ _slist2[8] = &(cmdpqd) - _p;
+ _slist2[9] = &(cmdld) - _p;
+ _slist2[10] = &(cd) - _p;
+ _slist2[11] = &(cera) - _p;
+ _slist2[12] = &(cmdpqa) - _p;
+ _slist2[13] = &(ca) - _p;
+ _slist2[14] = &(cam) - _p;
+ _slist2[15] = &(cmd) - _p;
+ _slist2[16] = &(cer) - _p;
+ _slist2[17] = &(c) - _p;
+ _slist2[18] = &(fbp) - _p;
+ _slist2[19] = &(g6p) - _p;
+ _slist2[20] = &(hkad) - _p;
+ _slist2[21] = &(hnad) - _p;
+ _slist2[22] = &(hcapqd) - _p;
+ _slist2[23] = &(hcald) - _p;
+ _slist2[24] = &(hkaa) - _p;
+ _slist2[25] = &(hnaa) - _p;
+ _slist2[26] = &(hcapqa) - _p;
+ _slist2[27] = &(hcata) - _p;
+ _slist2[28] = &(hcala) - _p;
+ _slist2[29] = &(mkdrd) - _p;
+ _slist2[30] = &(mkad) - _p;
+ _slist2[31] = &(mnad) - _p;
+ _slist2[32] = &(mcapqd) - _p;
+ _slist2[33] = &(mcald) - _p;
+ _slist2[34] = &(mkdra) - _p;
+ _slist2[35] = &(mkaa) - _p;
+ _slist2[36] = &(mnaa) - _p;
+ _slist2[37] = &(mcapqa) - _p;
+ _slist2[38] = &(mcata) - _p;
+ _slist2[39] = &(mcala) - _p;
+ _slist2[40] = &(nra) - _p;
+ _slist2[41] = &(nfa) - _p;
+ _slist2[42] = &(n6a) - _p;
+ _slist2[43] = &(n5a) - _p;
+ _slist2[44] = &(n4a) - _p;
+ _slist2[45] = &(n3a) - _p;
+ _slist2[46] = &(n2a) - _p;
+ _slist2[47] = &(n1a) - _p;
+ _slist2[48] = &(nr) - _p;
+ _slist2[49] = &(nf) - _p;
+ _slist2[50] = &(n6) - _p;
+ _slist2[51] = &(n5) - _p;
+ _slist2[52] = &(n4) - _p;
+ _slist2[53] = &(n3) - _p;
+ _slist2[54] = &(n2) - _p;
+ _slist2[55] = &(n1) - _p;
+ _slist2[56] = &(n) - _p;
+ _slist2[57] = &(vd) - _p;
+ _slist2[58] = &(va) - _p;
+ _slist2[59] = &(vb) - _p;
 _first = 0;
 }
 
@@ -3339,7 +3445,7 @@ static const char* nmodl_file_text =
   "}\n"
   "\n"
   "BREAKPOINT{\n"
-  "    SOLVE states METHOD cnexp\n"
+  "    SOLVE states METHOD derivimplicit\n"
   "    : Beta stimulating delta\n"
   "    gGABAbar=(1-knockoutbd)*0.1+knockoutbd*0\n"
   "    EffId = 0.8/(1+exp(-(I-1500)/500))\n"
