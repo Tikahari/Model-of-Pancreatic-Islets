@@ -201,7 +201,7 @@ if __name__ == '__main__':
     delta_plot_path = 'Plots/' + simulation_setup + '/delta.png'
     df_path = 'Plots/' + simulation_setup + '/metrics.png' 
     # simulation time steps (.025ms each)
-    simulation_time = 2000
+    simulation_time = 600000
     alpha_mechs = ['one']
     alpha = Alpha('cell', 0, 0, 0, alpha_mechs)
     print("Set up recording variables")
