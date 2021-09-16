@@ -1,7 +1,6 @@
 """The 'Cell' object will store information unique to each cell, the reference to corresponding NEURON segment, and the values of all relevant variables associated with that segment"""
 import configparser
 import ast
-import random
 import datetime
 import os
 import re
@@ -15,18 +14,27 @@ class Cell:
         self.type = typ
         [self.x, self.y, self.z] = [x, y, z]
         self.cell = Islet.neuron.h.Section(name = str(self.type) + str(self.id))
-        self.cell.pt3dadd(3,x,y,z)
-        self.cell.pt3dadd(3,x+1,y+1,z+1)
+        # self.cell.pt3dadd(3,x,y,z)
+        # self.cell.pt3dadd(3,x+1,y+1,z+1)
         secretion_pointer = {'A': 'Gpnt', 'B': 'Inspnt', 'D': 'Sstpnt'}
         self.sp = secretion_pointer[self.type]
         self.compile = writeMod
         # for plotting
         if typ == "A":
             self.diam = 8
+            self.L = 8
+            #self.cell.cm = 0.000005 # Was 5 pF (watts) now is in microfarads
+            self.cell.cm = 201.06176            
         elif typ == "D":
             self.diam = 8
+            self.L = 8
+            #self.cell.cm = 0.000005 # Was 5 pF (watts) now is in microfarads
+            self.cell.cm = 201.06176            
         else:
             self.diam = 15.5
+            self.diam = 15.5
+            #self.cell.cm = 0.0053 # Was 5300 pF (watts) now is in microfarads
+            self.cell.cm = 754.8            
         self.insulin = insulin
         self.glucagon = glucagon
         self.sst = sst
@@ -69,30 +77,24 @@ class Cell:
             # only write mod files when those mod files will be compiled
             if self.compile:
                 print(str(datetime.datetime.now()) + '\tCells.readData Write mod file: cell', self.cell)
-                modname = re.split('1|2|3|4|5|6|7|8|9|0', i)[0]
+                modname = re.split('[0-9]', i)[0]
                 mod_path = Islet.env['wd'] + types[self.type] + '_' + modname + '.mod'
                 Mod.writeMod(ini_path, mod_path)
     def addMechanisms(self):
         """Add mechanism to section"""
         # manually set point processes, reaction diffusion variables, and capacitances of each cell
         if self.type == 'A':
-            glucagon = getattr(Islet.neuron.h, 'A_Glucagon' + self.id)
-            self.pp = glucagon(self.cell(0.5))
-            Islet.neuron.h.setpointer(self.glucagon.nodes[0]._ref_concentration, 'Gpnt', self.pp)
-            #self.cell.cm = 0.000005 # Was 5 pF (watts) now is in microfarads
-            self.cell.cm = 201.06176
+             glucagon = getattr(Islet.neuron.h, 'A_Glucagon' + self.id)
+             self.pp = glucagon(self.cell(0.5))
+        #     Islet.neuron.h.setpointer(self.glucagon.nodes[0]._ref_concentration, 'Gpnt', self.pp)
         elif self.type == 'B':
-            insulin = getattr(Islet.neuron.h, 'B_Insulin' + self.id)
-            self.pp = insulin(self.cell(0.5))
-            Islet.neuron.h.setpointer(self.insulin.nodes[0]._ref_concentration, 'Inspnt', self.pp)
-            #self.cell.cm = 0.0053 # Was 5300 pF (watts) now is in microfarads
-            self.cell.cm = 754.8
+             insulin = getattr(Islet.neuron.h, 'B_Insulin' + self.id)
+             self.pp = insulin(self.cell(0.5))
+        #     Islet.neuron.h.setpointer(self.insulin.nodes[0]._ref_concentration, 'Inspnt', self.pp)
         else:
-            somatostatin = getattr(Islet.neuron.h, 'D_Somatostatin' + self.id)
-            self.pp = somatostatin(self.cell(0.5))
-            Islet.neuron.h.setpointer(self.sst.nodes[0]._ref_concentration, 'Sstpnt', self.pp)
-            #self.cell.cm = 0.000005 # Was 5 pF (watts) now is in microfarads
-            self.cell.cm = 201.06176
+             somatostatin = getattr(Islet.neuron.h, 'D_Somatostatin' + self.id)
+             self.pp = somatostatin(self.cell(0.5))
+        #     Islet.neuron.h.setpointer(self.sst.nodes[0]._ref_concentration, 'Sstpnt', self.pp)
         for i in self.mechs:
             print(str(datetime.datetime.now()) + '\tCells.addMechanisms Adding mechanisms: cell type', self.type, 'mechanism', i, 'cwd', os.getcwd())
             self.cell.insert(self.type+'_'+i)

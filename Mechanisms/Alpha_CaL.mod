@@ -1,18 +1,22 @@
 NEURON{
     SUFFIX A_CaL
     USEION cala WRITE icala VALENCE 2
-    RANGE vcaa, vcala, gcala, tcalh1a, tcalh2a, vcalma, scalma, vcalha, scalha
+    RANGE vcaa, gcala, tcalh1a, tcalh2a, vcalma, scalma, vcalha, scalha
     RANGE taucalma, taucalha, mcalinfa, hcalinfa, icala
+}
+
+UNITS{
+    (mV) = (millivolts)
+    (ms) = (millisecond)
 }
 
 PARAMETER{
     vcaa
-    vcala
     gcala
-    tcalh1a
-    tcalh2a
-    vcalma
-    scalma
+    tcalh1a (ms)
+    tcalh2a (ms)
+    vcalma (mV)
+    scalma (mV)
     vcalha
     scalha
 }
@@ -40,8 +44,8 @@ INITIAL{
     scalma=10
     vcalha=-33
     scalha=-5
-    tcalh1a=60
-    tcalh2a=51
+    tcalh1a=60 
+    tcalh2a=51 
 
     taucalma = 0.5
     taucalha = 0.5

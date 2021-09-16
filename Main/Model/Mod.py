@@ -2,7 +2,6 @@
 import configparser
 import sys
 import datetime
-import re
 import os
 
 def getTokens(line):
@@ -14,11 +13,10 @@ def getTokens(line):
     for i in line:
         if eq == True and i not in tokens:
             val += i
-        elif eq == False and i not in tokens:
-            key += i
         if i == '=':
             eq = True
-            key = key[:-1]
+        elif eq == False and i not in tokens:
+            key += i
     return {key: val}
         
 def writeMod(ini, mod):
@@ -50,7 +48,7 @@ def writeMod(ini, mod):
                 # print(i)
                 count += 1
                 # if so, set line appropriately
-                if(i.strip() in config[typ]):
+                if i.strip() in config[typ]:
                     new += i.strip() + ' = ' + str(config[typ][i.strip()]) + '\n'
                     print(str(datetime.datetime.now()) + '\tMod.writeMod Write mod from ini: ini', ini, 'mod', mod, 'variable to write', i, 'value',  str(config[typ][i.strip()]))
                 else:
@@ -62,14 +60,14 @@ def writeMod(ini, mod):
         new += line
         if 'SUFFIX' in line or 'POINT_PROCESS' in line:
             # add cell id# to end of mechanism name so it can be uniquely identified and added for every islet run
-            new = new[:len(new)-1].strip() + re.split('_|\.', ini)[len(re.split('_|\.', ini)) - 2] + '\n'
+            new = new[:len(new)-1].strip() + ini[-5] + '\n'
     filer.close()
     filew = open(mod, 'w')
     filew.write(new)
     filew.close()
     # rename files so all mechanisms for all cells can exist in same folder without overwrite
     new = mod.split('.mod')[0]
-    new += re.split('_|\.', ini)[len(re.split('_|\.', ini)) - 2] + '.mod'
+    new += ini[-5] + '.mod'
     os.system('mv ' + mod + ' ' + new)
 if __name__ == '__main__':
     # test

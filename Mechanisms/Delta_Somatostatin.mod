@@ -2,13 +2,13 @@ NEURON{
     POINT_PROCESS D_Somatostatin
     USEION cald READ icald
     USEION capqd READ icapqd
-    USEION insulin READ insulini,insulino VALENCE 1
+    USEION insulin READ insulini,insulino VALENCE 0
     POINTER mcapqd
     POINTER hcapqd
     RANGE con, bas, vc, tmsb, tausom, pleakd, fVld, fVpqd, fmdd, Bd, alphad, kpmcad, fcytd, ferd, sigmavd, ksercad, fd, vmdpqd, vmdld
     RANGE JLd, JPQd, Jmemd, Jsercad, Jleakd, Jerd, y, Som, JSS
-    RANGE I, Io
-    POINTER Sstpnt
+    RANGE I, Io, Sstpnt
+    :POINTER 
 }
 
 PARAMETER{

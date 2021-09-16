@@ -41,7 +41,7 @@ def writeMechanismsCell(file_mechanisms, mechanisms, cell):
     """Write mechanisms of this cell"""
     print(str(datetime.datetime.now()) + '\tHelper.writeMechanismsCell Write mechanisms for cell', cell, 'file', file_mechanisms)
     types = {'A': 'Alpha', 'B': 'Beta', 'D': 'Delta'}
-    with open(file_mechanisms, 'r+') as ini:
+    with open(file_mechanisms, 'w') as ini:
         cell_type = types[cell[0].upper()]
         cell_num = cell.split('_')[1]
         new_mech = ""

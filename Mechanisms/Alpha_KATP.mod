@@ -12,7 +12,7 @@ UNITS {
 }
 
 PARAMETER{
-    gkatpbara   (nS)
+    gkatpbara (nS)
     vka  (mV)
     ka1
     knockoutba

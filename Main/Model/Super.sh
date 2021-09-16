@@ -10,12 +10,11 @@ simulation_time=500
 alpha_probability=0.33
 beta_probability=0.34
 delta_probability=0.33
-
 alpha_beta_combined=$(echo "$alpha_probability + $beta_probability" | bc)
-id="model_${islet_radius}_${simulation_time}_${alpha_probability}_${beta_probability}_${delta_probability}"
-total=$(echo "$alpha_probability + $beta_probability + $delta_probability" | bc)
+id="model_${islet_radius}_${simulation_time}_${alpha_probability}_${beta_probability}_${delta_probability}_3"
+total=$(echo "$alpha_probability + $beta_probability + $delta_probability" | tr -d $'\r' | bc)
 islet_path="/blue/lamb/robert727/temp/Model-of-Pancreatic-Islets/Outputs/Islet_${id}"
-hormones="c('G', 'I', 'Sst')"
+echo $total
 if [[ $total != 1.00 ]]
 then
     echo "ERROR: probabilities add to $total"

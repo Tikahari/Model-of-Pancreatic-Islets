@@ -1,8 +1,42 @@
 "This is the supervisor script which will write the configuration of an islet instance and dispatch its compilation and simulation"
+import os
+os.system('ml neuron')
 import datetime
 import sys
+import configparser
+import ast
 import Islet
 from Helper import *
+import Compile
+import Model
+#import rpy2.robjects as robjects
+
+setup_ini = Islet.env['config'] + 'Setup/setup.ini'
+config = configparser.ConfigParser()
+config.optionxform = str
+config.read(setup_ini)
+num_cells, islet_radius, simulation_time, alpha_probability, beta_probability, delta_probability = (0,0,0,0,0,0)
+setup_vars = {}
+# Create dictionary of key-value setup pairs
+for line in config['Setup']:
+    setup_vars[line] = ast.literal_eval(config['Setup'][line])
+# locals takes the dictionary and defines the variables (the keys) by their values
+locals().update(setup_vars)
+total = alpha_probability + beta_probability + delta_probability
+if total != 1:
+    print('Error: Probabilities need to add to 1, but add to ' + str(total))
+    sys.exit()
+print('Running model with the following parameters:\nNumber of cells: ' + str(num_cells))
+print("Islet radius:", str(islet_radius))
+print('Simulation time:', str(simulation_time))
+print('Alpha probability:', str(alpha_probability))
+print('Beta probability:', str(beta_probability))
+print('Delta probability:', str(delta_probability))
+input('Verify with enter')
+sep = '_'
+model_id_components = ["model", str(islet_radius), str(simulation_time), str(alpha_probability), str(beta_probability), str(delta_probability), '3']
+islet_id= sep.join(model_id_components)
+islet_path = Islet.env['output'] + "Islet_" + islet_id
 
 def Super(islet_id, islet_radius, num_cells, alpha_probability, beta_probability):
     print(str(datetime.datetime.now()) + '\tSuper.py')
@@ -33,7 +67,6 @@ def Super(islet_id, islet_radius, num_cells, alpha_probability, beta_probability
     os.system('mkdir -p ' + values_config_path + instance)
     os.system('mkdir -p ' + run_islet_path + instance)
     # read configuration
-    config_cells = configparser.ConfigParser()
     config_cells = configparser.ConfigParser(allow_no_value= True)
     config_cells.optionxform = str
     config_cells.read(template_path + '/config.txt')
@@ -51,6 +84,18 @@ def Super(islet_id, islet_radius, num_cells, alpha_probability, beta_probability
         # write parameters and mechanisms
         writeValuesCell(file_values, values, cell, config_cells)
         writeMechanismsCell(file_mechanisms, mechanisms, cell)
-if __name__ == '__main__':
-    # Super.py 1_0 5
-    Super(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
+# if __name__ == '__main__':
+#     # Super.py 1_0 5
+#     Super(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
+
+Super(islet_id, islet_radius, num_cells, alpha_probability, beta_probability)
+print('------- Super.py complete -------')
+Compile.Compile(islet_id, islet_radius, num_cells)
+print('------- Compile.py complete -------')
+Model.Model(islet_id, islet_radius, num_cells, simulation_time, alpha_probability, beta_probability)
+print('------- Model.py complete -------')
+# r = robjects.r
+# r.source(islet_path + 'visualize_islet.R')
+os.system('ml R')
+os.system('Rscript /blue/lamb/robert727/temp/Model-of-Pancreatic-Islets/Visualization/visualize_islet.R ' + islet_path)
+print('------- visualize_islet.R complete -------')
