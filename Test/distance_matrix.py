@@ -11,7 +11,7 @@ import math
 import re
 import pickle
 from timeit import default_timer as timer
-
+import psutil
 
 class Islet:
     def __init__(self, id, prob_alpha, prob_beta, islet_radius, num_cells):
@@ -137,7 +137,9 @@ def create_dist_matrices(islet_name):
     dist_matrix.shape = (10,10)
     # TEST: use zero matrix to reproduce watts model
     dist_matrix = np.zeros((10,10))
-    # TEST: 
+    # TEST: use ones matrix to modify watts model via increasing distances between cells
+    dist = 100
+    dist_matrix = np.ones((10,10)) * dist
     # Create D_ba
     D_ba = dist_matrix[0:islet_name.num_alphas, islet_name.num_alphas:islet_name.num_alphas+islet_name.num_betas]
     # Create D_da
@@ -247,14 +249,17 @@ h.finitialize()
 matrices = create_dist_matrices(test_islet)
 
 # simulation time steps in ms (.025ms each)
-simulation_time = 20000
+simulation_time = 10000
 real_start_time = timer()
 for i in range(40 * simulation_time):
         h.fadvance()
         calculate_secretion_rate_matrix(test_islet, matrices)
         if i%4000 == 0:
             temp = (0.025 * i) / 1000
-            print("Simulation time: " + str(temp) + " seconds. Real time: " + str(timer()- real_start_time))
+            pid = os.getpid()
+            python_process = psutil.Process(pid)
+            memory_use = python_process.memory_info()[0]/2.**30 
+            print("Simulation time: " + str(temp) + " seconds. Real time: " + str(timer()- real_start_time) + ". Memory Usage: " + str(round(memory_use, 2)) + "GB/" + str(psutil.virtual_memory().available * 100 / psutil.virtual_memory().total) + "% available")
             
 
 # Write serialized (pickled) object containing all values from simulation
