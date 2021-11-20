@@ -10,6 +10,7 @@ import numpy as np
 import math
 import re
 import pickle
+from timeit import default_timer as timer
 
 
 class Islet:
@@ -247,12 +248,13 @@ matrices = create_dist_matrices(test_islet)
 
 # simulation time steps in ms (.025ms each)
 simulation_time = 20000
+real_start_time = timer()
 for i in range(40 * simulation_time):
         h.fadvance()
         calculate_secretion_rate_matrix(test_islet, matrices)
         if i%4000 == 0:
             temp = (0.025 * i) / 1000
-            print("Simulation time: " + str(temp) + " seconds")
+            print("Simulation time: " + str(temp) + " seconds. Real time: " + str(timer()- real_start_time))
             
 
 # Write serialized (pickled) object containing all values from simulation
