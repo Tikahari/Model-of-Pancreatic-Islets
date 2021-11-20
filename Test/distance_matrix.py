@@ -8,6 +8,8 @@ import pandas as pd
 import os
 import numpy as np
 import math
+import re
+import pickle
 
 
 class Islet:
@@ -22,7 +24,9 @@ class Islet:
         self.num_betas = math.floor(self.num_cells * self.prob_beta)
         self.num_alphas = math.ceil(self.num_cells * self.prob_alpha)
         self.num_deltas = self.num_cells - self.num_betas - self.num_alphas
-
+        self.cell_rec = dict()
+    
+    
     def __repr__(self):
         return 'Islet[{}]'.format(self._id)
 
@@ -88,8 +92,20 @@ class Islet:
                 delta_sections[i].pt3dclear()
                 delta_sections[i].pt3dadd(self.locations[i][0], self.locations[i][1], self.locations[i][2], 7)
                 delta_sections[i].pt3dadd(self.locations[i][0] + 7, self.locations[i][1], self.locations[i][2], 7)   
-                count+=1            
-                
+                count+=1    
+    
+    def record_values(self):
+        for cell in self.cells:
+            self.cell_rec[cell] = dict()
+            for mechanism in self.cells[cell].psection()['density_mechs']:
+                for variable in self.cells[cell].psection()['density_mechs'][mechanism]:
+                    #if variable in rec_vars:
+                    head = re.split("[0-9]", mechanism)[0]
+                    self.cell_rec[cell][str(head + '_' + variable)] = []
+                    # record variables of every mechanism in every segment
+                    for k in self.cells[cell]:
+                        mechRecord = getattr(k, '_ref_'+variable+'_'+mechanism)
+                        self.cell_rec[cell][str(head + '_' + variable)].append(h.Vector().record(mechRecord))        
 
 # This function first creates a matrix that contains the distance between each cell.
 # Each row of this matrix corresponds to a cell.
@@ -115,10 +131,12 @@ def create_dist_matrices(islet_name):
     # Reshape the array to be nxn where each row corresponds to a single cell and the 
     # distances between itself and all other cells
     dist_matrix = np.reshape(dist_matrix, (islet_name.num_cells, islet_name.num_cells))
+    # TEST: use ordered list to test logic used to create the subsets below
     dist_matrix = np.arange(100)
     dist_matrix.shape = (10,10)
-    # Add the identity matrix so that the diagonal values are 1
-    #dist_matrix = dist_matrix + np.identity(islet_name.num_cells)
+    # TEST: use zero matrix to reproduce watts model
+    dist_matrix = np.zeros((10,10))
+    # TEST: 
     # Create D_ba
     D_ba = dist_matrix[0:islet_name.num_alphas, islet_name.num_alphas:islet_name.num_alphas+islet_name.num_betas]
     # Create D_da
@@ -163,13 +181,13 @@ def calculate_secretion_rate_matrix(islet_name, matrices):
         if "D" in cell:
             JSS_col_matrix.append(islet_name.cells[cell](0.5).one.JSS)
     
-    print("insulin from beta cell")
-    print(JIS_col_matrix)
-    print("glucagon from alpha cell")
-    print(JGS_col_matrix)
-    print("somatostatin from delta cell")
-    print(JSS_col_matrix)
-    input()
+    # print("insulin from beta cell")
+    # print(JIS_col_matrix)
+    # print("glucagon from alpha cell")
+    # print(JGS_col_matrix)
+    # print("somatostatin from delta cell")
+    # print(JSS_col_matrix)
+    # input()
     
     # Calculate new secretion rates
     JGS_col_d = list(np.matmul(matrices["alpha_affecting_delta"], JGS_col_matrix))
@@ -179,54 +197,111 @@ def calculate_secretion_rate_matrix(islet_name, matrices):
     JSS_col_a = list(np.matmul(matrices["delta_affecting_alpha"], JSS_col_matrix))
     JSS_col_b = list(np.matmul(matrices["delta_affecting_beta"], JSS_col_matrix))
     
-    print("insulin")
-    print(JIS_col_a)
-    print(JIS_col_d)
-    print("glucagon")
-    print(JGS_col_d)
-    print(JGS_col_b)
-    print("somatostatin")
-    print(JSS_col_a)
-    print(JSS_col_b)
-    input()
+    # print("insulin")
+    # print(JIS_col_a)
+    # print(JIS_col_d)
+    # print("glucagon")
+    # print(JGS_col_d)
+    # print(JGS_col_b)
+    # print("somatostatin")
+    # print(JSS_col_a)
+    # print(JSS_col_b)
+    # input()
     
     # Set secretion rates
     for cell in sorted(islet_name.cells):
         if "A" in cell:
-            islet_name.cells[cell](0.5).one.JIS = JIS_col_a[0]
+            islet_name.cells[cell](0.5).one.JIS = JIS_col_a[0] + islet_name.cells[cell](0.5).one.JIS
             JIS_col_a.pop(0)
-            islet_name.cells[cell](0.5).one.JSS = JSS_col_a[0]
+            islet_name.cells[cell](0.5).one.JSS = JSS_col_a[0] + islet_name.cells[cell](0.5).one.JSS
             JSS_col_a.pop(0)
-            print(cell, "set JSS", islet_name.cells[cell](0.5).one.JSS, "JIS", islet_name.cells[cell](0.5).one.JIS)
+            # print(cell, "set JSS", islet_name.cells[cell](0.5).one.JSS, "JIS", islet_name.cells[cell](0.5).one.JIS)
         elif "B" in cell:
-            islet_name.cells[cell](0.5).one.JGS = JGS_col_b[0]
+            islet_name.cells[cell](0.5).one.JGS = JGS_col_b[0] + islet_name.cells[cell](0.5).one.JGS
             JGS_col_b.pop(0)
-            islet_name.cells[cell](0.5).one.JSS = JSS_col_b[0]
+            islet_name.cells[cell](0.5).one.JSS = JSS_col_b[0] + islet_name.cells[cell](0.5).one.JSS
             JSS_col_b.pop(0)
-            print(cell, "set JGS", islet_name.cells[cell](0.5).one.JGS, "JSS", islet_name.cells[cell](0.5).one.JSS)
+            # print(cell, "set JGS", islet_name.cells[cell](0.5).one.JGS, "JSS", islet_name.cells[cell](0.5).one.JSS)
         elif "D" in cell:
-            islet_name.cells[cell](0.5).one.JIS = JIS_col_d[0]
+            islet_name.cells[cell](0.5).one.JIS = JIS_col_d[0] + islet_name.cells[cell](0.5).one.JIS
             JIS_col_d.pop(0)
-            islet_name.cells[cell](0.5).one.JGS = JGS_col_d[0]
+            islet_name.cells[cell](0.5).one.JGS = JGS_col_d[0] + islet_name.cells[cell](0.5).one.JGS
             JGS_col_d.pop(0)
-            print(cell, "set JIS", islet_name.cells[cell](0.5).one.JIS, "JGS", islet_name.cells[cell](0.5).one.JGS)
+            # print(cell, "set JIS", islet_name.cells[cell](0.5).one.JIS, "JGS", islet_name.cells[cell](0.5).one.JGS)
         
     
 # id, prob_alpha, prob_beta, islet_radius, num_cells)
 test_islet = Islet(1,0.3,0.5,1,10)
 test_islet.spatial_setup()
 test_islet.populate_cells()
+test_islet.record_values()
 test_islet.set_cell_locations()
+# Set time variable per dictionary recording each cell
+# TODO: modify, did out of convenience
+for cell in test_islet.cell_rec:
+    test_islet.cell_rec[cell]['Time'] =  h.Vector().record(h._ref_t)
 h.finitialize()
 
 
 matrices = create_dist_matrices(test_islet)
 
 # simulation time steps in ms (.025ms each)
-simulation_time = 6000
+simulation_time = 20000
 for i in range(40 * simulation_time):
         h.fadvance()
         calculate_secretion_rate_matrix(test_islet, matrices)
         if i%4000 == 0:
             temp = (0.025 * i) / 1000
             print("Simulation time: " + str(temp) + " seconds")
+            
+
+# Write serialized (pickled) object containing all values from simulation
+with open('distance_matrix.pkl', 'wb') as f:
+            print(f"Serializing Object")
+            pickle.dump(test_islet.cell_rec, f)
+            
+
+########## Plotting Functions from big_cell.py ########## 
+
+
+# Simple function that allows us to use cells recording dictionary to visualize one parameter versus time.
+def visualize_parameter(cell_rec_dict,var, plot_path):
+    Time = cell_rec_dict['Time']
+    parameter = cell_rec_dict[var][0]
+    fig = plt.figure()
+    plt.plot(Time, parameter)
+    plt.xlabel("Time (ms)")
+    plt.ylabel(var)
+    fig.savefig(plot_path)
+
+# Function to compare plots from our simulations to those from the BAD model. Uses rec dictionary from the cell
+def mV_C_horm(cell_rec_dict, var0, var1, var2, plot_path):
+    Time = cell_rec_dict['Time']
+    fig, axes = plt.subplots(nrows = 3, sharex = True)
+    fig.suptitle("Membrane Potential, Calcium, and Hormone.")
+    axes[0].plot(Time, cell_rec_dict[var0][0])
+    axes[0].set_ylabel("Vm (mV)")
+    axes[1].plot(Time, cell_rec_dict[var1][0])
+    axes[1].set_ylabel("C ($\mu$M)")
+    axes[2].plot(Time, cell_rec_dict[var2][0])
+    axes[2].set_ylabel("Hormone (pM)")
+    axes[2].set_xlabel("Time (ms)")
+    fig.savefig(plot_path)
+
+
+
+
+################## Continue distance_matrix.py ################## 
+simulation_setup = "Test"
+simulation_output = "Data/" + simulation_setup + ".pkl"
+os.system("mkdir -p Plots/" + simulation_setup)
+cell_plot_path = 'Plots/' + simulation_setup + '/{id}.png'
+df_path = 'Plots/' + simulation_setup + '/metrics_{id}.png' 
+for cell in test_islet.cell_rec:
+    print(f"Plotting cell: {cell}")
+    if cell.startswith('A'):
+        mV_C_horm(test_islet.cell_rec[cell], 'one_va', "one_ca", 'one_G', cell_plot_path.format(id=cell))
+    elif cell.startswith('B'):
+        mV_C_horm(test_islet.cell_rec[cell], 'one_vb', "one_c", 'one_I', cell_plot_path.format(id=cell))
+    else:
+        mV_C_horm(test_islet.cell_rec[cell], 'one_vd', "one_cd", 'one_S', cell_plot_path.format(id=cell))
