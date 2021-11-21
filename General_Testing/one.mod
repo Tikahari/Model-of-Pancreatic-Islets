@@ -16,14 +16,17 @@ NEURON{
     RANGE gGIRKbarb, EffSb, iGIRKb, rm2b
 
     : Equations beta cell
+    RANGE gkatpb
     RANGE ikca, minf, ica, ical, icar, ninf, ik, topo, bottomo, katpo, ikatp, vmdcyt, JL, JR, Jmem, Jserca, Jleak, Jer, f6p, Jgpdh, Jgk_ms, mod_cmd
     RANGE weight2, topa2, bottom2, weight3, topa3, bottom3, weight4, topa4, bottom4, weight5, topa5, bottom5, weight6, topa6, bottom6, weight7, topa7, bottom7, weight8, topa8, bottom8, weight9, topa9, bottom9, weight10, topa10, bottom10, weight11, topa11, bottom11, weight12, topa12, bottom12, weight13, topa13, bottom13, weight14, topa14, bottom14, weight15, topa15, topb, bottom15, weight16, topa16, bottom16
     RANGE pfk, pfk_ms, delta, Juni, JNaCa, Jmito, NADm, ATPm, RATm, Jpdh, JHleak, MM1, JO, MM2, JHres, b2, JF1F0, JHatp, FRT, Jant, atp, Jhyd, mgadp, adp3m, atp4m, ampfactor, r3, r2, JIS
 
     : Equations alpha cell
+    RANGE ksercaa, gkatpbara
     RANGE mcalinfa, hcalinfa, taucalma, taucalha, icala, mcatinfa, hcatinfa, taucatma, taucatha, icata, mcapqinfa, hcapqinfa, taucapqma, taucapqha, icapqa, mnainfa, hnainfa, taunama, taunaha, inaa, mkainfa, hkainfa, taukaha, ikaa, mkdrinfa, taukdrma, ikdra, ila, cinfa, isoca, JLa, JPQa, JTa, Jmema, Jsercaa, Jleaka, Jera, r2a, r3a, JGS
 
     : Equations delta cell
+    RANGE gkatpbard
     RANGE mcalinfd, hcalinfd, taucalmd, taucalhd, icald, mcapqinfd, hcapqinfd, taucapqmd, taucapqhd, icapqd, mnainfd, hnainfd, taunamd, taunahd, inad, mkainfd, hkainfd, taukahd, ikad, mkdrinfd, taukdrmd, ikdrd, ikatpd, ild, JLd, JPQd, Jmemd, Jsercad, Jleakd, Jerd, y, Som, JSS
 }
 

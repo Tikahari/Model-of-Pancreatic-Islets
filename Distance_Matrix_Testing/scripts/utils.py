@@ -277,3 +277,59 @@ def dump_variables(islet: Islet, temporary_path: str, step: int, last: bool = Fa
         if not last:
             islet.reset_values()
             logger.debug("Reset variables")
+
+
+def modulate_glucose(cells: dict, simulation_idx: int):
+    """
+    Function to modify simulation variables corresponding to glucose changes at a given simulation index.
+
+    Args:
+        cells (dict): dictionary of with values being hoc section objects.
+        simulation_idx (int): simulation index.
+    """
+    logger.info(f"Modulating glucose at {simulation_idx}")
+    
+    # Determine whether modulation is beggining or ending
+    start = True if simulation_idx == GLUCOSE_MODULATION['interval'][0] else False
+    
+    # If the simulation index is the beginning of the modulation interval:
+    # Iterate through cells and modify values according to GLUCOSE_MODULATION global variable
+    if start:
+        
+        # Store old values in 'temporary' key of dictionary (will overwrite values in copy of 'modulations')
+        GLUCOSE_MODULATION['temporary'] = GLUCOSE_MODULATION['modulations'].copy()
+        
+        for cell in cells:
+            type = cell[0]
+            for modulation in GLUCOSE_MODULATION['modulations'][type]:
+                mechanism = getattr(cells[cell](0.5), MECHANISM)
+                var = getattr(mechanism, modulation)
+                logging.debug(var)
+                
+                # Save old value
+                GLUCOSE_MODULATION['temporary'][type][modulation] = var
+                
+                # Write new value
+                var = GLUCOSE_MODULATION['modulations'][type][modulation]
+                
+                logging.info(f"Changed {modulation} from {GLUCOSE_MODULATION['temporary'][type]} to {var}")
+    
+    
+    # If the simulation index is the end of the modulation interval:
+    # Restore values
+    else:
+        for cell in cells:
+            type = cell[0]
+            for modulation in GLUCOSE_MODULATION['temporary'][type]:
+                mechanism = getattr(cells[cell](0.5), MECHANISM)
+                var = getattr(mechanism, modulation)
+                logging.debug(var)
+                
+                # Store old value for logging
+                old_value = var
+                
+                var = GLUCOSE_MODULATION['temporary'][type][modulation]
+                
+                logging.info(f"Restored {modulation} from {old_value} to {var}")
+                
+    logging.info("Completed modulation")

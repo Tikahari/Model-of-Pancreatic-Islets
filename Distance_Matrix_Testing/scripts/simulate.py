@@ -4,6 +4,8 @@ import re
 
 import coloredlogs
 
+from config import *
+
 # Setup logging (needs to be done before any file imports)
 # coloredlogs.install()
 logging.basicConfig(
@@ -12,7 +14,7 @@ logging.basicConfig(
         logging.FileHandler("debug.log"),
         logging.StreamHandler()
     ],
-    level=logging.INFO
+    level=getattr(logging, LEVEL)
 )
 
 import os
@@ -21,7 +23,6 @@ from timeit import default_timer as timer
 import psutil
 from neuron import h
 
-from config import *
 from islet import Islet
 from utils import *
 
@@ -84,6 +85,10 @@ for i in range(40 * SIMULATION_TIME):
         # Perform matrix math to calculate new secretion rates
         calculate_secretion_rate_matrix(test_islet, matrices)
         
+        # Change glucose level according to: https://github.com/artielbm/artielbm.github.io/blob/master/Models/BAD/Figures3-5.ode
+        if i in GLUCOSE_MODULATION['interval']:
+            modulate_glucose(test_islet.cells, i)
+        
         # Perform logging and variable dumps every SIMULATION_UPDATE timesteps (.025 * 10^-3 * 4 * 10^3 = .1 seconds if SIMULATION_UPDATE = 4 * 10^3)
         if i % SIMULATION_UPDATE == 0:
             
@@ -120,13 +125,6 @@ if DUMP:
 os.system(f"mkdir -p Plots/{OUTPUT_FOLDER}")
 cell_plot_path = "Plots/{output_folder}/{cell_id}"
 
-# Plot time series for the following variables for each cell
-variables_to_plot = {
-    "A": ["va", "ca", "G"],
-    "B": ["vb", "c", "I"],
-    "D": ["vd", "cd", "S"]
-    }
-
 # Plot each cell
 for cell in test_islet.cell_rec:
     logging.info(f"Plotting cell: {cell}")
@@ -135,7 +133,7 @@ for cell in test_islet.cell_rec:
     # When not using dump_variables use the following
     plot_parameters(
         test_islet.cell_rec[cell], 
-        variables_to_plot[cell[0]], 
+        VARIABLES_TO_PLOT[cell[0]], 
         cell_plot_path.format(output_folder=OUTPUT_FOLDER, cell_id=cell)
     )
     
