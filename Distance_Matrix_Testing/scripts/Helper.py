@@ -186,7 +186,7 @@ def visualize_parameter(cell_rec_dict: dict, vars: list, plot_path: str):
         fig.savefig(f"{plot_path}_{var}.png")
 
 
-def plot_parameters(cell_rec_dict: dict, vars: list, plot_path: str):
+def plot_parameters(cell_rec_dict: dict, vars: list, plot_path: str, mechanism: str):
     """
     Function to compare plots from our simulations to those from the BAD model. Uses rec dictionary from the cell.
 
@@ -194,17 +194,32 @@ def plot_parameters(cell_rec_dict: dict, vars: list, plot_path: str):
         cell_rec_dict (dict): dictionary indexed by variable name containing h.Vector() objects containing recorded variable values.
         vars (list): variables to plot.
         plot_path (str): path to which plot will be saved.
+        mechanism (str): name of mechanism
     """
-    # logger.debug("Plotting...")
-    Time = cell_rec_dict['Time']
+    logger.debug("Plotting...")
+    Time = None
     fig, axes = plt.subplots(nrows = 3, sharex = True)
-    fig.suptitle(f"{' '.join(vars.upper())}")
+    fig.suptitle(f"{' '.join(vars)}")
     for idx, var in enumerate(vars):
-        axes[idx].plot(Time, cell_rec_dict[var][0])
+        
+        # Set time list
+        Time = [x*0.25 for x in range(len(cell_rec_dict['Time']))]
+        
+        # Use 0 index when not dumping variable
+        # axes[idx].plot(Time, cell_rec_dict[var][0])
+        
+        # When using dump_variables, use the following
+        axes[idx].plot(Time, cell_rec_dict[f"{mechanism}_{var}"])
+        
         axes[0].set_ylabel(f"{var}")
-    fig.savefig(plot_path)
 
-def dump_variables(islet: Islet, temporary_path: str, step: int):
+    # Save plot
+    fig.savefig(f"{plot_path}.png")
+    
+    logger.debug(f"Completed plot")
+
+
+def dump_variables(islet: Islet, temporary_path: str, step: int, last: bool = False):
     """
     Function to dump variables to csv, clear memory and resume simulation.
 
@@ -217,28 +232,34 @@ def dump_variables(islet: Islet, temporary_path: str, step: int):
     # Create pandas dataframe using dictionary of recorded values.
     final_dict = dict()
     for cell in islet.cell_rec:
-        header_field = cell
         for var in islet.cell_rec[cell]:
             
             # Set time field
             if var == 'Time' and 'Time' not in final_dict:
                 final_dict[var] = islet.cell_rec[cell][var]
             
-            header_field += f"_{var}"
+            header_field = f"{cell}_{var}"
             
             # Note that list is stored at index 0 of the h.Vector() object
             final_dict[header_field] = islet.cell_rec[cell][var][0]
             
     # Create and write pandas dataframe
     df = pd.DataFrame({key: pd.Series(value) for key, value in final_dict.items()})
+    logger.info(f"Dataframe size: {str(df.size)}")
+    # input()
     if step == 0:
+        
         # Remove the file if it exists
+        logger.debug("Replacing temporary file..")
         os.system(f"rm {temporary_path}")
         df.to_csv(temporary_path, index=False)
     else:
-        df.to_csv(temporary_path, mode='a', index=False, header=False)
-    logger.debug("Appended to temporary csv")
-    
-    # Reset variables
-    islet.record_values()
-    logger.debug("Reset variables")
+        logger.debug("Appending to temporary file..")
+        with open(temporary_path, 'a') as temporary_file:
+            df.to_csv(temporary_file, index=False, header=False)
+        logger.debug("Appended to temporary csv")
+        
+        # Reset variables each time other than last
+        if not last:
+            islet.reset_values()
+            logger.debug("Reset variables")

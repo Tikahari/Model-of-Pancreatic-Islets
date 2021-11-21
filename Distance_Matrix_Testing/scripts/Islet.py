@@ -18,7 +18,7 @@ SEGMENT_SIZE = 10
 
 
 class Islet:
-    def __init__(self, id: str, mechanism: str, islet_radius: int, cells: dict = None):
+    def __init__(self, id: str, mechanism: str, islet_radius: int, simulation_update: int, cells: dict = None):
         """
         Initialize islet instance. Note that cells can be determined by the cells dict or the probabilities dict (which must contain the number of cells).
 
@@ -26,6 +26,7 @@ class Islet:
             id (str): id of iselt.
             mechanism (str): mechanism to insert
             islet_radius (int): radius of islet.
+            simulation_update (int): interval over which reset_values() will be called.
             cells (dict, optional): conditional dict (determines how many cells/probabilities/etc. See current example in simulate.ppy). Defaults to None.
         """
         logger.debug("Creating islet")
@@ -34,6 +35,7 @@ class Islet:
         self._id = id
         self.mechanism = mechanism
         self.islet_radius = islet_radius
+        self.simulation_update = simulation_update
         
         # Validate 'cells' parameter
         # TODO: add more validations (probabilities should add up to 100, should be less than 1, etc.)
@@ -64,10 +66,6 @@ class Islet:
         self.cell_rec = dict()
         
         logger.debug("Islet created")
-    
-    def __repr__(self):
-        """String representation for debugging."""
-        return "Islet '{id}' of type '{type}'".format(id=self._id, type=self._type)
 
     def spatial_setup(self):
         """Setup each cell according to parameters passed to constructor with an appropriate spatial orientation."""
@@ -189,3 +187,27 @@ class Islet:
                         self.cell_rec[cell][str(head + '_' + variable)].append(h.Vector().record(mechRecord))        
 
         logger.debug("Recording dictionary setup")
+        
+    def reset_values(self):
+        """Update record variables to decrease memory usage"""
+        logger.debug("Reseting values")
+        for cell in self.cell_rec:
+            for var in self.cell_rec[cell]:
+                
+                # Remove up to the last variable or the simulation_update size
+                length_var = len(self.cell_rec[cell][var]) if var == 'Time' else len(self.cell_rec[cell][var][0].remove(0))
+                for i in range(min(self.simulation_update, length_var)):
+                    
+                    # 'Time' variable has a different structure
+                    if var == 'Time':
+                        self.cell_rec[cell][var].remove(0)
+                    else:
+                        self.cell_rec[cell][var][0].remove(0)
+                        
+                logger.debug(f"Reset {var}")
+                        
+        logger.debug("Values reset")
+    
+    def __repr__(self):
+        """String representation for debugging."""
+        return "Islet '{id}' of type '{type}'".format(id=self._id, type=self._type)
