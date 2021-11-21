@@ -12,7 +12,7 @@ logging.basicConfig(
         logging.FileHandler("debug.log"),
         logging.StreamHandler()
     ],
-    level=logging.DEBUG
+    level=logging.INFO
 )
 
 import os
@@ -32,9 +32,9 @@ h.load_file("stdrun.hoc")
 # Suffix of mechanism in mod file
 MECHANISM = "one"
 OUTPUT_FOLDER = "Test"
-SIMULATION_TIME = 10
+SIMULATION_TIME = 1000000
 # Interval over which variables will be dumped/logs will print
-SIMULATION_UPDATE = 40000
+SIMULATION_UPDATE = 4000
 ISLET_ID = "one_islet"
 ISLET_RADIUS = 1
 TEMP_CSV = '.temp.csv'
