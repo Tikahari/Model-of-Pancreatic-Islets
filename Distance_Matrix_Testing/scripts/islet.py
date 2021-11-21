@@ -195,15 +195,12 @@ class Islet:
             for var in self.cell_rec[cell]:
                 
                 # Remove up to the last variable or the simulation_update size
-                length_var = len(self.cell_rec[cell][var]) if var == 'Time' else len(self.cell_rec[cell][var][0].remove(0))
-                for i in range(min(self.simulation_update, length_var)):
+                length_var = len(self.cell_rec[cell][var]) if var == 'Time' else len(self.cell_rec[cell][var][0])
+                if var != 'Time':
                     
-                    # 'Time' variable has a different structure
-                    if var == 'Time':
-                        self.cell_rec[cell][var].remove(0)
-                    else:
-                        self.cell_rec[cell][var][0].remove(0)
-                        
+                    # Note that indexing for the remove function is left inclusive, right exclusive
+                    length_var = len(self.cell_rec[cell][var][0])
+                    self.cell_rec[cell][var][0].remove(0, length_var-1)
                 logger.debug(f"Reset {var}")
                         
         logger.debug("Values reset")

@@ -10,7 +10,7 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 
-from Islet import Islet
+from islet import Islet
 
 
 def create_dist_matrices(islet_name: str):
@@ -59,9 +59,9 @@ def create_dist_matrices(islet_name: str):
     logger.info("TEST CASE: using zero matrix (reproduce watts model)")
     
     # TEST: use ones matrix to modify watts model via increasing distances between cells (all cells will be the same distance apart in this case)
-    dist = 100
-    dist_matrix = np.ones((10,10)) * dist
-    logger.info("TEST CASE: using scalar multiple of ones matrix (module watts model with uniform distance)")
+    # dist = 100
+    # dist_matrix = np.ones((10,10)) * dist
+    # logger.info("TEST CASE: using scalar multiple of ones matrix (module watts model with uniform distance)")
     
     # Create D_ba
     D_ba = dist_matrix[0:islet_name.num_alphas, islet_name.num_alphas:islet_name.num_alphas+islet_name.num_betas]

@@ -21,8 +21,8 @@ from timeit import default_timer as timer
 import psutil
 from neuron import h
 
-from Helper import *
-from Islet import Islet
+from utils import *
+from islet import Islet
 
 # Load neuron?
 h.load_file("stdrun.hoc")
@@ -34,10 +34,10 @@ MECHANISM = "one"
 OUTPUT_FOLDER = "Test"
 SIMULATION_TIME = 1000000
 # Interval over which variables will be dumped/logs will print
-SIMULATION_UPDATE = 4000
+SIMULATION_UPDATE = 40000
 ISLET_ID = "one_islet"
 ISLET_RADIUS = 1
-TEMP_CSV = '.temp.csv'
+TEMP_CSV = '.temp_1.csv'
 
 
 # TEST: create islet based on number of cells per type
@@ -47,7 +47,7 @@ cells = {
     "B": 1, 
     "D": 1
 }
-logging.info("TEST CASE: determinstic input")
+logging.info("TEST CASE: deterministic input")
 
 # TEST: create islet based on probabilities of difference cell types and total number of cells
 # cells = {
@@ -142,5 +142,10 @@ for cell in test_islet.cell_rec:
     
     # Note that 'cell[0]' will be one of 'A'/'B'/'D'
     # When not using dump_variables use the following
-    plot_parameters(test_islet.cell_rec[cell], variables_to_plot[cell[0]], cell_plot_path.format(output_folder=OUTPUT_FOLDER, cell_id=cell), mechanism=MECHANISM)
+    plot_parameters(
+        test_islet.cell_rec[cell], 
+        variables_to_plot[cell[0]], 
+        cell_plot_path.format(output_folder=OUTPUT_FOLDER, cell_id=cell), 
+        mechanism=MECHANISM
+    )
     
