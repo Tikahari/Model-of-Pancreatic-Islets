@@ -77,19 +77,19 @@ class Islet:
         count = 0
         for i in range(self.num_cells):
             while count < self.num_alphas:
-                print("Setting alpha cell locations")
+                # print("Setting alpha cell locations")
                 alpha_sections[i].pt3dclear()
                 alpha_sections[i].pt3dadd(self.locations[i][0], self.locations[i][1], self.locations[i][2], 7)
                 alpha_sections[i].pt3dadd(self.locations[i][0] + 7, self.locations[i][1], self.locations[i][2], 7)
                 count+=1
             while self.num_alphas <= count < self.num_alphas + self.num_betas:
-                print("Setting beta cell locations")
+                # print("Setting beta cell locations")
                 beta_sections[i].pt3dclear()
                 beta_sections[i].pt3dadd(self.locations[i][0], self.locations[i][1], self.locations[i][2], 15.5)
                 beta_sections[i].pt3dadd(self.locations[i][0] + 15.5, self.locations[i][1], self.locations[i][2], 15.5)
                 count+=1
             while self.num_alphas + self.num_betas <= count < self.num_cells:
-                print("Setting delta cell locations")
+                # print("Setting delta cell locations")
                 delta_sections[i].pt3dclear()
                 delta_sections[i].pt3dadd(self.locations[i][0], self.locations[i][1], self.locations[i][2], 7)
                 delta_sections[i].pt3dadd(self.locations[i][0] + 7, self.locations[i][1], self.locations[i][2], 7)   
@@ -255,12 +255,14 @@ for i in range(40 * simulation_time):
         h.fadvance()
         calculate_secretion_rate_matrix(test_islet, matrices)
         if i%4000 == 0:
+            # Log
             temp = (0.025 * i) / 1000
             pid = os.getpid()
             python_process = psutil.Process(pid)
             memory_use = python_process.memory_info()[0]/2.**30 
             print("Simulation time: " + str(temp) + " seconds. Real time: " + str(timer()- real_start_time) + ". Memory Usage: " + str(round(memory_use, 2)) + "GB/" + str(psutil.virtual_memory().available * 100 / psutil.virtual_memory().total) + "% available")
-            
+            # Dump variables
+                        
 
 # Write serialized (pickled) object containing all values from simulation
 with open('distance_matrix.pkl', 'wb') as f:
