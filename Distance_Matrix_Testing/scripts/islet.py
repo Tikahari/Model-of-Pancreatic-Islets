@@ -200,6 +200,7 @@ class Islet:
                     # Note that indexing for the remove function is left inclusive, right exclusive
                     length_var = len(self.cell_rec[cell][var][0])
                     self.cell_rec[cell][var][0].remove(0, length_var-1)
+                    
                 logger.debug(f"Reset {var}")
                         
         logger.debug("Values reset")
