@@ -21,23 +21,12 @@ from timeit import default_timer as timer
 import psutil
 from neuron import h
 
-from utils import *
+from config import *
 from islet import Islet
+from utils import *
 
 # Load neuron?
 h.load_file("stdrun.hoc")
-
-
-# Global Variables (potentially modify before each run)
-# Suffix of mechanism in mod file
-MECHANISM = "one"
-OUTPUT_FOLDER = "Test"
-SIMULATION_TIME = 1000000
-# Interval over which variables will be dumped/logs will print
-SIMULATION_UPDATE = 40000
-ISLET_ID = "one_islet"
-ISLET_RADIUS = 1
-TEMP_CSV = '.temp_1.csv'
 
 
 # TEST: create islet based on number of cells per type
@@ -73,10 +62,11 @@ test_islet.record_values()
 test_islet.set_cell_locations()
 logging.info(f"{test_islet} created")
 
-# Set time variable per dictionary recording each cell
+# Set time variable per dictionary recording each cell when variables are not dumped periodically
 # TODO: modify, did out of convenience
-for cell in test_islet.cell_rec:
-    test_islet.cell_rec[cell]['Time'] =  h.Vector().record(h._ref_t)
+if not DUMP:
+    for cell in test_islet.cell_rec:
+        test_islet.cell_rec[cell]['Time'] =  h.Vector().record(h._ref_t)
     
 # Run initial block of mod file
 h.finitialize()
@@ -110,19 +100,20 @@ for i in range(40 * SIMULATION_TIME):
             logging.info(f"Simulation time: {simulation_time_elapsed}. Real time: {timer()-real_start_time}. Memory Usage: {memory_use_gb}GB / {memory_use_percent}%")
             
             # Dump variables at this interval          
-            dump_variables(test_islet, TEMP_CSV, i)
+            dump_variables(test_islet, TEMP_CSV, i) if DUMP else None
            
 # Dump variables at conclusion of simulation
-dump_variables(test_islet, TEMP_CSV, -1, last=True)
+dump_variables(test_islet, TEMP_CSV, -1, last=True) if DUMP else None
             
-# Read csv and reset the cell_rec variable
-df = pd.read_csv(TEMP_CSV)
-# Use columns to rewrite cell_rec object
-for column in df.columns:
-    match = re.search(r'((?:A|B|D)_[0-9])_(.*)', column)
-    if match is not None:
-        cell, var = list(match.groups())
-        test_islet.cell_rec[cell][var] = df[column].to_list()
+# Read csv and reset the cell_rec variable if variables have been periodically dumped
+if DUMP:
+    df = pd.read_csv(TEMP_CSV)
+    # Use columns to rewrite cell_rec object
+    for column in df.columns:
+        match = re.search(r'((?:A|B|D)_[0-9])_(.*)', column)
+        if match is not None:
+            cell, var = list(match.groups())
+            test_islet.cell_rec[cell][var] = df[column].to_list()
             
 
 # Setup plotting results folder
@@ -145,7 +136,6 @@ for cell in test_islet.cell_rec:
     plot_parameters(
         test_islet.cell_rec[cell], 
         variables_to_plot[cell[0]], 
-        cell_plot_path.format(output_folder=OUTPUT_FOLDER, cell_id=cell), 
-        mechanism=MECHANISM
+        cell_plot_path.format(output_folder=OUTPUT_FOLDER, cell_id=cell)
     )
     

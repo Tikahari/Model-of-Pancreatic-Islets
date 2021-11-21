@@ -1,5 +1,6 @@
 """Script containing functions used to perform calculations/simulations."""
 import logging
+
 # Setup logging
 logger = logging.getLogger(__name__)
 
@@ -10,6 +11,7 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 
+from config import *
 from islet import Islet
 
 
@@ -176,9 +178,21 @@ def visualize_parameter(cell_rec_dict: dict, vars: list, plot_path: str):
     """
     logger.debug("Visualizing parameter")
     
-    Time = cell_rec_dict['Time']
+    # Initialize time
+    Time = None if DUMP else cell_rec_dict['Time']
+    
     for var in vars:
-        parameter = cell_rec_dict[var][0]
+        
+        # Set time list if variables have been periodically dumped
+        if DUMP:
+            Time = [x*0.25 for x in range(len(cell_rec_dict[f"{MECHANISM}_{var}"]))]
+            parameter = cell_rec_dict[f"{MECHANISM}_{var}"]
+
+        # When not dumping variable            
+        else:   
+            parameter = cell_rec_dict[var][0]
+        
+        # Generate plots
         fig = plt.figure()
         plt.plot(Time, parameter)
         plt.xlabel("Time (ms)")
@@ -186,7 +200,7 @@ def visualize_parameter(cell_rec_dict: dict, vars: list, plot_path: str):
         fig.savefig(f"{plot_path}_{var}.png")
 
 
-def plot_parameters(cell_rec_dict: dict, vars: list, plot_path: str, mechanism: str):
+def plot_parameters(cell_rec_dict: dict, vars: list, plot_path: str):
     """
     Function to compare plots from our simulations to those from the BAD model. Uses rec dictionary from the cell.
 
@@ -194,22 +208,25 @@ def plot_parameters(cell_rec_dict: dict, vars: list, plot_path: str, mechanism: 
         cell_rec_dict (dict): dictionary indexed by variable name containing h.Vector() objects containing recorded variable values.
         vars (list): variables to plot.
         plot_path (str): path to which plot will be saved.
-        mechanism (str): name of mechanism
     """
     logger.debug("Plotting...")
-    Time = None
+    
+    # Initialize time
+    Time = None if DUMP else cell_rec_dict['Time']
+    
     fig, axes = plt.subplots(nrows = 3, sharex = True)
     fig.suptitle(f"{' '.join(vars)}")
     for idx, var in enumerate(vars):
         
-        # Set time list
-        Time = [x*0.25 for x in range(len(cell_rec_dict['Time']))]
+        # Set time list if variables have been periodically dumped
+        if DUMP:
+            Time = [x*0.25 for x in range(len(cell_rec_dict[f"{MECHANISM}_{var}"]))]
+            axes[idx].plot(Time, cell_rec_dict[f"{MECHANISM}_{var}"])
         
         # Use 0 index when not dumping variable
-        # axes[idx].plot(Time, cell_rec_dict[var][0])
+        else:
+            axes[idx].plot(Time, cell_rec_dict[f"{MECHANISM}_{var}"][0])
         
-        # When using dump_variables, use the following
-        axes[idx].plot(Time, cell_rec_dict[f"{mechanism}_{var}"])
         
         axes[0].set_ylabel(f"{var}")
 
@@ -227,16 +244,13 @@ def dump_variables(islet: Islet, temporary_path: str, step: int, last: bool = Fa
         islet (Islet): main islet object.
         temporary_path (str): path of temporary csv file.
         step (int): step number in simulation.
+        last (bool): boolean set to True only when dump_variables is called outside of the main simulation loop.
     """
     logger.debug("Dumping variables..")
     # Create pandas dataframe using dictionary of recorded values.
     final_dict = dict()
     for cell in islet.cell_rec:
         for var in islet.cell_rec[cell]:
-            
-            # Set time field
-            if var == 'Time' and 'Time' not in final_dict:
-                final_dict[var] = islet.cell_rec[cell][var]
             
             header_field = f"{cell}_{var}"
             

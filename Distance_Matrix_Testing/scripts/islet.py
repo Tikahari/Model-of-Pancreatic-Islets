@@ -1,5 +1,6 @@
 """Script defining main islet class."""
 import logging
+
 # Setup logging
 logger = logging.getLogger(__name__)
 
@@ -9,12 +10,7 @@ import re
 import numpy as np
 from neuron import h
 
-# Define global variables
-# Size of cells
-ALPHA_SIZE = DELTA_SIZE = 7
-BETA_SIZE = 15.5
-# Number of 'segments' to divide islet space into
-SEGMENT_SIZE = 10
+from config import *
 
 
 class Islet:
@@ -193,13 +189,10 @@ class Islet:
         logger.debug("Reseting values")
         for cell in self.cell_rec:
             for var in self.cell_rec[cell]:
-                
-                # Remove up to the last variable or the simulation_update size
-                if var != 'Time':
                     
-                    # Note that indexing for the remove function is left inclusive, right exclusive
-                    length_var = len(self.cell_rec[cell][var][0])
-                    self.cell_rec[cell][var][0].remove(0, length_var-1)
+                # Note that indexing for the remove function is left inclusive, right exclusive
+                length_var = len(self.cell_rec[cell][var][0])
+                self.cell_rec[cell][var][0].remove(0, length_var-1)
                     
                 logger.debug(f"Reset {var}")
                         
