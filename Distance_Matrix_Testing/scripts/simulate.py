@@ -1,15 +1,27 @@
 """Main simulation script"""
 import logging
+import coloredlogs
+
+# Setup logging (needs to be done before any file imports)
+# coloredlogs.install()
+logging.basicConfig(
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    handlers=[
+        logging.FileHandler("debug.log"),
+        logging.StreamHandler()
+    ],
+    level=logging.DEBUG
+)
+
 import os
 import pickle
 from timeit import default_timer as timer
 
-import coloredlogs
 import psutil
-from neuron import h
+from neuron import h, test
 
-import Islet
 from Helper import *
+from Islet import Islet
 
 # Load neuron?
 h.load_file("stdrun.hoc")
@@ -19,13 +31,11 @@ h.load_file("stdrun.hoc")
 # Suffix of mechanism in mod file
 MECHANISM = "one"
 OUTPUT_FOLDER = "Test"
-SIMULATION_TIME = 10000
+SIMULATION_TIME = 20000
 ISLET_ID = "one_islet"
 ISLET_RADIUS = 1
+TEMP_CSV = '.temp.csv'
 
-# Setup logging
-logging.basicConfig(level=logging.DEBUG)
-coloredlogs.install()
 
 # TEST: create islet based on number of cells per type
 cells = {
@@ -34,15 +44,17 @@ cells = {
     "B": 1, 
     "D": 1
 }
+logging.info("TEST CASE: determinstic input")
 
 # TEST: create islet based on probabilities of difference cell types and total number of cells
-cells = {
-    "type": "probabilistic", 
-    "A": 0.3, 
-    "B": 0.2, 
-    "D": 0.5, 
-    "num_cells": 10
-}
+# cells = {
+#     "type": "probabilistic", 
+#     "A": 0.3, 
+#     "B": 0.2, 
+#     "D": 0.5, 
+#     "num_cells": 10
+# }
+# logging.info("TEST CASE: probabilistic input")
 
 # Create islet
 test_islet = Islet(
@@ -94,7 +106,8 @@ for i in range(40 * SIMULATION_TIME):
             logging.info(f"Simulation time: {simulation_time_elapsed}. Real time: {timer()-real_start_time}. Memory Usage: {memory_use_gb}GB / {memory_use_percent}%")
             
             # Dump variables            
-
+            dump_variables(test_islet, TEMP_CSV, i)
+            
 # Write serialized (pickled) object containing all values from simulation
 with open('distance_matrix.pkl', 'wb') as f:
     logging.info(f"Serializing object...")
@@ -118,4 +131,4 @@ for cell in test_islet.cell_rec:
     logging.info(f"Plotting cell: {cell}")
     
     # Note that 'cell[0]' will be one of 'A'/'B'/'D'
-    mV_C_horm(test_islet.cell_rec[cell], variables_to_plot[cell[0]], cell_plot_path.format(id=cell))
+    plot_parameters(test_islet.cell_rec[cell], variables_to_plot[cell[0]], cell_plot_path.format(id=cell))

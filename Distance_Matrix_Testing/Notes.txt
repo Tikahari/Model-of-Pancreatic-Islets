@@ -1,0 +1,3 @@
+You will have to copy the x86_64 folder (compiled output of the mod file) into the scripts and notebook folder as follows:
+<Path>/scripts/x86_64/
+<Path>/notebooks/x86_64/
