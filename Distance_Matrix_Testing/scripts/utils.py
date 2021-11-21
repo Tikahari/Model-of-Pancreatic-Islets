@@ -45,16 +45,16 @@ def create_dist_matrices(islet_name: str):
     logger.debug("Setting up distance matrix")
     
     # Create a numpy array containing the distance between each cell
-    dist_matrix = np.array([math.dist((location_1['x'], location_1['y'], location_1['z']), (location_2['x'], location_2['y'], location_2['z'])) for location_1 in islet_name.locations for location_2 in islet_name.locations])
+    dist_matrix = np.array([1/math.dist((location_1['x'], location_1['y'], location_1['z']), (location_2['x'], location_2['y'], location_2['z'])) if math.dist((location_1['x'], location_1['y'], location_1['z']), (location_2['x'], location_2['y'], location_2['z'])) != 0 else 0 for location_1 in islet_name.locations for location_2 in islet_name.locations])
     
     # Reshape the array to be nxn where each row corresponds to a single cell and the 
     # distances between itself and all other cells
     dist_matrix = np.reshape(dist_matrix, (islet_name.num_cells, islet_name.num_cells))
     
     # TEST: use ordered list to test logic used to create the subsets below
-    dist_matrix = np.arange(100)
-    dist_matrix.shape = (10,10)
-    logger.info("TEST CASE: using sorted list (np.arrange)")
+    # dist_matrix = np.arange(100)
+    # dist_matrix.shape = (10,10)
+    # logger.info("TEST CASE: using sorted list (np.arrange)")
     
     # TEST: use zero matrix to reproduce watts model
     dist_matrix = np.zeros((10,10))
