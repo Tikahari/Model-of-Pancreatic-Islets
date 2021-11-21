@@ -195,7 +195,6 @@ class Islet:
             for var in self.cell_rec[cell]:
                 
                 # Remove up to the last variable or the simulation_update size
-                length_var = len(self.cell_rec[cell][var]) if var == 'Time' else len(self.cell_rec[cell][var][0])
                 if var != 'Time':
                     
                     # Note that indexing for the remove function is left inclusive, right exclusive
