@@ -11,17 +11,23 @@ SEGMENT_SIZE = 10
 MECHANISM = "one"
 
 # Folder to write plots to (path will be ./Plots/<OUTPUT FOLDER>/)
-OUTPUT_FOLDER = "11mM_0D"
+OUTPUT_FOLDER = "11mM_30D"
 
-# Plot time series for the following variables for each cell
+# Number of digits to round to spike table output
+ROUND = 4
+
+# Plot time series and calculate spikes for the following variables for each cell
 VARIABLES_TO_PLOT = {
-    "A": ["va", "G", "ksercaa"],
+    "A": ["va", "G", "ca"],
     "B": ["vb", "c", "I"],
     "D": ["vd", "cd", "S"]
 }
 
 # Time of simulation in ms
 SIMULATION_TIME = 100
+
+# Step size for simulation
+STEP_SIZE = 0.025
 
 # Interval over which variables will be dumped/logs will print
 SIMULATION_UPDATE = 4000
@@ -33,13 +39,13 @@ ISLET_ID = "one_islet"
 ISLET_RADIUS = 1
 
 # Temporary csv to write recording dictionary (cell_rec) to if DUMP is True
-TEMP_CSV = '.temp_glucose=11mM_distance=0.csv'
+TEMP_CSV = '.temp_glucose=11mM_distance=30.csv'
 
 # Determines whether or not the recording dictionary (cell_rec) will be dumped perioidically
 DUMP = True
 
 # Define logging level
-LEVEL = "DEBUG"
+LEVEL = "INFO"
 
 
 # Time points at which glucose level will be modulated and the variables to modify

@@ -11,6 +11,7 @@ import os
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
+from scipy.signal import find_peaks
 
 from config import *
 from islet import Islet
@@ -58,13 +59,13 @@ def create_dist_matrices(islet_name: str):
     # logger.info("TEST CASE: using sorted list (np.arrange)")
     
     # TEST: use zero matrix to reproduce watts model
-    dist_matrix = np.zeros((10,10))
-    logger.info("TEST CASE: using zero matrix (reproduce watts model)")
+    # dist_matrix = np.zeros((10,10))
+    # logger.info("TEST CASE: using zero matrix (reproduce watts model)")
     
     # TEST: use ones matrix to modify watts model via increasing distances between cells (all cells will be the same distance apart in this case)
-    # dist = 10
-    # dist_matrix = np.ones((10,10)) * dist
-    # logger.info("TEST CASE: using scalar multiple of ones matrix (module watts model with uniform distance)")
+    dist = 30
+    dist_matrix = np.ones((10,10)) * dist
+    logger.info("TEST CASE: using scalar multiple of ones matrix (module watts model with uniform distance)")
     
     # Create D_ba
     D_ba = dist_matrix[0:islet_name.num_alphas, islet_name.num_alphas:islet_name.num_alphas+islet_name.num_betas]
@@ -186,7 +187,7 @@ def visualize_parameter(cell_rec_dict: dict, vars: list, plot_path: str):
         
         # Set time list if variables have been periodically dumped
         if DUMP:
-            Time = [x*0.25 for x in range(len(cell_rec_dict[f"{MECHANISM}_{var}"]))]
+            Time = [x*STEP_SIZE for x in range(len(cell_rec_dict[f"{MECHANISM}_{var}"]))]
             parameter = cell_rec_dict[f"{MECHANISM}_{var}"]
 
         # When not dumping variable            
@@ -215,13 +216,13 @@ def plot_parameters(cell_rec_dict: dict, vars: list, plot_path: str):
     # Initialize time
     Time = None if DUMP else cell_rec_dict['Time']
     
-    fig, axes = plt.subplots(nrows = 3, sharex = True)
-    fig.suptitle(f"{' '.join(vars)}")
+    fig, axes = plt.subplots(nrows = len(vars), sharex = True)
+    fig.suptitle(f"{' '.join(vars)} vs Time")
     for idx, var in enumerate(vars):
         
         # Set time list if variables have been periodically dumped
         if DUMP:
-            Time = [x*0.25 for x in range(len(cell_rec_dict[f"{MECHANISM}_{var}"]))]
+            Time = [x*STEP_SIZE for x in range(len(cell_rec_dict[f"{MECHANISM}_{var}"]))]
             axes[idx].plot(Time, cell_rec_dict[f"{MECHANISM}_{var}"])
         
         # Use 0 index when not dumping variable
@@ -229,7 +230,7 @@ def plot_parameters(cell_rec_dict: dict, vars: list, plot_path: str):
             axes[idx].plot(Time, cell_rec_dict[f"{MECHANISM}_{var}"][0])
         
         
-        axes[0].set_ylabel(f"{var}")
+        axes[idx].set_ylabel(f"{var}")
 
     # Save plot
     fig.savefig(f"{plot_path}.png")
@@ -329,3 +330,154 @@ def modulate_glucose(cells: dict, simulation_idx: int):
                 logger.info(f"Restored {modulation} from {old_value} to {GLUCOSE_MODULATION['temporary'][type][modulation]}")
                 
     logger.info("Completed modulation")
+
+"""Spike counter/evaluation"""
+
+def determine_metrics(cell_rec_dict: dict, plot_dict: dict, vars: list):
+    """
+    Function to calculate spike frequencies and average height an minimum for the peaks for membrane potential 
+    With a timestep of 0.025 ms there are 40 steps per ms, I want to only show stats for last 2000 ms (2 seconds) of simulation
+
+    Args:
+        cell_rec_dict (dict): dictionary indexed by variable name containing h.Vector() objects containing recorded variable values.
+        plot_dict (dict): dictionary holding keys to transform to table
+        vars (list): variables to plot.
+    """
+    logger.debug("Determining metrics")
+
+    for var in vars:
+        
+        # Recording dictionary indexed differently depending on whether dumping was implemented
+        param = f"{MECHANISM}_{var}"
+        if DUMP:
+            param = cell_rec_dict[param]
+        else:
+            param = cell_rec_dict[param][0]
+        
+        # Find indices where spikes occur and at what value (heights)
+        peaks, props = find_peaks(param, height = [min(param), max(param)])
+        
+        # To find the minimum points of peaks, multiply negative one to all values in the parameter vector
+        # and then find peaks
+        neg_param = [item * -1 for item in param]
+        peaks_min, props_min = find_peaks(neg_param, height = [min(neg_param), max(neg_param)])
+        
+        
+        # Add metrics to plotting dict
+        plot_dict['Total Spikes'].append(len(peaks))
+        plot_dict['Spike Frequency'].append(len(peaks)/2)
+        plot_dict['Max Value'].append(max(peaks))
+        plot_dict['Min Value'].append(min(peaks))
+        plot_dict['Avg. Spike Max'].append(np.mean(peaks))
+        plot_dict['Avg. Spike Min'].append(-np.mean(peaks_min))
+    
+    logger.debug("Metrics calculated")
+
+
+def find_min_max_of_spikes(cell_rec_dict: dict, plot_dict: dict, vars: list):
+    """
+    Function to determine the in and maxes of recorded spikes.
+
+    Args:
+        cell_rec_dict (dict): dictionary indexed by variable name containing h.Vector() objects containing recorded variable values.
+        plot_dict (dict): dictionary holding keys to transform to table
+        vars (list): variables to plot.
+    """
+    logger.debug("Determining")
+    
+    steps_per_ms = int(1/STEP_SIZE)
+    total_steps = int(SIMULATION_TIME/STEP_SIZE)
+    steps_in_last_2_secs = int(steps_per_ms * 2000)
+    min_value = []
+    avg_spike_min = []
+    max_value = []
+    avg_spike_max = []
+    Voltage_B = cell_rec_dict['one_vb'][0]
+    Calcium_B = cell_rec_dict['one_c'][0]
+    Insulin = cell_rec_dict['one_I'][0]
+    Voltage_D = cell_rec_dict['one_vd'][0]
+    Calcium_D = cell_rec_dict['one_cd'][0]
+    Sst = cell_rec_dict['one_S'][0]
+    Voltage_A = cell_rec_dict['one_va'][0]
+    Calcium_A = cell_rec_dict['one_ca'][0]
+    Glucagon = cell_rec_dict['one_G'][0]
+    params = [Voltage_B, Calcium_B, Insulin, Voltage_D, Calcium_D, Sst, Voltage_A, Calcium_A, Glucagon]
+    
+    # Restrict data to only the last 2000 ms to allow simulation to stabilize
+    params = [list(param)[(total_steps - steps_in_last_2_secs):] for param in params]
+    
+    for param in params:
+        # Find indices where spikes occur and at what value (heights)
+        peaks_max, props_max = find_peaks(param, height = [min(param), max(param)])
+        # To find the minimum points of peaks, multiply negative one to all values in the parameter vector
+        # and then find peaks
+        neg_param = [item * -1 for item in param]
+        peaks_min, props_min = find_peaks(neg_param, height = [min(neg_param), max(neg_param)])
+        # Find frequency of spikes in last two seconds
+        max_value.append(max(param))
+        avg_spike_max.append(np.mean(props_max["peak_heights"]))
+        min_value.append(min(param))
+        avg_spike_min.append(-np.mean(props_min["peak_heights"]))
+    return max_value, avg_spike_max, min_value, avg_spike_min
+
+
+def create_metrics_table(cell_rec_dict: dict, vars: list, plot_path: str):
+    """
+    Function to create metrics table with spike statistics.
+
+    Args:
+        cell_rec_dict (dict): dictionary indexed by variable name containing h.Vector() objects containing recorded variable values.
+        vars (list): variables to plot.
+        plot_path (str): path to which plot will be saved.ß
+    """
+    logger.debug("Generating metrics table")
+    
+    # Variables to plot (in table format)
+    plot_dict = {
+        "Parameters": [], 
+        "Total Spikes": [], 
+        "Spike Frequency": [], 
+        "Max Value": [], 
+        "Avg. Spike Max": [], 
+        "Min Value": [], 
+        "Avg. Spike Min": []
+    }
+    
+    # Add vars to plotting dict
+    for var in vars:
+        plot_dict['Parameters'].append(var)
+    
+    # Determine metrics
+    determine_metrics(cell_rec_dict, plot_dict, vars)
+    
+    # Round values
+    for key, values in plot_dict.items():
+        if key != 'Parameters':
+            rounded_values = []
+            for value in values:
+                rounded_values.append(
+                    round(value, ROUND)
+                )
+            plot_dict[key] = rounded_values
+
+    # Convert to pandas dataframe
+    df = pd.DataFrame(plot_dict)
+    
+    # Define figure and axes
+    fig, ax = plt.subplots()
+    
+    # Hide the axes
+    fig.patch.set_visible(False)
+    ax.axis('off')
+    ax.axis('tight')
+    
+    # Create table
+    table = ax.table(cellText=df.values, colLabels=df.columns, loc='center')
+    table.auto_set_font_size(False)
+    table.set_fontsize(7)
+    table.scale(1.25, 1.0)
+
+    # Save table
+    fig.savefig(f"{plot_path}_metrics.png", dpi = 300)
+    
+    logger.debug("Metrics table generated")

@@ -137,3 +137,9 @@ for cell in test_islet.cell_rec:
         cell_plot_path.format(output_folder=OUTPUT_FOLDER, cell_id=cell)
     )
     
+    # Create metrics table
+    create_metrics_table(
+        test_islet.cell_rec[cell], 
+        VARIABLES_TO_PLOT[cell[0]], 
+        cell_plot_path.format(output_folder=OUTPUT_FOLDER, cell_id=cell)
+    )
