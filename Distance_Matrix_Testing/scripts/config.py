@@ -11,17 +11,17 @@ SEGMENT_SIZE = 10
 MECHANISM = "one"
 
 # Folder to write plots to (path will be ./Plots/<OUTPUT FOLDER>/)
-OUTPUT_FOLDER = "Replicate_0mM"
+OUTPUT_FOLDER = "11mM_0D"
 
 # Plot time series for the following variables for each cell
 VARIABLES_TO_PLOT = {
-    "A": ["va", "ca", "G"],
+    "A": ["va", "G", "ksercaa"],
     "B": ["vb", "c", "I"],
     "D": ["vd", "cd", "S"]
 }
 
 # Time of simulation in ms
-SIMULATION_TIME = 10000
+SIMULATION_TIME = 100
 
 # Interval over which variables will be dumped/logs will print
 SIMULATION_UPDATE = 4000
@@ -33,13 +33,13 @@ ISLET_ID = "one_islet"
 ISLET_RADIUS = 1
 
 # Temporary csv to write recording dictionary (cell_rec) to if DUMP is True
-TEMP_CSV = '.temp_replicate.csv'
+TEMP_CSV = '.temp_glucose=11mM_distance=0.csv'
 
 # Determines whether or not the recording dictionary (cell_rec) will be dumped perioidically
 DUMP = True
 
 # Define logging level
-LEVEL = "INFO"
+LEVEL = "DEBUG"
 
 
 # Time points at which glucose level will be modulated and the variables to modify
@@ -76,6 +76,6 @@ modulation_11_mM = {
         }
 }
 GLUCOSE_MODULATION = {
-    "interval": [-1, -1],
-    "modulations": modulation_7_mM
+    "interval": [0, -1],
+    "modulations": modulation_11_mM
 }

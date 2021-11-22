@@ -4,6 +4,7 @@ import logging
 # Setup logging
 logger = logging.getLogger(__name__)
 
+import copy
 import math
 import os
 
@@ -61,7 +62,7 @@ def create_dist_matrices(islet_name: str):
     logger.info("TEST CASE: using zero matrix (reproduce watts model)")
     
     # TEST: use ones matrix to modify watts model via increasing distances between cells (all cells will be the same distance apart in this case)
-    # dist = 100
+    # dist = 10
     # dist_matrix = np.ones((10,10)) * dist
     # logger.info("TEST CASE: using scalar multiple of ones matrix (module watts model with uniform distance)")
     
@@ -297,22 +298,19 @@ def modulate_glucose(cells: dict, simulation_idx: int):
     if start:
         
         # Store old values in 'temporary' key of dictionary (will overwrite values in copy of 'modulations')
-        GLUCOSE_MODULATION['temporary'] = GLUCOSE_MODULATION['modulations'].copy()
+        GLUCOSE_MODULATION['temporary'] = copy.deepcopy(GLUCOSE_MODULATION['modulations'])
         
         for cell in cells:
             type = cell[0]
             for modulation in GLUCOSE_MODULATION['modulations'][type]:
-                mechanism = getattr(cells[cell](0.5), MECHANISM)
-                var = getattr(mechanism, modulation)
-                logging.debug(var)
                 
                 # Save old value
-                GLUCOSE_MODULATION['temporary'][type][modulation] = var
+                GLUCOSE_MODULATION['temporary'][type][modulation] = getattr(cells[cell](0.5), f"{modulation}_{MECHANISM}")
                 
                 # Write new value
-                var = GLUCOSE_MODULATION['modulations'][type][modulation]
+                setattr(cells[cell](0.5), f"{modulation}_{MECHANISM}", GLUCOSE_MODULATION['modulations'][type][modulation])
                 
-                logging.info(f"Changed {modulation} from {GLUCOSE_MODULATION['temporary'][type]} to {var}")
+                logger.info(f"Changed {modulation} from {GLUCOSE_MODULATION['temporary'][type][modulation]} to {GLUCOSE_MODULATION['modulations'][type][modulation]}")
     
     
     # If the simulation index is the end of the modulation interval:
@@ -321,15 +319,13 @@ def modulate_glucose(cells: dict, simulation_idx: int):
         for cell in cells:
             type = cell[0]
             for modulation in GLUCOSE_MODULATION['temporary'][type]:
-                mechanism = getattr(cells[cell](0.5), MECHANISM)
-                var = getattr(mechanism, modulation)
-                logging.debug(var)
                 
                 # Store old value for logging
-                old_value = var
+                old_value = getattr(cells[cell](0.5), f"{modulation}_{MECHANISM}")
                 
-                var = GLUCOSE_MODULATION['temporary'][type][modulation]
+                # Restore value
+                setattr(cells[cell](0.5), f"{modulation}_{MECHANISM}",  GLUCOSE_MODULATION['temporary'][type][modulation])
                 
-                logging.info(f"Restored {modulation} from {old_value} to {var}")
+                logger.info(f"Restored {modulation} from {old_value} to {GLUCOSE_MODULATION['temporary'][type][modulation]}")
                 
-    logging.info("Completed modulation")
+    logger.info("Completed modulation")
