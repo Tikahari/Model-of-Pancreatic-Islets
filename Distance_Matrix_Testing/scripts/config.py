@@ -10,8 +10,14 @@ SEGMENT_SIZE = 10
 # Suffix of mechanism in mod file
 MECHANISM = "one"
 
+# Glucose concentration
+GLUCOSE = 0
+
+# Distance between cells
+DISTANCE = 0
+
 # Folder to write plots to (path will be ./Plots/<OUTPUT FOLDER>/)
-OUTPUT_FOLDER = "11mM_30D"
+OUTPUT_FOLDER = f"{GLUCOSE}mM_{DISTANCE}D"
 
 # Number of digits to round to spike table output
 ROUND = 4
@@ -24,7 +30,7 @@ VARIABLES_TO_PLOT = {
 }
 
 # Time of simulation in ms
-SIMULATION_TIME = 100
+SIMULATION_TIME = 3000
 
 # Step size for simulation
 STEP_SIZE = 0.025
@@ -39,7 +45,7 @@ ISLET_ID = "one_islet"
 ISLET_RADIUS = 1
 
 # Temporary csv to write recording dictionary (cell_rec) to if DUMP is True
-TEMP_CSV = '.temp_glucose=11mM_distance=30.csv'
+TEMP_CSV = f".temp_glucose={GLUCOSE}mM_distance={DISTANCE}.csv"
 
 # Determines whether or not the recording dictionary (cell_rec) will be dumped perioidically
 DUMP = True
@@ -81,7 +87,15 @@ modulation_11_mM = {
             "gkatpbard": 0.18
         }
 }
+# Select glucose modulation/interval
+interval = [0, -1]
+if GLUCOSE == 7:
+    modulation = modulation_7_mM
+elif GLUCOSE == 1:
+    modulation = modulation_11_mM
+else:
+    interval = [-1, -1]
 GLUCOSE_MODULATION = {
-    "interval": [0, -1],
-    "modulations": modulation_11_mM
+    "interval": interval,
+    "modulations": modulation
 }
