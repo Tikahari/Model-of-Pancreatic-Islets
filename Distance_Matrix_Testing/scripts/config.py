@@ -89,6 +89,7 @@ modulation_11_mM = {
 }
 # Select glucose modulation/interval
 interval = [0, -1]
+modulation = None
 if GLUCOSE == 7:
     modulation = modulation_7_mM
 elif GLUCOSE == 1:
