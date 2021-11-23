@@ -153,7 +153,7 @@ class Config():
         self.OUTPUT_FOLDER = f"{self.GLUCOSE}mM_{self.DISTANCE}D"
         
         # File to load data from (should be set in meta.py or simulate.py)
-        self.LOAD = f"stabilized_{self.GLUCOSE}mM_{self.DISTANCE}_.csv"
+        self.LOAD = f"stabilized_glucose={self.GLUCOSE}mM_distance={self.DISTANCE}.csv"
         
         # Time points at which glucose level will be modulated and the variables to modify
         # 7mm glucose changes
