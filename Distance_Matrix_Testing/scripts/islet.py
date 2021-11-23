@@ -63,6 +63,7 @@ class Islet:
         
         logger.debug("Islet created")
 
+
     def spatial_setup(self):
         """Setup each cell according to parameters passed to constructor with an appropriate spatial orientation."""
         logger.debug("Setting up potential coordinates for cells")
@@ -97,6 +98,7 @@ class Islet:
                     
         logger.debug("Potential coordinates for islet setup")
 
+
     def populate_cells(self):
         """Create cell dictionary containing all the sections in the islet.""" 
         logger.debug("Populating cells")
@@ -118,6 +120,7 @@ class Islet:
             self.cells[cell].insert(self.mechanism)
             
         logger.debug("Cells populated")
+
 
     def set_cell_locations(self):
         """
@@ -184,6 +187,7 @@ class Islet:
 
         logger.debug("Recording dictionary setup")
         
+        
     def reset_values(self):
         """Update record variables to decrease memory usage"""
         logger.debug("Reseting values")
@@ -197,6 +201,7 @@ class Islet:
                 logger.debug(f"Reset {var}")
                         
         logger.debug("Values reset")
+    
     
     def __repr__(self):
         """String representation for debugging."""

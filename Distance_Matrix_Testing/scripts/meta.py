@@ -3,7 +3,7 @@
 # Configurations to modify/run
 CONFIGURATIONS = {
     "runs": [
-        {"GLUCOSE": 0, "DISTANCE": 0, "SIMULATION_TIME": 10000, "LEVEL": "DEBUG"},
+        {"GLUCOSE": 0, "DISTANCE": 0, "SIMULATION_TIME": 10000},
         {"GLUCOSE": 0, "DISTANCE": 10, "SIMULATION_TIME": 10000},
         {"GLUCOSE": 0, "DISTANCE": 20, "SIMULATION_TIME": 10000},
         {"GLUCOSE": 0, "DISTANCE": 50, "SIMULATION_TIME": 10000},
