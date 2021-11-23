@@ -10,11 +10,14 @@ import pandas as pd
 from matplotlib import pyplot as plt
 from scipy.signal import find_peaks
 
-from config import *
+from config import Config
 from islet import Islet
 
+# Configuration variable for each simulation
+CONFIG = None
+
 # Setup logging
-logger = logging.getLogger(f"{__name__}_{SIMULATION_ID}")
+LOGGER = None
 
 def create_dist_matrices(islet_name: str):
     """
@@ -43,30 +46,31 @@ def create_dist_matrices(islet_name: str):
     Returns:
         (dict): dictionary indexed by id of matrix to be returned (contains total dist_matrix and all subsets used in calculations).
     """
-    logger.debug("Setting up distance matrix")
+    LOGGER.debug("Setting up distance matrix")
     
     # Create a numpy array containing the distance between each cell
-    dist_matrix = np.array([1/math.dist((location_1['x'], location_1['y'], location_1['z']), (location_2['x'], location_2['y'], location_2['z'])) if math.dist((location_1['x'], location_1['y'], location_1['z']), (location_2['x'], location_2['y'], location_2['z'])) != 0 else 0 for location_1 in islet_name.locations for location_2 in islet_name.locations])
-    
-    # Reshape the array to be nxn where each row corresponds to a single cell and the 
-    # distances between itself and all other cells
-    dist_matrix = np.reshape(dist_matrix, (islet_name.num_cells, islet_name.num_cells))
+    if not CONFIG.DISTANCE:
+        dist_matrix = np.array([1/math.dist((location_1['x'], location_1['y'], location_1['z']), (location_2['x'], location_2['y'], location_2['z'])) if math.dist((location_1['x'], location_1['y'], location_1['z']), (location_2['x'], location_2['y'], location_2['z'])) != 0 else 0 for location_1 in islet_name.locations for location_2 in islet_name.locations])
+        
+        # Reshape the array to be nxn where each row corresponds to a single cell and the 
+        # distances between itself and all other cells
+        dist_matrix = np.reshape(dist_matrix, (islet_name.num_cells, islet_name.num_cells))
     
     # TEST: use ordered list to test logic used to create the subsets below
     # dist_matrix = np.arange(100)
     # dist_matrix.shape = (10,10)
-    # logger.info("TEST CASE: using sorted list (np.arrange)")
+    # LOGGER.info("TEST CASE: using sorted list (np.arrange)")
     
     # TEST: use zero matrix to reproduce watts model
-    if DISTANCE == 0:
+    elif CONFIG.DISTANCE == 0:
         dist_matrix = np.zeros((10,10))
-        logger.info("TEST CASE: using zero matrix (reproduce watts model)")
+        LOGGER.info("TEST CASE: using zero matrix (reproduce watts model)")
         
     # TEST: use ones matrix to modify watts model via increasing distances between cells (all cells will be the same distance apart in this case)
     else:
-        dist = DISTANCE
+        dist = CONFIG.DISTANCE
         dist_matrix = np.ones((10,10)) * dist
-        logger.info("TEST CASE: using scalar multiple of ones matrix (module watts model with uniform distance)")
+        LOGGER.info("TEST CASE: using scalar multiple of ones matrix (module watts model with uniform distance)")
         
     # Create D_ba
     D_ba = dist_matrix[0:islet_name.num_alphas, islet_name.num_alphas:islet_name.num_alphas+islet_name.num_betas]
@@ -101,7 +105,7 @@ def calculate_secretion_rate_matrix(islet_name: str, matrices: dict):
         islet_name (str): islet id.
         matrices (dict): dictionary indexed by id of matrix to be returned (contains total dist_matrix and all subsets used in calculations).
     """
-    # logger.debug("Calculate secretion rate matrix")
+    # LOGGER.debug("Calculate secretion rate matrix")
     
     # Create list of cell names by accessing keys in cell
     # dictionary
@@ -121,12 +125,12 @@ def calculate_secretion_rate_matrix(islet_name: str, matrices: dict):
         if "D" in cell:
             JSS_col_matrix.append(islet_name.cells[cell](0.5).one.JSS)
     
-    # logger.debug("insulin from beta cell")
-    # logger.debug(JIS_col_matrix)
-    # logger.debug("glucagon from alpha cell")
-    # logger.debug(JGS_col_matrix)
-    # logger.debug("somatostatin from delta cell")
-    # logger.debug(JSS_col_matrix)
+    # LOGGER.debug("insulin from beta cell")
+    # LOGGER.debug(JIS_col_matrix)
+    # LOGGER.debug("glucagon from alpha cell")
+    # LOGGER.debug(JGS_col_matrix)
+    # LOGGER.debug("somatostatin from delta cell")
+    # LOGGER.debug(JSS_col_matrix)
     # input()
     
     # Calculate new secretion rates
@@ -137,15 +141,15 @@ def calculate_secretion_rate_matrix(islet_name: str, matrices: dict):
     JSS_col_a = list(np.matmul(matrices["delta_affecting_alpha"], JSS_col_matrix))
     JSS_col_b = list(np.matmul(matrices["delta_affecting_beta"], JSS_col_matrix))
     
-    # logger.debug("insulin")
-    # logger.debug(JIS_col_a)
-    # logger.debug(JIS_col_d)
-    # logger.debug("glucagon")
-    # logger.debug(JGS_col_d)
-    # logger.debug(JGS_col_b)
-    # logger.debug("somatostatin")
-    # logger.debug(JSS_col_a)
-    # logger.debug(JSS_col_b)
+    # LOGGER.debug("insulin")
+    # LOGGER.debug(JIS_col_a)
+    # LOGGER.debug(JIS_col_d)
+    # LOGGER.debug("glucagon")
+    # LOGGER.debug(JGS_col_d)
+    # LOGGER.debug(JGS_col_b)
+    # LOGGER.debug("somatostatin")
+    # LOGGER.debug(JSS_col_a)
+    # LOGGER.debug(JSS_col_b)
     # input()
     
     # Set secretion rates
@@ -155,19 +159,19 @@ def calculate_secretion_rate_matrix(islet_name: str, matrices: dict):
             JIS_col_a.pop(0)
             islet_name.cells[cell](0.5).one.JSS = JSS_col_a[0] + islet_name.cells[cell](0.5).one.JSS
             JSS_col_a.pop(0)
-            # logger.debug(f"{cell} "set JSS {islet_name.cells[cell](0.5).one.JSS} JIS {islet_name.cells[cell](0.5).one.JIS}")
+            # LOGGER.debug(f"{cell} "set JSS {islet_name.cells[cell](0.5).one.JSS} JIS {islet_name.cells[cell](0.5).one.JIS}")
         elif "B" in cell:
             islet_name.cells[cell](0.5).one.JGS = JGS_col_b[0] + islet_name.cells[cell](0.5).one.JGS
             JGS_col_b.pop(0)
             islet_name.cells[cell](0.5).one.JSS = JSS_col_b[0] + islet_name.cells[cell](0.5).one.JSS
             JSS_col_b.pop(0)
-            # logger.debug(f"{cell} set JGS {islet_name.cells[cell](0.5).one.JGS} JSS {islet_name.cells[cell](0.5).one.JSS}")
+            # LOGGER.debug(f"{cell} set JGS {islet_name.cells[cell](0.5).one.JGS} JSS {islet_name.cells[cell](0.5).one.JSS}")
         elif "D" in cell:
             islet_name.cells[cell](0.5).one.JIS = JIS_col_d[0] + islet_name.cells[cell](0.5).one.JIS
             JIS_col_d.pop(0)
             islet_name.cells[cell](0.5).one.JGS = JGS_col_d[0] + islet_name.cells[cell](0.5).one.JGS
             JGS_col_d.pop(0)
-            # logger.debug(f"{cell} set JIS {islet_name.cells[cell](0.5).one.JIS} JGS {islet_name.cells[cell](0.5).one.JGS}")
+            # LOGGER.debug(f"{cell} set JIS {islet_name.cells[cell](0.5).one.JIS} JGS {islet_name.cells[cell](0.5).one.JGS}")
         
 
 def visualize_parameter(cell_rec_dict: dict, vars: list, plot_path: str):
@@ -179,17 +183,17 @@ def visualize_parameter(cell_rec_dict: dict, vars: list, plot_path: str):
         vars (list): variables to plot.
         plot_path (str): path to which plot will be saved.
     """
-    logger.debug("Visualizing parameter")
+    LOGGER.debug("Visualizing parameter")
     
     # Initialize time
-    Time = None if DUMP else cell_rec_dict['Time']
+    Time = None if CONFIG.DUMP else cell_rec_dict['Time']
     
     for var in vars:
         
         # Set time list if variables have been periodically dumped
-        if DUMP:
-            Time = [x*STEP_SIZE for x in range(len(cell_rec_dict[f"{MECHANISM}_{var}"]))]
-            parameter = cell_rec_dict[f"{MECHANISM}_{var}"]
+        if CONFIG.DUMP:
+            Time = [x*CONFIG.STEP_SIZE for x in range(len(cell_rec_dict[f"{CONFIG.MECHANISM}_{var}"]))]
+            parameter = cell_rec_dict[f"{CONFIG.MECHANISM}_{var}"]
 
         # When not dumping variable            
         else:   
@@ -212,23 +216,23 @@ def plot_parameters(cell_rec_dict: dict, vars: list, plot_path: str):
         vars (list): variables to plot.
         plot_path (str): path to which plot will be saved.
     """
-    logger.debug("Plotting...")
+    LOGGER.debug("Plotting...")
     
     # Initialize time
-    Time = None if DUMP else cell_rec_dict['Time']
+    Time = None if CONFIG.DUMP else cell_rec_dict['Time']
     
     fig, axes = plt.subplots(nrows = len(vars), sharex = True)
     fig.suptitle(f"{' '.join(vars)} vs Time")
     for idx, var in enumerate(vars):
         
         # Set time list if variables have been periodically dumped
-        if DUMP:
-            Time = [x*STEP_SIZE for x in range(len(cell_rec_dict[f"{MECHANISM}_{var}"]))]
-            axes[idx].plot(Time, cell_rec_dict[f"{MECHANISM}_{var}"])
+        if CONFIG.DUMP:
+            Time = [x*CONFIG.STEP_SIZE for x in range(len(cell_rec_dict[f"{CONFIG.MECHANISM}_{var}"]))]
+            axes[idx].plot(Time, cell_rec_dict[f"{CONFIG.MECHANISM}_{var}"])
         
         # Use 0 index when not dumping variable
         else:
-            axes[idx].plot(Time, cell_rec_dict[f"{MECHANISM}_{var}"][0])
+            axes[idx].plot(Time, cell_rec_dict[f"{CONFIG.MECHANISM}_{var}"][0])
         
         
         axes[idx].set_ylabel(f"{var}")
@@ -236,7 +240,7 @@ def plot_parameters(cell_rec_dict: dict, vars: list, plot_path: str):
     # Save plot
     fig.savefig(f"{plot_path}.png")
     
-    logger.debug(f"Completed plot")
+    LOGGER.debug(f"Completed plot")
 
 
 def dump_variables(islet: Islet, temporary_path: str, step: int, last: bool = False):
@@ -249,7 +253,7 @@ def dump_variables(islet: Islet, temporary_path: str, step: int, last: bool = Fa
         step (int): step number in simulation.
         last (bool): boolean set to True only when dump_variables is called outside of the main simulation loop.
     """
-    logger.debug("Dumping variables..")
+    LOGGER.debug("Dumping variables..")
     # Create pandas dataframe using dictionary of recorded values.
     final_dict = dict()
     for cell in islet.cell_rec:
@@ -262,24 +266,24 @@ def dump_variables(islet: Islet, temporary_path: str, step: int, last: bool = Fa
             
     # Create and write pandas dataframe
     df = pd.DataFrame({key: pd.Series(value) for key, value in final_dict.items()})
-    logger.debug(f"Dataframe size: {str(df.size)}")
+    LOGGER.debug(f"Dataframe size: {str(df.size)}")
     # input()
     if step == 0:
         
         # Remove the file if it exists
-        logger.debug("Replacing temporary file..")
+        LOGGER.debug("Replacing temporary file..")
         os.system(f"rm {temporary_path}")
         df.to_csv(temporary_path, index=False)
     else:
-        logger.debug("Appending to temporary file..")
+        LOGGER.debug("Appending to temporary file..")
         with open(temporary_path, 'a') as temporary_file:
             df.to_csv(temporary_file, index=False, header=False)
-        logger.debug("Appended to temporary csv")
+        LOGGER.debug("Appended to temporary csv")
         
         # Reset variables each time other than last
         if not last:
             islet.reset_values()
-            logger.debug("Reset variables")
+            LOGGER.debug("Reset variables")
 
 
 def modulate_glucose(cells: dict, simulation_idx: int, GLUCOSE_MODULATION: str):
@@ -290,7 +294,7 @@ def modulate_glucose(cells: dict, simulation_idx: int, GLUCOSE_MODULATION: str):
         cells (dict): dictionary of with values being hoc section objects.
         simulation_idx (int): simulation index.
     """
-    logger.info(f"Modulating glucose at {simulation_idx}")
+    LOGGER.info(f"Modulating glucose at {simulation_idx}")
     
     # Determine whether modulation is beggining or ending
     start = True if simulation_idx == GLUCOSE_MODULATION['interval'][0] else False
@@ -306,12 +310,12 @@ def modulate_glucose(cells: dict, simulation_idx: int, GLUCOSE_MODULATION: str):
             for modulation in GLUCOSE_MODULATION['modulations'][type]:
                 
                 # Save old value
-                GLUCOSE_MODULATION['temporary'][type][modulation] = getattr(cells[cell](0.5), f"{modulation}_{MECHANISM}")
+                GLUCOSE_MODULATION['temporary'][type][modulation] = getattr(cells[cell](0.5), f"{modulation}_{CONFIG.MECHANISM}")
                 
                 # Write new value
-                setattr(cells[cell](0.5), f"{modulation}_{MECHANISM}", GLUCOSE_MODULATION['modulations'][type][modulation])
+                setattr(cells[cell](0.5), f"{modulation}_{CONFIG.MECHANISM}", GLUCOSE_MODULATION['modulations'][type][modulation])
                 
-                logger.info(f"Changed {modulation} from {GLUCOSE_MODULATION['temporary'][type][modulation]} to {GLUCOSE_MODULATION['modulations'][type][modulation]}")
+                LOGGER.info(f"Changed {modulation} from {GLUCOSE_MODULATION['temporary'][type][modulation]} to {GLUCOSE_MODULATION['modulations'][type][modulation]}")
     
     
     # If the simulation index is the end of the modulation interval:
@@ -322,14 +326,14 @@ def modulate_glucose(cells: dict, simulation_idx: int, GLUCOSE_MODULATION: str):
             for modulation in GLUCOSE_MODULATION['temporary'][type]:
                 
                 # Store old value for logging
-                old_value = getattr(cells[cell](0.5), f"{modulation}_{MECHANISM}")
+                old_value = getattr(cells[cell](0.5), f"{modulation}_{CONFIG.MECHANISM}")
                 
                 # Restore value
-                setattr(cells[cell](0.5), f"{modulation}_{MECHANISM}",  GLUCOSE_MODULATION['temporary'][type][modulation])
+                setattr(cells[cell](0.5), f"{modulation}_{CONFIG.MECHANISM}",  GLUCOSE_MODULATION['temporary'][type][modulation])
                 
-                logger.info(f"Restored {modulation} from {old_value} to {GLUCOSE_MODULATION['temporary'][type][modulation]}")
+                LOGGER.info(f"Restored {modulation} from {old_value} to {GLUCOSE_MODULATION['temporary'][type][modulation]}")
                 
-    logger.info("Completed modulation")
+    LOGGER.info("Completed modulation")
 
 """Spike counter/evaluation"""
 
@@ -343,13 +347,13 @@ def determine_metrics(cell_rec_dict: dict, plot_dict: dict, vars: list):
         plot_dict (dict): dictionary holding keys to transform to table
         vars (list): variables to plot.
     """
-    logger.debug("Determining metrics")
+    LOGGER.debug("Determining metrics")
 
     for var in vars:
         
         # Recording dictionary indexed differently depending on whether dumping was implemented
-        param = f"{MECHANISM}_{var}"
-        if DUMP:
+        param = f"{CONFIG.MECHANISM}_{var}"
+        if CONFIG.DUMP:
             param = cell_rec_dict[param]
         else:
             param = cell_rec_dict[param][0]
@@ -371,7 +375,7 @@ def determine_metrics(cell_rec_dict: dict, plot_dict: dict, vars: list):
         plot_dict['Avg. Spike Max'].append(np.mean(peaks))
         plot_dict['Avg. Spike Min'].append(-np.mean(peaks_min))
     
-    logger.debug("Metrics calculated")
+    LOGGER.debug("Metrics calculated")
 
 
 def find_min_max_of_spikes(cell_rec_dict: dict, plot_dict: dict, vars: list):
@@ -383,10 +387,10 @@ def find_min_max_of_spikes(cell_rec_dict: dict, plot_dict: dict, vars: list):
         plot_dict (dict): dictionary holding keys to transform to table
         vars (list): variables to plot.
     """
-    logger.debug("Determining")
+    LOGGER.debug("Determining")
     
-    steps_per_ms = int(1/STEP_SIZE)
-    total_steps = int(SIMULATION_TIME/STEP_SIZE)
+    steps_per_ms = int(1/CONFIG.STEP_SIZE)
+    total_steps = int(CONFIG.SIMULATION_TIME/CONFIG.STEP_SIZE)
     steps_in_last_2_secs = int(steps_per_ms * 2000)
     min_value = []
     avg_spike_min = []
@@ -430,7 +434,7 @@ def create_metrics_table(cell_rec_dict: dict, vars: list, plot_path: str):
         vars (list): variables to plot.
         plot_path (str): path to which plot will be saved.ß
     """
-    logger.debug("Generating metrics table")
+    LOGGER.debug("Generating metrics table")
     
     # Variables to plot (in table format)
     plot_dict = {
@@ -456,7 +460,7 @@ def create_metrics_table(cell_rec_dict: dict, vars: list, plot_path: str):
             rounded_values = []
             for value in values:
                 rounded_values.append(
-                    round(value, ROUND)
+                    round(value, CONFIG.ROUND)
                 )
             plot_dict[key] = rounded_values
 
@@ -480,4 +484,4 @@ def create_metrics_table(cell_rec_dict: dict, vars: list, plot_path: str):
     # Save table
     fig.savefig(f"{plot_path}_metrics.png", dpi = 300)
     
-    logger.debug("Metrics table generated")
+    LOGGER.debug("Metrics table generated")

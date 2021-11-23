@@ -34,33 +34,34 @@ CONFIGURATIONS = {
     ]
 }
 
-import config
 # Run simulate script with new values
-import simulate
+from config import Config
+from simulate import Simulate
 
 # Simulations can be run in parallel as separate processes
 processes = []
 
 for id, conf in enumerate(CONFIGURATIONS['runs']):
     
-    # Get all changed variables from config
+    # Store all changed variables from config in new instance
+    new_config = Config()
     for key, value in conf.items():
-        setattr(config, key, value)
+        setattr(new_config, key, value)
+        
+    # Set simulation id in config
+    setattr(new_config, "SIMULATION_ID", id)
 
-    calculated_variables = config.calculate_variables()
+    # Calculate values depended on those set in parameters above
+    new_config.calculate_variables()
     
-    # Store all new configuration variables
-    new_configuration = {**conf, **calculated_variables}
-    logging.info(f"New configuration: {json.dumps(new_configuration, indent=4)}")
+    logging.info(f"New configuration for {id}: {json.dumps(vars(new_config), indent=4)}")
 
-    # Set new configuration in simulation
-    for key, value in new_configuration.items():
-        setattr(simulate, key, value)
-        setattr(simulate, "SIMULATION_ID", id)
+    # Set new configuration in simulation instance (unique to each run)
+    simulation = Simulate(new_config)
         
     # Create processes 
     logging.info(f"Starting simulation {id}")
-    process = mp.Process(target=simulate.main)
+    process = mp.Process(target=simulation.main)
     processes.append(process)
     process.start()
     

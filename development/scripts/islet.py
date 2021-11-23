@@ -7,10 +7,13 @@ import re
 import numpy as np
 from neuron import h
 
-from config import *
+from config import Config
+
+# Configuration variable for each simulation
+CONFIG = None
 
 # Setup logging
-logger = logging.getLogger(f"{__name__}_{SIMULATION_ID}")
+LOGGER = None
 
 class Islet:
     def __init__(self, id: str, mechanism: str, islet_radius: int, simulation_update: int, cells: dict = None):
@@ -24,7 +27,7 @@ class Islet:
             simulation_update (int): interval over which reset_values() will be called.
             cells (dict, optional): conditional dict (determines how many cells/probabilities/etc. See current example in simulate.ppy). Defaults to None.
         """
-        logger.debug("Creating islet")
+        LOGGER.debug("Creating islet")
         
         # Set object variables from constructor parameters
         self._id = id
@@ -60,15 +63,15 @@ class Islet:
         # Dict to store values to record
         self.cell_rec = dict()
         
-        logger.debug("Islet created")
+        LOGGER.debug("Islet created")
 
 
     def spatial_setup(self):
         """Setup each cell according to parameters passed to constructor with an appropriate spatial orientation."""
-        logger.debug("Setting up potential coordinates for cells")
+        LOGGER.debug("Setting up potential coordinates for cells")
         
         # Number of segments to use
-        nx, ny, nz = (SEGMENT_SIZE, SEGMENT_SIZE, SEGMENT_SIZE)
+        nx, ny, nz = (CONFIG.SEGMENT_SIZE, CONFIG.SEGMENT_SIZE, CONFIG.SEGMENT_SIZE)
         
         # The below statements take a line from -radius to radius and chops it up into n segments
         x_coords = np.linspace(-self.islet_radius, self.islet_radius, nx)
@@ -95,12 +98,12 @@ class Islet:
                     self.locations.append({'x': x[0],'y': y[0], 'z': z[0]})
                     count+=1
                     
-        logger.debug("Potential coordinates for islet setup")
+        LOGGER.debug("Potential coordinates for islet setup")
 
 
     def populate_cells(self):
         """Create cell dictionary containing all the sections in the islet.""" 
-        logger.debug("Populating cells")
+        LOGGER.debug("Populating cells")
         
         # Dictionary to populate
         self.cells = {}
@@ -118,7 +121,7 @@ class Islet:
         for cell in self.cells:
             self.cells[cell].insert(self.mechanism)
             
-        logger.debug("Cells populated")
+        LOGGER.debug("Cells populated")
 
 
     def set_cell_locations(self):
@@ -126,7 +129,7 @@ class Islet:
         Separate the cells dictionary into lists for each cell type.
         This is accomplished by using the search criteria of if "A", "B", or "D" is in cell name.
         """
-        logger.debug("Assigning coordinates to cells")
+        LOGGER.debug("Assigning coordinates to cells")
         
         # Get sections for all cell types
         alpha_sections = [val for key, val in self.cells.items() if "A" in key]
@@ -135,37 +138,37 @@ class Islet:
         
         
         count = 0
-        logger.debug(f"Setting up:")
-        logger.debug(f"{self.num_alphas} alpha cells")
-        logger.debug(f"{self.num_betas} beta cells")
-        logger.debug(f"{self.num_deltas} delta cells")
+        LOGGER.debug(f"Setting up:")
+        LOGGER.debug(f"{self.num_alphas} alpha cells")
+        LOGGER.debug(f"{self.num_betas} beta cells")
+        LOGGER.debug(f"{self.num_deltas} delta cells")
         
         for cell_idx in range(self.num_cells):
             
             while count < self.num_alphas:
                 alpha_sections[cell_idx].pt3dclear()
-                alpha_sections[cell_idx].pt3dadd(self.locations[cell_idx]['x'], self.locations[cell_idx]['y'], self.locations[cell_idx]['z'], ALPHA_SIZE)
-                alpha_sections[cell_idx].pt3dadd(self.locations[cell_idx]['x'] + ALPHA_SIZE, self.locations[cell_idx]['y'], self.locations[cell_idx]['z'], ALPHA_SIZE)
+                alpha_sections[cell_idx].pt3dadd(self.locations[cell_idx]['x'], self.locations[cell_idx]['y'], self.locations[cell_idx]['z'], CONFIG.ALPHA_SIZE)
+                alpha_sections[cell_idx].pt3dadd(self.locations[cell_idx]['x'] + CONFIG.ALPHA_SIZE, self.locations[cell_idx]['y'], self.locations[cell_idx]['z'], CONFIG.ALPHA_SIZE)
                 count+=1
             
             while self.num_alphas <= count < self.num_alphas + self.num_betas:
                 beta_sections[cell_idx].pt3dclear()
-                beta_sections[cell_idx].pt3dadd(self.locations[cell_idx]['x'], self.locations[cell_idx]['y'], self.locations[cell_idx]['z'], BETA_SIZE)
-                beta_sections[cell_idx].pt3dadd(self.locations[cell_idx]['x'] + BETA_SIZE, self.locations[cell_idx]['y'], self.locations[cell_idx]['z'], BETA_SIZE)
+                beta_sections[cell_idx].pt3dadd(self.locations[cell_idx]['x'], self.locations[cell_idx]['y'], self.locations[cell_idx]['z'], CONFIG.BETA_SIZE)
+                beta_sections[cell_idx].pt3dadd(self.locations[cell_idx]['x'] + CONFIG.BETA_SIZE, self.locations[cell_idx]['y'], self.locations[cell_idx]['z'], CONFIG.BETA_SIZE)
                 count+=1
             
             while self.num_alphas + self.num_betas <= count < self.num_cells:
                 delta_sections[cell_idx].pt3dclear()
-                delta_sections[cell_idx].pt3dadd(self.locations[cell_idx]['x'], self.locations[cell_idx]['y'], self.locations[cell_idx]['z'], DELTA_SIZE)
-                delta_sections[cell_idx].pt3dadd(self.locations[cell_idx]['x'] + DELTA_SIZE, self.locations[cell_idx]['y'], self.locations[cell_idx]['z'], DELTA_SIZE)   
+                delta_sections[cell_idx].pt3dadd(self.locations[cell_idx]['x'], self.locations[cell_idx]['y'], self.locations[cell_idx]['z'], CONFIG.DELTA_SIZE)
+                delta_sections[cell_idx].pt3dadd(self.locations[cell_idx]['x'] + CONFIG.DELTA_SIZE, self.locations[cell_idx]['y'], self.locations[cell_idx]['z'], CONFIG.DELTA_SIZE)   
                 count+=1    
 
-        logger.debug("Coordinates assigned to cells")
+        LOGGER.debug("Coordinates assigned to cells")
     
     
     def record_values(self):
         """Create dictionary that will store values of all variables of interest present in all mechanisms."""
-        logger.debug("Setting up recording dictionary")
+        LOGGER.debug("Setting up recording dictionary")
         
         # Get all density mechanisms and variables using NEURON defined 'psection()'
         for cell in self.cells:
@@ -184,12 +187,12 @@ class Islet:
                         mechRecord = getattr(k, '_ref_'+variable+'_'+mechanism)
                         self.cell_rec[cell][str(head + '_' + variable)].append(h.Vector().record(mechRecord))        
 
-        logger.debug("Recording dictionary setup")
+        LOGGER.debug("Recording dictionary setup")
         
         
     def reset_values(self):
         """Update record variables to decrease memory usage"""
-        logger.debug("Reseting values")
+        LOGGER.debug("Reseting values")
         for cell in self.cell_rec:
             for var in self.cell_rec[cell]:
                     
@@ -197,9 +200,9 @@ class Islet:
                 length_var = len(self.cell_rec[cell][var][0])
                 self.cell_rec[cell][var][0].remove(0, length_var-1)
                     
-                logger.debug(f"Reset {var}")
+                LOGGER.debug(f"Reset {var}")
                         
-        logger.debug("Values reset")
+        LOGGER.debug("Values reset")
     
     
     def __repr__(self):

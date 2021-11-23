@@ -1,194 +1,194 @@
-# Define global variables
+# Store global variables as members of class
 
-# Simulation id
-SIMULATION_ID = 0
+class Config():
+    def __init__(self):
+        # Simulation id
+        self.SIMULATION_ID = 0
 
-# Size of cells
-ALPHA_SIZE = DELTA_SIZE = 7
-BETA_SIZE = 15.5
+        # Size of cells
+        self.ALPHA_SIZE = self.DELTA_SIZE = 7
+        self.BETA_SIZE = 15.5
 
-# Number of 'segments' to divide islet space into
-SEGMENT_SIZE = 10
+        # Number of 'segments' to divide islet space into
+        self.SEGMENT_SIZE = 10
 
-# Suffix of mechanism in mod file
-MECHANISM = "one"
+        # Suffix of mechanism in mod file
+        self.MECHANISM = "one"
 
-# Glucose concentration
-GLUCOSE = 0
+        # Glucose concentration
+        self.GLUCOSE = 0
 
-# Distance between cells
-DISTANCE = 0
+        # Distance between cells
+        self.DISTANCE = 0
 
-# Folder to write plots to (path will be ./Plots/<OUTPUT FOLDER>/)
-OUTPUT_FOLDER = f"{GLUCOSE}mM_{DISTANCE}D"
+        # Folder to write plots to (path will be ./Plots/<OUTPUT FOLDER>/)
+        self.OUTPUT_FOLDER = f"{self.GLUCOSE}mM_{self.DISTANCE}D"
 
-# Number of digits to round to spike table output
-ROUND = 4
+        # Number of digits to round to spike table output
+        self.ROUND = 4
 
-# Plot time series and calculate spikes for the following variables for each cell
-VARIABLES_TO_PLOT = {
-    "A": ["va", "ca", "G"],
-    "B": ["vb", "c", "I"],
-    "D": ["vd", "cd", "S"]
-}
-
-# Time of simulation in ms
-SIMULATION_TIME = 3000
-
-# Step size for simulation
-STEP_SIZE = 0.025
-
-# Interval over which variables will be dumped/logs will print
-SIMULATION_UPDATE = 4000
-
-# ID of islet
-ISLET_ID = "one_islet"
-
-# Radius of islet
-ISLET_RADIUS = 1
-
-# Islet configuration
-# deterministic
-ISLET_CONFIGURATION = {
-    "type": "deterministic", 
-    "A": 1, 
-    "B": 1, 
-    "D": 1
-}
-# probabilistic
-# ISLET_CONFIGURATION = {
-#     "type": "probabilistic", 
-#     "A": 0.3, 
-#     "B": 0.2, 
-#     "D": 0.5, 
-#     "num_cells": 10
-# }
-
-# Temporary csv to write recording dictionary (cell_rec) to if DUMP is True
-TEMP_CSV = f".temp_glucose={GLUCOSE}mM_distance={DISTANCE}.csv"
-
-# Determines whether or not the recording dictionary (cell_rec) will be dumped perioidically
-DUMP = True
-
-# Define logging level
-LEVEL = "INFO"
-
-
-# Time points at which glucose level will be modulated and the variables to modify
-# 7mm glucose changes
-modulation_7_mM = {
-    "A":
-        {
-            "ksercaa": 0.5,
-            "gkatpbara": 0.6
-        },
-    "B": 
-        {
-            "gkatpb": 85
-        },
-    "D":
-        {
-            "gkatpbard": 0.27
+        # Plot time series and calculate spikes for the following variables for each cell
+        self.VARIABLES_TO_PLOT = {
+            "A": ["va", "ca", "G"],
+            "B": ["vb", "c", "I"],
+            "D": ["vd", "cd", "S"]
         }
-}
-# 11mm glucose changes
-modulation_11_mM = {
-    "A":
-        {
-            "ksercaa": 0.5,
-            "gkatpbara": 0.15
-        },
-    "B": 
-        {
-            "gkatpb": 25
-        },
-    "D":
-        {
-            "gkatpbard": 0.18
+
+        # Time of simulation in ms
+        self.SIMULATION_TIME = 3000
+
+        # Step size for simulation
+        self.STEP_SIZE = 0.025
+
+        # Interval over which variables will be dumped/logs will print
+        self.SIMULATION_UPDATE = 4000
+
+        # ID of islet
+        self.ISLET_ID = "one_islet"
+
+        # Radius of islet
+        self.ISLET_RADIUS = 1
+
+        # Islet configuration
+        # deterministic
+        self.ISLET_CONFIGURATION = {
+            "type": "deterministic", 
+            "A": 1, 
+            "B": 1, 
+            "D": 1
         }
-}
-# Select glucose modulation/interval
-interval = [0, -1]
-modulation = None
-if GLUCOSE == 7:
-    modulation = modulation_7_mM
-elif GLUCOSE == 11:
-    modulation = modulation_11_mM
-else:
-    interval = [-1, -1]
-    
-# Final glucose modulation
-GLUCOSE_MODULATION = {
-    "interval": interval,
-    "modulations": modulation,
-    "temporary": None
-}
+        # probabilistic
+        # ISLET_CONFIGURATION = {
+        #     "type": "probabilistic", 
+        #     "A": 0.3, 
+        #     "B": 0.2, 
+        #     "D": 0.5, 
+        #     "num_cells": 10
+        # }
+
+        # Temporary csv to write recording dictionary (cell_rec) to if DUMP is True
+        self.TEMP_CSV = f".temp_glucose={self.GLUCOSE}mM_distance={self.DISTANCE}.csv"
+
+        # Determines whether or not the recording dictionary (cell_rec) will be dumped perioidically
+        self.DUMP = True
+
+        # Define logging level
+        self.LEVEL = "INFO"
 
 
-"""Function used in simulate.py for meta level simulations"""
+        # Time points at which glucose level will be modulated and the variables to modify
+        # 7mm glucose changes
+        modulation_7_mM = {
+            "A":
+                {
+                    "ksercaa": 0.5,
+                    "gkatpbara": 0.6
+                },
+            "B": 
+                {
+                    "gkatpb": 85
+                },
+            "D":
+                {
+                    "gkatpbard": 0.27
+                }
+        }
+        # 11mm glucose changes
+        modulation_11_mM = {
+            "A":
+                {
+                    "ksercaa": 0.5,
+                    "gkatpbara": 0.15
+                },
+            "B": 
+                {
+                    "gkatpb": 25
+                },
+            "D":
+                {
+                    "gkatpbard": 0.18
+                }
+        }
+        # Select glucose modulation/interval
+        interval = [0, -1]
+        modulation = None
+        if self.GLUCOSE == 7:
+            modulation = modulation_7_mM
+        elif self.GLUCOSE == 11:
+            modulation = modulation_11_mM
+        else:
+            interval = [-1, -1]
+            
+        # Final glucose modulation
+        self.GLUCOSE_MODULATION = {
+            "interval": interval,
+            "modulations": modulation,
+            "temporary": None
+        }
 
-def calculate_variables():
-    """Function to calculate global variables (in case they are individually defined i.e. meta.py)"""
-    
-    # Temporary csv to write recording dictionary (cell_rec) to if DUMP is True
-    TEMP_CSV = f".temp_glucose={GLUCOSE}mM_distance={DISTANCE}.csv"
-    
-    # Folder to write plots to (path will be ./Plots/<OUTPUT FOLDER>/)
-    OUTPUT_FOLDER = f"{GLUCOSE}mM_{DISTANCE}D"
-    
-    # Time points at which glucose level will be modulated and the variables to modify
-    # 7mm glucose changes
-    modulation_7_mM = {
-        "A":
-            {
-                "ksercaa": 0.5,
-                "gkatpbara": 0.6
-            },
-        "B": 
-            {
-                "gkatpb": 85
-            },
-        "D":
-            {
-                "gkatpbard": 0.27
-            }
-    }
-    # 11mm glucose changes
-    modulation_11_mM = {
-        "A":
-            {
-                "ksercaa": 0.5,
-                "gkatpbara": 0.15
-            },
-        "B": 
-            {
-                "gkatpb": 25
-            },
-        "D":
-            {
-                "gkatpbard": 0.18
-            }
-    }
-    # Select glucose modulation/interval
-    interval = [0, -1]
-    modulation = None
-    if GLUCOSE == 7:
-        modulation = modulation_7_mM
-    elif GLUCOSE == 11:
-        modulation = modulation_11_mM
-    else:
-        interval = [-1, -1]
+
+    def calculate_variables(self):
+        """Function to calculate global variables (in case they are individually defined i.e. meta.py)"""
         
-    # Final glucose modulation
-    GLUCOSE_MODULATION = {
-        "interval": interval,
-        "modulations": modulation,
-        "temporary": None
-    }
-    
-    # TODO: don't hard code returned variable names
-    return {
-        "TEMP_CSV": TEMP_CSV, 
-        "OUTPUT_FOLDER": OUTPUT_FOLDER, 
-        "GLUCOSE_MODULATION": GLUCOSE_MODULATION
-    }
+        # Temporary csv to write recording dictionary (cell_rec) to if DUMP is True
+        self.TEMP_CSV = f".temp_glucose={self.GLUCOSE}mM_distance={self.DISTANCE}.csv"
+        
+        # Folder to write plots to (path will be ./Plots/<OUTPUT FOLDER>/)
+        self.OUTPUT_FOLDER = f"{self.GLUCOSE}mM_{self.DISTANCE}D"
+        
+        # Time points at which glucose level will be modulated and the variables to modify
+        # 7mm glucose changes
+        modulation_7_mM = {
+            "A":
+                {
+                    "ksercaa": 0.5,
+                    "gkatpbara": 0.6
+                },
+            "B": 
+                {
+                    "gkatpb": 85
+                },
+            "D":
+                {
+                    "gkatpbard": 0.27
+                }
+        }
+        # 11mm glucose changes
+        modulation_11_mM = {
+            "A":
+                {
+                    "ksercaa": 0.5,
+                    "gkatpbara": 0.15
+                },
+            "B": 
+                {
+                    "gkatpb": 25
+                },
+            "D":
+                {
+                    "gkatpbard": 0.18
+                }
+        }
+        # Select glucose modulation/interval
+        interval = [0, -1]
+        modulation = None
+        if self.GLUCOSE == 7:
+            modulation = modulation_7_mM
+        elif self.GLUCOSE == 11:
+            modulation = modulation_11_mM
+        else:
+            interval = [-1, -1]
+            
+        # Final glucose modulation
+        self.GLUCOSE_MODULATION = {
+            "interval": interval,
+            "modulations": modulation,
+            "temporary": None
+        }
+        
+        # TODO: don't hard code returned variable names
+        return {
+            "TEMP_CSV": self.TEMP_CSV, 
+            "OUTPUT_FOLDER": self.OUTPUT_FOLDER, 
+            "GLUCOSE_MODULATION": self.GLUCOSE_MODULATION
+        }
