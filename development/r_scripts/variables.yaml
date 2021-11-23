@@ -1,0 +1,15 @@
+Current:
+  - _i
+Voltage:
+  - _Vm_
+Calcium:
+  - _c_
+  - _ca_
+  - _cd_
+Hormones:
+  - _pp_I_
+  - _pp_Io_
+  - _pp_G_
+  - _pp_Go_
+  - _pp_Sst_
+  - _pp_Ssto_

@@ -1,14 +1,21 @@
 """Script to run batches of simulations with different configurations"""
 import json
 import logging
-import math
 import multiprocessing as mp
+import pathlib
+from datetime import datetime
+
+TIMESTAMP = datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
+
+# Setup data/logs folders
+pathlib.Path("../data/Plots/").mkdir(parents=True, exist_ok=True)
+pathlib.Path(f"../logs/{TIMESTAMP}").mkdir(parents=True, exist_ok=True)
 
 # Setup logging
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[
-        logging.FileHandler(f"debug_meta.log"),
+        logging.FileHandler(f"../logs/{TIMESTAMP}/meta.log"),
         logging.StreamHandler()
     ],
     level=logging.INFO
@@ -72,11 +79,21 @@ for id, conf in enumerate(CONFIGURATIONS['runs']):
     
     # Store all changed variables from config in new instance
     new_config = Config()
+    
+    # Include parameters in simulation_id
+    simulation_id = str()
+    
     for key, value in conf.items():
         setattr(new_config, key, value)
+        simulation_id += f"{key.lower()}={value}_"
+    
+    simulation_id += str(id)
         
     # Set simulation id in config
-    setattr(new_config, "SIMULATION_ID", id)
+    setattr(new_config, "SIMULATION_ID", simulation_id)
+    
+    # Set simulation timestamp in config
+    setattr(new_config, "TIMESTAMP", TIMESTAMP)
 
     # Calculate values depended on those set in parameters above
     new_config.calculate_variables()

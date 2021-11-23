@@ -1,3 +1,5 @@
+from datetime import datetime
+
 # Store global variables as members of class
 
 class Config():
@@ -8,6 +10,9 @@ class Config():
         
         # Simulation id
         self.SIMULATION_ID = 0
+        
+        # Simulation timestamp
+        self.TIMESTAMP = datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
 
         # Size of cells
         self.ALPHA_SIZE = self.DELTA_SIZE = 7
@@ -25,14 +30,14 @@ class Config():
         # Distance between cells
         self.DISTANCE = 0
 
-        # Folder to write plots to (path will be ./Plots/<OUTPUT FOLDER>/)
-        self.OUTPUT_FOLDER = f"{self.GLUCOSE}mM_{self.DISTANCE}D"
+        # Folder to write plots to 
+        self.OUTPUT_FOLDER = f"../data/Plots/{self.GLUCOSE}mM_{self.DISTANCE}D"
 
         # Number of digits to round to in spike table output
         self.ROUND = 4
 
         # File to load data from (should be set in meta.py or simulate.py)
-        self.LOAD = f"stabilized_glucose={self.GLUCOSE}mM_distance={self.DISTANCE}.csv"
+        self.LOAD = f"../data/stabilized_glucose={self.GLUCOSE}mM_distance={self.DISTANCE}.csv"
         
         # Option to load data from previous run
         self.LOAD_PREVIOUS = True
@@ -80,7 +85,7 @@ class Config():
         # }
 
         # Temporary csv to write recording dictionary (cell_rec) to if DUMP is True
-        self.TEMP_CSV = f".temp_glucose={self.GLUCOSE}mM_distance={self.DISTANCE}.csv"
+        self.TEMP_CSV = f"../data/.temp_glucose={self.GLUCOSE}mM_distance={self.DISTANCE}.csv"
 
         # Determines whether or not the recording dictionary (cell_rec) will be dumped periodically and whether writing the stabilized simulation output for the current run is possible (LOAD_CURRENT)
         self.DUMP = True
@@ -147,13 +152,13 @@ class Config():
         """Function to calculate global variables (in case they are individually defined i.e. meta.py)"""
         
         # Temporary csv to write recording dictionary (cell_rec) to if DUMP is True
-        self.TEMP_CSV = f".temp_glucose={self.GLUCOSE}mM_distance={self.DISTANCE}.csv"
+        self.TEMP_CSV = f"../data/.temp_glucose={self.GLUCOSE}mM_distance={self.DISTANCE}.csv"
         
         # Folder to write plots to (path will be ./Plots/<OUTPUT FOLDER>/)
-        self.OUTPUT_FOLDER = f"{self.GLUCOSE}mM_{self.DISTANCE}D"
+        self.OUTPUT_FOLDER = f"../data/Plots/{self.GLUCOSE}mM_{self.DISTANCE}D"
         
         # File to load data from (should be set in meta.py or simulate.py)
-        self.LOAD = f"stabilized_glucose={self.GLUCOSE}mM_distance={self.DISTANCE}.csv"
+        self.LOAD = f"../data/stabilized_glucose={self.GLUCOSE}mM_distance={self.DISTANCE}.csv"
         
         # Time points at which glucose level will be modulated and the variables to modify
         # 7mm glucose changes

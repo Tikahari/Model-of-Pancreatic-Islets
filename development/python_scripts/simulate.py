@@ -1,6 +1,8 @@
 """Main simulation script/object"""
+import json
 import logging
 import os
+import pathlib
 import re
 import sys
 from timeit import default_timer as timer
@@ -32,6 +34,10 @@ class Simulate():
     def _setup(self):
         """Set configurations for run in other scripts (CONFIG/LOGGER variables)"""
         
+        # Setup data/logs folders
+        pathlib.Path("../data/Plots/").mkdir(parents=True, exist_ok=True)
+        pathlib.Path(f"../logs/{self.CONFIG.TIMESTAMP}").mkdir(parents=True, exist_ok=True)
+        
         # Import entire modules to reset
         import islet
         import utils
@@ -39,7 +45,7 @@ class Simulate():
         utils.CONFIG = self.CONFIG
         
         # Reset logging per simulation
-        simulation_file_handle = logging.FileHandler(f"debug_{self.CONFIG.SIMULATION_ID}.log")
+        simulation_file_handle = logging.FileHandler(f"../logs/{self.CONFIG.TIMESTAMP}/{self.CONFIG.SIMULATION_ID}.log")
         simulation_console_handle = logging.StreamHandler(sys.stdout)
         
         simulation_formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
@@ -67,7 +73,7 @@ class Simulate():
         # Load neuron?
         h.load_file("stdrun.hoc")
         
-        self.LOGGER.debug(globals())
+        self.LOGGER.info(f"Configuration for {self.CONFIG.SIMULATION_ID}: {json.dumps(vars(self.CONFIG), indent=4)}")
         self.LOGGER.debug("Initial setup complete")
         
 
@@ -255,8 +261,8 @@ class Simulate():
         """Generate metrics table and plots according to VARIABLES_TO_PLOT configuration"""
         
         # Setup plotting results folder
-        os.system(f"mkdir -p Plots/{self.CONFIG.OUTPUT_FOLDER}")
-        cell_plot_path = "Plots/{output_folder}/{cell_id}"
+        os.system(f"mkdir -p {self.CONFIG.OUTPUT_FOLDER}")
+        cell_plot_path = "{output_folder}/{cell_id}"
 
         # Plot each cell
         for cell in self.islet.cell_rec:
