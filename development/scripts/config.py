@@ -31,6 +31,9 @@ class Config():
         # Number of digits to round to spike table output
         self.ROUND = 4
 
+        # File to load data from (should be set in meta.py or simulate.py)
+        self.LOAD = None
+        
         # Plot time series and calculate spikes for the following variables for each cell
         self.VARIABLES_TO_PLOT = {
             "A": ["va", "ca", "G"],
@@ -39,7 +42,7 @@ class Config():
         }
 
         # Time of simulation in ms
-        self.SIMULATION_TIME = 100
+        self.SIMULATION_TIME = 1000
 
         # Step size for simulation
         self.STEP_SIZE = 0.025

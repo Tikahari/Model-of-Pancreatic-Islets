@@ -16,12 +16,18 @@ from utils import *
 class Simulate():
     
     
-    def __init__(self, config=None):
-        """Constructor"""
+    def __init__(self, config: Config = None):
+        """
+        Constructor
+
+        Args:
+            config (Config, optional): Config object to setup logging and global variables for islet and util modules. Defaults to None.
+        """
         
         # Set CONFIG from constructor if passed
         self.CONFIG = config if config else Config()
         self._setup()
+    
     
     def _setup(self):
         """Set configurations for run in other scripts (CONFIG/LOGGER variables)"""
@@ -60,7 +66,74 @@ class Simulate():
         self.LOGGER.debug(globals())
         self.LOGGER.debug("Initial setup complete")
 
+
+    def _load_stabilized_simulation(self):
+        """Set mechanism variables according to last entry of file at CONFIG.LOAD"""
+        
+        # Verify that file exists
+        if self.CONFIG.LOAD and not os.path.exists(self.CONFIG.LOAD):
+            raise Exception(f"File missing: {os.getcwd()}/{self.CONFIG.LOAD}")
+        
+        # Load from CONFIG.TEMP_CSV if CONFIG.LOAD not specified
+        if not self.CONFIG.LOAD:
+            self.CONFIG.LOAD = self.CONFIG.TEMP_CSV
+        
+        # Read csv and reset the appropriate mechanism variables
+        df = pd.read_csv(self.CONFIG.TEMP_CSV)
+        
+        # Dictionary containing new values to set mechanism variables to
+        new_values = {
+            'A': {},
+            'B': {},
+            'D': {}
+        }
+        
+        # Get and organize names of variables/mechanism
+        for column in df.columns:
+            
+            # Match will give (cell_type), (mechanism_name), (variable_name)
+            match = re.search(r'(A|B|D)_[0-9]_(.*?)_(.*)', column)
+            if match is not None:
+                cell, mechanism, var = list(match.groups())
+                
+                # Store variable value in new_values dict
+                if f"{var}_{mechanism}" not in new_values[cell]:
+                    new_values[cell][f"{var}_{mechanism}"] = df[column].tail(1).to_list()[0]
+
+        # Iterate through all cells and fill values according to values in new_values dict
+        for cell in self.islet.cells:
+            
+            # Note that cell will be of the format (A|B|D)_[0-9]
+            cell_type = cell.split('_')[0]
+            for var_mechanism in new_values[cell_type]:
+                
+                # Store old value
+                old_value = getattr(self.islet.cells[cell](0.5), var_mechanism)
+                
+                # Set new value
+                setattr(self.islet.cells[cell](0.5), var_mechanism, new_values[cell_type][var_mechanism])
+                
+                self.LOGGER.info(f"Changed {var_mechanism} from {old_value} to {new_values[cell_type][var_mechanism]} in {cell}")
+        
     
+    def _reset_records(self):
+        """Reset cell_rec object in islet class according to dumped data (if applicable)"""
+
+        # Verify that file exists
+        if not os.path.exists(self.CONFIG.TEMP_CSV):
+            raise Exception(f"File missing: {os.getcwd()}/{self.CONFIG.LOAD}")
+        
+        # Read csv and reset the cell_rec variable if variables have been periodically dumped
+        df = pd.read_csv(self.CONFIG.TEMP_CSV)
+        
+        # Use columns to rewrite cell_rec object
+        for column in df.columns:
+            match = re.search(r'((?:A|B|D)_[0-9])_(.*)', column)
+            if match is not None:
+                cell, var = list(match.groups())
+                self.islet.cell_rec[cell][var] = df[column].to_list()
+                
+                
     def setup_islet(self):
         """Create islet and perform initialization (h.finitialize(), create distance matrix)"""
         
@@ -86,6 +159,10 @@ class Simulate():
             
         # Run initial block of mod file
         h.finitialize()
+        
+        # Load values from csv if applicable
+        if self.CONFIG.LOAD or os.path.exists(self.CONFIG.TEMP_CSV):
+            self._load_stabilized_simulation()
 
         # Create distance matrix and subsets corresponding to effect of cell x on y (to be used in matrix multiplication)
         self.matrices = create_dist_matrices(self.islet)
@@ -131,21 +208,9 @@ class Simulate():
         # Dump variables at conclusion of simulation
         dump_variables(self.islet, self.CONFIG.TEMP_CSV, -1, last=True) if self.CONFIG.DUMP else None
 
-        
-    def reset_records(self):
-        """Reset cell_rec object in islet class according to dumped data (if applicable)"""
-
-        # Read csv and reset the cell_rec variable if variables have been periodically dumped
         if self.CONFIG.DUMP:
-            df = pd.read_csv(self.CONFIG.TEMP_CSV)
-            
-            # Use columns to rewrite cell_rec object
-            for column in df.columns:
-                match = re.search(r'((?:A|B|D)_[0-9])_(.*)', column)
-                if match is not None:
-                    cell, var = list(match.groups())
-                    self.islet.cell_rec[cell][var] = df[column].to_list()
-     
+           self._reset_records()
+        
      
     def create_plots(self):
         """Generate metrics table and plots according to VARIABLES_TO_PLOT configuration"""
@@ -185,4 +250,8 @@ class Simulate():
 if __name__ == '__main__':
     """When run directly from command line (i.e. `python3 simulate.py`)"""
     simulation = Simulate()
+    
+    # Testing load from csv function
+    # simulation.CONFIG.LOAD = ".temp_glucose=0mM_distance=0.csv"
+    
     simulation.main()

@@ -353,10 +353,9 @@ def determine_metrics(cell_rec_dict: dict, plot_dict: dict, vars: list):
         # Recording dictionary indexed differently depending on whether dumping was implemented
         param = f"{CONFIG.MECHANISM}_{var}"
         if CONFIG.DUMP:
-            param = list(cell_rec_dict[param][0])
+            param = list(cell_rec_dict[param])
         else:
             param = list(cell_rec_dict[param][0])
-        print(param, len(param))
         
         # Find indices where spikes occur and at what value (heights)
         peaks, props = find_peaks(param, height = [min(param), max(param)])
@@ -370,10 +369,10 @@ def determine_metrics(cell_rec_dict: dict, plot_dict: dict, vars: list):
         # Add metrics to plotting dict
         plot_dict['Total Spikes'].append(len(peaks))
         plot_dict['Spike Frequency'].append(len(peaks)/2)
-        plot_dict['Max Value'].append(max(peaks) if peaks else 0)
-        plot_dict['Min Value'].append(min(peaks) if peaks else 0)
-        plot_dict['Avg. Spike Max'].append(np.mean(peaks) if peaks else 0)
-        plot_dict['Avg. Spike Min'].append(-np.mean(peaks_min) if peaks else 0)
+        plot_dict['Max Value'].append(max(peaks) if len(peaks) != 0 else 0)
+        plot_dict['Min Value'].append(min(peaks) if len(peaks) != 0 else 0)
+        plot_dict['Avg. Spike Max'].append(np.mean(peaks) if len(peaks) != 0 else 0)
+        plot_dict['Avg. Spike Min'].append(-np.mean(peaks_min) if len(peaks) != 0 else 0)
     
     LOGGER.debug("Metrics calculated")
 
