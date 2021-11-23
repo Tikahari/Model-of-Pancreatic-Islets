@@ -1,9 +1,6 @@
 """Script defining main islet class."""
 import logging
 
-# Setup logging
-logger = logging.getLogger(__name__)
-
 import math
 import re
 
@@ -12,6 +9,8 @@ from neuron import h
 
 from config import *
 
+# Setup logging
+logger = logging.getLogger(f"{__name__}_{SIMULATION_ID}")
 
 class Islet:
     def __init__(self, id: str, mechanism: str, islet_radius: int, simulation_update: int, cells: dict = None):

@@ -8,11 +8,13 @@ from config import *
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[
-        logging.FileHandler("debug.log"),
+        logging.FileHandler(f"debug_{SIMULATION_ID}.log"),
         logging.StreamHandler()
     ],
     level=getattr(logging, LEVEL)
 )
+
+
 
 import os
 from timeit import default_timer as timer
@@ -26,7 +28,10 @@ from utils import *
 
 def main():
     """Main simulation function"""
-    logging.debug(globals())
+    # Setup logging
+    logger = logging.getLogger(f"{__name__}_{SIMULATION_ID}")
+
+    logger.debug(globals())
     
     # Load neuron?
     h.load_file("stdrun.hoc")
@@ -43,7 +48,7 @@ def main():
     test_islet.populate_cells()
     test_islet.record_values()
     test_islet.set_cell_locations()
-    logging.info(f"{test_islet} created")
+    logger.info(f"{test_islet} created")
 
     # Set time variable per dictionary recording each cell when variables are not dumped periodically
     # TODO: modify, did out of convenience
@@ -84,7 +89,7 @@ def main():
                 memory_use_percent = psutil.virtual_memory().available * 100 / psutil.virtual_memory().total
                 
                 # Log
-                logging.info(f"Simulation time: {simulation_time_elapsed}. Real time: {timer()-real_start_time}. Memory Usage: {memory_use_gb}GB / {memory_use_percent}%")
+                logger.info(f"Simulation time: {simulation_time_elapsed}. Real time: {timer()-real_start_time}. Memory Usage: {memory_use_gb}GB / {memory_use_percent}%")
                 
                 # Dump variables at this interval          
                 dump_variables(test_islet, TEMP_CSV, i) if DUMP else None
@@ -109,7 +114,7 @@ def main():
 
     # Plot each cell
     for cell in test_islet.cell_rec:
-        logging.info(f"Plotting cell: {cell}")
+        logger.info(f"Plotting cell: {cell}")
         
         # Note that 'cell[0]' will be one of 'A'/'B'/'D'
         # When not using dump_variables use the following

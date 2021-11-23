@@ -1,5 +1,8 @@
 # Define global variables
 
+# Simulation id
+SIMULATION_ID = 0
+
 # Size of cells
 ALPHA_SIZE = DELTA_SIZE = 7
 BETA_SIZE = 15.5

@@ -1,4 +1,5 @@
 """Script to run batches of simulations with different configurations"""
+import multiprocessing
 
 # Configurations to modify/run
 CONFIGURATIONS = {
@@ -24,9 +25,20 @@ CONFIGURATIONS = {
 # Run simulate script with new values
 import simulate
 
-for config in CONFIGURATIONS['runs']:
+# Simulations can be run in parallel as separate processes
+processes = []
+
+for id, config in enumerate(CONFIGURATIONS['runs']):
     for key, value in config.items():
         setattr(simulate, key, value)
+        setattr(simulate, "SIMULATION_ID", id)
     
-    # Run simulation
-    simulate.main()
+    # Create processes 
+    processes.append(multiprocessing.Process(target=simulate.main()))
+    
+# Start and end simulations
+for process in processes:
+    process.start()
+
+for process in processes:
+    process.join()

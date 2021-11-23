@@ -1,9 +1,6 @@
 """Script containing functions used to perform calculations/simulations."""
 import logging
 
-# Setup logging
-logger = logging.getLogger(__name__)
-
 import copy
 import math
 import os
@@ -16,6 +13,8 @@ from scipy.signal import find_peaks
 from config import *
 from islet import Islet
 
+# Setup logging
+logger = logging.getLogger(f"{__name__}_{SIMULATION_ID}")
 
 def create_dist_matrices(islet_name: str):
     """
