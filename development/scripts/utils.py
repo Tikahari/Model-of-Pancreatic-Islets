@@ -378,53 +378,6 @@ def determine_metrics(cell_rec_dict: dict, plot_dict: dict, vars: list):
     LOGGER.debug("Metrics calculated")
 
 
-def find_min_max_of_spikes(cell_rec_dict: dict, plot_dict: dict, vars: list):
-    """
-    Function to determine the in and maxes of recorded spikes.
-
-    Args:
-        cell_rec_dict (dict): dictionary indexed by variable name containing h.Vector() objects containing recorded variable values.
-        plot_dict (dict): dictionary holding keys to transform to table
-        vars (list): variables to plot.
-    """
-    LOGGER.debug("Determining")
-    
-    steps_per_ms = int(1/CONFIG.STEP_SIZE)
-    total_steps = int(CONFIG.SIMULATION_TIME/CONFIG.STEP_SIZE)
-    steps_in_last_2_secs = int(steps_per_ms * 2000)
-    min_value = []
-    avg_spike_min = []
-    max_value = []
-    avg_spike_max = []
-    Voltage_B = cell_rec_dict['one_vb'][0]
-    Calcium_B = cell_rec_dict['one_c'][0]
-    Insulin = cell_rec_dict['one_I'][0]
-    Voltage_D = cell_rec_dict['one_vd'][0]
-    Calcium_D = cell_rec_dict['one_cd'][0]
-    Sst = cell_rec_dict['one_S'][0]
-    Voltage_A = cell_rec_dict['one_va'][0]
-    Calcium_A = cell_rec_dict['one_ca'][0]
-    Glucagon = cell_rec_dict['one_G'][0]
-    params = [Voltage_B, Calcium_B, Insulin, Voltage_D, Calcium_D, Sst, Voltage_A, Calcium_A, Glucagon]
-    
-    # Restrict data to only the last 2000 ms to allow simulation to stabilize
-    params = [list(param)[(total_steps - steps_in_last_2_secs):] for param in params]
-    
-    for param in params:
-        # Find indices where spikes occur and at what value (heights)
-        peaks_max, props_max = find_peaks(param, height = [min(param), max(param)])
-        # To find the minimum points of peaks, multiply negative one to all values in the parameter vector
-        # and then find peaks
-        neg_param = [item * -1 for item in param]
-        peaks_min, props_min = find_peaks(neg_param, height = [min(neg_param), max(neg_param)])
-        # Find frequency of spikes in last two seconds
-        max_value.append(max(param))
-        avg_spike_max.append(np.mean(props_max["peak_heights"]))
-        min_value.append(min(param))
-        avg_spike_min.append(-np.mean(props_min["peak_heights"]))
-    return max_value, avg_spike_max, min_value, avg_spike_min
-
-
 def create_metrics_table(cell_rec_dict: dict, vars: list, plot_path: str):
     """
     Function to create metrics table with spike statistics.
