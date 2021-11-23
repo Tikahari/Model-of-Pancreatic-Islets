@@ -1,7 +1,11 @@
 # Store global variables as members of class
 
 class Config():
+    
+    
     def __init__(self):
+        """Constructor containing simulation parameter definitions"""
+        
         # Simulation id
         self.SIMULATION_ID = 0
 
@@ -35,7 +39,7 @@ class Config():
         }
 
         # Time of simulation in ms
-        self.SIMULATION_TIME = 3000
+        self.SIMULATION_TIME = 100
 
         # Step size for simulation
         self.STEP_SIZE = 0.025
@@ -109,13 +113,16 @@ class Config():
                     "gkatpbard": 0.18
                 }
         }
+        
         # Select glucose modulation/interval
+        # Assume glucose will be changed once at the beginning of the simulation through to the end
         interval = [0, -1]
         modulation = None
         if self.GLUCOSE == 7:
             modulation = modulation_7_mM
         elif self.GLUCOSE == 11:
             modulation = modulation_11_mM
+        # If glucose is 0 or not an accepted value, do not change it during the simulation
         else:
             interval = [-1, -1]
             
@@ -169,13 +176,16 @@ class Config():
                     "gkatpbard": 0.18
                 }
         }
+        
         # Select glucose modulation/interval
+        # Assume glucose will be changed once at the beginning of the simulation through to the end
         interval = [0, -1]
         modulation = None
         if self.GLUCOSE == 7:
             modulation = modulation_7_mM
         elif self.GLUCOSE == 11:
             modulation = modulation_11_mM
+        # If glucose is 0 or not an accepted value, do not change it during the simulation
         else:
             interval = [-1, -1]
             

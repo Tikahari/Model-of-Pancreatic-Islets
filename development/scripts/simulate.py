@@ -1,20 +1,21 @@
 """Main simulation script/object"""
 import logging
-import re
-
-from config import Config
-
 import os
+import re
+import sys
 from timeit import default_timer as timer
 
 import psutil
 from neuron import h
 
+from config import Config
 from islet import Islet
 from utils import *
 
 
 class Simulate():
+    
+    
     def __init__(self, config=None):
         """Constructor"""
         
@@ -33,14 +34,25 @@ class Simulate():
         
         # Reset logging per simulation
         simulation_file_handle = logging.FileHandler(f"debug_{self.CONFIG.SIMULATION_ID}.log")
+        simulation_console_handle = logging.StreamHandler(sys.stdout)
+        
         simulation_formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+        
         simulation_file_handle.setFormatter(simulation_formatter)
+        simulation_console_handle.setFormatter(simulation_formatter)
+        
         self.LOGGER = logging.getLogger(f"simulation_{self.CONFIG.SIMULATION_ID}")
+        self.LOGGER.setLevel(getattr(logging, self.CONFIG.LEVEL))
         self.LOGGER.addHandler(simulation_file_handle)
+        self.LOGGER.addHandler(simulation_console_handle)
+        
         islet.LOGGER = logging.getLogger(f"islet_{self.CONFIG.SIMULATION_ID}")
         islet.LOGGER.addHandler(simulation_file_handle)
+        islet.LOGGER.addHandler(simulation_console_handle)
+        
         utils.LOGGER = logging.getLogger(f"utils_{self.CONFIG.SIMULATION_ID}")
         utils.LOGGER.addHandler(simulation_file_handle)
+        utils.LOGGER.addHandler(simulation_console_handle)
         
         # Load neuron?
         h.load_file("stdrun.hoc")
@@ -52,7 +64,7 @@ class Simulate():
     def setup_islet(self):
         """Create islet and perform initialization (h.finitialize(), create distance matrix)"""
         
-        # Create islets
+        # Create islet
         self.islet = Islet(
             id=self.CONFIG.ISLET_ID, 
             mechanism=self.CONFIG.MECHANISM, 
@@ -96,7 +108,7 @@ class Simulate():
                 
                 # Change glucose level according to: https://github.com/artielbm/artielbm.github.io/blob/master/Models/BAD/Figures3-5.ode
                 if i in self.CONFIG.GLUCOSE_MODULATION['interval']:
-                    modulate_glucose(self.islet.cells, i, self.CONFIG.GLUCOSE_MODULATION)
+                    modulate_glucose(self.islet.cells, i)
                 
                 # Perform logging and variable dumps every SIMULATION_UPDATE timesteps (.025 * 10^-3 * 4 * 10^3 = .1 seconds if SIMULATION_UPDATE = 4 * 10^3)
                 if i % self.CONFIG.SIMULATION_UPDATE == 0:
@@ -126,6 +138,7 @@ class Simulate():
         # Read csv and reset the cell_rec variable if variables have been periodically dumped
         if self.CONFIG.DUMP:
             df = pd.read_csv(self.CONFIG.TEMP_CSV)
+            
             # Use columns to rewrite cell_rec object
             for column in df.columns:
                 match = re.search(r'((?:A|B|D)_[0-9])_(.*)', column)
@@ -146,7 +159,6 @@ class Simulate():
             self.LOGGER.info(f"Plotting cell: {cell}")
             
             # Note that 'cell[0]' will be one of 'A'/'B'/'D'
-            # When not using dump_variables use the following
             plot_parameters(
                 self.islet.cell_rec[cell], 
                 self.CONFIG.VARIABLES_TO_PLOT[cell[0]], 
@@ -159,6 +171,7 @@ class Simulate():
                 self.CONFIG.VARIABLES_TO_PLOT[cell[0]], 
                 cell_plot_path.format(output_folder=self.CONFIG.OUTPUT_FOLDER, cell_id=cell)
             )
+        
         
     def main(self):
         """Main simulation function"""

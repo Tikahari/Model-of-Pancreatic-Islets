@@ -1,6 +1,7 @@
 """Script to run batches of simulations with different configurations"""
 import json
 import logging
+import math
 import multiprocessing as mp
 
 # Setup logging
@@ -13,26 +14,52 @@ logging.basicConfig(
     level=logging.INFO
 )
 
-# Configurations to modify/run
-CONFIGURATIONS = {
-    "runs": [
-        {"GLUCOSE": 0, "DISTANCE": 20, "SIMULATION_TIME": 10000},
-        {"GLUCOSE": 0, "DISTANCE": 10, "SIMULATION_TIME": 10000},
-        {"GLUCOSE": 0, "DISTANCE": 20, "SIMULATION_TIME": 10000},
-        {"GLUCOSE": 0, "DISTANCE": 50, "SIMULATION_TIME": 10000},
-        {"GLUCOSE": 0, "DISTANCE": 100, "SIMULATION_TIME": 10000},
-        {"GLUCOSE": 7, "DISTANCE": 0, "SIMULATION_TIME": 10000},
-        {"GLUCOSE": 7, "DISTANCE": 10, "SIMULATION_TIME": 10000},
-        {"GLUCOSE": 7, "DISTANCE": 20, "SIMULATION_TIME": 10000},
-        {"GLUCOSE": 7, "DISTANCE": 50, "SIMULATION_TIME": 10000},
-        {"GLUCOSE": 7, "DISTANCE": 100, "SIMULATION_TIME": 10000},
-        {"GLUCOSE": 11, "DISTANCE": 0, "SIMULATION_TIME": 10000},
-        {"GLUCOSE": 11, "DISTANCE": 10, "SIMULATION_TIME": 10000},
-        {"GLUCOSE": 11, "DISTANCE": 20, "SIMULATION_TIME": 10000},
-        {"GLUCOSE": 11, "DISTANCE": 50, "SIMULATION_TIME": 10000},
-        {"GLUCOSE": 11, "DISTANCE": 100, "SIMULATION_TIME": 10000},
-    ]
-}
+# # Configurations to replicate watts model/test effect of distance
+# CONFIGURATIONS = {
+#     "runs": [
+#         {"GLUCOSE": 0, "DISTANCE": 20, "SIMULATION_TIME": 10000},
+#         {"GLUCOSE": 0, "DISTANCE": 10, "SIMULATION_TIME": 10000},
+#         {"GLUCOSE": 0, "DISTANCE": 20, "SIMULATION_TIME": 10000},
+#         {"GLUCOSE": 0, "DISTANCE": 50, "SIMULATION_TIME": 10000},
+#         {"GLUCOSE": 0, "DISTANCE": 100, "SIMULATION_TIME": 10000},
+#         {"GLUCOSE": 7, "DISTANCE": 0, "SIMULATION_TIME": 10000},
+#         {"GLUCOSE": 7, "DISTANCE": 10, "SIMULATION_TIME": 10000},
+#         {"GLUCOSE": 7, "DISTANCE": 20, "SIMULATION_TIME": 10000},
+#         {"GLUCOSE": 7, "DISTANCE": 50, "SIMULATION_TIME": 10000},
+#         {"GLUCOSE": 7, "DISTANCE": 100, "SIMULATION_TIME": 10000},
+#         {"GLUCOSE": 11, "DISTANCE": 0, "SIMULATION_TIME": 10000},
+#         {"GLUCOSE": 11, "DISTANCE": 10, "SIMULATION_TIME": 10000},
+#         {"GLUCOSE": 11, "DISTANCE": 20, "SIMULATION_TIME": 10000},
+#         {"GLUCOSE": 11, "DISTANCE": 50, "SIMULATION_TIME": 10000},
+#         {"GLUCOSE": 11, "DISTANCE": 100, "SIMULATION_TIME": 10000},
+#     ]
+# }
+
+# Configurations to test effect of changing composition and size of islet
+CONFIGURATIONS = {'runs': []}
+for percent_betas in range(0, 100, 10):
+    for islet_size in range(3, 120, 15):
+        
+        # Create islet configuration
+        islet_configuration = {
+            "type": "probabilistic", 
+            "A": (1-percent_betas/100)*3/8, 
+            "B": percent_betas/100, 
+            "D": (1-percent_betas/100)*5/8, 
+            "num_cells": islet_size
+        }
+        
+        # Add configuration for each glucose concentration
+        CONFIGURATIONS['runs'].append(
+            {"GLUCOSE": 0, "DISTANCE": None, "ISLET_CONFIGURATION": islet_configuration}
+        )
+        CONFIGURATIONS['runs'].append(
+            {"GLUCOSE": 7, "DISTANCE": None, "ISLET_CONFIGURATION": islet_configuration}
+        )
+        CONFIGURATIONS['runs'].append(
+            {"GLUCOSE": 11, "DISTANCE": None, "ISLET_CONFIGURATION": islet_configuration}
+        )
+        
 
 # Run simulate script with new values
 from config import Config

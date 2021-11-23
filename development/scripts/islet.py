@@ -1,13 +1,9 @@
 """Script defining main islet class."""
-import logging
-
 import math
 import re
 
 import numpy as np
 from neuron import h
-
-from config import Config
 
 # Configuration variable for each simulation
 CONFIG = None
@@ -16,6 +12,8 @@ CONFIG = None
 LOGGER = None
 
 class Islet:
+    
+    
     def __init__(self, id: str, mechanism: str, islet_radius: int, simulation_update: int, cells: dict = None):
         """
         Initialize islet instance. Note that cells can be determined by the cells dict or the probabilities dict (which must contain the number of cells).
@@ -67,7 +65,7 @@ class Islet:
 
 
     def spatial_setup(self):
-        """Setup each cell according to parameters passed to constructor with an appropriate spatial orientation."""
+        """Setup each cell according to parameters passed to constructor with an appropriate spatial orientation"""
         LOGGER.debug("Setting up potential coordinates for cells")
         
         # Number of segments to use
@@ -102,7 +100,7 @@ class Islet:
 
 
     def populate_cells(self):
-        """Create cell dictionary containing all the sections in the islet.""" 
+        """Create cell dictionary containing all the sections in the islet""" 
         LOGGER.debug("Populating cells")
         
         # Dictionary to populate
@@ -167,7 +165,7 @@ class Islet:
     
     
     def record_values(self):
-        """Create dictionary that will store values of all variables of interest present in all mechanisms."""
+        """Create dictionary that will store values of all variables of interest present in all mechanisms"""
         LOGGER.debug("Setting up recording dictionary")
         
         # Get all density mechanisms and variables using NEURON defined 'psection()'
@@ -193,6 +191,8 @@ class Islet:
     def reset_values(self):
         """Update record variables to decrease memory usage"""
         LOGGER.debug("Reseting values")
+        
+        # Iterate through all variables and reset/remove them according to their length
         for cell in self.cell_rec:
             for var in self.cell_rec[cell]:
                     
@@ -206,5 +206,5 @@ class Islet:
     
     
     def __repr__(self):
-        """String representation for debugging."""
+        """String representation for debugging"""
         return "Islet '{id}' of type '{type}'".format(id=self._id, type=self._type)

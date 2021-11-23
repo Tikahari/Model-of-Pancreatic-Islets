@@ -1,6 +1,4 @@
 """Script containing functions used to perform calculations/simulations."""
-import logging
-
 import copy
 import math
 import os
@@ -10,7 +8,6 @@ import pandas as pd
 from matplotlib import pyplot as plt
 from scipy.signal import find_peaks
 
-from config import Config
 from islet import Islet
 
 # Configuration variable for each simulation
@@ -254,6 +251,7 @@ def dump_variables(islet: Islet, temporary_path: str, step: int, last: bool = Fa
         last (bool): boolean set to True only when dump_variables is called outside of the main simulation loop.
     """
     LOGGER.debug("Dumping variables..")
+    
     # Create pandas dataframe using dictionary of recorded values.
     final_dict = dict()
     for cell in islet.cell_rec:
@@ -286,7 +284,7 @@ def dump_variables(islet: Islet, temporary_path: str, step: int, last: bool = Fa
             LOGGER.debug("Reset variables")
 
 
-def modulate_glucose(cells: dict, simulation_idx: int, GLUCOSE_MODULATION: str):
+def modulate_glucose(cells: dict, simulation_idx: int):
     """
     Function to modify simulation variables corresponding to glucose changes at a given simulation index.
 
@@ -297,25 +295,26 @@ def modulate_glucose(cells: dict, simulation_idx: int, GLUCOSE_MODULATION: str):
     LOGGER.info(f"Modulating glucose at {simulation_idx}")
     
     # Determine whether modulation is beggining or ending
-    start = True if simulation_idx == GLUCOSE_MODULATION['interval'][0] else False
+    start = True if simulation_idx == CONFIG.GLUCOSE_MODULATION['interval'][0] else False
+    
     # If the simulation index is the beginning of the modulation interval:
     # Iterate through cells and modify values according to GLUCOSE_MODULATION global variable
     if start:
         
         # Store old values in 'temporary' key of dictionary (will overwrite values in copy of 'modulations')
-        GLUCOSE_MODULATION['temporary'] = copy.deepcopy(GLUCOSE_MODULATION['modulations'])
+        CONFIG.GLUCOSE_MODULATION['temporary'] = copy.deepcopy(CONFIG.GLUCOSE_MODULATION['modulations'])
         
         for cell in cells:
             type = cell[0]
-            for modulation in GLUCOSE_MODULATION['modulations'][type]:
+            for modulation in CONFIG.GLUCOSE_MODULATION['modulations'][type]:
                 
                 # Save old value
-                GLUCOSE_MODULATION['temporary'][type][modulation] = getattr(cells[cell](0.5), f"{modulation}_{CONFIG.MECHANISM}")
+                CONFIG.GLUCOSE_MODULATION['temporary'][type][modulation] = getattr(cells[cell](0.5), f"{modulation}_{CONFIG.MECHANISM}")
                 
                 # Write new value
-                setattr(cells[cell](0.5), f"{modulation}_{CONFIG.MECHANISM}", GLUCOSE_MODULATION['modulations'][type][modulation])
+                setattr(cells[cell](0.5), f"{modulation}_{CONFIG.MECHANISM}", CONFIG.GLUCOSE_MODULATION['modulations'][type][modulation])
                 
-                LOGGER.info(f"Changed {modulation} from {GLUCOSE_MODULATION['temporary'][type][modulation]} to {GLUCOSE_MODULATION['modulations'][type][modulation]}")
+                LOGGER.info(f"Changed {modulation} from {CONFIG.GLUCOSE_MODULATION['temporary'][type][modulation]} to {CONFIG.GLUCOSE_MODULATION['modulations'][type][modulation]}")
     
     
     # If the simulation index is the end of the modulation interval:
@@ -323,15 +322,15 @@ def modulate_glucose(cells: dict, simulation_idx: int, GLUCOSE_MODULATION: str):
     else:
         for cell in cells:
             type = cell[0]
-            for modulation in GLUCOSE_MODULATION['temporary'][type]:
+            for modulation in CONFIG.GLUCOSE_MODULATION['temporary'][type]:
                 
                 # Store old value for logging
                 old_value = getattr(cells[cell](0.5), f"{modulation}_{CONFIG.MECHANISM}")
                 
                 # Restore value
-                setattr(cells[cell](0.5), f"{modulation}_{CONFIG.MECHANISM}",  GLUCOSE_MODULATION['temporary'][type][modulation])
+                setattr(cells[cell](0.5), f"{modulation}_{CONFIG.MECHANISM}",  CONFIG.GLUCOSE_MODULATION['temporary'][type][modulation])
                 
-                LOGGER.info(f"Restored {modulation} from {old_value} to {GLUCOSE_MODULATION['temporary'][type][modulation]}")
+                LOGGER.info(f"Restored {modulation} from {old_value} to {CONFIG.GLUCOSE_MODULATION['temporary'][type][modulation]}")
                 
     LOGGER.info("Completed modulation")
 
@@ -354,9 +353,10 @@ def determine_metrics(cell_rec_dict: dict, plot_dict: dict, vars: list):
         # Recording dictionary indexed differently depending on whether dumping was implemented
         param = f"{CONFIG.MECHANISM}_{var}"
         if CONFIG.DUMP:
-            param = cell_rec_dict[param]
+            param = list(cell_rec_dict[param][0])
         else:
-            param = cell_rec_dict[param][0]
+            param = list(cell_rec_dict[param][0])
+        print(param, len(param))
         
         # Find indices where spikes occur and at what value (heights)
         peaks, props = find_peaks(param, height = [min(param), max(param)])
@@ -370,10 +370,10 @@ def determine_metrics(cell_rec_dict: dict, plot_dict: dict, vars: list):
         # Add metrics to plotting dict
         plot_dict['Total Spikes'].append(len(peaks))
         plot_dict['Spike Frequency'].append(len(peaks)/2)
-        plot_dict['Max Value'].append(max(peaks))
-        plot_dict['Min Value'].append(min(peaks))
-        plot_dict['Avg. Spike Max'].append(np.mean(peaks))
-        plot_dict['Avg. Spike Min'].append(-np.mean(peaks_min))
+        plot_dict['Max Value'].append(max(peaks) if peaks else 0)
+        plot_dict['Min Value'].append(min(peaks) if peaks else 0)
+        plot_dict['Avg. Spike Max'].append(np.mean(peaks) if peaks else 0)
+        plot_dict['Avg. Spike Min'].append(-np.mean(peaks_min) if peaks else 0)
     
     LOGGER.debug("Metrics calculated")
 
