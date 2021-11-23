@@ -24,7 +24,7 @@ ROUND = 4
 
 # Plot time series and calculate spikes for the following variables for each cell
 VARIABLES_TO_PLOT = {
-    "A": ["va", "G", "ca"],
+    "A": ["va", "ca", "G"],
     "B": ["vb", "c", "I"],
     "D": ["vd", "cd", "S"]
 }
@@ -43,6 +43,23 @@ ISLET_ID = "one_islet"
 
 # Radius of islet
 ISLET_RADIUS = 1
+
+# Islet configuration
+# deterministic
+ISLET_CONFIGURATION = {
+    "type": "deterministic", 
+    "A": 1, 
+    "B": 1, 
+    "D": 1
+}
+# probabilistic
+# ISLET_CONFIGURATION = {
+#     "type": "probabilistic", 
+#     "A": 0.3, 
+#     "B": 0.2, 
+#     "D": 0.5, 
+#     "num_cells": 10
+# }
 
 # Temporary csv to write recording dictionary (cell_rec) to if DUMP is True
 TEMP_CSV = f".temp_glucose={GLUCOSE}mM_distance={DISTANCE}.csv"
@@ -96,6 +113,8 @@ elif GLUCOSE == 1:
     modulation = modulation_11_mM
 else:
     interval = [-1, -1]
+    
+# Final glucose modulation
 GLUCOSE_MODULATION = {
     "interval": interval,
     "modulations": modulation

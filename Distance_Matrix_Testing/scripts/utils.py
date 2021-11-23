@@ -59,14 +59,16 @@ def create_dist_matrices(islet_name: str):
     # logger.info("TEST CASE: using sorted list (np.arrange)")
     
     # TEST: use zero matrix to reproduce watts model
-    # dist_matrix = np.zeros((10,10))
-    # logger.info("TEST CASE: using zero matrix (reproduce watts model)")
-    
+    if DISTANCE == 0:
+        dist_matrix = np.zeros((10,10))
+        logger.info("TEST CASE: using zero matrix (reproduce watts model)")
+        
     # TEST: use ones matrix to modify watts model via increasing distances between cells (all cells will be the same distance apart in this case)
-    dist = 30
-    dist_matrix = np.ones((10,10)) * dist
-    logger.info("TEST CASE: using scalar multiple of ones matrix (module watts model with uniform distance)")
-    
+    else:
+        dist = DISTANCE
+        dist_matrix = np.ones((10,10)) * dist
+        logger.info("TEST CASE: using scalar multiple of ones matrix (module watts model with uniform distance)")
+        
     # Create D_ba
     D_ba = dist_matrix[0:islet_name.num_alphas, islet_name.num_alphas:islet_name.num_alphas+islet_name.num_betas]
     # Create D_da
@@ -231,6 +233,8 @@ def plot_parameters(cell_rec_dict: dict, vars: list, plot_path: str):
         
         
         axes[idx].set_ylabel(f"{var}")
+        
+    axes.set_xlabel("Time (ms)")
 
     # Save plot
     fig.savefig(f"{plot_path}.png")
