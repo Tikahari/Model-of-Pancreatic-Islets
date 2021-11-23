@@ -234,8 +234,6 @@ def plot_parameters(cell_rec_dict: dict, vars: list, plot_path: str):
         
         axes[idx].set_ylabel(f"{var}")
         
-    axes.set_xlabel("Time (ms)")
-
     # Save plot
     fig.savefig(f"{plot_path}.png")
     
