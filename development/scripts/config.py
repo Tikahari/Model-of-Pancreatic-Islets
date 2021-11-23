@@ -20,7 +20,7 @@ class Config():
         self.MECHANISM = "one"
 
         # Glucose concentration
-        self.GLUCOSE = 50
+        self.GLUCOSE = 0
 
         # Distance between cells
         self.DISTANCE = 0
@@ -28,7 +28,7 @@ class Config():
         # Folder to write plots to (path will be ./Plots/<OUTPUT FOLDER>/)
         self.OUTPUT_FOLDER = f"{self.GLUCOSE}mM_{self.DISTANCE}D"
 
-        # Number of digits to round to spike table output
+        # Number of digits to round to in spike table output
         self.ROUND = 4
 
         # File to load data from (should be set in meta.py or simulate.py)
@@ -82,7 +82,7 @@ class Config():
         # Temporary csv to write recording dictionary (cell_rec) to if DUMP is True
         self.TEMP_CSV = f".temp_glucose={self.GLUCOSE}mM_distance={self.DISTANCE}.csv"
 
-        # Determines whether or not the recording dictionary (cell_rec) will be dumped perioidically
+        # Determines whether or not the recording dictionary (cell_rec) will be dumped periodically and whether writing the stabilized simulation output for the current run is possible (LOAD_CURRENT)
         self.DUMP = True
 
         # Define logging level
