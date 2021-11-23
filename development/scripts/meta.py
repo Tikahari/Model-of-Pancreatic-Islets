@@ -56,7 +56,8 @@ for id, conf in enumerate(CONFIGURATIONS['runs']):
     # Set new configuration in simulation
     for key, value in new_configuration.items():
         setattr(simulate, key, value)
-
+        setattr(simulate, "SIMULATION_ID", id)
+        
     # Create processes 
     logging.info(f"Starting simulation {id}")
     process = mp.Process(target=simulate.main)
