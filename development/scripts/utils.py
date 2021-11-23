@@ -262,7 +262,7 @@ def dump_variables(islet: Islet, temporary_path: str, step: int, last: bool = Fa
             
     # Create and write pandas dataframe
     df = pd.DataFrame({key: pd.Series(value) for key, value in final_dict.items()})
-    logger.info(f"Dataframe size: {str(df.size)}")
+    logger.debug(f"Dataframe size: {str(df.size)}")
     # input()
     if step == 0:
         
