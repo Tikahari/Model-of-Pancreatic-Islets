@@ -45,21 +45,25 @@ class Simulate():
         simulation_formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
         
         simulation_file_handle.setFormatter(simulation_formatter)
-        simulation_console_handle.setFormatter(simulation_formatter)
         
         self.LOGGER = logging.getLogger(f"simulation_{self.CONFIG.SIMULATION_ID}")
         self.LOGGER.setLevel(getattr(logging, self.CONFIG.LEVEL))
+        
         self.LOGGER.addHandler(simulation_file_handle)
-        self.LOGGER.addHandler(simulation_console_handle)
         
         islet.LOGGER = logging.getLogger(f"islet_{self.CONFIG.SIMULATION_ID}")
         islet.LOGGER.addHandler(simulation_file_handle)
-        islet.LOGGER.addHandler(simulation_console_handle)
         
         utils.LOGGER = logging.getLogger(f"utils_{self.CONFIG.SIMULATION_ID}")
         utils.LOGGER.addHandler(simulation_file_handle)
-        utils.LOGGER.addHandler(simulation_console_handle)
         
+        # Console log will not be handled if the script is called directly
+        if __name__ == '__main__':
+            simulation_console_handle.setFormatter(simulation_formatter)
+            self.LOGGER.addHandler(simulation_console_handle)
+            islet.LOGGER.addHandler(simulation_console_handle)
+            utils.LOGGER.addHandler(simulation_console_handle)
+            
         # Load neuron?
         h.load_file("stdrun.hoc")
         
@@ -70,16 +74,22 @@ class Simulate():
     def _load_stabilized_simulation(self):
         """Set mechanism variables according to last entry of file at CONFIG.LOAD"""
         
-        # Verify that file exists
-        if self.CONFIG.LOAD and not os.path.exists(self.CONFIG.LOAD):
-            raise Exception(f"File missing: {os.getcwd()}/{self.CONFIG.LOAD}")
+        # Verify that one of the appropriate files exist (TEMP_CSV or LOAD)
+        if not os.path.exists(self.CONFIG.LOAD) and not os.path.exists(self.CONFIG.TEMP_CSV):
+            raise Exception(f"File missing: {os.getcwd()}/{self.CONFIG.LOAD} or {os.getcwd()}/{self.CONFIG.TEMP_CSV}")
         
         # Load from CONFIG.TEMP_CSV if CONFIG.LOAD not specified
-        if not self.CONFIG.LOAD:
-            self.CONFIG.LOAD = self.CONFIG.TEMP_CSV
+        if not os.path.exists(self.CONFIG.LOAD) and os.path.exists(self.CONFIG.TEMP_CSV):
+            loader = self.CONFIG.TEMP_CSV
+        else:
+            loader = self.CONFIG.LOAD
+        
+        self.LOGGER.info(f"Loading stabilized simulation from {loader}")
         
         # Read csv and reset the appropriate mechanism variables
-        df = pd.read_csv(self.CONFIG.TEMP_CSV)
+        df = pd.read_csv(loader)
+        
+        self.LOGGER.info(f"Loaded old simulation")
         
         # Dictionary containing new values to set mechanism variables to
         new_values = {
@@ -113,8 +123,11 @@ class Simulate():
                 # Set new value
                 setattr(self.islet.cells[cell](0.5), var_mechanism, new_values[cell_type][var_mechanism])
                 
-                self.LOGGER.info(f"Changed {var_mechanism} from {old_value} to {new_values[cell_type][var_mechanism]} in {cell}")
+                self.LOGGER.debug(f"Changed {var_mechanism} from {old_value} to {new_values[cell_type][var_mechanism]} in {cell}")
         
+        # Delete dataframe from memory 
+        del df
+    
     
     def _reset_records(self):
         """Reset cell_rec object in islet class according to dumped data (if applicable)"""
@@ -132,7 +145,24 @@ class Simulate():
             if match is not None:
                 cell, var = list(match.groups())
                 self.islet.cell_rec[cell][var] = df[column].to_list()
-                
+    
+    
+    def _write_stabilized_records(self):
+        """Write first and last line of dataframe to csv file with format specified in CONFIG.LOAD"""
+        self.LOGGER.info(f"Writing stabilized records to {self.CONFIG.LOAD}")
+        
+        # Check if file exists
+        if os.path.exists(self.CONFIG.LOAD):
+            self.LOGGER.warning(f"Overwriting {self.CONFIG.LOAD}")
+        
+        # Read current csv and create dataframe containing header and last rows
+        lines_count = len(open(self.CONFIG.TEMP_CSV).readlines()) 
+        df = pd.read_csv(self.CONFIG.TEMP_CSV, skiprows = range(2, lines_count - 1), header = 0)
+        
+        # Write dataframe to csv
+        df.to_csv(self.CONFIG.LOAD)
+
+        self.LOGGER.info(f"Stabilized records written to {self.CONFIG.LOAD}")
                 
     def setup_islet(self):
         """Create islet and perform initialization (h.finitialize(), create distance matrix)"""
@@ -161,7 +191,7 @@ class Simulate():
         h.finitialize()
         
         # Load values from csv if applicable
-        if self.CONFIG.LOAD or os.path.exists(self.CONFIG.TEMP_CSV):
+        if self.CONFIG.LOAD_PREVIOUS:
             self._load_stabilized_simulation()
 
         # Create distance matrix and subsets corresponding to effect of cell x on y (to be used in matrix multiplication)
@@ -208,8 +238,11 @@ class Simulate():
         # Dump variables at conclusion of simulation
         dump_variables(self.islet, self.CONFIG.TEMP_CSV, -1, last=True) if self.CONFIG.DUMP else None
 
-        if self.CONFIG.DUMP:
-           self._reset_records()
+        # Reset records if appropriate
+        self._reset_records() if self.CONFIG.DUMP else None
+        
+        # Write stabilized records if appropriate
+        self._write_stabilized_records() if self.CONFIG.DUMP and self.CONFIG.LOAD_CURRENT else None
         
      
     def create_plots(self):

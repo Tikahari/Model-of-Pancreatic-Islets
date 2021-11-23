@@ -32,7 +32,13 @@ class Config():
         self.ROUND = 4
 
         # File to load data from (should be set in meta.py or simulate.py)
-        self.LOAD = None
+        self.LOAD = f"stabilized_glucose={self.GLUCOSE}mM_distance={self.DISTANCE}.csv"
+        
+        # Option to load data from previous run
+        self.LOAD_PREVIOUS = True
+        
+        # Option to write stabilized output from current run (note that DUMP needs to be set to True for the option to be meaningful)
+        self.LOAD_CURRENT = True
         
         # Plot time series and calculate spikes for the following variables for each cell
         self.VARIABLES_TO_PLOT = {
@@ -145,6 +151,9 @@ class Config():
         
         # Folder to write plots to (path will be ./Plots/<OUTPUT FOLDER>/)
         self.OUTPUT_FOLDER = f"{self.GLUCOSE}mM_{self.DISTANCE}D"
+        
+        # File to load data from (should be set in meta.py or simulate.py)
+        self.LOAD = f"stabilized_{self.GLUCOSE}mM_{self.DISTANCE}_.csv"
         
         # Time points at which glucose level will be modulated and the variables to modify
         # 7mm glucose changes

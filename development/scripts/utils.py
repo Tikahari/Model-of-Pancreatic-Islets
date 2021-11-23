@@ -67,7 +67,7 @@ def create_dist_matrices(islet_name: str):
     else:
         dist = CONFIG.DISTANCE
         dist_matrix = np.ones((10,10)) * dist
-        LOGGER.info("TEST CASE: using scalar multiple of ones matrix (module watts model with uniform distance)")
+        LOGGER.info("TEST CASE: using scalar multiple of ones matrix (watts model with uniform distance)")
         
     # Create D_ba
     D_ba = dist_matrix[0:islet_name.num_alphas, islet_name.num_alphas:islet_name.num_alphas+islet_name.num_betas]
