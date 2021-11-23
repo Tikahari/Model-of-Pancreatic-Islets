@@ -9,7 +9,7 @@
 **__pycache__
 *log
 *compile*
-*csv
+.temp*csv
 *pl
 *gz
 *tar
