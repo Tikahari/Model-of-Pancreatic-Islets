@@ -282,7 +282,7 @@ def dump_variables(islet: Islet, temporary_path: str, step: int, last: bool = Fa
             logger.debug("Reset variables")
 
 
-def modulate_glucose(cells: dict, simulation_idx: int):
+def modulate_glucose(cells: dict, simulation_idx: int, GLUCOSE_MODULATION: str):
     """
     Function to modify simulation variables corresponding to glucose changes at a given simulation index.
 
@@ -294,7 +294,6 @@ def modulate_glucose(cells: dict, simulation_idx: int):
     
     # Determine whether modulation is beggining or ending
     start = True if simulation_idx == GLUCOSE_MODULATION['interval'][0] else False
-    
     # If the simulation index is the beginning of the modulation interval:
     # Iterate through cells and modify values according to GLUCOSE_MODULATION global variable
     if start:

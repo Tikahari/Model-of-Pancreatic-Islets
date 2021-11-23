@@ -84,7 +84,7 @@ def main():
             
             # Change glucose level according to: https://github.com/artielbm/artielbm.github.io/blob/master/Models/BAD/Figures3-5.ode
             if i in GLUCOSE_MODULATION['interval']:
-                modulate_glucose(test_islet.cells, i)
+                modulate_glucose(test_islet.cells, i, GLUCOSE_MODULATION)
             
             # Perform logging and variable dumps every SIMULATION_UPDATE timesteps (.025 * 10^-3 * 4 * 10^3 = .1 seconds if SIMULATION_UPDATE = 4 * 10^3)
             if i % SIMULATION_UPDATE == 0:

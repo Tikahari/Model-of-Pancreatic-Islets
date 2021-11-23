@@ -120,7 +120,8 @@ else:
 # Final glucose modulation
 GLUCOSE_MODULATION = {
     "interval": interval,
-    "modulations": modulation
+    "modulations": modulation,
+    "temporary": None
 }
 
 
@@ -181,7 +182,8 @@ def calculate_variables():
     # Final glucose modulation
     GLUCOSE_MODULATION = {
         "interval": interval,
-        "modulations": modulation
+        "modulations": modulation,
+        "temporary": None
     }
     
     # TODO: don't hard code returned variable names
