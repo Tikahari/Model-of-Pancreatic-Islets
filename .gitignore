@@ -1,7 +1,10 @@
+# Specify files to include before folders/types that may apply to them are excluded
+!stabilized_*csv
+
+# Exclude
 *Modeling_Meetings.txt
 **Islet_*
 **Template_*
-**data
 **x86_64
 **__pycache__
 *log
@@ -12,3 +15,4 @@
 *tar
 *tar.gz
 **virtenv
+
