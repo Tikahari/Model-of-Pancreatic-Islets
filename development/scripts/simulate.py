@@ -69,15 +69,16 @@ class Simulate():
         
         self.LOGGER.debug(globals())
         self.LOGGER.debug("Initial setup complete")
-
+        
 
     def _load_stabilized_simulation(self):
         """Set mechanism variables according to last entry of file at CONFIG.LOAD"""
         
         # Verify that one of the appropriate files exist (TEMP_CSV or LOAD)
         if not os.path.exists(self.CONFIG.LOAD) and not os.path.exists(self.CONFIG.TEMP_CSV):
-            raise Exception(f"File missing: {os.getcwd()}/{self.CONFIG.LOAD} or {os.getcwd()}/{self.CONFIG.TEMP_CSV}")
-        
+            self.LOGGER.warning(f"File missing: {os.getcwd()}/{self.CONFIG.LOAD} or {os.getcwd()}/{self.CONFIG.TEMP_CSV}, stabilized simulation not loaded")
+            return
+
         # Load from CONFIG.TEMP_CSV if CONFIG.LOAD not specified
         if not os.path.exists(self.CONFIG.LOAD) and os.path.exists(self.CONFIG.TEMP_CSV):
             loader = self.CONFIG.TEMP_CSV
@@ -125,7 +126,7 @@ class Simulate():
                 
                 self.LOGGER.debug(f"Changed {var_mechanism} from {old_value} to {new_values[cell_type][var_mechanism]} in {cell}")
         
-        # Delete dataframe from memory 
+        # Delete dataframe from memory (signficant when loading entire TEMP_CSV)
         del df
     
     
@@ -134,7 +135,10 @@ class Simulate():
 
         # Verify that file exists
         if not os.path.exists(self.CONFIG.TEMP_CSV):
-            raise Exception(f"File missing: {os.getcwd()}/{self.CONFIG.LOAD}")
+            self.LOGGER.warning(f"File missing: {os.getcwd()}/{self.CONFIG.TEMP_CSV}, records not reset")
+            return
+
+        self.LOGGER.info(f"Resetting records from {self.CONFIG.TEMP_CSV}")
         
         # Read csv and reset the cell_rec variable if variables have been periodically dumped
         df = pd.read_csv(self.CONFIG.TEMP_CSV)
@@ -149,11 +153,12 @@ class Simulate():
     
     def _write_stabilized_records(self):
         """Write first and last line of dataframe to csv file with format specified in CONFIG.LOAD"""
-        self.LOGGER.info(f"Writing stabilized records to {self.CONFIG.LOAD}")
         
         # Check if file exists
         if os.path.exists(self.CONFIG.LOAD):
             self.LOGGER.warning(f"Overwriting {self.CONFIG.LOAD}")
+            
+        self.LOGGER.info(f"Writing stabilized records to {self.CONFIG.LOAD}")
         
         # Read current csv and create dataframe containing header and last rows
         lines_count = len(open(self.CONFIG.TEMP_CSV).readlines()) 
@@ -163,6 +168,7 @@ class Simulate():
         df.to_csv(self.CONFIG.LOAD)
 
         self.LOGGER.info(f"Stabilized records written to {self.CONFIG.LOAD}")
+                
                 
     def setup_islet(self):
         """Create islet and perform initialization (h.finitialize(), create distance matrix)"""

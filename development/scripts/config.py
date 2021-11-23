@@ -20,7 +20,7 @@ class Config():
         self.MECHANISM = "one"
 
         # Glucose concentration
-        self.GLUCOSE = 0
+        self.GLUCOSE = 50
 
         # Distance between cells
         self.DISTANCE = 0
