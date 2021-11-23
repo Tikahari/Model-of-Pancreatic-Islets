@@ -48,7 +48,7 @@ class Config():
         }
 
         # Time of simulation in ms
-        self.SIMULATION_TIME = 1000
+        self.SIMULATION_TIME = 100
 
         # Step size for simulation
         self.STEP_SIZE = 0.025
