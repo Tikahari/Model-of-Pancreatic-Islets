@@ -112,7 +112,7 @@ interval = [0, -1]
 modulation = None
 if GLUCOSE == 7:
     modulation = modulation_7_mM
-elif GLUCOSE == 1:
+elif GLUCOSE == 11:
     modulation = modulation_11_mM
 else:
     interval = [-1, -1]
@@ -122,3 +122,71 @@ GLUCOSE_MODULATION = {
     "interval": interval,
     "modulations": modulation
 }
+
+
+"""Function used in simulate.py for meta level simulations"""
+
+def calculate_variables():
+    """Function to calculate global variables (in case they are individually defined i.e. meta.py)"""
+    
+    # Temporary csv to write recording dictionary (cell_rec) to if DUMP is True
+    TEMP_CSV = f".temp_glucose={GLUCOSE}mM_distance={DISTANCE}.csv"
+    
+    # Folder to write plots to (path will be ./Plots/<OUTPUT FOLDER>/)
+    OUTPUT_FOLDER = f"{GLUCOSE}mM_{DISTANCE}D"
+    
+    # Time points at which glucose level will be modulated and the variables to modify
+    # 7mm glucose changes
+    modulation_7_mM = {
+        "A":
+            {
+                "ksercaa": 0.5,
+                "gkatpbara": 0.6
+            },
+        "B": 
+            {
+                "gkatpb": 85
+            },
+        "D":
+            {
+                "gkatpbard": 0.27
+            }
+    }
+    # 11mm glucose changes
+    modulation_11_mM = {
+        "A":
+            {
+                "ksercaa": 0.5,
+                "gkatpbara": 0.15
+            },
+        "B": 
+            {
+                "gkatpb": 25
+            },
+        "D":
+            {
+                "gkatpbard": 0.18
+            }
+    }
+    # Select glucose modulation/interval
+    interval = [0, -1]
+    modulation = None
+    if GLUCOSE == 7:
+        modulation = modulation_7_mM
+    elif GLUCOSE == 11:
+        modulation = modulation_11_mM
+    else:
+        interval = [-1, -1]
+        
+    # Final glucose modulation
+    GLUCOSE_MODULATION = {
+        "interval": interval,
+        "modulations": modulation
+    }
+    
+    # TODO: don't hard code returned variable names
+    return {
+        "TEMP_CSV": TEMP_CSV, 
+        "OUTPUT_FOLDER": OUTPUT_FOLDER, 
+        "GLUCOSE_MODULATION": GLUCOSE_MODULATION
+    }

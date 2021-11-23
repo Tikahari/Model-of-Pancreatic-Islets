@@ -15,7 +15,6 @@ logging.basicConfig(
 )
 
 
-
 import os
 from timeit import default_timer as timer
 
@@ -28,14 +27,25 @@ from utils import *
 
 def main():
     """Main simulation function"""
-    # Setup logging
-    logger = logging.getLogger(f"{__name__}_{SIMULATION_ID}")
-
     logger.debug(globals())
     
+    # Reset logging
+    logging.basicConfig(
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        handlers=[
+            logging.FileHandler(f"debug_{SIMULATION_ID}.log"),
+            logging.StreamHandler()
+        ],
+        level=getattr(logging, LEVEL)
+    )
+    import islet
+    islet.logger = logging.getLogger(f"islet_{SIMULATION_ID}")
+    import utils
+    utils.logger = logging.getLogger(f"utils_{SIMULATION_ID}")
+        
     # Load neuron?
     h.load_file("stdrun.hoc")
-
+    
     # Create islet
     test_islet = Islet(
         id=ISLET_ID, 
@@ -132,4 +142,8 @@ def main():
         )
 
 if __name__ == '__main__':
+    # Setup logging
+    logger = logging.getLogger(f"simulate_{SIMULATION_ID}")
+
+    # Run simulation
     main()
